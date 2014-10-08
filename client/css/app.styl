@@ -1,0 +1,50 @@
+@require 'nib'
+@require './mixins/hardware'
+@require './mixins/fonts'
+@require './mixins/colors'
+
+// force hardware accelerated css
+body
+  better-font()
+  helvetica()
+
+  background-color: darkBackgroundColor
+  color: fgColor
+  font-size: 1em
+  line-height: 1.4
+
+a
+  color: teal
+  text-decoration: none
+  cursor pointer
+
+.pu-icon
+  font-family 'pileup'
+  speak none
+  font-style normal
+  font-weight normal
+  font-variant normal
+  text-transform none
+  line-height 1
+
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+
+.float-left
+  float left
+
+.float-right
+  float right
+
+.container
+  background-color lightBackgroundColor
+  text-align center
+  min-width 1024px
+
+.container-padding
+  width 1024px
+  margin 0 auto
+  padding 3em 0
+
+.content
+  background-color white

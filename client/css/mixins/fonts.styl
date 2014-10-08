@@ -1,0 +1,18 @@
+@require 'nib'
+
+// font anti-aliasing
+// TODO: maybe turn off if the pixel density isnt correct?
+better-font()
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  text-rendering: optimizeLegibility
+  font-feature-settings: 'liga', 'kern'
+
+// some font stacks
+helvetica()
+  font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif
+  font-weight: 300
+
+helvetica-thin()
+  font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Arial, Helvetica, sans-serif
+  font-weight: 300
