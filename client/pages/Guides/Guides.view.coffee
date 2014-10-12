@@ -1,19 +1,58 @@
-{div, h1, button, br, span, img, p} = React.DOM
+{div, h1, h2, button, br, span, img, p} = React.DOM
 
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 data = require '../../sample-data'
 
+posClass = (num) ->
+  if (num + 1) % 3 == 0
+    return 'guide-preview-third'
+  else if (num + 1) % 3 == 1
+    return 'guide-preview-first'
+  else
+    return ""
+
+positionAnnotation = (element, anchor) ->
+  element.style.display = 'block'
+  element.style.top = (anchor.offsetTop + anchor.offsetHeight) + 'px'
+  element.style.left = (anchor.offsetLeft - 15) + 'px'
+  return
+
 module.exports = React.createClass
   displayName: 'Guides'
   getDefaultProps: ->
     guides: data.guides
+
+  getInitialState: ->
+    guides: @props.guides
+
+  componentDidMount: ->
+    anchor = @refs.anchor.getDOMNode()
+    annotation = @refs.annotation.getDOMNode()
+    positionAnnotation(annotation, anchor)
+
+    window?.onresize = ->
+      positionAnnotation(annotation, anchor)
+
   render: ->
     div {className: "page page-guides"},
       div {className: "container"},
         div {className: "container-padding"},
           new NavBar long: true
-          @props.guides.map (guide) ->
-            new GuidePreview
-              key: "guide#{guide.id}"
-              guide: guide
+
+          div {className: "intro"},
+            h1 {className: "intro-header"},
+              "Your helpful guides to a "
+              span {className: "intro-annotation-anchor", ref: "anchor"}, "healthy planet"
+            p {className: "intro-subtext"},
+              "In partnership with Rocky Mountain Institute and UC Berkeley"
+            div {className: "user-context"},
+              p {}, "If you live in San Francisco and Own your home."
+
+          div {className: "guides"},
+            @state.guides.map (guide, idx) ->
+              new GuidePreview
+                key: "guide#{guide.id}"
+                guide: guide
+                customClass: posClass(idx)
+      div {className: "intro-annotation", ref: "annotation"}

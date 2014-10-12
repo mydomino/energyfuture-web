@@ -1,0 +1,51 @@
+pageWidth = 1024px
+guideWidth = 300px
+guideBorder = guideWidth / 10
+spacingX = ((pageWidth - (3 * guideWidth)) / 2)
+spacingY = 43px
+
+.page-guides .container-padding
+  overflow auto
+
+.guide-preview
+  border 3px solid #000
+  width guideWidth
+  height 478px
+  border-radius guideBorder
+  position relative
+  margin-right spacingX
+  margin-bottom spacingY
+  float left
+  background-color #fff
+  background-repeat no-repeat
+  background-position top left
+  cursor pointer
+
+.guide-preview-content
+  position absolute
+  top 239px
+  left 0
+  right 0
+  bottom 0
+  border-radius 0 0 guideBorder guideBorder
+  background-color rgba(0,0,0,0.4)
+  text-align left
+  padding 10px
+
+.guide-preview-recommended
+  position absolute
+  top 30px
+  right 0
+  padding 5px 10px 5px 15px
+  font-size 0.8em
+  background-color #000
+  border-radius 10px 0 0 10px
+  color #fff
+  text-transform upcase
+
+.guide-preview-title
+  font-weight 100
+  color #fff
+
+.guide-preview-third
+  margin-right 0
