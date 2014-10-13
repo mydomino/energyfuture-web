@@ -17,4 +17,7 @@ describe "GuidesView", ->
 
     h.classOccurs instance, 'footprint-icon-long', 1
 
+  it "shows a loading icon if there are no guides", () ->
+    instance = ReactTestUtils.renderIntoDocument(Guides())
 
+    h.classOccurs instance, 'loading-icon', 1

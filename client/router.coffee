@@ -3,16 +3,15 @@ addMiddleware = (route) ->
   return
 
 addPage = (route) ->
-  self = this
   url = route[0]
   Component = route[1]
-  page url, (ctx) ->
+  page url, (ctx) =>
     # Set the body class based on the current page
     document.querySelector('body').className = ['body', route[2]].filter(Boolean).join('-')
     # Scroll the window to the top each time a page gets shown
     window.scrollTo(0, 0)
 
-    self.setState component: new Component params: ctx.params, querystring: ctx.querystring
+    @setState component: new Component params: ctx.params, querystring: ctx.querystring
     return
 
   return

@@ -1,4 +1,5 @@
 {div, form, h1, button, p, input} = React.DOM
+firebase = require '../../firebase'
 
 module.exports = React.createClass
   displayName: 'NewsletterSignupForm'
@@ -8,6 +9,9 @@ module.exports = React.createClass
   handleChange: (event) ->
     @setState email: event.target.value
   submit: ->
+    firebaseRef = firebase.inst('/newsletter-signups')
+    firebaseRef.push(@state.email)
+
     @setState email: '', submitted: true
     return false
   render: ->

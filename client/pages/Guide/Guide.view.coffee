@@ -1,9 +1,10 @@
 {div, h2, p} = React.DOM
 
+firebase = require '../../firebase'
+Guide = require '../../models/Guide'
 NavBar = require '../../components/NavBar/NavBar.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
-data = require '../../sample-data'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -11,7 +12,9 @@ module.exports = React.createClass
     guide: null
 
   componentWillMount: ->
-    @setState guide: data.guides[@props.params.id - 1]
+    firebaseRef = firebase.inst '/tasks/' + @props.params.id
+    firebaseRef.on 'value', (snap) =>
+      @setState guide: new Guide(snap.val())
 
   render: ->
     {name, summary} = @state.guide if @state.guide

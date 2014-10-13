@@ -1,8 +1,11 @@
 {div, h1, h2, button, br, span, img, p} = React.DOM
 
+Guide = require '../../models/Guide'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
+LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 data = require '../../sample-data'
+firebase = require '../../firebase'
 
 posClass = (num) ->
   if (num + 1) % 3 == 0
@@ -21,10 +24,16 @@ positionAnnotation = (element, anchor) ->
 module.exports = React.createClass
   displayName: 'Guides'
   getDefaultProps: ->
-    guides: data.guides
+    guides: []
 
   getInitialState: ->
     guides: @props.guides
+
+  componentWillMount: ->
+    firebaseRef = firebase.inst '/tasks'
+    firebaseRef.on 'value', (snap) =>
+      guides = (new Guide(guide) for id, guide of snap.val())
+      @setState guides: guides
 
   componentDidMount: ->
     anchor = @refs.anchor.getDOMNode()
@@ -48,11 +57,13 @@ module.exports = React.createClass
               "In partnership with Rocky Mountain Institute and UC Berkeley"
             div {className: "user-context"},
               p {}, "If you live in San Francisco and Own your home."
-
-          div {className: "guides"},
-            @state.guides.map (guide, idx) ->
-              new GuidePreview
-                key: "guide#{guide.id}"
-                guide: guide
-                customClass: posClass(idx)
+          if @state.guides.length > 0
+            div {className: "guides"},
+              @state.guides.map (guide, idx) ->
+                new GuidePreview
+                  key: "guide#{guide.id}"
+                  guide: guide
+                  customClass: posClass(idx)
+          else
+            new LoadingIcon
       div {className: "intro-annotation", ref: "annotation"}

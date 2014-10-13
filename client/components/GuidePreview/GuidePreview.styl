@@ -18,7 +18,8 @@ spacingY = 43px
   float left
   background-color #fff
   background-repeat no-repeat
-  background-position top left
+  background-position top center
+  background-size cover
   cursor pointer
 
 .guide-preview-content
@@ -27,10 +28,11 @@ spacingY = 43px
   left 0
   right 0
   bottom 0
-  border-radius 0 0 guideBorder guideBorder
+  border-radius 0 0 guideBorder - 3 guideBorder - 3
   background-color rgba(0,0,0,0.4)
   text-align left
   padding 10px
+  color #fff
 
 .guide-preview-recommended
   position absolute
@@ -41,7 +43,9 @@ spacingY = 43px
   background-color #000
   border-radius 10px 0 0 10px
   color #fff
-  text-transform upcase
+  text-transform uppercase
+  font-family 'Montserrat'
+  letter-spacing 0.2em
 
 .guide-preview-title
   font-weight 100
