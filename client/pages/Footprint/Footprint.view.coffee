@@ -1,4 +1,4 @@
-{div, h1, button, br, span, img, p} = React.DOM
+{div, h2, p} = React.DOM
 
 NavBar = require '../../components/NavBar/NavBar.view'
 
@@ -9,4 +9,9 @@ module.exports = React.createClass
       div {className: "container"},
         div {className: "container-padding"},
           new NavBar
-          p {}, 'Footprint Goes Here'
+          div {className: "footprint"}
+            div {className: "footprint-header"},
+              h2 {}, "Your small choices have a big impact."
+              p {}, "Here's your footprint, progress, and completed actions."
+            div {className: "footprint-content"},
+              p {}, "Content goes here"
