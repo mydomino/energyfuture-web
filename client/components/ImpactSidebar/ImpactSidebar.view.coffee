@@ -2,7 +2,6 @@
 
 positionSidebar = (element) ->
   anchor = element.parentElement
-  console.log window.scrollY
   if window.scrollY + element.offsetHeight > anchor.offsetTop + anchor.offsetHeight - 40
     element.style.position = null
     element.style.top = (anchor.offsetHeight - element.offsetHeight) + 'px'
