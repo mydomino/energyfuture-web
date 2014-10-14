@@ -2,6 +2,7 @@
 
 NavBar = require '../../components/NavBar/NavBar.view'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
+YourProgress = require '../../components/YourProgress/YourProgress.view'
 
 module.exports = React.createClass
   displayName: 'Footprint'
@@ -57,12 +58,7 @@ module.exports = React.createClass
                 span {}, "times/week"
 
               hr {className: "h-divider"}
-              div {},
-                div {className: "your-progress-bar"},
-                  span {style: {width: "25%"}}
-
-                h2 {}, "your progress"
-                p {className: "sub-heading"}, "Powered by the UC Berkeley CoolClimate Calculator"
+              new YourProgress(goalReduction: 25)
 
               hr {className: "h-divider"}
               h2 {}, "your badges"
