@@ -47,6 +47,13 @@ module.exports = React.createClass
                 new DropdownComponent(data: carMilesData)
                 span {}, "per week, and bicycle"
                 new DropdownComponent(data: cycleFreqData)
+              div {className: "about-you-row"},
+                span {className: "about-you-label"}, "Food:"
+                span {className: "about-you-description"}, "You eat red meat"
+                new DropdownComponent(data: foodFreqData)
+                span {}, "times/week and dairy"
+                new DropdownComponent(data: foodFreqData)
+                span {}, "times/week"
 
               h2 {}, "your progress"
               p {className: "sub-heading"}, "Powered by the UC Berkeley CoolClimate Calculator"
@@ -57,4 +64,3 @@ module.exports = React.createClass
                 li {className: "badge go-getter"}
                 li {className: "badge most-dedicated"}
                 li {className: "hexagon"}
-
