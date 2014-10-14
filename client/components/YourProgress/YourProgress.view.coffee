@@ -10,19 +10,34 @@ module.exports = React.createClass
       h2 {}, "your progress"
       p {className: "sub-heading"}, "Powered by the UC Berkeley CoolClimate Calculator"
       ul {},
-        li {}, "50%",
-          div {className: "striped"}
-          div {className: "solid"}
-        li {}, "50%",
-          div {className: "striped"}
-          div {className: "solid"}
-        li {}, "50%",
-          div {className: "striped"}
-          div {className: "solid"}
-        li {}, "50%",
-          div {className: "striped"}
-          div {className: "solid"}
-        li {}, "50%",
-          div {className: "striped"}
-          div {className: "solid"}
+        li {},
+          p {className: "guide-progress"}, "50%"
+          div {className: "guide-progress-col"},
+            div {style: {"height": "10%"}}
+            div {className: "striped", style: {"height": "40%"}}
+            div {className: "solid"}
+        li {},
+          p {className: "guide-progress"}, "50%"
+          div {className: "guide-progress-col"},
+            div {style: {"height": "20%"}}
+            div {className: "striped", style: {"height": "30%"}}
+            div {className: "solid"}
+        li {},
+          p {className: "guide-progress"}, "50%"
+          div {className: "guide-progress-col"},
+            div {style: {"height": "0%"}}
+            div {className: "striped", style: {"height": "50%"}}
+            div {className: "solid"}
+        li {},
+          p {className: "guide-progress"}, "50%"
+          div {className: "guide-progress-col"},
+            div {style: {"height": "0%"}}
+            div {className: "striped", style: {"height": "50%"}}
+            div {className: "solid"}
+        li {},
+          p {className: "guide-progress"}, "50%"
+          div {className: "guide-progress-col"},
+            div {style: {"height": "0%"}}
+            div {className: "striped", style: {"height": "50%"}}
+            div {className: "solid"}
 
