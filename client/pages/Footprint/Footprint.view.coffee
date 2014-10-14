@@ -55,8 +55,12 @@ module.exports = React.createClass
                 new DropdownComponent(data: foodFreqData)
                 span {}, "times/week"
 
-              h2 {}, "your progress"
-              p {className: "sub-heading"}, "Powered by the UC Berkeley CoolClimate Calculator"
+              div {},
+                div {className: "your-progress-bar"},
+                  span {style: {width: "25%"}}
+
+                h2 {}, "your progress"
+                p {className: "sub-heading"}, "Powered by the UC Berkeley CoolClimate Calculator"
 
               h2 {}, "your badges"
               p {className: "sub-heading"}, "Win badges for unlocking achievements and taking action."
