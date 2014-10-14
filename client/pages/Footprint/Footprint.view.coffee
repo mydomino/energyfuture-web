@@ -1,4 +1,4 @@
-{div, h2, p, span, ul, li} = React.DOM
+{div, h2, p, span, ul, li, hr} = React.DOM
 
 NavBar = require '../../components/NavBar/NavBar.view'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
@@ -26,6 +26,7 @@ module.exports = React.createClass
               h2 {}, "did you know?"
               p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"
 
+              hr {className: "h-divider"}
               h2 {}, "about you"
               p {className: "sub-heading"}, "These choices help us predict your footprint and offer customized recommendations."
               div {className: "about-you-row"},
@@ -55,6 +56,7 @@ module.exports = React.createClass
                 new DropdownComponent(data: foodFreqData)
                 span {}, "times/week"
 
+              hr {className: "h-divider"}
               div {},
                 div {className: "your-progress-bar"},
                   span {style: {width: "25%"}}
@@ -62,6 +64,7 @@ module.exports = React.createClass
                 h2 {}, "your progress"
                 p {className: "sub-heading"}, "Powered by the UC Berkeley CoolClimate Calculator"
 
+              hr {className: "h-divider"}
               h2 {}, "your badges"
               p {className: "sub-heading"}, "Win badges for unlocking achievements and taking action."
               ul {className: "badge-list"},
