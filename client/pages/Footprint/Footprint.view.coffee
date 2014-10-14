@@ -7,10 +7,10 @@ module.exports = React.createClass
   displayName: 'Footprint'
   render: ->
     locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
-    houseData = [{name: "house", value: 1}, {name: "apartment", value: 2}]
+    houseData = [{name: "apartment", value: 1}, {name: "house", value: 2}]
     ownershipData = [{name: "own", value: 1}, {name: "rent", value: 2}]
     energyData = [{name: "$190/mo", value: 1}, {name: "$300/mo", value: 2}]
-    carData = [{name: "Corvette", value: 1}, {name: "Dodge Challenger", value: 2}]
+    carData = [{name: "Dodge Challenger", value: 1}, {name: "Carrera", value: 2}]
     carMilesData = [{name: "50 miles", value: 1}, {name: "100 miles", value: 2}]
     cycleFreqData = [{name: "rarely", value: 1}, {name: "daily", value: 2}]
     foodFreqData = [{name: "6", value: 1}, {name: "4", value: 2}]
