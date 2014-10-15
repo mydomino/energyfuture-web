@@ -4,20 +4,22 @@ module.exports = React.createClass
   displayName: 'YourProgress'
   render: ->
     div {className: "your-progress"},
-      div {className: "your-progress-bar"},
-        span {style: {width: "#{@props.goalReduction}%"}}
+      div {className: "your-progress-header"},
+        div {className: "your-progress-bar"},
+          span {style: {width: "#{@props.goalReduction}%"}}
 
-      h2 {}, "your progress"
-      p {className: "sub-heading"}, "Powered by the UC Berkeley CoolClimate Calculator"
+        h2 {}, "your progress"
+        p {className: "sub-heading"}, "Powered by the UC Berkeley CoolClimate Calculator"
       ul {},
         li {},
           div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {height: "10%"}},
-              span {className: "guide-progress-text"}, "40%"
-            div {className: "striped", style: {height: "40%"}},
-              div {className: "guide-progress-completed", style: {height: "80%"}}
+            div {className: "guide-progress-upper"},
+              div {className: "striped", style: {height: "100%"}},
+                span {className: "guide-progress-text"}, "39%"
+              div {className: "guide-progress-completed", style: {height: "30%"}}
               div {className: "category-name"}, "Mobility"
-            div {className: "solid"},
+
+            div {className: "guide-progress-lower"},
               ul {},
                 li {},
                   span {className: "item-point"}
@@ -27,30 +29,65 @@ module.exports = React.createClass
                   span {className: "item-text"}, "Use Public Transportation"
         li {},
           div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {height: "20%"}},
-              span {className: "guide-progress-text"}, "20%"
-            div {className: "striped", style: {height: "30%"}},
-              div {className: "category-name"},
-            div {className: "solid"}
-        li {},
-          div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {height: "0%"}},
-              span {className: "guide-progress-text"}, "50%"
-            div {className: "striped", style: {height: "50%"}},
-              div {className: "category-name"},
-            div {className: "solid"}
-        li {},
-          div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {height: "0%"}},
-              span {className: "guide-progress-text"}, "50%"
-            div {className: "striped", style: {height: "50%"}},
-              div {className: "category-name"},
-            div {className: "solid"}
-        li {},
-          div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {height: "0%"}},
-              span {className: "guide-progress-text"}, "50%"
-            div {className: "striped", style: {height: "50%"}},
-              div {className: "category-name"},
-            div {className: "solid"}
+            div {className: "guide-progress-upper"},
+              div {className: "striped", style: {height: "75%"}},
+                span {className: "guide-progress-text"}, "24%"
+              div {className: "guide-progress-completed", style: {height: "30%"}}
+              div {className: "category-name"}, "Mobility"
 
+            div {className: "guide-progress-lower"},
+              ul {},
+                li {},
+                  span {className: "item-point"}
+                  span {className: "item-text"}, "Go Electric"
+                li {},
+                  span {className: "item-point"}
+                  span {className: "item-text"}, "Use Public Transportation"
+        li {},
+          div {className: "guide-progress-col"},
+            div {className: "guide-progress-upper"},
+              div {className: "striped", style: {height: "70%"}},
+                span {className: "guide-progress-text"}, "22%"
+              div {className: "guide-progress-completed", style: {height: "30%"}}
+              div {className: "category-name"}, "Mobility"
+
+            div {className: "guide-progress-lower"},
+              ul {},
+                li {},
+                  span {className: "item-point"}
+                  span {className: "item-text"}, "Go Electric"
+                li {},
+                  span {className: "item-point"}
+                  span {className: "item-text"}, "Use Public Transportation"
+        li {},
+          div {className: "guide-progress-col"},
+            div {className: "guide-progress-upper"},
+              div {className: "striped", style: {height: "35%"}},
+                span {className: "guide-progress-text"}, "8%"
+              div {className: "guide-progress-completed", style: {height: "0%"}}
+              div {className: "category-name"}, "Mobility"
+
+            div {className: "guide-progress-lower"},
+              ul {},
+                li {},
+                  span {className: "item-point"}
+                  span {className: "item-text"}, "Go Electric"
+                li {},
+                  span {className: "item-point"}
+                  span {className: "item-text"}, "Use Public Transportation"
+        li {},
+          div {className: "guide-progress-col"},
+            div {className: "guide-progress-upper"},
+              div {className: "striped", style: {height: "20%"}},
+                span {className: "guide-progress-text"}, "7%"
+              div {className: "guide-progress-completed", style: {height: "7%"}}
+              div {className: "category-name"}, "Mobility"
+
+            div {className: "guide-progress-lower"},
+              ul {},
+                li {},
+                  span {className: "item-point"}
+                  span {className: "item-text"}, "Go Electric"
+                li {},
+                  span {className: "item-point"}
+                  span {className: "item-text"}, "Use Public Transportation"
