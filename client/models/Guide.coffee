@@ -5,5 +5,3 @@ module.exports = class Guide
     @summary = data.intro?.caption
     @recommended = data.recommended
     @preview_bg = data.photos?[0]
-    return
-
