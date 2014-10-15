@@ -21,73 +21,74 @@
         border-radius 40px
         background-color #C1EB96
 
-  ul
-    margin-top 25px
+  ul.guides-upper
+    margin 25px 0 0 0
+    height 250px
     list-style none
     padding 0
-
     li
       display inline-block
+      height 100%
       margin-right 2.5%
       width 17%
+      .guide-progress
+        width 100%
+        height 100%
+        position relative
 
-      .guide-progress-col
-        margin-top 5px
-        height 500px
-
-        .guide-progress-upper
+        .striped
           width 100%
-          height 50%
-          position relative
+          background repeating-linear-gradient(to top right, #B6B6B6, #B6B6B6 1%, #fff 1%, #fff 50%)
+          background-size 10px 10px
+          bottom 0
+          position absolute
 
-          .striped
-            width 100%
-            background repeating-linear-gradient(to top right, #B6B6B6, #B6B6B6 1%, #fff 1%, #fff 50%)
-            background-size 10px 10px
-            bottom 0
-            position absolute
-
-            .guide-progress-text
-              color #272B2C
-              opacity 0.54
-              right 0
-              bottom 5px
-              position absolute
-              top -30px
-
-          .guide-progress-completed
-            position: absolute
-            bottom 0
-            width 100%
-            background-color #C1EB96
-
-          .category-name
-            text-transform capitalize
-            position absolute
+          .guide-progress-text
+            color #272B2C
+            opacity 0.54
+            right 0
             bottom 5px
-            left 0.6em
-            font-weight bold
-
-        .guide-progress-lower
-          width 100%
-          height 50%
-          background-image linear-gradient(to bottom, rgba(0,0,0,0.1), #FFFFFF)
-          position relative
-
-          ul
             position absolute
-            top 5px
-            left 0.6em
+            top -30px
 
-            li
-              width 75%
-              font-size 1em
+        .guide-progress-completed
+          position: absolute
+          bottom 0
+          width 100%
+          background-color #C1EB96
 
-              .item-point
-                font-size 1.4em
-                &:before
-                  content "\0025A1"
+        .category-name
+          text-transform capitalize
+          position absolute
+          bottom 5px
+          left 0.6em
+          font-weight bold
 
-              .item-text
-                font-size 0.9em
-                margin-left 3px
+  .guide-list
+    margin-top 0
+    display inline-block
+    font-size 1em
+    background-image linear-gradient(to bottom, rgba(0,0,0,0.1), #FFFFFF)
+    float left
+
+    width 17%
+    margin-right 2.5%
+
+    ul
+      width 100%
+      list-style none
+      padding-left 0.5em
+      li
+        width 80%
+        background-image none
+        line-height 0.8em
+        margin-bottom 1em
+
+        .item-point
+          font-size 1.4em
+          &:before
+            content "\0025A1"
+
+        .item-text
+          font-size 0.9em
+          margin-left 3px
