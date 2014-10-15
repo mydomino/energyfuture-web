@@ -1,11 +1,24 @@
 {div, h2, p, span, ul, li, hr} = React.DOM
 
+_ = require 'lodash'
+Guide = require '../../models/Guide'
+GuideCollection = require '../../models/GuideCollection'
 NavBar = require '../../components/NavBar/NavBar.view'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 YourProgress = require '../../components/YourProgress/YourProgress.view'
 
 module.exports = React.createClass
   displayName: 'Footprint'
+
+  getInitialState: ->
+    guides: []
+
+  componentWillMount: ->
+    guides = new GuideCollection
+    guides.on "sync", =>
+      if @isMounted()
+        @setState categorizedGuides: guides.groupByCategory()
+
   render: ->
     locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
     houseData = [{name: "apartment", value: 1}, {name: "house", value: 2}]
@@ -58,7 +71,7 @@ module.exports = React.createClass
                 span {}, "times/week"
 
               hr {className: "h-divider"}
-              new YourProgress(goalReduction: 25)
+              new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides)
 
               hr {className: "h-divider"}
               h2 {}, "your badges"

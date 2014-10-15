@@ -34,7 +34,8 @@ module.exports = React.createClass
     guides = new GuideCollection
     guides.on "sync", =>
       _guides = _.map guides.models, (guide) -> new Guide(guide)
-      @setState guides: _guides
+      if @isMounted()
+        @setState guides: _guides
 
   componentDidMount: ->
     anchor = @refs.anchor.getDOMNode()
