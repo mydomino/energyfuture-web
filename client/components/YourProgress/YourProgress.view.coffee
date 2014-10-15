@@ -12,9 +12,10 @@ module.exports = React.createClass
       ul {},
         li {},
           div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {"height": "10%"}},
+            div {className: "guide-progress-col-empty", style: {height: "10%"}},
               span {className: "guide-progress-text"}, "40%"
-            div {className: "striped", style: {"height": "40%"}},
+            div {className: "striped", style: {height: "40%"}},
+              div {className: "guide-progress-completed", style: {height: "80%"}}
               div {className: "category-name"}, "Mobility"
             div {className: "solid"},
               ul {},
@@ -26,30 +27,30 @@ module.exports = React.createClass
                   span {className: "item-text"}, "Use Public Transportation"
         li {},
           div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {"height": "20%"}},
+            div {className: "guide-progress-col-empty", style: {height: "20%"}},
               span {className: "guide-progress-text"}, "20%"
-            div {className: "striped", style: {"height": "30%"}},
+            div {className: "striped", style: {height: "30%"}},
               div {className: "category-name"},
             div {className: "solid"}
         li {},
           div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {"height": "0%"}},
+            div {className: "guide-progress-col-empty", style: {height: "0%"}},
               span {className: "guide-progress-text"}, "50%"
-            div {className: "striped", style: {"height": "50%"}},
+            div {className: "striped", style: {height: "50%"}},
               div {className: "category-name"},
             div {className: "solid"}
         li {},
           div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {"height": "0%"}},
+            div {className: "guide-progress-col-empty", style: {height: "0%"}},
               span {className: "guide-progress-text"}, "50%"
-            div {className: "striped", style: {"height": "50%"}},
+            div {className: "striped", style: {height: "50%"}},
               div {className: "category-name"},
             div {className: "solid"}
         li {},
           div {className: "guide-progress-col"},
-            div {className: "guide-progress-col-empty", style: {"height": "0%"}},
+            div {className: "guide-progress-col-empty", style: {height: "0%"}},
               span {className: "guide-progress-text"}, "50%"
-            div {className: "striped", style: {"height": "50%"}},
+            div {className: "striped", style: {height: "50%"}},
               div {className: "category-name"},
             div {className: "solid"}
 
