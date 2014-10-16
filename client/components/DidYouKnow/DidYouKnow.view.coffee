@@ -16,9 +16,9 @@ module.exports = React.createClass
       slidesToScroll: 1
 
   render: ->
-    div {className: "footprint"},
-      div {className: "footprint-header"},
-        h2 {}, "Did You Know?"
+    div {className: "content-sub-heading"},
+      h2 {}, "did you know?"
+      p {},
         div {className: "slider did-you-know"},
           _.map @props.items, (i) ->
             div {}, i

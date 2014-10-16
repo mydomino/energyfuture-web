@@ -39,13 +39,9 @@ module.exports = React.createClass
                   h2 {}, name
                   p {}, summary
                 div {className: "guide-modules"},
-                  p {}, "Modules go here"
-
-              hr {className: "h-divider"}
-
-              new DidYouKnow(items: @state.didYouKnows)
-
-              hr {className: "h-divider"}
+                  hr {className: "h-divider"}
+                  new DidYouKnow(items: @state.didYouKnows)
+                  hr {className: "h-divider"}
 
       div {className: 'footer'},
         new NewsletterSignup
