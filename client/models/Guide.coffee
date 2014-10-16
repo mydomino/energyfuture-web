@@ -11,4 +11,15 @@ module.exports = class Guide extends DominoModel
         data:
           text: @get('title')
       }
+      {
+        type: "text"
+        data:
+          text: @get('intro').caption
+      }
+      {
+        type: "video"
+        data:
+          source: "youtube"
+          remote_id: @get("intro").videoUrl
+      }
     ]
