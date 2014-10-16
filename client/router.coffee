@@ -39,6 +39,7 @@ routes =
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
     ["/guides", require('./pages/Guides/Guides.view'), 'guides']
     ["/guide/:id", require('./pages/Guide/Guide.view'), 'guide']
+    ["/admin", require('./pages/Admin/Admin.view'), 'admin']
     ["*", require('./pages/NotFound/NotFound.view'), 'not-found']
   ]
 
