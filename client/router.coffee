@@ -40,6 +40,7 @@ routes =
     ["/guides", require('./pages/Guides/Guides.view'), 'guides']
     ["/guide/:id", require('./pages/Guide/Guide.view'), 'guide']
     ["/admin", require('./pages/Admin/Admin.view'), 'admin']
+    ["/admin/guides/:id", require('./pages/Admin/GuideEditor.view'), 'guide-editor']
     ["*", require('./pages/NotFound/NotFound.view'), 'not-found']
   ]
 
