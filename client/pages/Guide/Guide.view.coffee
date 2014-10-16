@@ -1,10 +1,11 @@
-{div, h2, p} = React.DOM
+{div, h2, p, hr} = React.DOM
 
 firebase = require '../../firebase'
 Guide = require '../../models/Guide'
 NavBar = require '../../components/NavBar/NavBar.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+DidYouKnow = require '../../components/DidYouKnow/DidYouKnow.view'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -17,7 +18,20 @@ module.exports = React.createClass
       if @isMounted()
         @setState guide: guide.attributes
 
+  componentWillUpdate: (p, s)->
+    $(".did-you-know").slick
+      dots: true,
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1,
+      adaptiveHeight: true
+
   render: ->
+    $(".did-you-know").slick
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1,
+
     if @state.guide
       name = @state.guide.title
       summary = @state.guide.intro?.caption
@@ -29,11 +43,19 @@ module.exports = React.createClass
           if !@state.guide
             new LoadingIcon
           else
-            div {className: "guide"},
-              div {className: "guide-header"},
-                h2 {}, name
-                p {}, summary
-              div {className: "guide-modules"},
-                p {}, "Modules go here"
+            div {},
+              div {className: "guide"},
+                div {className: "guide-header"},
+                  h2 {}, name
+                  p {}, summary
+                div {className: "guide-modules"},
+                  p {}, "Modules go here"
+
+              hr {className: "h-divider"}
+
+              new DidYouKnow
+
+              hr {className: "h-divider"}
+
       div {className: 'footer'},
         new NewsletterSignup
