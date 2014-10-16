@@ -12,12 +12,15 @@ module.exports = React.createClass
     guide: null
 
   componentWillMount: ->
-    firebaseRef = firebase.inst '/tasks/' + @props.params.id
-    firebaseRef.on 'value', (snap) =>
-      @setState guide: new Guide(snap.val())
+    guide = new Guide(id: @props.params.id)
+    guide.on "sync", =>
+      if @isMounted()
+        @setState guide: guide.attributes
 
   render: ->
-    {name, summary} = @state.guide if @state.guide
+    if @state.guide
+      name = @state.guide.title
+      summary = @state.guide.intro?.caption
 
     div {className: "page page-guide"},
       div {className: "container"},
