@@ -16,25 +16,15 @@ module.exports = React.createClass
     guide = new Guide(id: @props.params.id)
     guide.on "sync", =>
       if @isMounted()
-        @setState guide: guide.attributes
-
-  componentWillUpdate: (p, s)->
-    $(".did-you-know").slick
-      dots: true,
-      infinite: true,
-      speed: 300,
-      slidesToShow: 1,
-      adaptiveHeight: true
+        @setState
+          guide: guide
+          didYouKnows: guide.didYouKnows()
 
   render: ->
-    $(".did-you-know").slick
-      infinite: true,
-      speed: 300,
-      slidesToShow: 1,
-
     if @state.guide
-      name = @state.guide.title
-      summary = @state.guide.intro?.caption
+      attrs = @state.guide.attributes
+      name = attrs.title
+      summary = attrs.intro?.caption
 
     div {className: "page page-guide"},
       div {className: "container"},
@@ -53,7 +43,7 @@ module.exports = React.createClass
 
               hr {className: "h-divider"}
 
-              new DidYouKnow
+              new DidYouKnow(items: @state.didYouKnows)
 
               hr {className: "h-divider"}
 
