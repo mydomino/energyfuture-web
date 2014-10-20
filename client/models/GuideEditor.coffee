@@ -10,7 +10,7 @@ module.exports = class GuideEditor extends DominoModel
       when "Image"
         { file: { url: data[0] } }
       when "List"
-        { text: "#{data}" }
+        { text: " - #{data.join("\n - ")}" }
       else
         { text: "#{data}" }
 

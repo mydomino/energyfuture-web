@@ -36,7 +36,6 @@ module.exports = React.createClass
     el = $(@refs.editor.getDOMNode())
 
     if !_.isEmpty(@state.guide) and !_.isEmpty(@state.guideEditor)
-      console.log(JSON.stringify(@state.guideEditor.editorJSON(@state.guide.attributes)))
       el.text(JSON.stringify(@state.guideEditor.editorJSON(@state.guide.attributes)))
       SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Dtext", "Image", "Video", "List"])
 
