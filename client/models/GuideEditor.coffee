@@ -15,6 +15,8 @@ module.exports = class GuideEditor extends DominoModel
         { text: "#{data}" }
 
   editorJSON: (guide) =>
+    guide = _.omit(guide, @attributes.untouchables)
+
     base =
       data: []
 
