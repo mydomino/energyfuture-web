@@ -6,13 +6,15 @@ module.exports = class Guide extends DominoModel
   editorJSON: ->
     data: [
       {
-        type: "text"
+        type: "dtext"
         data:
+          heading: "title"
           text: @get('title')
       }
       {
-        type: "text"
+        type: "dtext"
         data:
+          heading: "caption"
           text: @get('intro').caption
       }
       {
