@@ -1,17 +1,15 @@
 #
 # Text Block with heading
 #
-SirTrevor.Blocks.Dtext = (->
+SirTrevor.Blocks.Item = (->
   templateDefaults =
     heading: ""
   template = _.template(["<h2><%= heading %></h2>
 <div class=\"st-required st-text-block\" contenteditable=\"true\"></div>"])
 
   SirTrevor.Block.extend
-    type: "dtext"
-    title: ->
-      i18n.t "blocks:text:title"
-
+    type: "item"
+    title: -> "Item"
     editorHTML: template(templateDefaults)
     icon_name: "text"
     loadData: (data) ->
@@ -22,23 +20,21 @@ SirTrevor.Blocks.Dtext = (->
 #
 #  Unordered List with heading
 #
-SirTrevor.Blocks.Dlist = (->
+SirTrevor.Blocks.Collection = (->
   templateDefaults =
     heading: ""
   template = _.template(["<h2><%= heading %></h2>
 <div class=\"st-text-block st-required\" contenteditable=\"true\"><ul><li></li></ul></div>"])
 
   SirTrevor.Block.extend
-    type: "dlist"
-    title: ->
-      i18n.t "blocks:list:title"
-
+    type: "collection"
+    title: -> "Collection"
     icon_name: "list"
     editorHTML: -> template(templateDefaults)
 
     loadData: (data) ->
       @$inner.find('h2').text(data.heading)
-      @getTextBlock().html "<ul>" + SirTrevor.toHTML(data.text, @type) + "</ul>"
+      @getTextBlock().html "<ul>" + @toHTML(data.text) + "</ul>"
 
     onBlockRender: ->
       @checkForList = _.bind(@checkForList, this)
@@ -50,10 +46,8 @@ SirTrevor.Blocks.Dlist = (->
     toMarkdown: (markdown) ->
       markdown.replace(/<\/li>/mg, "\n").replace(/<\/?[^>]+(>|$)/mg, "").replace /^(.+)$/mg, " - $1"
 
-    toHTML: (html) ->
-      window.hutmal = html
-      html = html.replace(/^ - (.+)$/mg, "<li>$1</li>").replace(/\n/mg, "")
-      html
+    toHTML: (data) ->
+      (_.map data, (i) -> "<li>#{i}</li>").join("\n")
 
     onContentPasted: (event, target) ->
       replace = @pastedMarkdownToHTML(target[0].innerHTML)

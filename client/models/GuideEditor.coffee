@@ -9,8 +9,8 @@ module.exports = class GuideEditor extends DominoModel
         { source: "youtube", remote_id: data.videoUrl }
       when "Image"
         { file: { url: data[0] } }
-      when "Dlist"
-        { text: " - #{data.join('\n - ')}" }
+      when "Collection"
+        { text: _.map data, (e) -> e.content }
       else
         { text: "#{data}" }
 
