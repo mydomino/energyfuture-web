@@ -1,0 +1,26 @@
+.dropdown-component
+  display inline-block
+  margin 0 5px 0 5px
+  position relative
+  z-index 1
+
+  select
+    border none
+    padding-right 20px
+    background none
+    color #50E3C2
+    text-decoration underline
+    -webkit-appearance none
+    -moz-appearance none
+
+  &:before
+    position absolute
+    top 4px
+    right 0
+    z-index -1
+    color #50E3C2
+    font-size 12px
+    content "\0025BC"
+
+  select:focus
+    outline none

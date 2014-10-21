@@ -1,11 +1,12 @@
 {div, h1, h2, button, br, span, img, p} = React.DOM
 
+_ = require 'lodash'
 Guide = require '../../models/Guide'
+GuideCollection = require '../../models/GuideCollection'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 data = require '../../sample-data'
-firebase = require '../../firebase'
 
 posClass = (num) ->
   if (num + 1) % 3 == 0
@@ -30,10 +31,11 @@ module.exports = React.createClass
     guides: @props.guides
 
   componentWillMount: ->
-    firebaseRef = firebase.inst '/tasks'
-    firebaseRef.on 'value', (snap) =>
-      guides = (new Guide(guide) for id, guide of snap.val())
-      @setState guides: guides
+    guides = new GuideCollection
+    guides.on "sync", =>
+      _guides = _.map guides.models, (guide) -> new Guide(guide)
+      if @isMounted()
+        @setState guides: _guides
 
   componentDidMount: ->
     anchor = @refs.anchor.getDOMNode()
