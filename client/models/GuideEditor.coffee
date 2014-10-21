@@ -1,9 +1,9 @@
 DominoModel = require './DominoModel'
 
 module.exports = class GuideEditor extends DominoModel
-  url: -> "/editor-meta/tasks"
+  url: -> "/editor-metadata/tasks"
 
-  editorDataByType: (type, data) =>
+  wrap: (type, data) =>
     switch type
       when "Video"
         { source: "youtube", remote_id: data.videoUrl }
@@ -13,6 +13,24 @@ module.exports = class GuideEditor extends DominoModel
         { text: _.map data, (e) -> e.content }
       else
         { text: "#{data}" }
+
+  unwrap: (data) =>
+    _.reduce data.data, ((acc, e) ->
+      type = e.type
+      i = switch type
+        when "video"
+          { intro: { videoUrl: e.data.remote_id } }
+        when "collection"
+          d = {}
+          items = e.data.text.split("\n")
+          d[e.data.heading] = _.map items, (i) -> { content: i.replace(/^ - (.+)$/mg,"$1") }
+          d
+        else
+          d = {}
+          d[e.data.heading] = e.data.text
+          d
+      _.merge(acc, i)
+    ), {}
 
   editorJSON: (guide) =>
     guide = _.omit(guide, @attributes.untouchables)
@@ -28,7 +46,7 @@ module.exports = class GuideEditor extends DominoModel
         data:
           heading: k
 
-      _.merge(put.data, @editorDataByType(type, g))
+      _.merge(put.data, @wrap(type, g))
       base.data.push(put)
 
     base
