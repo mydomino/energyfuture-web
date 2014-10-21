@@ -25,7 +25,7 @@ module.exports = React.createClass
 
     new SirTrevor.Editor
       el: $(@refs.editor.getDOMNode())
-      blockTypes: ["Dtext", "Image", "Video", "List"]
+      blockTypes: ["Dtext", "Image", "Video", "List", "Dlist"]
 
     $(@refs.editorForm.getDOMNode()).on "submit", (e) =>
       e.preventDefault()
@@ -37,7 +37,7 @@ module.exports = React.createClass
 
     if !_.isEmpty(@state.guide) and !_.isEmpty(@state.guideEditor)
       el.text(JSON.stringify(@state.guideEditor.editorJSON(@state.guide.attributes)))
-      SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Dtext", "Image", "Video", "List"])
+      SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Dtext", "Image", "Video", "List", "Dlist"])
 
   render: ->
     div {className: "container-padding guide-editor"},
