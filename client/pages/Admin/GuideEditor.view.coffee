@@ -50,4 +50,5 @@ module.exports = React.createClass
     div {className: "container-padding guide-editor"},
       form {ref: "editorForm"},
         textarea {ref: "editor"}
-        input {type: "submit", className: "save-guide", value: "Save"}
+        input {type: "submit", className: "save-guide", value: "✔"}
+      input {className: "editor-info", value: "!"}
