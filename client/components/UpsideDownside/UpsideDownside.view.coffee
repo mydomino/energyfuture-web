@@ -13,6 +13,10 @@ module.exports = React.createClass
   render: ->
     div {className: "upside-downside"},
       ul {className: "upside"},
-        h2 {className: "upside-header"}, "upside"
+        h2 {}, "upside"
         _.map @props.upsides, (upside) ->
           li {}, upside
+      ul {className: "downside"},
+        h2 {}, "downside"
+        _.map @props.downsides, (downside) ->
+          li {}, downside

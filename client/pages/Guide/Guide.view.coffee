@@ -32,6 +32,6 @@ module.exports = React.createClass
                 h2 {}, name
                 p {}, summary
               div {className: "guide-modules"},
-                new UpsideDownside(upsides: ["foo", "bar lorem ipsum gypsum long comment"], downsides: ["baz", "gaz"])
+                new UpsideDownside(upsides: ["foo", "bar lorem ipsum gypsum long comment that just doesn't end forever and ever","booze lorem ipsum gypsum long comment that just doesn't end forever and ever"], downsides: ["baz", "gaz lorem ipsum gypsum long comment that just doesn't end forever and ever"])
       div {className: 'footer'},
         new NewsletterSignup
