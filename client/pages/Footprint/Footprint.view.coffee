@@ -71,7 +71,7 @@ module.exports = React.createClass
                 span {}, "times/week"
 
               hr {className: "h-divider"}
-              new YourProgress(goalReduction: 25, guides: @state.categorizedGuides)
+              new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides)
 
               hr {className: "h-divider"}
               h2 {}, "your badges"
