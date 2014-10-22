@@ -18,7 +18,7 @@ module.exports = React.createClass
       @setState guide: new Guide(snap.val())
 
   render: ->
-    {name, summary} = @state.guide if @state.guide
+    {name, summary, upsides, downsides} = @state.guide if @state.guide
 
     div {className: "page page-guide"},
       div {className: "container"},
@@ -32,6 +32,6 @@ module.exports = React.createClass
                 h2 {}, name
                 p {}, summary
               div {className: "guide-modules"},
-                new UpsideDownside(upsides: ["foo", "bar lorem ipsum gypsum long comment that just doesn't end forever and ever","booze lorem ipsum gypsum long comment that just doesn't end forever and ever"], downsides: ["baz", "gaz lorem ipsum gypsum long comment that just doesn't end forever and ever"])
+                new UpsideDownside(upsides: upsides, downsides: downsides)
       div {className: 'footer'},
         new NewsletterSignup

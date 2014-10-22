@@ -11,13 +11,16 @@ module.exports = React.createClass
     downsides: []
 
   render: ->
-    div {className: "upside-downside"},
-      ul {className: "upside"},
-        h2 {}, "upside"
-        _.map @props.upsides, (upside) ->
-          li {}, upside
-      ul {className: "downside"},
-        h2 {}, "downside"
-        _.map @props.downsides, (downside) ->
-          li {}, downside
-      div {className: "clear-both"}
+    if _.isEmpty(@props.upsides) && _.isEmpty(@props.downsides)
+      return false
+    else
+      div {className: "upside-downside"},
+        ul {className: "upside"},
+          h2 {}, "upside"
+          _.map @props.upsides, (upside) ->
+            li {}, upside
+        ul {className: "downside"},
+          h2 {}, "downside"
+          _.map @props.downsides, (downside) ->
+            li {}, downside
+        div {className: "clear-both"}
