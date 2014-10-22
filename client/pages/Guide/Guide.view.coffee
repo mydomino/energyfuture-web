@@ -3,6 +3,7 @@
 firebase = require '../../firebase'
 Guide = require '../../models/Guide'
 NavBar = require '../../components/NavBar/NavBar.view'
+UpsideDownside = require '../../components/UpsideDownside/UpsideDownside.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 
@@ -31,6 +32,6 @@ module.exports = React.createClass
                 h2 {}, name
                 p {}, summary
               div {className: "guide-modules"},
-                p {}, "Modules go here"
+                new UpsideDownside(upsides: ["foo", "bar lorem ipsum gypsum long comment"], downsides: ["baz", "gaz"])
       div {className: 'footer'},
         new NewsletterSignup
