@@ -20,3 +20,4 @@ module.exports = React.createClass
         h2 {}, "downside"
         _.map @props.downsides, (downside) ->
           li {}, downside
+      div {className: "clear-both"}
