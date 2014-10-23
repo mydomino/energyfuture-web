@@ -5,9 +5,9 @@ module.exports = class GuideEditor extends DominoModel
 
   wrap: (type, data) =>
     switch type
-      when "Video"
-        { source: "youtube", remote_id: data.videoUrl }
-      when "Image"
+      when "Intro"
+        { source: "youtube", remote_id: data.videoUrl, caption: data.caption, duration: data.duration }
+      when "Photo"
         { file: { url: data[0] } }
       when "Collection"
         { text: _.map data, (e) -> e.content }
@@ -18,8 +18,8 @@ module.exports = class GuideEditor extends DominoModel
     _.reduce data.data, ((acc, e) ->
       type = e.type
       i = switch type
-        when "video"
-          { intro: { videoUrl: e.data.remote_id } }
+        when "intro"
+          { intro: { videoUrl: e.data.remote_id, caption: e.data.caption, duration: e.data.duration } }
         when "collection"
           d = {}
           items = e.data.text.split("\n")
