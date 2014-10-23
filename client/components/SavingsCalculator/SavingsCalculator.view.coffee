@@ -26,8 +26,11 @@ module.exports = React.createClass
             span {}, "per week"
         h3 {}, "cost / year"
         div {className: "savings-graphs"},
-          _.map @props.costPerYear, (cost, label) ->
-            div {className: "savings-graph-item"},
-              div {className: "label"}, label
-              div {className: "progress-container"},
-                div {className: "progress", style: {width: "100%"}}
+          div {className: "savings-graph-item"},
+            div {className: "label"}, @props.yourCostPerYear.label
+            div {className: "progress-container"},
+              div {className: "progress", style: {width: "100%"}}
+          div {className: "savings-graph-item"},
+            div {className: "label"}, @props.costPerYear.label
+            div {className: "progress-container"},
+              div {className: "progress", style: {width: "#{@props.costPerYear.value / @props.yourCostPerYear.value * 100 }%"}}
