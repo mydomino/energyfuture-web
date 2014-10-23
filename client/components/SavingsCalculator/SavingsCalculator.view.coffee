@@ -34,3 +34,13 @@ module.exports = React.createClass
             div {className: "label"}, @props.costPerYear.label
             div {className: "progress-container"},
               div {className: "progress", style: {width: "#{@props.costPerYear.value / @props.yourCostPerYear.value * 100 }%"}}
+        h3 {}, "carbon impact"
+        div {className: "savings-graphs"},
+          div {className: "savings-graph-item"},
+            div {className: "label"}, @props.yourCarbonImpact.label
+            div {className: "progress-container"},
+              div {className: "progress", style: {width: "100%"}}
+          div {className: "savings-graph-item"},
+            div {className: "label"}, @props.carbonImpact.label
+            div {className: "progress-container"},
+              div {className: "progress", style: {width: "#{@props.carbonImpact.value / @props.yourCarbonImpact.value * 100 }%"}}
