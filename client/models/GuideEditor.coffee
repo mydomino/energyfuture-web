@@ -9,7 +9,7 @@ module.exports = class GuideEditor extends DominoModel
         image = data.imageUrl
 
         if image
-          { source: "default", remote_id: image }
+          { source: "default", remote_id: image, caption: data.caption }
         else
           { source: "youtube", remote_id: data.videoUrl, caption: data.caption, duration: data.duration }
       when "Photo"
@@ -24,7 +24,10 @@ module.exports = class GuideEditor extends DominoModel
       type = e.type
       i = switch type
         when "intro"
-          { intro: { videoUrl: e.data.remote_id, caption: e.data.caption, duration: e.data.duration } }
+          if e.data.source == 'default'
+            { intro: { imageUrl: e.data.remote_id, caption: e.data.caption } }
+          else
+            { intro: { videoUrl: e.data.remote_id, caption: e.data.caption, duration: e.data.duration } }
         when "collection"
           d = {}
           items = e.data.text.split("\n")

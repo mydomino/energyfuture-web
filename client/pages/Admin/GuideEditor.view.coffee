@@ -30,8 +30,6 @@ module.exports = React.createClass
     $(@refs.editorForm.getDOMNode()).on "submit", (e) =>
       e.preventDefault()
       data = SirTrevor.getInstance().dataStore
-      console.log(JSON.stringify(@guideEditor.unwrap(data)))
-      alert(JSON.stringify(@guideEditor.unwrap(data)))
       @guide.update(@guideEditor.unwrap(data))
 
   componentDidUpdate: (p, s) ->
