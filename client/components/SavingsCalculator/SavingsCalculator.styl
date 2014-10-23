@@ -19,13 +19,33 @@
       .label
         width 20%
         display inline-block
-      .progress-container
-        width 80%
+      .progress
         display inline-block
-        .progress
-          height 10px
-          background #272B2C
-          border-radius 5px
+        height 10px
+        background #272B2C
+        border-radius 5px
+        position relative
+      .progress-value
+        position absolute
+        margin 0
+        top -10px
+        right -70px
+        font-weight bold
+        font-size 1.2em
+      .impact-value
+        position absolute
+        margin 0
+        top -8px
+        right -100px
+        font-weight bold
+        p
+          margin 0
+          display inline-block
+        .amount
+          font-size 1.1em
+        .unit
+          font-size 13px
+          margin-left 5px
       &:last-child
         .progress
           background #50E3C2

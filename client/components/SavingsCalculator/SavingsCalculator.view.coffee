@@ -12,6 +12,7 @@ module.exports = React.createClass
     distancesPerWeek: [{name: "100 miles", value: 1}, {name: "200 miles", value: 2}]
 
   render: ->
+    containerWidthPercent = 0.7
     if _.isEmpty(@props.guideCostPerYear) || _.isEmpty(@props.guideCarbonImpact)
       div {className: "savings-calculator"},
         h2 {}, "potential savings"
@@ -28,19 +29,23 @@ module.exports = React.createClass
         div {className: "savings-graphs"},
           div {className: "savings-graph-item"},
             div {className: "label"}, @props.yourCostPerYear.label
-            div {className: "progress-container"},
-              div {className: "progress", style: {width: "100%"}}
+            div {className: "progress", style: {width: "#{100 * containerWidthPercent}%"}},
+              p {className: "progress-value"}, "$ #{@props.yourCostPerYear.value}"
           div {className: "savings-graph-item"},
             div {className: "label"}, @props.costPerYear.label
-            div {className: "progress-container"},
-              div {className: "progress", style: {width: "#{@props.costPerYear.value / @props.yourCostPerYear.value * 100 }%"}}
+            div {className: "progress", style: {width: "#{@props.costPerYear.value / @props.yourCostPerYear.value * containerWidthPercent * 100 }%"}},
+            p {className: "progress-value"}, "$ #{@props.costPerYear.value}"
         h3 {}, "carbon impact"
         div {className: "savings-graphs"},
           div {className: "savings-graph-item"},
             div {className: "label"}, @props.yourCarbonImpact.label
-            div {className: "progress-container"},
-              div {className: "progress", style: {width: "100%"}}
+            div {className: "progress", style: {width: "#{100 * containerWidthPercent}%"}},
+              div {className: "impact-value"},
+                p {className: "amount"}, @props.yourCarbonImpact.value
+                p {className: "unit"}, " tons/year"
           div {className: "savings-graph-item"},
             div {className: "label"}, @props.carbonImpact.label
-            div {className: "progress-container"},
-              div {className: "progress", style: {width: "#{@props.carbonImpact.value / @props.yourCarbonImpact.value * 100 }%"}}
+            div {className: "progress", style: {width: "#{@props.carbonImpact.value / @props.yourCarbonImpact.value * containerWidthPercent * 100 }%"}},
+              div {className: "impact-value"},
+                p {className: "amount"}, @props.carbonImpact.value
+                p {className: "unit"}, " tons/year"
