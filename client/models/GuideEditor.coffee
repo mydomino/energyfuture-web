@@ -6,7 +6,12 @@ module.exports = class GuideEditor extends DominoModel
   wrap: (type, data) =>
     switch type
       when "Intro"
-        { source: "youtube", remote_id: data.videoUrl, caption: data.caption, duration: data.duration }
+        image = data.imageUrl
+
+        if image
+          { source: "default", remote_id: image }
+        else
+          { source: "youtube", remote_id: data.videoUrl, caption: data.caption, duration: data.duration }
       when "Photo"
         { file: { url: data[0] } }
       when "Collection"

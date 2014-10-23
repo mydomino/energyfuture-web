@@ -65,18 +65,26 @@ SirTrevor.Blocks.Intro = (->
   templateDefaults =
     caption: ""
     duration: ""
-  template = _.template(["
+  template = (data) ->
+    caption = data.caption || templateDefaults.caption
+    duration = data.duration || templateDefaults.duration
+
+    _.template(["
 <br />
 <div class='intro-inputs'>
   <input type='text' name='caption' placeholder='caption' value='<%= caption %>' />
   <br />
   <br />
   <input type='text' name='duration' placeholder='duration' value='<%= duration %>' />
-</div>"])
+</div>"], { caption: caption, duration: duration })
 
   SirTrevor.Block.extend
     # more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
     providers:
+      default:
+        regex: /(http(s?):)|([\/|.|\w|\s])*\.(?:jpg|gif|png)/
+        html: "<iframe src=\"{{remote_id}}\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
+
       vimeo:
         regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo.com\/(.+)/
         html: "<iframe src=\"{{protocol}}//player.vimeo.com/video/{{remote_id}}?title=0&byline=0\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
@@ -93,13 +101,16 @@ SirTrevor.Blocks.Intro = (->
 
     loadData: (data) ->
       return unless @providers.hasOwnProperty(data.source)
+
       if @providers[data.source].square
         @$editor.addClass "st-block__editor--with-square-media"
       else
         @$editor.addClass "st-block__editor--with-sixteen-by-nine-media"
+
       embed_string = @providers[data.source].html.replace("{{protocol}}", window.location.protocol).replace("{{remote_id}}", data.remote_id).replace("{{width}}", @$editor.width()) # for videos that can't resize automatically like vine
       prepend_string = template(data)
       final = prepend_string + embed_string
+
       @$editor.html(final)
 
     onContentPasted: (event) ->
@@ -112,9 +123,14 @@ SirTrevor.Blocks.Intro = (->
       _.each @providers, ((provider, index) ->
         match = provider.regex.exec(url)
         if match isnt null and not _.isUndefined(match[1])
-          data =
-            source: index
-            remote_id: match[1]
+          if index == 'default'
+            data =
+              source: index
+              remote_id: url
+          else
+            data =
+              source: index
+              remote_id: match[1]
 
           @setAndLoadData data
       ), this
