@@ -54,28 +54,28 @@ module.exports = React.createClass
               div {className: "about-you-row"},
                 span {className: "about-you-label"}, "Home:"
                 span {className: "about-you-description"}, "You live in"
-                new DropdownComponent(data: locationData)
+                new DropdownComponent(data: locationData, lightBackground: true)
                 span {}, "in a"
-                new DropdownComponent(data: houseData)
+                new DropdownComponent(data: houseData, lightBackground: true)
                 span {}, "you"
-                new DropdownComponent(data: ownershipData)
+                new DropdownComponent(data: ownershipData, lightBackground: true)
                 span {}, "spending"
-                new DropdownComponent(data: energyData)
+                new DropdownComponent(data: energyData, lightBackground: true)
                 span {}, "on energy."
               div {className: "about-you-row"},
                 span {className: "about-you-label"}, "Mobility:"
                 span {className: "about-you-description"}, "You drive a"
-                new DropdownComponent(data: carData)
+                new DropdownComponent(data: carData, lightBackground: true)
                 span {}, "around"
-                new DropdownComponent(data: carMilesData)
+                new DropdownComponent(data: carMilesData, lightBackground: true)
                 span {}, "per week, and bicycle"
-                new DropdownComponent(data: cycleFreqData)
+                new DropdownComponent(data: cycleFreqData, lightBackground: true)
               div {className: "about-you-row"},
                 span {className: "about-you-label"}, "Food:"
                 span {className: "about-you-description"}, "You eat red meat"
-                new DropdownComponent(data: foodFreqData)
+                new DropdownComponent(data: foodFreqData, lightBackground: true)
                 span {}, "times/week and dairy"
-                new DropdownComponent(data: foodFreqData)
+                new DropdownComponent(data: foodFreqData, lightBackground: true)
                 span {}, "times/week"
 
               hr {className: "h-divider"}
