@@ -1,4 +1,4 @@
-{div, h2, p, span} = React.DOM
+{div, h2, h3, p, span} = React.DOM
 
 _ = require 'lodash'
 Dropdown = require '../Dropdown/Dropdown.view'
@@ -12,14 +12,22 @@ module.exports = React.createClass
     distancesPerWeek: [{name: "100 miles", value: 1}, {name: "200 miles", value: 2}]
 
   render: ->
-    div {className: "savings-calculator"},
-      h2 {}, "potential savings"
-      p {className: "sub-heading"}, "Calculator powered by CoolClimate."
-      div {className: "filter"},
-        span {}, "If you live in"
-        new Dropdown(data: @props.locations)
-        span {}, "and drive a"
-        new Dropdown(data: @props.vehicles)
-        span {}, "around"
-        new Dropdown(data: @props.distancesPerWeek)
-        span {}, "per week"
+    if _.isEmpty(@props.guideCostPerYear) || _.isEmpty(@props.guideCarbonImpact)
+      div {className: "savings-calculator"},
+        h2 {}, "potential savings"
+        p {className: "sub-heading"}, "Calculator powered by CoolClimate."
+        div {className: "filter"},
+          span {}, "If you live in"
+          new Dropdown(data: @props.locations)
+          span {}, "and drive a"
+          new Dropdown(data: @props.vehicles)
+          span {}, "around"
+          new Dropdown(data: @props.distancesPerWeek)
+            span {}, "per week"
+        h3 {}, "cost / year"
+        div {className: "savings-graphs"},
+          _.map @props.costPerYear, (cost, label) ->
+            div {className: "savings-graph-item"},
+              div {className: "label"}, label
+              div {className: "progress-container"},
+                div {className: "progress", style: {width: "100%"}}
