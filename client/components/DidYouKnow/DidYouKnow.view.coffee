@@ -20,5 +20,5 @@ module.exports = React.createClass
       h2 {}, "did you know?"
       p {},
         div {className: "slider did-you-know"},
-          _.map @props.items, (i) ->
-            div {}, i
+          _.map @props.items, (item, idx) ->
+            div {key: "item#{idx}"}, item
