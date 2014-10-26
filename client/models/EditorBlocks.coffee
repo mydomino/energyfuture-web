@@ -143,14 +143,13 @@ SirTrevor.Blocks.Intro = (->
 #
 #  Photo block with heading
 #
-SirTrevor.Blocks.Photo  = SirTrevor.Block.extend(
+SirTrevor.Blocks.Photos = SirTrevor.Block.extend(
   type: "photos"
   title: -> "Photos"
   droppable: true
   uploadable: true
   icon_name: "image"
   loadData: (data) ->
-
     # Create our image tag
     @$editor.html $("<img>",
       src: data.file.url
