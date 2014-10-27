@@ -44,10 +44,32 @@ SirTrevor.Blocks.Collection = (->
       document.execCommand "insertUnorderedList", false, false  if @$("ul").length is 0
 
     toMarkdown: (markdown) ->
-      markdown.replace(/<\/li>/mg, "\n").replace(/<\/?[^>]+(>|$)/mg, "").replace /^(.+)$/mg, " - $1"
+      markdown.replace(/<\/li>/mg, "\n").replace(/<\/?[^>]+(>|$)/mg, "").replace(/^(.+)$/mg, "$1")
 
     makeHTML: (data) ->
       (_.map data, (i) -> "<li>#{i}</li>").join("\n")
+
+    toData: () ->
+      SirTrevor.log "toData for " + @blockID
+
+      bl = @$el
+      dataObj = {}
+
+      # Simple to start. Add conditions later
+      if @hasTextBlock()
+        content = @getTextBlock().html()
+
+        # turn the text into an array
+        data = SirTrevor.toMarkdown(content, @type).split("\n")
+        dataObj.text = data if content.length > 0
+
+      # Add any inputs to the data attr
+      if @$(":input").not(".st-paste-block").length > 0
+        @$(":input").each (index, input) ->
+          dataObj[input.getAttribute("name")] = input.value if input.getAttribute("name")
+
+      # Set
+      @setData dataObj unless _.isEmpty(dataObj)
 
     onContentPasted: (event, target) ->
       replace = @pastedMarkdownToHTML(target[0].innerHTML)

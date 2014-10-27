@@ -30,8 +30,8 @@ module.exports = class GuideEditor extends DominoModel
             { intro: { videoUrl: e.data.remote_id, caption: e.data.caption, duration: e.data.duration } }
         when "collection"
           d = {}
-          items = e.data.text.split("\n")
-          d[e.data.heading] = _.map items, (i) -> { content: i.replace(/^ - (.+)$/mg,"$1") }
+          items = e.data.text
+          d[e.data.heading] = _.each items, (i) -> { content: i.replace(/^ - (.+)$/mg,"$1") }
           d
         else
           d = {}

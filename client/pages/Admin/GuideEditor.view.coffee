@@ -47,8 +47,10 @@ module.exports = React.createClass
     SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Photos", "Intro", "Collection"])
 
   saveBackup: ->
-    data = SirTrevor.getInstance().dataStore
+    # to trigger validation and serialization
     SirTrevor.onBeforeSubmit()
+
+    data = SirTrevor.getInstance().dataStore
     localInfo = { guides: {} }
     localInfo.guides[@guide.id] = data
     localStorage.setItem 'adminBackup', JSON.stringify(localInfo)
