@@ -21,23 +21,12 @@ module.exports = class GuideEditor extends DominoModel
 
   unwrap: (data) =>
     _.reduce data.data, ((acc, e) ->
-      type = e.type
-      i = switch type
-        when "intro"
-          if e.data.source == 'default'
-            { intro: { imageUrl: e.data.remote_id, caption: e.data.caption } }
-          else
-            { intro: { videoUrl: e.data.remote_id, caption: e.data.caption, duration: e.data.duration } }
-        when "collection"
-          d = {}
-          items = e.data.text
-          d[e.data.heading] = _.each items, (i) -> { content: i.replace(/^ - (.+)$/mg,"$1") }
-          d
-        else
-          d = {}
-          d[e.data.heading] = e.data.text
-          d
-      _.merge(acc, i)
+
+      d = {}
+      d[e.data.heading] = e.data.text
+      d
+
+      _.merge(acc, d)
     ), {}
 
   editorJSON: (guide) =>

@@ -60,8 +60,9 @@ SirTrevor.Blocks.Collection = (->
         content = @getTextBlock().html()
 
         # turn the text into an array
-        data = SirTrevor.toMarkdown(content, @type).split("\n")
-        dataObj.text = data if content.length > 0
+        if content.length > 0
+          items = SirTrevor.toMarkdown(content, @type).split("\n")
+          dataObj.text = _.map items, (i) -> { content: i }
 
       # Add any inputs to the data attr
       if @$(":input").not(".st-paste-block").length > 0
@@ -137,6 +138,37 @@ SirTrevor.Blocks.Intro = (->
 
     onContentPasted: (event) ->
       @handleDropPaste $(event.target).val()
+
+    toData: () ->
+      SirTrevor.log "toData for " + @blockID
+
+      bl = @$el
+      dataObj = {}
+
+      # Simple to start. Add conditions later
+      if @hasTextBlock()
+        content = @getTextBlock().html()
+
+        # turn the text into an array
+        if content.length > 0
+          items = SirTrevor.toMarkdown(content, @type)
+          dataObj.text = items
+
+      # Add any inputs to the data attr
+      if @$(":input").not(".st-paste-block").length > 0
+        @$(":input").each (index, input) ->
+          dataObj[input.getAttribute("name")] = input.value if input.getAttribute("name")
+
+      # Set
+      currentData = @getData()
+
+      newData = if currentData.source == 'default'
+        { imageUrl: currentData.remote_id, caption: currentData.caption}
+      else
+        { videoUrl: currentData.remote_id, caption: currentData.caption, duration: currentData.duration }
+
+      dataObj.text = newData
+      @setData dataObj unless _.isEmpty(dataObj)
 
     handleDropPaste: (url) ->
       return unless _.isURI(url)
