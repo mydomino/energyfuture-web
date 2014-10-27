@@ -47,7 +47,7 @@ SirTrevor.Blocks.Collection = (->
       markdown.replace(/<\/li>/mg, "\n").replace(/<\/?[^>]+(>|$)/mg, "").replace(/^(.+)$/mg, "$1")
 
     makeHTML: (data) ->
-      (_.map data, (i) -> "<li>#{i}</li>").join("\n")
+      (_.map data, (i) -> "<li>#{i.content}</li>").join("\n")
 
     toData: () ->
       SirTrevor.log "toData for " + @blockID
@@ -142,17 +142,7 @@ SirTrevor.Blocks.Intro = (->
     toData: () ->
       SirTrevor.log "toData for " + @blockID
 
-      bl = @$el
       dataObj = {}
-
-      # Simple to start. Add conditions later
-      if @hasTextBlock()
-        content = @getTextBlock().html()
-
-        # turn the text into an array
-        if content.length > 0
-          items = SirTrevor.toMarkdown(content, @type)
-          dataObj.text = items
 
       # Add any inputs to the data attr
       if @$(":input").not(".st-paste-block").length > 0
