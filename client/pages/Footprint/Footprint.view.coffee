@@ -14,10 +14,12 @@ module.exports = React.createClass
     guides: []
 
   componentWillMount: ->
-    guides = new GuideCollection
-    guides.on "sync", =>
+    coll = new GuideCollection
+    coll.on "sync", =>
       if @isMounted()
-        @setState categorizedGuides: guides.groupByCategory()
+        @setState categorizedGuides: coll.guidesByCategory()
+
+    @setState categorizedGuides: coll.guidesByCategory()
 
   render: ->
     locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
