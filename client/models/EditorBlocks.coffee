@@ -88,18 +88,19 @@ SirTrevor.Blocks.Intro = (->
   templateDefaults =
     caption: ""
     duration: ""
+    videoIframe: ""
+
   template = (data) ->
     caption = data.caption || templateDefaults.caption
     duration = data.duration || templateDefaults.duration
+    videoIframe = data.videoIframe || templateDefaults.videoIframe
 
     _.template(["
-<br />
 <div class='intro-inputs'>
-  <input type='text' name='caption' placeholder='caption' value='<%= caption %>' />
-  <br />
-  <br />
-  <input type='text' name='duration' placeholder='duration' value='<%= duration %>' />
-</div>"], { caption: caption, duration: duration })
+  <input type='text' class='caption'  name='caption' placeholder='caption' value='<%= caption %>' />
+  <input type='text' class='duration' name='duration' placeholder='duration' value='<%= duration %>' />
+</div>
+<%= videoIframe %>"], { caption: caption, duration: duration, videoIframe: videoIframe })
 
   SirTrevor.Block.extend
     # more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
@@ -125,16 +126,16 @@ SirTrevor.Blocks.Intro = (->
     loadData: (data) ->
       return unless @providers.hasOwnProperty(data.source)
 
+      @$inner.prepend("<h2>Intro</h2>")
+
       if @providers[data.source].square
         @$editor.addClass "st-block__editor--with-square-media"
       else
         @$editor.addClass "st-block__editor--with-sixteen-by-nine-media"
 
       embed_string = @providers[data.source].html.replace("{{protocol}}", window.location.protocol).replace("{{remote_id}}", data.remote_id).replace("{{width}}", @$editor.width()) # for videos that can't resize automatically like vine
-      prepend_string = template(data)
-      final = prepend_string + embed_string
-
-      @$editor.html(final)
+      finalData = _.merge(data, { videoIframe: embed_string })
+      @$editor.html(template(finalData))
 
     onContentPasted: (event) ->
       @handleDropPaste $(event.target).val()

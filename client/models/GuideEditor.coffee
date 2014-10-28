@@ -15,7 +15,7 @@ module.exports = class GuideEditor extends DominoModel
       when "Photo"
         { file: { url: data[0] } }
       when "Collection"
-        { text: _.map data, (e) -> e.content }
+        { text: data }
       else
         { text: "#{data}" }
 
