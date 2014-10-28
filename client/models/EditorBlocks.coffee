@@ -23,6 +23,35 @@ SirTrevor.Blocks.Category = (->
     heading: -> "Category"
 )()
 
+SirTrevor.Blocks.Mapsearch = (->
+  SirTrevor.Blocks.Item.extend
+    type: "mapsearch"
+    title: -> "Map Term"
+    heading: -> "Map Search Term"
+)()
+
+
+SirTrevor.Blocks.Photosearch = (->
+  SirTrevor.Blocks.Item.extend
+    type: "photosearch"
+    title: -> "Photo Term"
+    heading: -> "Photo Search Term"
+)()
+
+SirTrevor.Blocks.Score = (->
+  SirTrevor.Blocks.Item.extend
+    type: "score"
+    title: -> "Score"
+    heading: -> "Score"
+)()
+
+SirTrevor.Blocks.Title = (->
+  SirTrevor.Blocks.Item.extend
+    type: "title"
+    title: -> "Title"
+    heading: -> "Title"
+)()
+
 #
 #  Unordered List with heading
 #

@@ -14,10 +14,8 @@ module.exports = class GuideEditor extends DominoModel
           { source: "youtube", remote_id: data.videoUrl, caption: data.caption, duration: data.duration }
       when "Photo"
         { file: { url: data[0] } }
-      when "Collection"
-        { text: data }
       else
-        { text: "#{data}" }
+        { text: data }
 
   unwrap: (data) =>
     _.reduce data.data, ((acc, e) ->
