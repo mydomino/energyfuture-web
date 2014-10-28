@@ -27,7 +27,7 @@ module.exports = React.createClass
 
     new SirTrevor.Editor
       el: $(@refs.editor.getDOMNode())
-      blockTypes: ["Item", "Photos", "Intro", "Collection"]
+      blockTypes: ["Item", "Image", "Intro", "Collection", "Category"]
 
     $(@refs.editorForm.getDOMNode()).on "submit", (e) =>
       e.preventDefault()
@@ -44,7 +44,7 @@ module.exports = React.createClass
     guideData = JSON.parse(localStorage.getItem('adminBackup')).guides[@guide.id]
     el = $(@refs.editor.getDOMNode())
     el.text(JSON.stringify(guideData))
-    SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Photos", "Intro", "Collection"])
+    SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Image", "Intro", "Collection", "Category"])
 
   saveBackup: ->
     # to trigger validation and serialization
@@ -60,7 +60,7 @@ module.exports = React.createClass
 
     if !_.isEmpty(@state.guide) and !_.isEmpty(@state.guideEditor)
       el.text(JSON.stringify(@state.guideEditor.editorJSON(@state.guide.attributes)))
-      SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Photos", "Intro", "Collection"])
+      SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Image", "Intro", "Collection", "Category"])
 
   render: ->
     div {className: "container-padding guide-editor"},
