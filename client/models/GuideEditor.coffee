@@ -9,7 +9,7 @@ module.exports = class GuideEditor extends DominoModel
         image = data.imageUrl
 
         if image
-          { source: "default", remote_id: image, caption: data.caption }
+          { source: "image", remote_id: image, caption: data.caption }
         else
           { source: "youtube", remote_id: data.videoUrl, caption: data.caption, duration: data.duration }
       when "Photo"

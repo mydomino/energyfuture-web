@@ -111,7 +111,7 @@ SirTrevor.Blocks.Intro = (->
   SirTrevor.Blocks.Video.extend
     # more providers at https://gist.github.com/jeffling/a9629ae28e076785a14f
     providers:
-      default:
+      image:
         regex: /(http(s?):)|([\/|.|\w|\s])*\.(?:jpg|gif|png)/
         html: "<iframe src=\"{{remote_id}}\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
 
@@ -140,6 +140,24 @@ SirTrevor.Blocks.Intro = (->
       finalData = _.merge(data, { videoIframe: embed_string })
       @$editor.html(template(finalData))
 
+    handleDropPaste: (url) ->
+      return unless _.isURI(url)
+#      match = undefined
+      data = undefined
+      _.each @providers, ((provider, index) ->
+        if index == 'image'
+          remoteId = url
+        else
+          remoteId = provider.regex.exec(url)?[1]
+
+#        if match isnt null and not _.isUndefined(match[1])
+        data =
+          source: index
+          remote_id: remoteId
+
+        @setAndLoadData data
+      ), this
+
     toData: () ->
       dataObj = {}
 
@@ -151,7 +169,7 @@ SirTrevor.Blocks.Intro = (->
       # Set
       currentData = @getData()
 
-      newData = if currentData.source == 'default'
+      newData = if currentData.source == 'image'
         { imageUrl: currentData.remote_id, caption: currentData.caption}
       else
         { videoUrl: currentData.remote_id, caption: currentData.caption, duration: currentData.duration }
