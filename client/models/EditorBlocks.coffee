@@ -2,18 +2,25 @@
 # Text Block with heading
 #
 SirTrevor.Blocks.Item = (->
-  templateDefaults =
-    heading: ""
-  template = _.template(["<h2><%= heading %></h2>
-<div class=\"st-required st-text-block\" contenteditable=\"true\"></div>"])
-
   SirTrevor.Block.extend
+    template: (data) ->
+      _.template("<h2><%= heading %></h2><div class=\"st-required st-text-block\" contenteditable=\"true\"></div>", data)
+    heading: ->
+      "Item"
     type: "item"
     title: -> "Item"
-    editorHTML: template(templateDefaults)
+    icon_name: "text"
+    editorHTML: -> @template(heading: @heading())
     loadData: (data) ->
-      @$inner.find('h2').text(data.heading)
+      @$inner.find('h2').text(@heading())
       @getTextBlock().html SirTrevor.toHTML(data.text, @type)
+)()
+
+SirTrevor.Blocks.Category = (->
+  SirTrevor.Blocks.Item.extend
+    type: "category"
+    title: -> "Category"
+    heading: -> "Category"
 )()
 
 #
@@ -22,8 +29,7 @@ SirTrevor.Blocks.Item = (->
 SirTrevor.Blocks.Collection = (->
   templateDefaults =
     heading: ""
-  template = _.template(["<h2><%= heading %></h2>
-<div class=\"st-text-block st-required\" contenteditable=\"true\"><ul><li></li></ul></div>"])
+  template = _.template("<h2><%= heading %></h2><div class=\"st-text-block st-required\" contenteditable=\"true\"><ul><li></li></ul></div>")
 
   SirTrevor.Blocks.List.extend
     type: "collection"
