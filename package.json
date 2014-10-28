@@ -54,11 +54,10 @@
     "supertest": "^0.13.0"
   },
   "scripts": {
-    "test": "foreman run gulp test",
-    "build": "foreman run gulp",
+    "test": "gulp test",
+    "build": "gulp",
     "start": "node ./start.js",
-    "postinstall": "NODE_ENV=production foreman run gulp deploy",
-    "migrate": "node ./migrations/start.js"
+    "postinstall": "NODE_ENV=production gulp deploy"
   },
   "engines": {
     "node": ">= 0.9"
