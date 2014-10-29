@@ -13,7 +13,7 @@ SirTrevor.Blocks.Item = (->
 
     loadData: (data) ->
       @$inner.find('h2').text(@heading())
-      @getTextBlock().html SirTrevor.toHTML(data.text, @type)
+      @getTextBlock().html SirTrevor.toHTML("#{data.text}", @type)
 )()
 
 SirTrevor.Blocks.Category = (->
