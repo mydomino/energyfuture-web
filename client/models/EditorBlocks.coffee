@@ -103,6 +103,13 @@ SirTrevor.Blocks.Downsides = (->
     heading: -> "Downsides"
 )()
 
+SirTrevor.Blocks.Photos = (->
+  SirTrevor.Blocks.Items.extend
+    type: "photos"
+    title: -> "Photos"
+    heading: -> "Photos"
+)()
+
 
 #
 #  Unordered List with heading
