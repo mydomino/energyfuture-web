@@ -115,11 +115,7 @@ SirTrevor.Blocks.Intro = (->
         regex: /(http(s?):)|([\/|.|\w|\s])*\.(?:jpg|gif|png)/
         html: "<iframe src=\"{{remote_id}}\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
 
-      vimeo:
-        regex: /(?:http[s]?:\/\/)?(?:www.)?vimeo.com\/(.+)/
-        html: "<iframe src=\"{{protocol}}//player.vimeo.com/video/{{remote_id}}?title=0&byline=0\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
-
-      youtube:
+      video:
         regex: /(?:http[s]?:\/\/)?(?:www.)?(?:(?:youtube.com\/watch\?(?:.*)(?:v=))|(?:youtu.be\/))([^&].+)/
         html: "<iframe src=\"{{protocol}}//www.youtube.com/embed/{{remote_id}}\" width=\"580\" height=\"320\" frameborder=\"0\" allowfullscreen></iframe>"
 
@@ -127,35 +123,42 @@ SirTrevor.Blocks.Intro = (->
     title: -> "Intro"
 
     loadData: (data) ->
-      return unless @providers.hasOwnProperty(data.source)
+      image = data.text.imageUrl
+      video = data.text.videoUrl
 
       @$inner.prepend("<h2>Intro</h2>")
+      @$editor.addClass "st-block__editor--with-sixteen-by-nine-media"
 
-      if @providers[data.source].square
-        @$editor.addClass "st-block__editor--with-square-media"
-      else
-        @$editor.addClass "st-block__editor--with-sixteen-by-nine-media"
+      source = undefined
+      url = undefined
 
-      embed_string = @providers[data.source].html.replace("{{protocol}}", window.location.protocol).replace("{{remote_id}}", data.remote_id).replace("{{width}}", @$editor.width()) # for videos that can't resize automatically like vine
-      finalData = _.merge(data, { videoIframe: embed_string })
+      if image?
+        source = 'image'
+        url = image
+      else if video?
+        source = 'video'
+        url = video
+
+      # for videos that can't resize automatically like vine
+      embed_string = @providers[source].html.replace("{{protocol}}", window.location.protocol).replace("{{remote_id}}", url).replace("{{width}}", @$editor.width())
+      finalData = _.merge(data.text, { videoIframe: embed_string })
       @$editor.html(template(finalData))
 
     handleDropPaste: (url) ->
       return unless _.isURI(url)
-#      match = undefined
-      data = undefined
+      match = undefined
       _.each @providers, ((provider, index) ->
-        if index == 'image'
-          remoteId = url
-        else
-          remoteId = provider.regex.exec(url)?[1]
-
-#        if match isnt null and not _.isUndefined(match[1])
         data =
-          source: index
-          remote_id: remoteId
+          text: {}
+        match = provider.regex.exec(url)
 
-        @setAndLoadData data
+        if match isnt null and not _.isUndefined(match[1])
+          if index == 'image'
+            _.merge(data.text, { imageUrl: url })
+          else
+            _.merge(data.text, { videoUrl: match[1] })
+
+          @setAndLoadData data
       ), this
 
     toData: () ->
