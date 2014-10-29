@@ -97,8 +97,8 @@ SirTrevor.Blocks.Intro = (->
     videoIframe: ""
 
   template = (data) ->
-    caption = data.caption || templateDefaults.caption
-    duration = data.duration || templateDefaults.duration
+    caption = data.text.caption || templateDefaults.caption
+    duration = data.text.duration || templateDefaults.duration
     videoIframe = data.videoIframe || templateDefaults.videoIframe
 
     _.template(["
@@ -123,12 +123,11 @@ SirTrevor.Blocks.Intro = (->
     title: -> "Intro"
 
     loadData: (data) ->
-      image = data.text.imageUrl
-      video = data.text.videoUrl
-
       @$inner.prepend("<h2>Intro</h2>")
       @$editor.addClass "st-block__editor--with-sixteen-by-nine-media"
 
+      image = data.text.imageUrl
+      video = data.text.videoUrl
       source = undefined
       url = undefined
 
@@ -137,15 +136,19 @@ SirTrevor.Blocks.Intro = (->
         url = image
       else if video?
         source = 'video'
-        url = video
+        url = @providers[source].regex.exec(video)[1]
 
       # for videos that can't resize automatically like vine
       embed_string = @providers[source].html.replace("{{protocol}}", window.location.protocol).replace("{{remote_id}}", url).replace("{{width}}", @$editor.width())
-      finalData = _.merge(data.text, { videoIframe: embed_string })
+      finalData = _.merge(data, { videoIframe: embed_string })
+
       @$editor.html(template(finalData))
 
     handleDropPaste: (url) ->
       return unless _.isURI(url)
+      @setAndLoadData @rebuildData()
+
+    rebuildData: () ->
       match = undefined
       _.each @providers, ((provider, index) ->
         data =
@@ -158,25 +161,6 @@ SirTrevor.Blocks.Intro = (->
           else
             _.merge(data.text, { videoUrl: match[1] })
 
-          @setAndLoadData data
+          return data
       ), this
-
-    toData: () ->
-      dataObj = {}
-
-      # Add any inputs to the data attr
-      if @$(":input").not(".st-paste-block").length > 0
-        @$(":input").each (index, input) ->
-          dataObj[input.getAttribute("name")] = input.value if input.getAttribute("name")
-
-      # Set
-      currentData = @getData()
-
-      newData = if currentData.source == 'image'
-        { imageUrl: currentData.remote_id, caption: currentData.caption}
-      else
-        { videoUrl: currentData.remote_id, caption: currentData.caption, duration: currentData.duration }
-
-      dataObj.text = newData
-      @setData dataObj unless _.isEmpty(dataObj)
 )()
