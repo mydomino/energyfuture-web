@@ -31,11 +31,12 @@ module.exports = React.createClass
     guides: @props.guides
 
   componentWillMount: ->
-    guides = new GuideCollection
-    guides.on "sync", =>
-      _guides = _.map guides.models, (guide) -> new Guide(guide)
+    coll = new GuideCollection
+    coll.on "sync", =>
       if @isMounted()
-        @setState guides: _guides
+        @setState guides: coll.guides()
+
+    @setState guides: coll.guides()
 
   componentDidMount: ->
     anchor = @refs.anchor.getDOMNode()
