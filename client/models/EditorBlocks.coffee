@@ -116,7 +116,7 @@ SirTrevor.Blocks.Intro = (->
         html: "<iframe src=\"{{remote_id}}\" width=\"580\" height=\"320\" frameborder=\"0\"></iframe>"
 
       video:
-        regex: /(?:http[s]?:\/\/)?(?:www.)?(?:(?:youtube.com\/watch\?(?:.*)(?:v=))|(?:youtu.be\/))([^&].+)/
+        regex: /(?:http[s]?:\/\/)?(?:www.)?(?:(?:youtube.com\/embed\/)|(?:youtu.be\/))([^&].+)/
         html: "<iframe src=\"{{protocol}}//www.youtube.com/embed/{{remote_id}}\" width=\"580\" height=\"320\" frameborder=\"0\" allowfullscreen></iframe>"
 
     type: "intro"
