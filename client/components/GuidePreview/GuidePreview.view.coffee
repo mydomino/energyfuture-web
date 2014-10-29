@@ -9,13 +9,18 @@ module.exports = React.createClass
     page "/guide/#{@props.guide.id}"
 
   render: ->
+    guide = @props.guide.attributes
+    summary = guide.intro?.caption
+    preview_bg = guide.photos?[0]
+    recommended = guide.recommended
+
     style = {}
-    if @props.guide.preview_bg
-      style.backgroundImage = "url(#{@props.guide.preview_bg})"
+    if preview_bg
+      style.backgroundImage = "url(#{preview_bg})"
 
     div {className: "guide-preview #{@props.customClass}", onClick: @viewGuide, style: style},
-      if @props.guide.recommended
+      if recommended
         span {className: "guide-preview-recommended"}, "Recommended"
       div {className: "guide-preview-content"},
-        h2 {className: "guide-preview-title"}, @props.guide.name
-        p {className: "guide-preview-summary"}, @props.guide.summary
+        h2 {className: "guide-preview-title"}, guide.title
+        p {className: "guide-preview-summary"}, summary
