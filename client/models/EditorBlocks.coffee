@@ -2,15 +2,15 @@
 # Text Block with heading
 #
 SirTrevor.Blocks.Item = (->
-  SirTrevor.Block.extend
+  SirTrevor.Blocks.Text.extend
     template: (data) ->
       _.template("<h2><%= heading %></h2><div class=\"st-required st-text-block\" contenteditable=\"true\"></div>", data)
     heading: ->
       "Item"
     type: "item"
     title: -> "Item"
-    icon_name: "text"
     editorHTML: -> @template(heading: @heading())
+
     loadData: (data) ->
       @$inner.find('h2').text(@heading())
       @getTextBlock().html SirTrevor.toHTML(data.text, @type)
@@ -56,20 +56,20 @@ SirTrevor.Blocks.Title = (->
 #  Unordered List with heading
 #
 SirTrevor.Blocks.Collection = (->
-  templateDefaults =
-    heading: ""
-  template = _.template("<h2><%= heading %></h2><div class=\"st-text-block st-required\" contenteditable=\"true\"><ul><li></li></ul></div>")
-
   SirTrevor.Blocks.List.extend
+    template: (data) ->
+      _.template("<h2><%= heading %></h2><div class=\"st-text-block st-required\" contenteditable=\"true\"><ul><li></li></ul></div>", data)
+    heading: ->
+      "Collection"
     type: "collection"
     title: -> "Collection"
-    editorHTML: -> template(templateDefaults)
+    editorHTML: -> @template(heading: @heading())
 
     loadData: (data) ->
-      @$inner.find('h2').text(data.heading)
-      @getTextBlock().html "<ul>" + @makeHTML(data.text) + "</ul>"
+      @$inner.find('h2').text(@heading())
+      @getTextBlock().html "<ul>" + @toHTML(data.text) + "</ul>"
 
-    makeHTML: (data) ->
+    toHTML: (data) ->
       (_.map data, (i) -> "<li>#{i.content}</li>").join("\n")
 
     toData: () ->
@@ -86,6 +86,28 @@ SirTrevor.Blocks.Collection = (->
       # Set
       @setData dataObj unless _.isEmpty(dataObj)
 )()
+
+SirTrevor.Blocks.Whattoknow = (->
+  SirTrevor.Blocks.Collection.extend
+    type: "whattoknow"
+    title: -> "WhatToKnow"
+    heading: -> "What To Know"
+)()
+
+SirTrevor.Blocks.Whatwelove= (->
+  SirTrevor.Blocks.Collection.extend
+    type: "whatwelove"
+    title: -> "WhatWeLove"
+    heading: -> "What We Love"
+)()
+
+SirTrevor.Blocks.Tips = (->
+  SirTrevor.Blocks.Collection.extend
+    type: "tips"
+    title: -> "Tips"
+    heading: -> "Tips"
+)()
+
 
 #
 #  Intro block – video/image with captions
