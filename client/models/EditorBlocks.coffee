@@ -53,6 +53,57 @@ SirTrevor.Blocks.Title = (->
 )()
 
 #
+#  Array List with heading
+#
+SirTrevor.Blocks.Items = (->
+  SirTrevor.Blocks.List.extend
+    template: (data) ->
+      _.template("<h2><%= heading %></h2><div class=\"st-text-block st-required\" contenteditable=\"true\"><ul><li></li></ul></div>", data)
+    heading: ->
+      "Items"
+    type: "items"
+    title: -> "items"
+    editorHTML: -> @template(heading: @heading())
+
+    loadData: (data) ->
+      @$inner.find('h2').text(@heading())
+      @getTextBlock().html "<ul>" + @toHTML(data.text) + "</ul>"
+
+    toHTML: (data) ->
+      (_.map data, (i) -> "<li>#{i}</li>").join("\n")
+
+    toMarkdown: (markdown) ->
+      markdown.replace(/<\/li>/mg, "\n").replace(/<\/?[^>]+(>|$)/mg, "").replace /^(.+)$/mg, "$1"
+
+    toData: () ->
+      dataObj = {}
+
+      if @hasTextBlock()
+        content = @getTextBlock().html()
+
+        # turn the text into an array
+        if content.length > 0
+          dataObj.text = _.compact(@toMarkdown(content).split("\n"))
+
+      # Set
+      @setData dataObj unless _.isEmpty(dataObj)
+)()
+
+SirTrevor.Blocks.Upsides = (->
+  SirTrevor.Blocks.Items.extend
+    type: "upsides"
+    title: -> "Upsides"
+    heading: -> "Upsides"
+)()
+
+SirTrevor.Blocks.Downsides = (->
+  SirTrevor.Blocks.Items.extend
+    type: "downsides"
+    title: -> "Downsides"
+    heading: -> "Downsides"
+)()
+
+#
 #  Unordered List with heading
 #
 SirTrevor.Blocks.Collection = (->
