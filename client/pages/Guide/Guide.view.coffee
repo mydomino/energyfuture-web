@@ -1,8 +1,11 @@
 {div, h2, p, hr} = React.DOM
 
+_ = require 'lodash'
 firebase = require '../../firebase'
 Guide = require '../../models/Guide'
+TipCollection = require '../../models/TipCollection'
 NavBar = require '../../components/NavBar/NavBar.view'
+Tips = require '../../components/Tips/Tips.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 DidYouKnow = require '../../components/DidYouKnow/DidYouKnow.view'
@@ -19,6 +22,10 @@ module.exports = React.createClass
         @setState
           guide: guide
           didYouKnows: guide.didYouKnows()
+    tipColl = new TipCollection()
+    tipColl.on "sync", =>
+      if @isMounted()
+        @setState tips: _.sample(tipColl.getTipsByGuide(@props.params.id), 3)
 
   render: ->
     if @state.guide
@@ -42,6 +49,7 @@ module.exports = React.createClass
                   hr {className: "h-divider"}
                   new DidYouKnow(items: @state.didYouKnows)
                   hr {className: "h-divider"}
+                  new Tips(tips: @state.tips)
 
       div {className: 'footer'},
         new NewsletterSignup
