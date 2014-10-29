@@ -1,6 +1,7 @@
 {div, h2, p} = React.DOM
 
 _ = require 'lodash'
+Autolinker = require 'autolinker'
 
 module.exports = React.createClass
   displayName: 'DidYouKnow'
@@ -21,4 +22,4 @@ module.exports = React.createClass
       p {},
         div {className: "slider did-you-know"},
           _.map @props.items, (item, idx) ->
-            div {key: "item#{idx}"}, item
+            div {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(item)}}
