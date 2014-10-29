@@ -3,13 +3,6 @@ DominoModel = require './DominoModel'
 module.exports = class GuideEditor extends DominoModel
   url: -> "/editor-metadata/tasks"
 
-  wrap: (type, data) =>
-    switch type
-      when "Photo"
-        { file: { url: data[0] } }
-      else
-        { text: data }
-
   unwrap: (data) =>
     _.reduce data.data, ((acc, e) ->
 
@@ -34,7 +27,7 @@ module.exports = class GuideEditor extends DominoModel
         data:
           heading: k
 
-      _.merge(put.data, @wrap(type, g))
+      _.merge(put.data, { text: g })
       base.data.push(put)
 
     base
