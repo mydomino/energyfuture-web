@@ -30,7 +30,6 @@ SirTrevor.Blocks.Mapsearch = (->
     heading: -> "Map Search Term"
 )()
 
-
 SirTrevor.Blocks.Photosearch = (->
   SirTrevor.Blocks.Item.extend
     type: "photosearch"
@@ -51,6 +50,7 @@ SirTrevor.Blocks.Title = (->
     title: -> "Title"
     heading: -> "Title"
 )()
+
 
 #
 #  Array List with heading
@@ -102,6 +102,7 @@ SirTrevor.Blocks.Downsides = (->
     title: -> "Downsides"
     heading: -> "Downsides"
 )()
+
 
 #
 #  Unordered List with heading
@@ -176,8 +177,8 @@ SirTrevor.Blocks.Intro = (->
 
     _.template(["
 <div class='intro-inputs'>
-  <input type='text' class='caption'  name='caption' placeholder='caption' value='<%= caption %>' />
-  <input type='text' class='duration' name='duration' placeholder='duration' value='<%= duration %>' />
+  <input type='text' class='caption'  name='caption' placeholder='caption' value=\"<%= caption %>\" />
+  <input type='text' class='duration' name='duration' placeholder='duration' value=\"<%= duration %>\" />
 </div>
 <%= videoIframe %>"], { caption: caption, duration: duration, videoIframe: videoIframe })
 
