@@ -25,6 +25,10 @@ module.exports = React.createClass
           guide: guide
           didYouKnows: guide.didYouKnows()
 
+    @setState
+      guide: guide
+      didYouKnows: guide.didYouKnows()
+
   render: ->
     if @state.guide
       attrs = @state.guide.attributes
