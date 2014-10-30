@@ -11,6 +11,8 @@ Tips = require '../../components/Tips/Tips.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 DidYouKnow = require '../../components/DidYouKnow/DidYouKnow.view'
+Fares = require '../../components/Fares/Fares.view'
+FAQ = require '../../components/FAQ/FAQ.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
 
 module.exports = React.createClass
@@ -39,6 +41,7 @@ module.exports = React.createClass
       attrs = @state.guide.attributes
       name = attrs.title
       summary = attrs.intro?.caption
+      questions = @state.guide.get('faq')
 
     div {className: "page page-guide"},
       div {className: "container"},
@@ -58,6 +61,10 @@ module.exports = React.createClass
                   new UpsideDownside(upsides: @state.guide.get('upsides'), downsides: @state.guide.get('downsides'))
                   hr {className: "h-divider"}
                   new DidYouKnow(items: @state.didYouKnows)
+                  hr {className: "h-divider"}
+                  new Fares()
+                  hr {className: "h-divider"}
+                  new FAQ(questions: questions)
                   hr {className: "h-divider"}
                   new Tips(tips: @state.tips)
       div {className: 'footer'},
