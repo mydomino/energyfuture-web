@@ -36,7 +36,7 @@ module.exports = React.createClass
           else
             div {},
               div {className: "guide"},
-                new ImpactSidebar category: 'mobility', percent: '50'
+                new ImpactSidebar category: 'mobility', percent: 50
                 div {className: "guide-header"},
                   h2 {}, name
                   p {}, summary
