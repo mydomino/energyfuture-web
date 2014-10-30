@@ -1,9 +1,9 @@
-module.exports = class Guide
-  constructor: (data) ->
-    @id = data.id
-    @name = data.title
-    @summary = data.intro?.caption
-    @recommended = data.recommended
-    @preview_bg = data.photos?[0]
-    @upsides = data.upsides
-    @downsides = data.downsides
+_ = require 'lodash'
+firebase = require '../firebase'
+DominoModel = require './DominoModel'
+
+module.exports = class Guide extends DominoModel
+  url: -> "/guides/#{@id}"
+
+  didYouKnows: ->
+    _.map @attributes['whatToKnow'], (i) -> i.content

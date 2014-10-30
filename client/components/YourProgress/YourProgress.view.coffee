@@ -36,7 +36,7 @@ module.exports = React.createClass
                 _.map guides, (g) ->
                   li {},
                     span {className: "item-point"}
-                    span {className: "item-text"}, g.name
+                    span {className: "item-text"}, g.get('title')
 
           div {style: {clear: "both"}}
       else
