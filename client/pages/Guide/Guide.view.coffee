@@ -6,6 +6,7 @@ NavBar = require '../../components/NavBar/NavBar.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 DidYouKnow = require '../../components/DidYouKnow/DidYouKnow.view'
+ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -35,6 +36,7 @@ module.exports = React.createClass
           else
             div {},
               div {className: "guide"},
+                new ImpactSidebar category: 'mobility', percent: 50
                 div {className: "guide-header"},
                   h2 {}, name
                   p {}, summary
@@ -42,6 +44,5 @@ module.exports = React.createClass
                   hr {className: "h-divider"}
                   new DidYouKnow(items: @state.didYouKnows)
                   hr {className: "h-divider"}
-
       div {className: 'footer'},
         new NewsletterSignup
