@@ -3,6 +3,7 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
+DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
@@ -47,6 +48,9 @@ module.exports = React.createClass
       positionAnnotation(annotation, anchor)
 
   render: ->
+    locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
+    ownershipData = [{name: "own", value: 1}, {name: "rent", value: 2}]
+
     div {className: "page page-guides"},
       div {className: "container"},
         div {className: "container-padding"},
@@ -59,7 +63,12 @@ module.exports = React.createClass
             p {className: "intro-subtext"},
               "In partnership with Rocky Mountain Institute and UC Berkeley"
             div {className: "user-context"},
-              p {}, "If you live in San Francisco and Own your home."
+              p {},
+                span {}, "If you live in "
+                new DropdownComponent(data: locationData)
+                span {}, " and "
+                new DropdownComponent(data: ownershipData)
+                span {}, " your home."
           if @state.guides.length > 0
             div {className: "guides"},
               @state.guides.map (guide, idx) ->
