@@ -53,16 +53,16 @@ module.exports = React.createClass
 
     div {className: "page page-guides"},
       div {className: "container"},
-        div {className: "container-padding"},
+        div {className: "container-padding guides"},
           new NavBar long: true
 
-          div {className: "intro"},
-            h1 {className: "intro-header"},
+          div {className: "guides-intro"},
+            h1 {className: "guides-intro-header"},
               "Your helpful guides to a "
               span {className: "intro-annotation-anchor", ref: "anchor"}, "healthy planet"
-            p {className: "intro-subtext"},
+            p {className: "guides-intro-subtext"},
               "In partnership with Rocky Mountain Institute and UC Berkeley"
-            div {className: "user-context"},
+            div {className: "guides-user-context"},
               p {},
                 span {}, "If you live in "
                 new DropdownComponent(data: locationData)
@@ -78,4 +78,4 @@ module.exports = React.createClass
                   customClass: posClass(idx)
           else
             new LoadingIcon
-      div {className: "intro-annotation", ref: "annotation"}
+      div {className: "guides-intro-annotation", ref: "annotation"}
