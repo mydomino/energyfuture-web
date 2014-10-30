@@ -30,7 +30,7 @@ module.exports = React.createClass
     # refactor it
     new SirTrevor.Editor
       el: $(@refs.editor.getDOMNode())
-      blockTypes: ["Item", "Image", "Intro", "Collection", "Category", "Mapsearch", "Photosearch", "Title", "Score", "Whattoknow", "Whatwelove", "Tips", "Steps", "Items", "Upsides", "Downsides", "Photos"]
+      blockTypes: ["Item", "Image", "Intro", "Collection", "Category", "Mapsearch", "Photosearch", "Title", "Score", "Whattoknow", "Whatwelove", "Tips", "Steps", "Items", "Upsides", "Downsides", "Photos", "Recommended"]
 
     $(@refs.editorForm.getDOMNode()).on "submit", (e) =>
       e.preventDefault()
@@ -47,7 +47,7 @@ module.exports = React.createClass
     guideData = JSON.parse(localStorage.getItem('adminBackup')).guides[@guide.id]
     el = $(@refs.editor.getDOMNode())
     el.text(JSON.stringify(guideData))
-    SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Image", "Intro", "Collection", "Category", "Mapsearch", "Photosearch", "Title", "Score", "Whattoknow", "Whatwelove", "Tips", "Steps", "Items", "Upsides", "Downsides", "Photos"])
+    SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Image", "Intro", "Collection", "Category", "Mapsearch", "Photosearch", "Title", "Score", "Whattoknow", "Whatwelove", "Tips", "Steps", "Items", "Upsides", "Downsides", "Photos", "Recommended"])
 
   saveBackup: ->
     # to trigger validation and serialization
@@ -63,7 +63,7 @@ module.exports = React.createClass
 
     if !_.isEmpty(@state.guide) and !_.isEmpty(@state.guideEditor)
       el.text(JSON.stringify(@state.guideEditor.editorJSON(@state.guide.attributes)))
-      SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Image", "Intro", "Collection", "Category", "Mapsearch", "Photosearch", "Title", "Score", "Whattoknow", "Whatwelove", "Tips", "Steps", "Items", "Upsides", "Downsides", "Photos"])
+      SirTrevor.getInstance().reinitialize(el: el, blockTypes: ["Item", "Image", "Intro", "Collection", "Category", "Mapsearch", "Photosearch", "Title", "Score", "Whattoknow", "Whatwelove", "Tips", "Steps", "Items", "Upsides", "Downsides", "Photos", "Recommended"])
 
   render: ->
     div {className: "container-padding guide-editor"},

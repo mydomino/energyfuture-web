@@ -51,6 +51,13 @@ SirTrevor.Blocks.Title = (->
     heading: -> "Title"
 )()
 
+SirTrevor.Blocks.Recommended = (->
+  SirTrevor.Blocks.Item.extend
+    type: "recommended"
+    title: -> "Recommended"
+    heading: -> "Recommended"
+)()
+
 
 #
 #  Array List with heading
