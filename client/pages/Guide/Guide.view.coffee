@@ -6,6 +6,7 @@ NavBar = require '../../components/NavBar/NavBar.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 DidYouKnow = require '../../components/DidYouKnow/DidYouKnow.view'
+Fares = require '../../components/Fares/Fares.view'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -42,6 +43,7 @@ module.exports = React.createClass
                   hr {className: "h-divider"}
                   new DidYouKnow(items: @state.didYouKnows)
                   hr {className: "h-divider"}
+                  new Fares()
 
       div {className: 'footer'},
         new NewsletterSignup
