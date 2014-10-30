@@ -7,6 +7,7 @@ NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSign
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 DidYouKnow = require '../../components/DidYouKnow/DidYouKnow.view'
 Fares = require '../../components/Fares/Fares.view'
+FAQ = require '../../components/FAQ/FAQ.view'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -26,6 +27,7 @@ module.exports = React.createClass
       attrs = @state.guide.attributes
       name = attrs.title
       summary = attrs.intro?.caption
+      questions = @state.guide.get('faq')
 
     div {className: "page page-guide"},
       div {className: "container"},
@@ -44,6 +46,8 @@ module.exports = React.createClass
                   new DidYouKnow(items: @state.didYouKnows)
                   hr {className: "h-divider"}
                   new Fares()
+                  hr {className: "h-divider"}
+                  new FAQ(questions: questions)
 
       div {className: 'footer'},
         new NewsletterSignup
