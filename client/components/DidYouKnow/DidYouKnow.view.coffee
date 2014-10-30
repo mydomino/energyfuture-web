@@ -9,14 +9,22 @@ module.exports = React.createClass
   getDefaultProps: ->
     items: []
 
-  componentDidMount: ->
+  attachSlider: ->
     $(".did-you-know").slick
       infinite: true,
       speed: 300,
       slidesToShow: 1,
       slidesToScroll: 1
 
+  componentDidMount: ->
+    @attachSlider()
+
+  componentDidUpdate: ->
+    @attachSlider()
+
   render: ->
+    return null if _.isEmpty @props.items
+
     div {className: "content-sub-heading"},
       h2 {}, "did you know?"
       p {},
