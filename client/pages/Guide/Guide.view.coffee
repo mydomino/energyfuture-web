@@ -3,6 +3,7 @@
 firebase = require '../../firebase'
 Guide = require '../../models/Guide'
 NavBar = require '../../components/NavBar/NavBar.view'
+UpsideDownside = require '../../components/UpsideDownside/UpsideDownside.view'
 Intro = require '../../components/Intro/Intro.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
@@ -43,8 +44,8 @@ module.exports = React.createClass
                   p {}, summary
                 div {className: "guide-modules"},
                   new Intro(@state.guide.get('intro'))
+                  new UpsideDownside(upsides: @state.guide.get('upsides'), downsides: @state.guide.get('downsides'))
                   hr {className: "h-divider"}
                   new DidYouKnow(items: @state.didYouKnows)
-                  hr {className: "h-divider"}
       div {className: 'footer'},
         new NewsletterSignup
