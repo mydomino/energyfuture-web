@@ -1,3 +1,6 @@
+auth = require './auth'
+AuthBar = require './components/AuthBar/AuthBar.view'
+
 addMiddleware = (route) ->
   page route[0], route[1]
   return
@@ -11,7 +14,9 @@ addPage = (route) ->
     # Scroll the window to the top each time a page gets shown
     window.scrollTo(0, 0)
 
-    @setState component: new Component params: ctx.params, querystring: ctx.querystring
+    @setState
+      component: new Component params: ctx.params, querystring: ctx.querystring, user: ctx.user
+      user: ctx.user
     return
 
   return
@@ -21,14 +26,21 @@ Router = React.createClass
   componentDidMount: ->
     @props.routes.middleware.forEach addMiddleware.bind(this)
     @props.routes.pages.forEach addPage.bind(this)
+
+    auth.on 'authStateChange', =>
+      @setState user: auth.user
+
     page.start()
     return
 
   getInitialState: ->
     component: React.DOM.div({}, 'Hello World')
+    user: null
 
   render: ->
-    @state.component
+    React.DOM.div {},
+      new AuthBar user: @state.user
+      @state.component
 
 routes =
   middleware: [
