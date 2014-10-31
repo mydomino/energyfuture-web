@@ -2,16 +2,24 @@
 
 _ = require 'lodash'
 
+# Defines what is required for this module to render
+hasValidData = (guide) ->
+  return false unless guide
+  return false if _.isEmpty guide.get('faq')
+  true
+
 module.exports = React.createClass
   displayName: 'FAQ'
 
   getDefaultProps: ->
-    questions: []
+    guide: null
 
   render: ->
-    return false if _.isEmpty @props.questions
-    div {className: "faq"},
-      h2 {}, "faq"
+    return false unless hasValidData @props.guide
+    questions = @props.guide.get('faq')
+
+    div {className: 'guide-module guide-module-faq'},
+      h2 {className: 'guide-module-header'}, 'faq'
       ul {},
-        _.map @props.questions, (q) ->
-          li {}, q
+        questions.map (question, idx) ->
+          li {key: "item#{idx}"}, question

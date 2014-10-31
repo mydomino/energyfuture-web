@@ -1,41 +1,50 @@
 {div, span, iframe} = React.DOM
 
+# Defines what is required for this module to render
+hasValidData = (guide) ->
+  return false unless guide
+  return false unless guide.get('intro')
+  {caption, duration, videoUrl, imageUrl} = guide.get('intro')
+  return false unless imageUrl || videoUrl
+  true
+
 module.exports = React.createClass
   displayName: 'Intro'
   getDefaultProps: ->
-    caption: null
-    duration: null
-    videoUrl: null
-    imageUrl: null
+    guide: null
 
-  introStyle: ->
+  introStyle: (imageUrl, videoUrl) ->
     style = {}
-    if @props.imageUrl && !@props.videoUrl
-      style['background-image'] = "url(#{@props.imageUrl})"
+    if imageUrl && !videoUrl
+      style['background-image'] = "url(#{imageUrl})"
     style
 
-  videoProps: ->
-    return unless @props.videoUrl
+  videoProps: (url) ->
+    return unless url
 
-    if @props.videoUrl.indexOf('vimeo') > -1
+    if url.indexOf('vimeo') > -1
       params = '?title=0&amp;byline=0&amp;portrait=0&amp;color=5ac1a0'
-    else if @props.videoUrl.indexOf('youtube') > -1
+    else if url.indexOf('youtube') > -1
       params = '?modestbranding=1&controls=0&showinfo=0&color=white&theme=light'
     else
       params = ''
 
-    src: @props.videoUrl + params,
+    src: url + params,
     frameBorder: 0
     allowFullScreen: true
     width: '100%'
     height: '100%'
 
   render: ->
-    div {className: "intro", style: @introStyle()},
-      if @props.videoUrl
-        div {className: "video"},
-          iframe @videoProps()
-      if @props.duration || @props.caption
+    return null unless hasValidData(@props.guide)
+
+    {caption, duration, videoUrl, imageUrl} = @props.guide.get('intro')
+
+    div {className: "guide-module guide-module-intro", style: @introStyle(imageUrl, videoUrl)},
+      if videoUrl
+        div {className: "intro-video"},
+          iframe @videoProps(videoUrl)
+      if duration || caption
         div {className: "intro-overlay"},
-          span {className: "intro-duration"}, @props.duration
-          span {className: "intro-title"}, @props.caption
+          span {className: "intro-duration"}, duration
+          span {className: "intro-title"}, caption

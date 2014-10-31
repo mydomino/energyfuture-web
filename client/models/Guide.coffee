@@ -7,3 +7,6 @@ module.exports = class Guide extends DominoModel
 
   didYouKnows: ->
     _.map @attributes['whatToKnow'], (i) -> i.content
+
+  modules: ->
+    _.pluck _.sortBy(@attributes['modules'], 'position'), 'name'

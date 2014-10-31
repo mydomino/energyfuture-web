@@ -1,34 +1,61 @@
 {div, h2, p, img} = React.DOM
+
 _ = require 'lodash'
 UserCollection = require '../../models/UserCollection'
+TipCollection = require '../../models/TipCollection'
+
+TipProfile = React.createClass
+  displayName: 'TipProfile'
+  getDefaultProps: ->
+    user: null
+    location: ''
+
+  render: ->
+    if @props.user
+      {displayName, profile_image_url} = @props.user
+
+      div {className: "tip-profile"},
+        img {src: profile_image_url, className: "tip-profile-image"}
+        div {className: "tip-profile-details"},
+          div {className: "tip-display-name"}, displayName
+          div {className: "tip-location"}, @props.location
+    else
+      div {className: "tip-location-without-profile"}, @props.location
 
 module.exports = React.createClass
   displayName: 'Tips'
   getDefaultProps: ->
+    guide: null
+
+  getInitialState: ->
     tips: []
 
   componentWillMount: ->
     @userColl = new UserCollection()
     @userColl.on 'sync', =>
-      @forceUpdate()
+      if @isMounted()
+        @forceUpdate()
+
+    tipColl = new TipCollection()
+    tipColl.on "sync", =>
+      if @isMounted()
+        @setState tips: _.sample(tipColl.getTipsByGuide(@props.guide.id), 3)
+
+    if !_.isEmpty tipColl.models
+      @setState tips: _.sample(tipColl.getTipsByGuide(@props.guide.id), 3)
 
   render: ->
-    return false if _.isEmpty @props.tips
-    div {className: "tips"},
-      h2 {className: "tips-header"}, "local tips"
-      p {className: "tips-subheader"}, "Have a suggestion? Add a tip"
-      div {className: "tip-items"},
-        _.map @props.tips, (t) =>
-          u = @userColl?.getUserById(t.get('userId'))
-          div {className: "tip"},
-            p {className: "tip-content"}, t.get('content')
-            if u
-              {displayName, profile_image_url} = u
-              div {className: "tip-profile"},
-                img {src: profile_image_url, className: "tip-profile-image"}
-                div {className: "tip-profile-details"},
-                  div {className: "tip-display-name"}, displayName
-                  div {className: "tip-location"}, t.get('location')
-            else
-              div {className: "tip-location-without-profile"}, t.get('location')
+    return false if _.isEmpty @state.tips
+
+    div {className: "guide-module guide-module-tips"},
+      h2 {className: "guide-module-header"}, "local tips"
+      p {className: "guide-module-subheader"}, "Have a suggestion? Add a tip"
+      div {className: "guide-module-content tip-items"},
+        _.map @state.tips, (tip) =>
+          {userId, content, location} = tip.attributes
+          user = @userColl?.getUserById(userId)
+
+          div {className: "tip", key: tip.id},
+            p {className: "tip-content"}, content
+            new TipProfile user: user, location: location
         div {className: "clear"}
