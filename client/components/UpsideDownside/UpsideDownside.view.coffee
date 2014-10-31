@@ -3,24 +3,30 @@
 _ = require 'lodash'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 
+# Defines what is required for this module to render
+hasValidData = (guide) ->
+  return false unless guide
+  return false unless guide.get('upsides')
+  return false unless guide.get('downsides')
+  true
+
 module.exports = React.createClass
   displayName: 'UpsideDownside'
 
   getDefaultProps: ->
-    upsides: []
-    downsides: []
+    guide: null
 
   render: ->
-    if _.isEmpty(@props.upsides) && _.isEmpty(@props.downsides)
-      return false
-    else
-      div {className: "upside-downside"},
-        ul {className: "upside"},
-          h2 {}, "upside"
-          _.map @props.upsides, (upside) ->
-            li {}, upside
-        ul {className: "downside"},
-          h2 {}, "downside"
-          _.map @props.downsides, (downside) ->
-            li {}, downside
-        div {className: "clear-both"}
+    return false unless hasValidData @props.guide
+    {upsides, downsides} = @props.guide.attributes
+
+    div {className: "guide-module guide-module-upsidedownside"},
+      ul {className: "upside"},
+        h2 {}, "upside"
+        upsides.map (upside, idx) ->
+          li {key: "item#{idx}"}, upside
+      ul {className: "downside"},
+        h2 {}, "downside"
+        downsides.map (downside, idx) ->
+          li {key: "item#{idx}"}, downside
+      div {className: "clear-both"}
