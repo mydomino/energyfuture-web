@@ -4,6 +4,7 @@ module.exports = React.createClass
   displayName: 'GuidePreview'
   getDefaultProps: ->
     customClass: ''
+    category: {}
 
   viewGuide: ->
     page "/guide/#{@props.guide.id}"
@@ -15,6 +16,7 @@ module.exports = React.createClass
     recommended = guide.recommended
 
     style = {}
+    style.borderColor = @props.category.color
     if preview_bg
       style.backgroundImage = "url(#{preview_bg})"
 
