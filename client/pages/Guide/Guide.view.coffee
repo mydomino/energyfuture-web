@@ -19,16 +19,15 @@ module.exports = React.createClass
     guide = new Guide(id: @props.params.id)
     guide.on "sync", =>
       if @isMounted()
-        @setState
-          guide: guide
+        @setState guide: guide
 
-    @setState
-      guide: guide
+    @setState guide: guide
 
   render: ->
     if @state.guide
-      {title, category, modules} = @state.guide.attributes
-      summary = @state.guide.intro?.caption
+      {title, category, intro} = @state.guide.attributes
+      modules = @state.guide.modules()
+      summary = intro?.caption
 
     div {className: "page page-guide"},
       div {className: "container"},
