@@ -23,10 +23,12 @@ module.exports = React.createClass
         div {},
           ul {className: "guides-upper"},
             _.map @props.categorizedGuides, (_, category) ->
+              perc = Math.floor((Math.random() * 80) + 20)
+
               li {},
                 div {className: "guide-progress"},
-                  div {className: "striped", style: {height: "#{Math.floor((Math.random() * 80) + 20)}%"}},
-                    span {className: "guide-progress-text"}, "39%"
+                  div {className: "striped", style: {height: "#{perc}%"}},
+                    span {className: "guide-progress-text"}, "#{perc}%"
                   div {className: "guide-progress-completed", style: {height: "15%"}}
                   div {className: "category-name"}, category
 
@@ -36,7 +38,7 @@ module.exports = React.createClass
                 _.map guides, (g) ->
                   li {},
                     span {className: "item-point"}
-                    span {className: "item-text"}, g.name
+                    span {className: "item-text"}, g.get('title')
 
           div {style: {clear: "both"}}
       else
