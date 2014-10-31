@@ -5,15 +5,10 @@ firebase = require '../../firebase'
 Guide = require '../../models/Guide'
 TipCollection = require '../../models/TipCollection'
 NavBar = require '../../components/NavBar/NavBar.view'
-UpsideDownside = require '../../components/UpsideDownside/UpsideDownside.view'
-Intro = require '../../components/Intro/Intro.view'
-Tips = require '../../components/Tips/Tips.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
-DidYouKnow = require '../../components/DidYouKnow/DidYouKnow.view'
-Fares = require '../../components/Fares/Fares.view'
-FAQ = require '../../components/FAQ/FAQ.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
+GuideModules = require '../../components/GuideModules.coffee'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -26,22 +21,14 @@ module.exports = React.createClass
       if @isMounted()
         @setState
           guide: guide
-          didYouKnows: guide.didYouKnows()
-    tipColl = new TipCollection()
-    tipColl.on "sync", =>
-      if @isMounted()
-        @setState tips: _.sample(tipColl.getTipsByGuide(@props.params.id), 3)
 
     @setState
       guide: guide
-      didYouKnows: guide.didYouKnows()
 
   render: ->
     if @state.guide
-      attrs = @state.guide.attributes
-      name = attrs.title
-      summary = attrs.intro?.caption
-      questions = @state.guide.get('faq')
+      {title, category, modules} = @state.guide.attributes
+      summary = @state.guide.intro?.caption
 
     div {className: "page page-guide"},
       div {className: "container"},
@@ -52,20 +39,18 @@ module.exports = React.createClass
           else
             div {},
               div {className: "guide"},
-                new ImpactSidebar category: 'mobility', percent: 50
+                new ImpactSidebar category: category, percent: 50
                 div {className: "guide-header"},
-                  h2 {}, name
+                  h2 {}, title
                   p {}, summary
                 div {className: "guide-modules"},
-                  new Intro(@state.guide.get('intro'))
-                  new UpsideDownside(upsides: @state.guide.get('upsides'), downsides: @state.guide.get('downsides'))
-                  hr {className: "h-divider"}
-                  new DidYouKnow(items: @state.didYouKnows)
-                  hr {className: "h-divider"}
-                  new Fares()
-                  hr {className: "h-divider"}
-                  new FAQ(questions: questions)
-                  hr {className: "h-divider"}
-                  new Tips(tips: @state.tips)
+                  if modules
+                    modules.map (moduleName) =>
+                      if GuideModules[moduleName]
+                        div {key: moduleName},
+                          new GuideModules[moduleName](guide: @state.guide)
+                          hr {className: "h-divider"}
+                      else
+                        console.warn 'Missing module for', moduleName
       div {className: 'footer'},
         new NewsletterSignup
