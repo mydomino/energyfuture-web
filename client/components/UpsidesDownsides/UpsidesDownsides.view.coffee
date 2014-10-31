@@ -11,7 +11,7 @@ hasValidData = (guide) ->
   true
 
 module.exports = React.createClass
-  displayName: 'UpsideDownside'
+  displayName: 'UpsidesDownsides'
 
   getDefaultProps: ->
     guide: null
@@ -20,7 +20,7 @@ module.exports = React.createClass
     return false unless hasValidData @props.guide
     {upsides, downsides} = @props.guide.attributes
 
-    div {className: "guide-module guide-module-upsidedownside"},
+    div {className: "guide-module guide-module-upsidesdownsides"},
       ul {className: "upside"},
         h2 {}, "upside"
         upsides.map (upside, idx) ->
