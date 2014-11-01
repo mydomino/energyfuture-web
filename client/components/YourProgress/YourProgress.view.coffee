@@ -10,6 +10,9 @@ module.exports = React.createClass
     categorizedGuides: {}
     categorizedScores: {}
     totalScore: 0
+
+  viewGuide: (id) ->
+    page "/guide/#{id}"
     
   setCompletedProgress: (category, score) ->
     refItem = "progressCompletedFor#{category}"
@@ -47,7 +50,7 @@ module.exports = React.createClass
             div {className: "guide-list"},
               ul {},
                 _.map guides, (g) =>
-                  li {onMouseEnter: @setCompletedProgress.bind(@, g.attributes.category, Number(g.attributes.score)), onMouseLeave: @setCompletedProgress.bind(@, g.attributes.category, Number(0))},
+                  li {onMouseEnter: @setCompletedProgress.bind(@, g.attributes.category, Number(g.attributes.score)), onMouseLeave: @setCompletedProgress.bind(@, g.attributes.category, Number(0)), onClick: @viewGuide.bind(@, g.id)},
                     span {className: "item-point"}
                     span {className: "item-text"}, g.get('title')
 
