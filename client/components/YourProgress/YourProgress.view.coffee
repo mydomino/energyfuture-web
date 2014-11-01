@@ -18,7 +18,7 @@ module.exports = React.createClass
     refItem = "progressCompletedFor#{category}"
     completed = score / @props.categorizedScores[category]
     progress  = Math.round(@categoryScore(category) * completed * 100)
-    @refs[refItem].getDOMNode().style.height = "#{progress}%"
+    $(@refs[refItem].getDOMNode()).animate({height: "#{progress}%"}, 50)
 
   categoryScore: (category) ->
     @props.categorizedScores[category] / @props.totalScore
