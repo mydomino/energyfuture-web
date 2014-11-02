@@ -10,8 +10,10 @@ module.exports = class DominoCollection extends Events
 
     @firebase = opts.firebase
     @models = opts.models || {}
+    @loaded = false
 
     @_firebase().on 'value', (snap) =>
       if snap
         @models = snap.val()
+        @loaded = true
         @trigger('sync')
