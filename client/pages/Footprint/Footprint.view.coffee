@@ -17,9 +17,15 @@ module.exports = React.createClass
     coll = new GuideCollection
     coll.on "sync", =>
       if @isMounted()
-        @setState categorizedGuides: coll.guidesByCategory()
+        @setState
+          categorizedGuides: coll.guidesByCategory()
+          categorizedScores: coll.scoreByCategory()
+          totalScore: coll.totalScore()
 
-    @setState categorizedGuides: coll.guidesByCategory()
+    @setState
+      categorizedGuides: coll.guidesByCategory()
+      categorizedScores: coll.scoreByCategory()
+      totalScore: coll.totalScore()
 
   render: ->
     locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
@@ -73,7 +79,7 @@ module.exports = React.createClass
                 span {}, "times/week"
 
               hr {className: "h-divider"}
-              new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides)
+              new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides, categorizedScores: @state.categorizedScores, totalScore: @state.totalScore)
 
               hr {className: "h-divider"}
               h2 {}, "your badges"
