@@ -22,7 +22,7 @@ module.exports = React.createClass
 
     div {className: "guide-preview #{@props.customClass}", onClick: @viewGuide, style: style},
       if recommended
-        span {className: "guide-preview-recommended"}, "Recommended"
+        span {className: "guide-preview-recommended", style: { backgroundColor: @props.category.color }}, "Recommended"
       div {className: "guide-preview-content"},
         h2 {className: "guide-preview-title"}, guide.title
         p {className: "guide-preview-summary"}, summary
