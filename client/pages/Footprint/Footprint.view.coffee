@@ -40,7 +40,7 @@ module.exports = React.createClass
       div {className: "container"},
         div {className: "container-padding"},
           new NavBar
-          div {className: "footprint"}
+          div {className: "footprint"},
             div {className: "footprint-header"},
               h2 {}, "Your small choices have a big impact."
               p {className: "sub-heading"}, "Here's your footprint, progress, and completed actions."
@@ -54,28 +54,28 @@ module.exports = React.createClass
               div {className: "about-you-row"},
                 span {className: "about-you-label"}, "Home:"
                 span {className: "about-you-description"}, "You live in"
-                new DropdownComponent(data: locationData, lightBackground: true)
+                new DropdownComponent(data: locationData)
                 span {}, "in a"
-                new DropdownComponent(data: houseData, lightBackground: true)
+                new DropdownComponent(data: houseData)
                 span {}, "you"
-                new DropdownComponent(data: ownershipData, lightBackground: true)
+                new DropdownComponent(data: ownershipData)
                 span {}, "spending"
-                new DropdownComponent(data: energyData, lightBackground: true)
+                new DropdownComponent(data: energyData)
                 span {}, "on energy."
               div {className: "about-you-row"},
                 span {className: "about-you-label"}, "Mobility:"
                 span {className: "about-you-description"}, "You drive a"
-                new DropdownComponent(data: carData, lightBackground: true)
+                new DropdownComponent(data: carData)
                 span {}, "around"
-                new DropdownComponent(data: carMilesData, lightBackground: true)
+                new DropdownComponent(data: carMilesData)
                 span {}, "per week, and bicycle"
-                new DropdownComponent(data: cycleFreqData, lightBackground: true)
+                new DropdownComponent(data: cycleFreqData)
               div {className: "about-you-row"},
                 span {className: "about-you-label"}, "Food:"
                 span {className: "about-you-description"}, "You eat red meat"
-                new DropdownComponent(data: foodFreqData, lightBackground: true)
+                new DropdownComponent(data: foodFreqData)
                 span {}, "times/week and dairy"
-                new DropdownComponent(data: foodFreqData, lightBackground: true)
+                new DropdownComponent(data: foodFreqData)
                 span {}, "times/week"
 
               hr {className: "h-divider"}
