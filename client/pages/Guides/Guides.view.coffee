@@ -3,7 +3,6 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
-CategoryCollection = require '../../models/CategoryCollection'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
@@ -28,11 +27,9 @@ module.exports = React.createClass
   displayName: 'Guides'
   getDefaultProps: ->
     guides: []
-    categories: {}
 
   getInitialState: ->
     guides: @props.guides
-    categories: @props.categories
 
   componentWillMount: ->
     coll = new GuideCollection
@@ -40,14 +37,8 @@ module.exports = React.createClass
       if @isMounted()
         @setState guides: coll.guides()
 
-    categoryColl = new CategoryCollection
-    categoryColl.on "sync", =>
-      if @isMounted()
-        @setState categories: categoryColl.categories()
-
     @setState
       guides: coll.guides()
-      categories: categoryColl.categories()
 
   componentDidMount: ->
     anchor = @refs.anchor.getDOMNode()
@@ -85,7 +76,6 @@ module.exports = React.createClass
                 new GuidePreview
                   key: "guide#{guide.id}"
                   guide: guide
-                  category: @state.categories[guide.category()]
                   customClass: posClass(idx)
           else
             new LoadingIcon
