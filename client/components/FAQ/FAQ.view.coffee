@@ -1,4 +1,4 @@
-{div, h2, ul, li} = React.DOM
+{div, h2, dl, dt, dd} = React.DOM
 
 _ = require 'lodash'
 
@@ -14,12 +14,23 @@ module.exports = React.createClass
   getDefaultProps: ->
     guide: null
 
+  getInitialState: ->
+    activeIndex: null
+
+  setActiveIndex: (idx) ->
+    idx = null if idx == @state.activeIndex
+    @setState activeIndex: idx
+
   render: ->
     return false unless hasValidData @props.guide
-    questions = @props.guide.get('faq')
+    faqs = @props.guide.get('faq')
 
     div {className: 'guide-module guide-module-faq'},
       h2 {className: 'guide-module-header'}, 'faq'
-      ul {},
-        questions.map (question, idx) ->
-          li {key: "item#{idx}"}, question
+      dl {className: 'faq-list'},
+        faqs.map (faq, idx) =>
+          openClass = 'active' if idx == @state.activeIndex
+          [
+            dt {key: "faq#{idx}-question", className: openClass, onClick: @setActiveIndex.bind(this, idx)}, faq.question
+            dd {key: "faq#{idx}-answer", className: openClass}, faq.answer
+          ]
