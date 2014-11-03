@@ -44,7 +44,7 @@ SavingsGraph = React.createClass
 
       new SavingsGraphItem
         label: @props.potential.label
-        value: @props.valueFormat(@props.current.value)
+        value: @props.valueFormat(@props.potential.value)
         width: @props.potential.value / @props.current.value * containerWidthPercent * 100
         unit: @props.unit
 
