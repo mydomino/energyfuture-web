@@ -76,19 +76,18 @@ module.exports = React.createClass
     yourCarbonImpact: {label: "Your car", value: "20"}
 
   render: ->
-    if _.isEmpty(@props.guideCostPerYear) || _.isEmpty(@props.guideCarbonImpact)
-      div {className: "guide-module guide-module-savingscalculator"},
-        h2 {className: "guide-module-header"}, "potential savings"
-        p {className: "guide-module-subheader"}, "Calculator powered by CoolClimate."
-        div {className: "guide-module-content"},
-          new SavingsCalculatorFilter
-          new SavingsGraph
-            title: 'cost / year'
-            current: @props.yourCostPerYear
-            potential: @props.costPerYear
-            valueFormat: (v) -> "$#{v}"
-          new SavingsGraph
-            title: 'carbon impact'
-            current: @props.yourCarbonImpact
-            potential: @props.carbonImpact
-            unit: 'tons / year'
+    div {className: "guide-module guide-module-savingscalculator"},
+      h2 {className: "guide-module-header"}, "potential savings"
+      p {className: "guide-module-subheader"}, "Calculator powered by CoolClimate."
+      div {className: "guide-module-content"},
+        new SavingsCalculatorFilter
+        new SavingsGraph
+          title: 'cost / year'
+          current: @props.yourCostPerYear
+          potential: @props.costPerYear
+          valueFormat: (v) -> "$#{v}"
+        new SavingsGraph
+          title: 'carbon impact'
+          current: @props.yourCarbonImpact
+          potential: @props.carbonImpact
+          unit: 'tons / year'
