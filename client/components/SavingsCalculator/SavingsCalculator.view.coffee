@@ -59,35 +59,48 @@ SavingsCalculatorFilter = React.createClass
     div {className: "filter"},
       div {className: "filter-content"},
         span {}, "If you live in"
-        new Dropdown(data: @props.locations)
+        new Dropdown(data: @props.locations, changeAction: @props.changeAction)
         span {}, "and drive a"
-        new Dropdown(data: @props.vehicles)
+        new Dropdown(data: @props.vehicles, changeAction: @props.changeAction)
         span {}, "around"
-        new Dropdown(data: @props.distancesPerWeek)
+        new Dropdown(data: @props.distancesPerWeek, changeAction: @props.changeAction)
           span {}, "per week"
 
 module.exports = React.createClass
   displayName: 'SavingsCalculator'
 
   getDefaultProps: ->
-    costPerYear: {label: "The bus", value: "400"}
-    carbonImpact: {label: "The bus", value: "4"}
-    yourCostPerYear: {label: "Your car", value: "1000"}
-    yourCarbonImpact: {label: "Your car", value: "20"}
+    costPerYear: {label: "The bus", value: 400}
+    carbonImpact: {label: "The bus", value: 4}
+    yourCostPerYear: {label: "Your car", value: 1000}
+    yourCarbonImpact: {label: "Your car", value: 20}
+
+  getInitialState: ->
+    costPerYear: @props.costPerYear
+    carbonImpact: @props.carbonImpact
+    yourCostPerYear: @props.yourCostPerYear
+    yourCarbonImpact: @props.yourCarbonImpact
+
+  filterChangeAction: ->
+    if @isMounted()
+      @setState
+        yourCostPerYear: _.merge(@state.yourCostPerYear, {value: Math.round(400 * (2 + Math.random()))})
+        yourCarbonImpact: _.merge(@state.yourCarbonImpact, {value: Math.round(4 * (2 + Math.random()))})
 
   render: ->
     div {className: "guide-module guide-module-savingscalculator"},
       h2 {className: "guide-module-header"}, "potential savings"
-      p {className: "guide-module-subheader"}, "Calculator powered by CoolClimate."
+      p {className: "guide-module-subheader"}, "Powered by the UC Berkeley CoolClimate Calculator"
       div {className: "guide-module-content"},
         new SavingsCalculatorFilter
+          changeAction: @filterChangeAction
         new SavingsGraph
           title: 'cost / year'
-          current: @props.yourCostPerYear
-          potential: @props.costPerYear
+          current: @state.yourCostPerYear
+          potential: @state.costPerYear
           valueFormat: (v) -> "$#{v}"
         new SavingsGraph
           title: 'carbon impact'
-          current: @props.yourCarbonImpact
-          potential: @props.carbonImpact
+          current: @state.yourCarbonImpact
+          potential: @state.carbonImpact
           unit: 'tons / year'
