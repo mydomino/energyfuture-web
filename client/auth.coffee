@@ -4,39 +4,29 @@ User = require './models/User'
 
 collectProviderUserData = (provider, user) ->
   if provider == 'twitter'
-    return collectTwitterUserData(user)
+    return collectTwitterUserData(user.twitter.cachedUserProfile)
   else if provider == 'facebook'
-    return collectFacebookUserData(user)
+    return collectFacebookUserData(user.facebook.cachedUserProfile)
   else
     return collectGenericUserData(user)
 
 collectTwitterUserData = (user) ->
-  data =
-    displayName: user.displayName
-    provider: user.provider
-    provider_id: user.id
-
-  data.profile_image_url = user.thirdPartyUserData.profile_image_url_https
-  data.location = user.thirdPartyUserData.location
-
-  return data
+  provider_id: user.id
+  displayName: user.name
+  provider: 'twitter'
+  profile_image_url: user.profile_background_image_url_https
+  location: user.location
 
 collectFacebookUserData = (user) ->
-  data =
-    displayName: user.displayName
-    provider: user.provider
-    provider_id: user.id
-
-  data.profile_image_url = user.thirdPartyUserData.picture.data.url
-
-  return data
+  provider_id: user.id
+  displayName: user.name
+  provider: 'facebook'
+  profile_image_url: user.picture?.data.url
 
 collectGenericUserData = (user) ->
-  return {
-    displayName: user.displayName
-    provider: user.provider
-    provider_id: user.id
-  }
+  provider_id: user.id
+  provider: user.provider
+  displayName: user.displayName
 
 class Auth extends emitter
   constructor: ->
@@ -60,7 +50,6 @@ class Auth extends emitter
 
     # Check to see what data we have stored for the user
     @_userRef.once 'value', (snap) =>
-      console.log snap
       if snap.val()
         userData = snap.val()
       else
