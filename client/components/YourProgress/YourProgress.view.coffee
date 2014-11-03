@@ -13,11 +13,13 @@ module.exports = React.createClass
 
   viewGuide: (id) ->
     page "/guide/#{id}"
-    
+
   setCompletedProgress: (category, score) ->
     refItem = "progressCompletedFor#{category}"
     completed = score / @props.categorizedScores[category]
     progress  = Math.round(@categoryScore(category) * completed * 200)
+    if progress > Math.round((@categoryScore(category)) * 100)
+      progress = Math.round((@categoryScore(category)) * 100)
     $(@refs[refItem].getDOMNode()).animate({height: "#{progress}%"}, 80)
 
   categoryScore: (category) ->
