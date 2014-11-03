@@ -17,8 +17,8 @@ module.exports = React.createClass
   setCompletedProgress: (category, score) ->
     refItem = "progressCompletedFor#{category}"
     completed = score / @props.categorizedScores[category]
-    progress  = Math.round(@categoryScore(category) * completed * 100)
-    $(@refs[refItem].getDOMNode()).animate({height: "#{progress}%"}, 50)
+    progress  = Math.round(@categoryScore(category) * completed * 200)
+    $(@refs[refItem].getDOMNode()).animate({height: "#{progress}%"}, 80)
 
   categoryScore: (category) ->
     @props.categorizedScores[category] / @props.totalScore
@@ -41,7 +41,7 @@ module.exports = React.createClass
 
               li {},
                 div {className: "guide-progress"},
-                  div {className: "striped", style: {height: "#{catPerc}%"}},
+                  div {className: "striped", style: {height: "#{catPerc * 2}%"}},
                     span {className: "guide-progress-text"}, "#{catPerc}%"
                   div {className: "guide-progress-completed", ref: "progressCompletedFor#{category}"}
                   div {className: "category-name"}, category
