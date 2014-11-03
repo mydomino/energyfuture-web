@@ -8,6 +8,20 @@ module.exports = React.createClass
 
   getDefaultProps: ->
     categorizedGuides: {}
+    categorizedScores: {}
+    totalScore: 0
+
+  viewGuide: (id) ->
+    page "/guide/#{id}"
+    
+  setCompletedProgress: (category, score) ->
+    refItem = "progressCompletedFor#{category}"
+    completed = score / @props.categorizedScores[category]
+    progress  = Math.round(@categoryScore(category) * completed * 100)
+    $(@refs[refItem].getDOMNode()).animate({height: "#{progress}%"}, 50)
+
+  categoryScore: (category) ->
+    @props.categorizedScores[category] / @props.totalScore
 
   render: ->
     div {className: "your-progress"},
@@ -22,19 +36,21 @@ module.exports = React.createClass
       if !_.isEmpty @props.categorizedGuides
         div {},
           ul {className: "guides-upper"},
-            _.map @props.categorizedGuides, (_, category) ->
+            _.map @props.categorizedGuides, (_, category) =>
+              catPerc = Math.round((@categoryScore(category)) * 100)
+
               li {},
                 div {className: "guide-progress"},
-                  div {className: "striped", style: {height: "#{Math.floor((Math.random() * 80) + 20)}%"}},
-                    span {className: "guide-progress-text"}, "39%"
-                  div {className: "guide-progress-completed", style: {height: "15%"}}
+                  div {className: "striped", style: {height: "#{catPerc}%"}},
+                    span {className: "guide-progress-text"}, "#{catPerc}%"
+                  div {className: "guide-progress-completed", ref: "progressCompletedFor#{category}"}
                   div {className: "category-name"}, category
 
-          _.map @props.categorizedGuides, (guides) ->
+          _.map @props.categorizedGuides, (guides) =>
             div {className: "guide-list"},
               ul {},
-                _.map guides, (g) ->
-                  li {},
+                _.map guides, (g) =>
+                  li {onMouseEnter: @setCompletedProgress.bind(@, g.attributes.category, Number(g.attributes.score)), onMouseLeave: @setCompletedProgress.bind(@, g.attributes.category, Number(0)), onClick: @viewGuide.bind(@, g.id)},
                     span {className: "item-point"}
                     span {className: "item-text"}, g.get('title')
 

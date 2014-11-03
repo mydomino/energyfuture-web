@@ -1,11 +1,14 @@
 {div, h2, p, hr} = React.DOM
 
+_ = require 'lodash'
 firebase = require '../../firebase'
 Guide = require '../../models/Guide'
+TipCollection = require '../../models/TipCollection'
 NavBar = require '../../components/NavBar/NavBar.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
-DidYouKnow = require '../../components/DidYouKnow/DidYouKnow.view'
+ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
+GuideModules = require '../../components/GuideModules.coffee'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -16,15 +19,15 @@ module.exports = React.createClass
     guide = new Guide(id: @props.params.id)
     guide.on "sync", =>
       if @isMounted()
-        @setState
-          guide: guide
-          didYouKnows: guide.didYouKnows()
+        @setState guide: guide
+
+    @setState guide: guide
 
   render: ->
     if @state.guide
-      attrs = @state.guide.attributes
-      name = attrs.title
-      summary = attrs.intro?.caption
+      {title, category, intro} = @state.guide.attributes
+      modules = @state.guide.modules()
+      summary = intro?.caption
 
     div {className: "page page-guide"},
       div {className: "container"},
@@ -35,13 +38,18 @@ module.exports = React.createClass
           else
             div {},
               div {className: "guide"},
+                new ImpactSidebar category: category, percent: 50
                 div {className: "guide-header"},
-                  h2 {}, name
+                  h2 {}, title
                   p {}, summary
                 div {className: "guide-modules"},
-                  hr {className: "h-divider"}
-                  new DidYouKnow(items: @state.didYouKnows)
-                  hr {className: "h-divider"}
-
+                  if modules
+                    modules.map (moduleName) =>
+                      if GuideModules[moduleName]
+                        div {key: moduleName},
+                          new GuideModules[moduleName](guide: @state.guide)
+                          hr {className: "h-divider"}
+                      else
+                        console.warn 'Missing module for', moduleName
       div {className: 'footer'},
         new NewsletterSignup

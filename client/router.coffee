@@ -45,6 +45,7 @@ Router = React.createClass
 routes =
   middleware: [
     ["*", require('./middleware/authentication')]
+    ["*", require('./middleware/categories')]
   ]
   pages:[
     ["/", require('./pages/Splash/Splash.view'), 'splash']
