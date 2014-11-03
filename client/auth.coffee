@@ -43,6 +43,7 @@ class Auth extends emitter
     @_firebase = firebase.inst()
     @check()
   user: null
+  loggedIn: false
   _userId: null
   _userData: null
   _userRef: null
@@ -80,16 +81,22 @@ class Auth extends emitter
     @_loaded = true
     if error
       console.log 'error:', error, userData
+      @loggedIn = false
       @emit('authStateChange', { error: error, user: @user })
     else if userData
       @_setupUser userData, =>
+        @loggedIn = true
         @emit('authStateChange', { user: @user })
     else
       @_clearUser()
+      @loggedIn = false
       @emit('authStateChange', {})
   check: ->
     auth = @_firebase.getAuth()
-    @_onAuthStateChange(false, auth) if auth
+    if auth
+      @loggedIn = true
+      @_onAuthStateChange(false, auth)
+
   login: (provider, opts = {}) ->
     @_firebase.authWithOAuthPopup(provider, @_onAuthStateChange.bind(@), opts)
   logout: ->

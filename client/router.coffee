@@ -27,7 +27,7 @@ Router = React.createClass
     @props.routes.middleware.forEach addMiddleware.bind(this)
     @props.routes.pages.forEach addPage.bind(this)
 
-    auth.on 'authStateChange', =>
+    auth.on 'authStateChange', (data) =>
       @setState user: auth.user
 
     page.start()
@@ -39,7 +39,7 @@ Router = React.createClass
 
   render: ->
     React.DOM.div {},
-      new AuthBar user: @state.user
+      new AuthBar loggedIn: auth.loggedIn
       @state.component
 
 routes =

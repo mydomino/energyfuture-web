@@ -51,7 +51,7 @@ module.exports = React.createClass
     auth.removeListener 'authStateChange', @handleLogin
 
   render: ->
-    return null if @props.user or @state.closed
+    return null if @props.loggedIn or @state.closed
 
     div {className: 'auth-bar'},
       span {className: 'auth-bar-close', onClick: @handleClose}, 'x'
