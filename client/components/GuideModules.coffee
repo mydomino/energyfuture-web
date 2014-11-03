@@ -5,3 +5,4 @@ module.exports =
   Tips: require './Tips/Tips.view'
   FAQ: require './FAQ/FAQ.view'
   UpsidesDownsides: require './UpsidesDownsides/UpsidesDownsides.view'
+  SavingsCalculator: require './SavingsCalculator/SavingsCalculator.view'

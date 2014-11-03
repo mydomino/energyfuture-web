@@ -3,6 +3,7 @@ _ = require 'lodash'
 
 module.exports = React.createClass
   displayName: 'Dropdown'
+
   render: ->
     span {className: "dropdown-component"},
       select {},

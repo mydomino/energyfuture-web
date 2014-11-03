@@ -40,7 +40,7 @@ module.exports = React.createClass
       div {className: "container"},
         div {className: "container-padding"},
           new NavBar
-          div {className: "footprint"}
+          div {className: "footprint"},
             div {className: "footprint-header"},
               h2 {}, "Your small choices have a big impact."
               p {className: "sub-heading"}, "Here's your footprint, progress, and completed actions."
