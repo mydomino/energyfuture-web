@@ -41,7 +41,7 @@ module.exports = React.createClass
 
               li {},
                 div {className: "guide-progress"},
-                  div {className: "striped", style: {height: "#{catPerc * 2}%"}},
+                  div {className: "striped", style: {height: "#{catPerc}%"}},
                     span {className: "guide-progress-text"}, "#{catPerc}%"
                   div {className: "guide-progress-completed", ref: "progressCompletedFor#{category}"}
                   div {className: "category-name"}, category
