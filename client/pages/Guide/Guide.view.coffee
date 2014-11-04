@@ -1,11 +1,14 @@
-{div, h2, p} = React.DOM
+{div, h2, p, hr} = React.DOM
 
+_ = require 'lodash'
 firebase = require '../../firebase'
 Guide = require '../../models/Guide'
+TipCollection = require '../../models/TipCollection'
 NavBar = require '../../components/NavBar/NavBar.view'
 NewsletterSignup = require '../../components/NewsletterSignupForm/NewsletterSignupForm.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
-Incentives = require '../../components/Incentives/Incentives.view'
+ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
+GuideModules = require '../../components/GuideModules.coffee'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -13,36 +16,18 @@ module.exports = React.createClass
     guide: null
 
   componentWillMount: ->
-    firebaseRef = firebase.inst '/tasks/' + @props.params.id
-    firebaseRef.on 'value', (snap) =>
-      @setState guide: new Guide(snap.val())
+    guide = new Guide(id: @props.params.id)
+    guide.on "sync", =>
+      if @isMounted()
+        @setState guide: guide
+
+    @setState guide: guide
 
   render: ->
-    {name, summary} = @state.guide if @state.guide
-    incentives = [
-      {
-        provider: "US Federal"
-        amount: "7,500"
-        type: "tax rebate"
-        description: "Lorem Ipsum gysum fullsome awesome"
-        reference: "http://google.com"
-      }
-      {
-        provider: "State of California"
-        amount: "3,500"
-        type: "tax rebate"
-        description: "Lorem Ipsum gysum fullsome awesome"
-        reference: "http://google.com"
-      }
-      {
-        provider: "PG&E"
-        amount: "1,500"
-        type: "cash rebate"
-        description: "Lorem Ipsum gysum fullsome awesome"
-        reference: "http://google.com"
-      }
-    ]
-
+    if @state.guide
+      {title, category, intro} = @state.guide.attributes
+      modules = @state.guide.modules()
+      summary = intro?.caption
 
     div {className: "page page-guide"},
       div {className: "container"},
@@ -51,11 +36,20 @@ module.exports = React.createClass
           if !@state.guide
             new LoadingIcon
           else
-            div {className: "guide"},
-              div {className: "guide-header"},
-                h2 {}, name
-                p {}, summary
-              div {className: "guide-modules"},
-                new Incentives(incentives: incentives)
+            div {},
+              div {className: "guide"},
+                new ImpactSidebar category: category, percent: 50
+                div {className: "guide-header"},
+                  h2 {}, title
+                  p {}, summary
+                div {className: "guide-modules"},
+                  if modules
+                    modules.map (moduleName) =>
+                      if GuideModules[moduleName]
+                        div {key: moduleName},
+                          new GuideModules[moduleName](guide: @state.guide)
+                          hr {className: "h-divider"}
+                      else
+                        console.warn 'Missing module for', moduleName
       div {className: 'footer'},
         new NewsletterSignup

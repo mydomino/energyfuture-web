@@ -3,6 +3,7 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
+DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
@@ -31,11 +32,13 @@ module.exports = React.createClass
     guides: @props.guides
 
   componentWillMount: ->
-    guides = new GuideCollection
-    guides.on "sync", =>
-      _guides = _.map guides.models, (guide) -> new Guide(guide)
+    coll = new GuideCollection
+    coll.on "sync", =>
       if @isMounted()
-        @setState guides: _guides
+        @setState guides: coll.guides()
+
+    @setState
+      guides: coll.guides()
 
   componentDidMount: ->
     anchor = @refs.anchor.getDOMNode()
@@ -46,26 +49,34 @@ module.exports = React.createClass
       positionAnnotation(annotation, anchor)
 
   render: ->
+    locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
+    ownershipData = [{name: "own", value: 1}, {name: "rent", value: 2}]
+
     div {className: "page page-guides"},
       div {className: "container"},
-        div {className: "container-padding"},
+        div {className: "container-padding guides"},
           new NavBar long: true
 
-          div {className: "intro"},
-            h1 {className: "intro-header"},
+          div {className: "guides-intro"},
+            h1 {className: "guides-intro-header"},
               "Your helpful guides to a "
               span {className: "intro-annotation-anchor", ref: "anchor"}, "healthy planet"
-            p {className: "intro-subtext"},
+            p {className: "guides-intro-subtext"},
               "In partnership with Rocky Mountain Institute and UC Berkeley"
-            div {className: "user-context"},
-              p {}, "If you live in San Francisco and Own your home."
+            div {className: "guides-user-context"},
+              p {},
+                span {}, "If you live in "
+                new DropdownComponent(data: locationData)
+                span {}, " and "
+                new DropdownComponent(data: ownershipData)
+                span {}, " your home."
           if @state.guides.length > 0
             div {className: "guides"},
-              @state.guides.map (guide, idx) ->
+              @state.guides.map (guide, idx) =>
                 new GuidePreview
                   key: "guide#{guide.id}"
                   guide: guide
                   customClass: posClass(idx)
           else
             new LoadingIcon
-      div {className: "intro-annotation", ref: "annotation"}
+      div {className: "guides-intro-annotation", ref: "annotation"}

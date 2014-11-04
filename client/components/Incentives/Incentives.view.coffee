@@ -2,14 +2,25 @@
 
 _ = require 'lodash'
 
+hasValidData = (guide) ->
+  return false unless guide
+  return false unless guide.get('incentives')
+  true
+
 module.exports = React.createClass
   displayName: 'Incentives'
 
+  getDefaultProps: ->
+    guide: null
+
   render: ->
+    return false unless hasValidData @props.guide
+    incentives = @props.guide.get('incentives')
+
     div {},
-      h2 {className: "incentive-header"}, "incentives"
+      h2 {className: "guide-module-header"}, "incentives"
       div {className: 'incentives'},
-        _.map @props.incentives, (i) ->
+        _.map incentives, (i) ->
           div {className: "incentive"},
             p {className: "incentive-provider"}, i.provider
             p {className: "incentive-currency"}, "$"

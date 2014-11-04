@@ -1,0 +1,47 @@
+.guide-module-savingscalculator
+  h3
+    text-transform uppercase
+    margin-bottom 0
+    font-size 1em
+    font-weight bold
+
+  .filter
+    margin 2em 0 4em 0
+
+  .filter-content
+    background-color rgba(#272B2C, 0.2)
+    padding 0.5em 2em
+    border-radius 1.2em
+    display inline
+
+  .savings-graph
+    width 80%
+
+    .savings-graph-item
+      margin-top 10px
+      margin-left 50px
+      .label
+        width 15%
+        display inline-block
+      .progress
+        display inline-block
+        height 10px
+        background #272B2C
+        border-radius 5px
+        position relative
+      .progress-value
+        position absolute
+        margin 0
+        top -8px
+        right -120px
+        width 110px
+        text-align left
+        font-weight bold
+        .amount
+          font-size 1.1em
+        .unit
+          font-size 13px
+          margin-left 5px
+      &:last-child
+        .progress
+          background #50E3C2
