@@ -6,3 +6,4 @@ module.exports =
   FAQ: require './FAQ/FAQ.view'
   UpsidesDownsides: require './UpsidesDownsides/UpsidesDownsides.view'
   SavingsCalculator: require './SavingsCalculator/SavingsCalculator.view'
+  Incentives: require './Incentives/Incentives.view'
