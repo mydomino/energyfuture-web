@@ -21,7 +21,7 @@ module.exports = React.createClass
   displayName: 'ImpactSidebar'
   componentDidMount: ->
     sidebar = @refs.sidebar.getDOMNode()
-    positionSidebar(sidebar)
+    # positionSidebar(sidebar)
 
     window?.onscroll = (e) ->
       positionSidebar(sidebar)

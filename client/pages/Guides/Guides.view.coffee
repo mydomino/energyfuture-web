@@ -37,7 +37,8 @@ module.exports = React.createClass
       if @isMounted()
         @setState guides: coll.guides()
 
-    @setState guides: coll.guides()
+    @setState
+      guides: coll.guides()
 
   componentDidMount: ->
     anchor = @refs.anchor.getDOMNode()
@@ -71,7 +72,7 @@ module.exports = React.createClass
                 span {}, " your home."
           if @state.guides.length > 0
             div {className: "guides"},
-              @state.guides.map (guide, idx) ->
+              @state.guides.map (guide, idx) =>
                 new GuidePreview
                   key: "guide#{guide.id}"
                   guide: guide

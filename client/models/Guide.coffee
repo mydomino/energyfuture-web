@@ -8,5 +8,11 @@ module.exports = class Guide extends DominoModel
   update: (data) ->
     @_firebase().update(data)
 
+  category: ->
+    @attributes['category']
+
   didYouKnows: ->
     _.map @attributes['whatToKnow'], (i) -> i.content
+
+  modules: ->
+    _.pluck _.sortBy(@attributes['modules'], 'position'), 'name'

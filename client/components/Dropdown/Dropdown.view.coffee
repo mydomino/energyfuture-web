@@ -3,8 +3,9 @@ _ = require 'lodash'
 
 module.exports = React.createClass
   displayName: 'Dropdown'
+
   render: ->
-    span {className: "dropdown-component"},
+    span {className: "dropdown-component", onChange: @props.changeAction},
       select {},
         _.map @props.data, (entry) ->
           option {value: entry.value}, entry.name

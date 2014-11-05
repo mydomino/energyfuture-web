@@ -1,6 +1,21 @@
-.faq
-  h2
-    font-variant small-caps
-  li
-    margin-top 10px
-    line-height 27px
+.guide-module-faq
+  .faq-list
+    dt
+      margin-top 1em
+      font-weight normal
+      display list-item
+      list-style-type disc
+      margin-left 3em
+      cursor pointer
+
+      &.active
+        font-weight bold
+
+    dd
+      display none
+      margin-top 1em
+      font-weight 300
+      margin-left 4em
+
+      &.active
+        display block
