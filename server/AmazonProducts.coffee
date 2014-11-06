@@ -6,11 +6,16 @@ module.exports = class AWS
   constructor: ->
     @prodAdv = aws.createProdAdvClient(accessKeyId, secretKeyId, "dummyTag")
 
+  extractBookInfo: (data) =>
+    item = data.Items.Item
+
+    imageUrl: item.LargeImage.URL
+    authors: item.ItemAttributes.Author.join(", ")
+
   itemLookup: (id, callback) =>
     @prodAdv.call "ItemLookup",
-      {
-        ItemId: id
-        IdType: "ASIN"
-      }
-    , (err, result) ->
-       callback(JSON.stringify(result))
+      ItemId: id
+      IdType: "ASIN"
+      ResponseGroup: "Reviews,Images,Small"
+    , (err, result) =>
+       callback(@extractBookInfo(result))
