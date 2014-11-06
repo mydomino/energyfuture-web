@@ -18,8 +18,8 @@ app.use (err, req, res, next) ->
   console.error err.stack
   res.send 500, 'Something broke!'
 
-app.get "/amazon-products/:id", (req, res) ->
-  new AmazonProducts().itemLookup req.params.id, (data) =>
+app.get "/amazon-products", (req, res) ->
+  new AmazonProducts().itemLookup req.query.books, (data) =>
     res.status(200).send(data)
 
 # page.js - client-side routing
