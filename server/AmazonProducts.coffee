@@ -8,14 +8,18 @@ module.exports = class AWS
     @prodAdv = aws.createProdAdvClient(accessKeyId, secretKeyId, "dummyTag")
 
   extractBookInfo: (data) =>
-    item = data.Items.Item
-    imageUrl: item.LargeImage.URL
-    authors: item.ItemAttributes.Author.join(", ")
+    items = data.Items.Item
+    _.map items, (item) ->
+      author = item.ItemAttributes.Author
+      author = author.join(", ") if _.isArray(author)
+
+      imageUrl: item.LargeImage.URL
+      authors: author
 
   itemLookup: (ids, callback) =>
     @prodAdv.call "ItemLookup",
-      ItemId: ids[0]
+      ItemId: ids.join(',')
       IdType: "ASIN"
       ResponseGroup: "Reviews,Images,Small"
     , (err, result) =>
-       callback(@extractBookInfo(result))
+      callback(@extractBookInfo(result))

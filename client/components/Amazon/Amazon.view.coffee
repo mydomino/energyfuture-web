@@ -12,15 +12,14 @@ module.exports = React.createClass
   displayName: 'Amazon'
 
   getInitialState: ->
-    book: {}
+    books: []
 
   getDefaultProps: ->
-    bookIds: ['B00540PAUQ']
+    bookIds: ['B009UBQVT4', '0307984826', '1607741911']
 
   componentDidMount: ->
     $.get "/amazon-products", books: @props.bookIds, (res) =>
-      @setState book: res if @isMounted()
-      console.log res
+      @setState books: res if @isMounted()
 
   render: ->
     return false if _.isEmpty @props.bookIds
@@ -29,8 +28,9 @@ module.exports = React.createClass
       p {className: "guide-module-subheader"}, "Book reviews from Amazon.com"
 
       div {className: 'book-list'},
-        div {className: 'book-item'},
-          img {src: @state.book.imageUrl, className: 'book-image'}
-          p {},
-            span {}, "by"
-            span {}, @state.book.authors
+        _.map @state.books, (book) ->
+          div {className: 'book-item'},
+            img {src: book.imageUrl, className: 'book-image'}
+            p {className: "book-author-section"},
+              span {}, "by"
+              span {className: "book-authors"}, book.authors
