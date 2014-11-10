@@ -1,6 +1,7 @@
 {div, h2, dl, dt, dd} = React.DOM
 
 _ = require 'lodash'
+Autolinker = require 'autolinker'
 
 # Defines what is required for this module to render
 hasValidData = (guide) ->
@@ -32,5 +33,5 @@ module.exports = React.createClass
           openClass = 'active' if idx == @state.activeIndex
           [
             dt {key: "faq#{idx}-question", className: openClass, onClick: @setActiveIndex.bind(this, idx)}, faq.question
-            dd {key: "faq#{idx}-answer", className: openClass}, faq.answer
+            dd {key: "faq#{idx}-answer", className: openClass, dangerouslySetInnerHTML: {"__html": Autolinker.link(faq.answer)}}
           ]
