@@ -2,11 +2,10 @@
 
 _ = require 'lodash'
 
-# hasValidData = (guide) ->
-#   return false unless guide
-#   return false if _.isEmpty guide.get('bookIds')
-#   true
-
+hasValidData = (guide) ->
+  return false unless guide
+  return false if _.isEmpty guide.get('bookIds')
+  true
 
 module.exports = React.createClass
   displayName: 'Amazon'
@@ -15,14 +14,14 @@ module.exports = React.createClass
     books: []
 
   getDefaultProps: ->
-    bookIds: ['B009UBQVT4', '0307984826', '1607741911']
+    guide: {}
 
   componentDidMount: ->
-    $.get "/amazon-products", books: @props.bookIds, (res) =>
+    $.get "/amazon-products", books: @props.guide.get('bookIds'), (res) =>
       @setState books: res if @isMounted()
 
   render: ->
-    return false if _.isEmpty @props.bookIds
+    return false unless hasValidData(@props.guide)
     div {className: 'guide-module guide-module-amazon-products'},
       h2 {className: 'guide-module-header'}, 'popular books'
       p {className: "guide-module-subheader"}, "Book reviews from Amazon.com"
@@ -34,3 +33,5 @@ module.exports = React.createClass
             p {className: "book-author-section"},
               span {}, "by"
               span {className: "book-authors"}, book.authors
+            img {src: book.avgStarRatingImage}
+            span {className: 'book-review-count'}, "(#{book.reviewCount} Reviews)"
