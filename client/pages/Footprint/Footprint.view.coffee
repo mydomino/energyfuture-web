@@ -80,11 +80,3 @@ module.exports = React.createClass
 
               hr {className: "h-divider"}
               new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides, categorizedScores: @state.categorizedScores, totalScore: @state.totalScore)
-
-              hr {className: "h-divider"}
-              h2 {}, "your badges"
-              p {className: "sub-heading"}, "Win badges for unlocking achievements and taking action."
-              ul {className: "badge-list"},
-                li {className: "badge go-getter"}
-                li {className: "badge most-dedicated"}
-                li {className: "hexagon"}
