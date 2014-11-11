@@ -17,7 +17,7 @@ module.exports = class AWS
       reviewsUrl = item.CustomerReviews.IFrameURL
       author = item.ItemAttributes.Author
       author = author.join(", ") if _.isArray(author)
-
+      itemLink = item.DetailPageURL
       deferred = Q.defer()
 
       request reviewsUrl, (error, response, body) =>
@@ -28,6 +28,7 @@ module.exports = class AWS
             authors: author
             avgStarRatingImage: $('.crAvgStars img').attr('src')
             reviewCount: $('.crAvgStars a').last().text().match(/\d+/)[0]
+            itemLink: itemLink
           deferred.resolve(data)
 
       deferred.promise

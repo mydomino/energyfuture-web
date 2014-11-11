@@ -1,4 +1,4 @@
-{div, p, img, span, h2} = React.DOM
+{div, p, img, span, h2, a} = React.DOM
 
 _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
@@ -33,7 +33,8 @@ module.exports = React.createClass
         div {className: 'book-list'},
           _.map @state.books, (book) ->
             div {className: 'book-item'},
-              img {src: book.imageUrl, className: 'book-image'}
+              a {href: book.itemLink, target: '_blank'},
+                img {src: book.imageUrl, className: 'book-image'}
               p {className: "book-author-section"},
                 span {}, "by"
                 span {className: "book-authors"}, book.authors
