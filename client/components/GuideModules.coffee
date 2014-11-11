@@ -7,3 +7,4 @@ module.exports =
   UpsidesDownsides: require './UpsidesDownsides/UpsidesDownsides.view'
   SavingsCalculator: require './SavingsCalculator/SavingsCalculator.view'
   Incentives: require './Incentives/Incentives.view'
+  Amazon: require './Amazon/Amazon.view'
