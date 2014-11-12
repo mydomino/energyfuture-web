@@ -1,5 +1,6 @@
 {div, h2, p, span} = React.DOM
 Categories = require '../../models/singletons/Categories'
+_ = require 'lodash'
 
 module.exports = React.createClass
   displayName: 'GuidePreview'
@@ -11,6 +12,7 @@ module.exports = React.createClass
 
   render: ->
     guide = @props.guide.attributes
+    return false if _.isEmpty guide
     summary = guide.summary_short || guide.summary
     preview_bg = guide.photos?[0]
     recommended = guide.recommended
