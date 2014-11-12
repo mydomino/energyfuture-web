@@ -25,9 +25,8 @@ module.exports = React.createClass
 
   render: ->
     if @state.guide
-      {title, category, intro} = @state.guide.attributes
+      {title, summary, category, intro} = @state.guide.attributes
       modules = @state.guide.modules()
-      summary = intro?.caption
 
     div {className: "page page-guide"},
       div {className: "container"},
