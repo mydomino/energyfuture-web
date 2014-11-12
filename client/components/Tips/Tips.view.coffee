@@ -3,6 +3,7 @@
 _ = require 'lodash'
 UserCollection = require '../../models/UserCollection'
 TipCollection = require '../../models/TipCollection'
+NewTip = require '../NewTip/NewTip.view'
 
 DEFAULT_LIMIT = 3
 
@@ -39,13 +40,13 @@ module.exports = React.createClass
       if @isMounted()
         @forceUpdate()
 
-    tipColl = new TipCollection()
-    tipColl.on "sync", =>
+    @tipColl = new TipCollection()
+    @tipColl.on "sync", =>
       if @isMounted()
-        @setState tips: tipColl.getTipsByGuide(@props.guide.id)
+        @setState tips: @tipColl.getTipsByGuide(@props.guide.id)
 
-    if !_.isEmpty tipColl.models
-      @setState tips: tipColl.getTipsByGuide(@props.guide.id)
+    if !_.isEmpty @tipColl.models
+      @setState tips: @tipColl.getTipsByGuide(@props.guide.id)
 
   showAllTips: ->
     @setState limit: null
@@ -53,15 +54,26 @@ module.exports = React.createClass
   hideAllTips: ->
     @setState limit: DEFAULT_LIMIT
 
+  addTip: ->
+    @setState addingTip: true
+
   render: ->
     return false if _.isEmpty @state.tips
 
     tips = @state.tips
-    tips = _.first(tips, @state.limit) if @state.limit
+    tips = _.last(tips, @state.limit) if @state.limit
 
     div {className: "guide-module guide-module-tips"},
+      if @state.addingTip
+        new NewTip
+          tipCollection: @tipColl
+          guideId: @props.guide.id
+          onComplete: =>
+            @setState addingTip: false
       h2 {className: "guide-module-header"}, "local tips"
-      p {className: "guide-module-subheader"}, "Have a suggestion?"
+      p {className: "guide-module-subheader"},
+        "Have a suggestion? "
+        a {onClick: @addTip}, 'Add a tip!'
       div {className: "guide-module-content tip-items"},
         _.map tips, (tip) =>
           {userId, content, location} = tip.attributes
