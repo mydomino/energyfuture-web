@@ -1,6 +1,7 @@
 {div, ul, li, h2} = React.DOM
 
 _ = require 'lodash'
+Autolinker = require 'autolinker'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 
 # Defines what is required for this module to render
@@ -24,9 +25,9 @@ module.exports = React.createClass
       ul {className: "upside"},
         h2 {}, "upside"
         upsides.map (upside, idx) ->
-          li {key: "item#{idx}"}, upside
+          li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(upside)}}
       ul {className: "downside"},
         h2 {}, "downside"
         downsides.map (downside, idx) ->
-          li {key: "item#{idx}"}, downside
+          li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(downside)}}
       div {className: "clear-both"}
