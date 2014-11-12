@@ -11,7 +11,7 @@ module.exports = React.createClass
 
   render: ->
     guide = @props.guide.attributes
-    summary = guide.summary
+    summary = guide.summary_short || guide.summary
     preview_bg = guide.photos?[0]
     recommended = guide.recommended
     color = Categories.colorFor(guide.category)
