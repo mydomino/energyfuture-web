@@ -7,6 +7,7 @@ DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+auth = require '../../auth'
 data = require '../../sample-data'
 
 posClass = (num) ->
@@ -30,17 +31,21 @@ module.exports = React.createClass
 
   getInitialState: ->
     guides: @props.guides
+    ownership: "own"
 
   componentWillMount: ->
-    coll = new GuideCollection
-    coll.on "sync", =>
-      if @isMounted()
-        @setState guides: coll.guides()
+    @coll = new GuideCollection
+    @coll.on "sync", =>
+      @refreshGuides(@state.ownership)
 
-    @setState
-      guides: coll.guides()
+    auth.on 'authStateChange', (authData) =>
+      ownership = authData.user.get('ownership') || 'own'
+      if @isMounted()
+        @setState ownership: ownership
 
   componentDidMount: ->
+    @refreshGuides(@state.ownership)
+
     anchor = @refs.anchor.getDOMNode()
     annotation = @refs.annotation.getDOMNode()
     positionAnnotation(annotation, anchor)
@@ -48,10 +53,17 @@ module.exports = React.createClass
     window?.onresize = ->
       positionAnnotation(annotation, anchor)
 
+  refreshGuides: (ownership) ->
+    if @isMounted()
+      @setState guides: @coll.guides(ownership)
+
+  ownershipChangeAction: (ownership) ->
+    @setState ownership: ownership
+    @refreshGuides(ownership)
+
   render: ->
     locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
-    ownershipData = [{name: "own", value: 1}, {name: "rent", value: 2}]
-
+    ownershipData = [{name: "own", value: "own"}, {name: "rent", value: "rent"}]
     div {className: "page page-guides"},
       div {className: "container"},
         div {className: "container-padding guides"},
@@ -68,7 +80,7 @@ module.exports = React.createClass
                 span {}, "If you live in "
                 new DropdownComponent(data: locationData)
                 span {}, " and "
-                new DropdownComponent(data: ownershipData)
+                new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
                 span {}, " your home."
           if @state.guides.length > 0
             div {className: "guides"},
