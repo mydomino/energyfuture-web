@@ -2,7 +2,6 @@
 
 Autolinker = require 'autolinker'
 
-# Defines what is required for this module to render
 hasValidData = (guide) ->
   return false unless guide
   return false unless guide.didYouKnows()

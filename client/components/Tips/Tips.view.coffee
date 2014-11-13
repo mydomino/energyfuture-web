@@ -1,6 +1,7 @@
 {div, h2, p, img} = React.DOM
 
 _ = require 'lodash'
+Autolinker = require 'autolinker'
 UserCollection = require '../../models/UserCollection'
 TipCollection = require '../../models/TipCollection'
 
@@ -56,6 +57,6 @@ module.exports = React.createClass
           user = @userColl?.getUserById(userId)
 
           div {className: "tip", key: tip.id},
-            p {className: "tip-content"}, content
+            p {className: "tip-content", dangerouslySetInnerHTML: {"__html": Autolinker.link(content)}}
             new TipProfile user: user, location: location
         div {className: "clear"}
