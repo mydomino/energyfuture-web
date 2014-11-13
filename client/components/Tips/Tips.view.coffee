@@ -50,7 +50,6 @@ module.exports = React.createClass
 
     div {className: "guide-module guide-module-tips"},
       h2 {className: "guide-module-header"}, "local tips"
-      p {className: "guide-module-subheader"}, "Have a suggestion?"
       div {className: "guide-module-content tip-items"},
         _.map @state.tips, (tip) =>
           {userId, content, location} = tip.attributes
