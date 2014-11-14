@@ -45,4 +45,4 @@ module.exports = React.createClass
         p {}, "Taking this action will bring you #{@props.percent}% closer to safe carbon levels."
       hr {}
       div {},
-        a {className: 'footprint-icon', href: '/footprint' }, "See Your Impact"
+        a {className: 'icon pu-icon icon-complete', href: '/footprint' }, "See Your Impact"

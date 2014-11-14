@@ -35,5 +35,11 @@ module.exports = class GuideCollection extends DominoCollection
       memo
     ), 0
 
-  guides: ->
-    _.map @models, (guide) -> new Guide(guide)
+  guides: (ownership) ->
+    _.chain(@models)
+      .filter (m) ->
+        guideOwnership = m.ownership
+        _.isUndefined(guideOwnership) || guideOwnership == ownership
+      .map (m) ->
+        new Guide(m)
+      .value()
