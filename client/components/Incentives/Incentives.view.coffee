@@ -23,8 +23,11 @@ module.exports = React.createClass
         _.map incentives, (i) ->
           div {className: "incentive"},
             p {className: "incentive-provider"}, i.provider
-            p {className: "incentive-currency"}, "$"
-            p {className: "incentive-amount"}, i.amount
-            p {className: "incentive-type"}, i.type
+            _.map i.rebates, (r) ->
+              div {},
+                p {className: "incentive-amount"}, r.amount if r.amount
+                p {className: "incentive-type"}, r.type if r.type
             p {className: "incentive-description"}, i.description
-            a {href: i.reference, className: "incentive-reference"}, "learn more"
+            a {href: i.reference, className: "incentive-reference"}, "learn more" if i.reference
+
+      div {className: 'clear-both'}
