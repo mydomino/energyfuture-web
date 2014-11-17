@@ -1,4 +1,4 @@
-{div, h2, table, thead, tbody, th, tr, td} = React.DOM
+{div, h2, table, thead, tbody, th, tr, td, img} = React.DOM
 
 _ = require 'lodash'
 
@@ -10,6 +10,7 @@ hasValidData = (guide) ->
 module.exports = React.createClass
   displayName: 'SortableTable'
 
+
   sortedHeaders: (headers) ->
     _.sortBy(headers, 'position')
 
@@ -19,6 +20,10 @@ module.exports = React.createClass
   sortedHeaderKeys: (headers) ->
     _.pluck @sortedHeaders(headers), 'key'
 
+  showMore: (event) ->
+    $(@refs.tableContent.getDOMNode()).height('100%')
+    $(@refs.readMoreSection.getDOMNode()).hide()
+
   render: ->
     return false unless hasValidData(@props.guide)
     sortableTable = @props.guide.get('sortable-table')
@@ -27,7 +32,7 @@ module.exports = React.createClass
     div {className: 'guide-module guide-module-sortable-table'},
       h2 {className: 'guide-module-header'}, 'Financing approaches'
 
-      table {},
+      table {ref: 'tableContent'},
         thead {},
           _.map sortedHeaderTitles, (title) ->
             th {}, title
@@ -36,3 +41,6 @@ module.exports = React.createClass
             tr {},
             _.map sortedHeaderKeys, (key) ->
               td {}, row[key]
+      div {className: 'sortable-table-read-more', ref: 'readMoreSection'},
+        div {className: 'read-more-mask'}
+        img {className : 'read-more-button', src: '/img/show-more.svg', onClick: @showMore}
