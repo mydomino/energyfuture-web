@@ -8,3 +8,4 @@ module.exports =
   SavingsCalculator: require './SavingsCalculator/SavingsCalculator.view'
   Incentives: require './Incentives/Incentives.view'
   Amazon: require './Amazon/Amazon.view'
+  SortableTable: require './SortableTable/SortableTable.view'
