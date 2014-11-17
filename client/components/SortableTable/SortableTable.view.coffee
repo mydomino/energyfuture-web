@@ -10,6 +10,9 @@ hasValidData = (guide) ->
 module.exports = React.createClass
   displayName: 'SortableTable'
 
+  componentDidMount: ->
+    if $(@refs.tableContent.getDOMNode()).height() >= 500
+      $(@refs.readMore.getDOMNode()).show()
 
   sortedHeaders: (headers) ->
     _.sortBy(headers, 'position')
@@ -21,8 +24,8 @@ module.exports = React.createClass
     _.pluck @sortedHeaders(headers), 'key'
 
   showMore: (event) ->
-    $(@refs.tableContent.getDOMNode()).height('100%')
-    $(@refs.readMoreSection.getDOMNode()).hide()
+    $(@refs.tableContent.getDOMNode()).css('max-height', 'none')
+    $(@refs.readMore.getDOMNode()).hide()
 
   render: ->
     return false unless hasValidData(@props.guide)
@@ -41,6 +44,6 @@ module.exports = React.createClass
             tr {},
             _.map sortedHeaderKeys, (key) ->
               td {}, row[key]
-      div {className: 'sortable-table-read-more', ref: 'readMoreSection'},
+      div {className: 'sortable-table-read-more', ref: 'readMore'},
         div {className: 'read-more-mask'}
         img {className : 'read-more-button', src: '/img/show-more.svg', onClick: @showMore}
