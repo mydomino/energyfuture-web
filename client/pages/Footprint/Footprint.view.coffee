@@ -6,6 +6,27 @@ GuideCollection = require '../../models/GuideCollection'
 NavBar = require '../../components/NavBar/NavBar.view'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 YourProgress = require '../../components/YourProgress/YourProgress.view'
+UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
+
+FootprintHeader = React.createClass
+  displayName: 'FootprintHeader'
+  render: ->
+    div {className: "footprint-header"},
+      new UserPhoto user: @props.user
+      h2 {}, @_headline()
+      p {className: "sub-heading"}, @_tagline()
+
+  _headline: ->
+    if @props.user
+      "Welcome back, #{@props.user.firstName()}"
+    else
+      "Your small choices have a big impact."
+
+  _tagline: ->
+    if @props.user
+      "You're making great progress!"
+    else
+      "Here's your footprint, progress, and completed actions."
 
 module.exports = React.createClass
   displayName: 'Footprint'
@@ -41,9 +62,7 @@ module.exports = React.createClass
         div {className: "container-padding"},
           new NavBar
           div {className: "footprint"},
-            div {className: "footprint-header"},
-              h2 {}, "Your small choices have a big impact."
-              p {className: "sub-heading"}, "Here's your footprint, progress, and completed actions."
+            new FootprintHeader user: @props.user
             div {className: "footprint-content"},
               h2 {}, "did you know?"
               p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"
