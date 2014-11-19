@@ -90,5 +90,6 @@ class Auth extends emitter
     @_firebase.authWithOAuthPopup(provider, @_onAuthStateChange.bind(@), opts)
   logout: ->
     @_firebase.unauth()
+    window.location.reload()
 
 module.exports = new Auth

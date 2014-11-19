@@ -24,6 +24,7 @@ addPage = (route) ->
       params: ctx.params
       querystring: ctx.querystring
       user: ctx.user
+      context: ctx
 
     return
 
@@ -46,11 +47,16 @@ Router = React.createClass
     params: {}
     querystring: null
     user: null
+    context: {}
 
   render: ->
     React.DOM.div {},
       new AuthBar loggedIn: auth.loggedIn
-      new @state.component(params: @state.params, querystring: @state.querystring, user: @state.user)
+      new @state.component
+        params: @state.params
+        querystring: @state.querystring
+        user: @state.user
+        context: @state.context
 
 routes =
   middleware: [
