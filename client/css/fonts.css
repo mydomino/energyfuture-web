@@ -23,93 +23,93 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-flag:before {
+.pu-icon-flag:before {
     content: "\e61d";
 }
-.icon-meat:before {
+.pu-icon-meat:before {
     content: "\e615";
 }
-.icon-grow:before {
+.pu-icon-grow:before {
     content: "\e616";
 }
-.icon-water:before {
+.pu-icon-water:before {
     content: "\e617";
 }
-.icon-energy:before {
+.pu-icon-energy:before {
     content: "\e618";
 }
-.icon-drive:before {
+.pu-icon-drive:before {
     content: "\e619";
 }
-.icon-commute:before {
+.pu-icon-commute:before {
     content: "\e61a";
 }
-.icon-travel:before {
+.pu-icon-travel:before {
     content: "\e61b";
 }
-.icon-filter:before {
+.pu-icon-filter:before {
     content: "\e61c";
 }
-.icon-thumbs-up:before {
+.pu-icon-thumbs-up:before {
     content: "\e614";
 }
-.icon-close:before {
+.pu-icon-close:before {
     content: "\e613";
 }
-.icon-untouched:before {
+.pu-icon-untouched:before {
     content: "\e611";
 }
-.icon-complete:before {
+.pu-icon-complete:before {
     content: "\e612";
 }
-.icon-impact-o:before {
+.pu-icon-impact-o:before {
     content: "\e60b";
 }
-.icon-check:before {
+.pu-icon-check:before {
     content: "\e608";
 }
-.icon-achievement:before {
+.pu-icon-achievement:before {
     content: "\e609";
 }
-.icon-speech:before {
+.pu-icon-speech:before {
     content: "\e60a";
 }
-.icon-chevron:before {
+.pu-icon-chevron:before {
     content: "\e600";
 }
-.icon-impact:before {
+.pu-icon-impact:before {
     content: "\e601";
 }
-.icon-map:before {
+.pu-icon-map:before {
     content: "\e602";
 }
-.icon-play:before {
+.pu-icon-play:before {
     content: "\e603";
 }
-.icon-profile:before {
+.pu-icon-profile:before {
     content: "\e604";
 }
-.icon-remindme:before {
+.pu-icon-remindme:before {
     content: "\e605";
 }
-.icon-share:before {
+.pu-icon-share:before {
     content: "\e606";
 }
-.icon-back:before {
+.pu-icon-back:before {
     content: "\e607";
 }
-.icon-bicycle:before {
+.pu-icon-bicycle:before {
     content: "\e60c";
 }
-.icon-garden:before {
+.pu-icon-garden:before {
     content: "\e60d";
 }
-.icon-laptop:before {
+.pu-icon-laptop:before {
     content: "\e60e";
 }
-.icon-sun:before {
+.pu-icon-sun:before {
     content: "\e60f";
 }
-.icon-toilet:before {
+.pu-icon-toilet:before {
     content: "\e610";
 }
