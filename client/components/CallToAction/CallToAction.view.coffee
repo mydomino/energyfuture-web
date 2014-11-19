@@ -8,11 +8,14 @@ hasValidData = (guide) ->
   true
 
 module.exports = React.createClass
-  displayName: 'Questionnaire'
+  displayName: 'CallToAction'
+
+  viewQuestionnaire: ->
+    page "/guide/#{@props.guide.id}/questionnaire"
 
   render: ->
     return false unless hasValidData(@props.guide)
-    div {className: 'guide-module guide-module-questionnaire'},
-      h2 {className: 'questionnaire-header'}, "Ready for a free, no obligation quote?"
-      p {className: 'questionnaire-subheader'}, "or just want to talk to someone to get more information?"
-      a {className: 'questionnaire-get-started', href: "#{@props.guide.id}/questionnaire"}, "Get started"
+    div {className: 'guide-module guide-module-cta'},
+      h2 {className: 'cta-header'}, "Ready for a free, no obligation quote?"
+      p {className: 'cta-subheader'}, "or just want to talk to someone to get more information?"
+      a {className: 'cta-get-started', href: "#{@props.guide.id}/questionnaire"}, "Get started"

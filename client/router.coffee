@@ -52,7 +52,7 @@ routes =
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
     ["/guides", require('./pages/Guides/Guides.view'), 'guides']
     ["/guide/:id", require('./pages/Guide/Guide.view'), 'guide']
-    ["/guide/:id/questionnare", require('./pages/Guide/Questionnaire.view'), 'guide']
+    ["/guide/:guide_id/questionnaire", require('./pages/Questionnaire/Questionnaire.view'), 'guide']
     ["*", require('./pages/NotFound/NotFound.view'), 'not-found']
   ]
 
