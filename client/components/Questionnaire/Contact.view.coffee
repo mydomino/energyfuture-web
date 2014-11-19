@@ -1,4 +1,4 @@
-{h2, div, label, input} = React.DOM
+{h2, div, label, input, textarea} = React.DOM
 
 module.exports = React.createClass
   displayName: 'Contact'
@@ -13,3 +13,11 @@ module.exports = React.createClass
         div {className: 'contact-last-name'},
           input {id: 'last-name'}
           label {htmlFor: "last-name"}, "Last Name"
+        div {className: 'clear-both'}
+      h2 {}, "What's your email address?"
+      input {}
+      h2 {}, "What's your phone number?"
+      input {}
+      h2 {}, "Where are you located?"
+      textarea {}
+
