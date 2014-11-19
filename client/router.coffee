@@ -1,6 +1,11 @@
 auth = require './auth'
 AuthBar = require './components/AuthBar/AuthBar.view'
 
+LoadingScreen = React.createClass
+  displayName: 'LoadingScreen'
+  render: ->
+    React.DOM.div({}, 'Loading')
+
 addMiddleware = (route) ->
   page route[0], route[1]
   return
@@ -15,8 +20,11 @@ addPage = (route) ->
     window.scrollTo(0, 0)
 
     @setState
-      component: new Component params: ctx.params, querystring: ctx.querystring, user: ctx.user
+      component: Component
+      params: ctx.params
+      querystring: ctx.querystring
       user: ctx.user
+
     return
 
   return
@@ -34,13 +42,15 @@ Router = React.createClass
     return
 
   getInitialState: ->
-    component: React.DOM.div({}, 'Hello World')
+    component: LoadingScreen
+    params: {}
+    querystring: null
     user: null
 
   render: ->
     React.DOM.div {},
       new AuthBar loggedIn: auth.loggedIn
-      @state.component
+      new @state.component(params: @state.params, querystring: @state.querystring, user: @state.user)
 
 routes =
   middleware: [
