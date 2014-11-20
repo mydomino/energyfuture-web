@@ -1,4 +1,4 @@
-{div, h2, table, thead, tbody, th, tr, td, img} = React.DOM
+{div, h2, table, thead, tbody, th, tr, td, img, p} = React.DOM
 
 _ = require 'lodash'
 
@@ -33,7 +33,8 @@ module.exports = React.createClass
     sortedHeaderTitles = @sortedHeaderTitles(sortableTable.headers)
     sortedHeaderKeys = @sortedHeaderKeys(sortableTable.headers)
     div {className: 'guide-module guide-module-sortable-table'},
-      h2 {className: 'guide-module-header'}, 'Financing approaches'
+      h2 {className: 'guide-module-header'}, sortableTable.heading
+      p {className: 'guide-module-subheader'}, sortableTable.subheading
 
       table {ref: 'tableContent'},
         thead {},
