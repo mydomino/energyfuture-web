@@ -17,6 +17,11 @@ module.exports = React.createClass
   getDefaultProps: ->
     guide: null
 
+  componentDidMount: ->
+    $(".guide-actions .action").each (_, action) ->
+      if $(action).outerHeight() >= 240
+        $(action).find('.action-read-more').show()
+
   render: ->
     return false unless hasValidData @props.guide
     cta = @props.guide.get('cta')
