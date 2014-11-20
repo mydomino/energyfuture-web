@@ -10,6 +10,9 @@
     background linear-gradient(#FFF, #D7D7D7)
     box-shadow 0 0 8px 3px #B0A7A7
     vertical-align top
+    max-height 240px
+    overflow hidden
+    position relative
     &:first-child
       margin-left 0
     p
@@ -33,3 +36,16 @@
         margin-top 15px
         color black
         text-decoration underline
+  .action-read-more
+    position absolute
+    left 0
+    bottom 0
+    text-align: center
+    width 100%
+
+  .action-read-more-mask
+    height 100px
+    background linear-gradient(to bottom, rgba(#f8f8f8, 0.1), #f8f8f8)
+
+  .action-read-more-button
+    margin-bottom -95px
