@@ -67,7 +67,7 @@ module.exports = React.createClass
     div {className: "page page-guides"},
       div {className: "container"},
         div {className: "container-padding guides"},
-          new NavBar long: true
+          new NavBar user: @props.user, path: @props.context.pathname
 
           div {className: "guides-intro"},
             h1 {className: "guides-intro-header"},

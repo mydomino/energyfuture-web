@@ -60,7 +60,7 @@ module.exports = React.createClass
     div {className: "page page-footprint"},
       div {className: "container"},
         div {className: "container-padding"},
-          new NavBar
+          new NavBar user: @props.user, path: @props.context.pathname
           div {className: "footprint"},
             new FootprintHeader user: @props.user
             div {className: "footprint-content"},
