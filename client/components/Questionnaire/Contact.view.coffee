@@ -1,9 +1,28 @@
 {h2, div, label, input, textarea} = React.DOM
 
+RadioButton = require './RadioButton.view.coffee'
+
 module.exports = React.createClass
   displayName: 'Contact'
 
   render: ->
+    radioData =
+      position: "1"
+      type: "radio"
+      text: "Do you rent or own a house?"
+      name: "roof"
+      options: [
+        {
+          value: "rent"
+          label: "Rent"
+          position: "1"
+        }
+        {
+          value: "own"
+          label: "Own"
+          position: "10"
+        }
+      ]
     div {className: 'questionnaire-contact'},
       h2 {}, "What's your name?"
       div {className: 'contact-names'},
@@ -20,4 +39,4 @@ module.exports = React.createClass
       input {}
       h2 {}, "Where are you located?"
       textarea {}
-
+      new RadioButton(radio: radioData)
