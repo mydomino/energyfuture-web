@@ -31,7 +31,7 @@ module.exports = React.createClass
     div {className: "page page-guide"},
       div {className: "container"},
         div {className: "container-padding"},
-          new NavBar
+          new NavBar user: @props.user, path: @props.context.pathname
           if !@state.guide
             new LoadingIcon
           else
