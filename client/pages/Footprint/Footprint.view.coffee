@@ -6,6 +6,7 @@ GuideCollection = require '../../models/GuideCollection'
 NavBar = require '../../components/NavBar/NavBar.view'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 YourProgress = require '../../components/YourProgress/YourProgress.view'
+ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
 UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
 
 FootprintHeader = React.createClass
@@ -64,9 +65,10 @@ module.exports = React.createClass
           div {className: "footprint"},
             new FootprintHeader user: @props.user
             div {className: "footprint-content"},
+              h2 {}, "your points"
+              new ImpactScore score: @props.user?.attributes.score
               h2 {}, "did you know?"
               p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"
-
               hr {className: "h-divider"}
               h2 {}, "about you"
               p {className: "sub-heading"}, "These choices help us predict your footprint and offer customized recommendations."

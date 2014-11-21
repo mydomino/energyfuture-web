@@ -1,5 +1,7 @@
 {div, h2, p, span} = React.DOM
 Categories = require '../../models/singletons/Categories'
+ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
+
 _ = require 'lodash'
 
 module.exports = React.createClass
@@ -29,3 +31,4 @@ module.exports = React.createClass
       div {className: "guide-preview-content"},
         h2 {className: "guide-preview-title"}, guide.title
         p {className: "guide-preview-summary"}, summary
+        new ImpactScore score: guide.score, color: color
