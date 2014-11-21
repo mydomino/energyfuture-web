@@ -62,8 +62,7 @@ module.exports = React.createClass
     @refreshGuides(ownership)
 
   render: ->
-    locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
-    ownershipData = [{name: "own", value: "own"}, {name: "rent", value: "rent"}]
+    ownershipData = [{name: "homeowners", value: "own"}, {name: "renters", value: "rent"}]
     div {className: "page page-guides"},
       div {className: "container"},
         div {className: "container-padding guides"},
@@ -77,11 +76,9 @@ module.exports = React.createClass
               "In partnership with Rocky Mountain Institute and UC Berkeley"
             div {className: "guides-user-context"},
               p {},
-                span {}, "If you live in "
-                new DropdownComponent(data: locationData)
-                span {}, " and "
+                span {}, "All guides for"
                 new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
-                span {}, " your home."
+                span {}, " in Fort Collins"
           if @state.guides.length > 0
             div {className: "guides"},
               @state.guides.map (guide, idx) =>
