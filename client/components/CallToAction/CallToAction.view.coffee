@@ -32,12 +32,10 @@ module.exports = React.createClass
       div {className: 'guide-actions'},
         _.map cta, (action) ->
           div {className: "action"},
-            h2 {className: "action-title"}, action.title
-            _.map action.options, (o) ->
-              div {className: "action-option"},
-                h3 {className: "option-title"}, o.title
-                p {className: "option-description"}, o.description
-                a {href: o.reference, className: "option-reference"}, "Learn More"
+            h2 {className: "action-grouping"}, action.grouping
+            h3 {className: "action-title"}, action.title
+            p {className: "action-description"}, action.description
+            a {href: action.reference, className: "action-reference"}, "Learn More"
             div {className: 'action-read-more'},
               img {className : 'action-read-more-button', src: '/img/show-more.svg', onClick: showMore}
               div {className: 'action-read-more-mask'}
