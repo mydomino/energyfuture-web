@@ -67,7 +67,7 @@ routes =
     ["/", require('./pages/Splash/Splash.view'), 'splash']
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
     ["/guides", require('./pages/Guides/Guides.view'), 'guides']
-    ["/guide/:id", require('./pages/Guide/Guide.view'), 'guide']
+    ["/guides/:id", require('./pages/Guide/Guide.view'), 'guide']
     ["*", require('./pages/NotFound/NotFound.view'), 'not-found']
   ]
 

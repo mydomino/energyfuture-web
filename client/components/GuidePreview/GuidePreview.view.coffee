@@ -8,7 +8,7 @@ module.exports = React.createClass
     customClass: ''
 
   viewGuide: ->
-    page "/guide/#{@props.guide.id}"
+    page "/guides/#{@props.guide.id}"
 
   render: ->
     guide = @props.guide.attributes
