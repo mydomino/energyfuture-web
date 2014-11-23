@@ -1,12 +1,6 @@
 _ = require 'lodash'
+Emitter = require('events').EventEmitter
 
-module.exports = class Events
-  constructor: (@callbacks = {}) ->
-
-  on: (event, handler) ->
-    @callbacks[event] ||= []
-    @callbacks[event].push(handler)
-
+module.exports = class Events extends Emitter
   trigger: (event) ->
-    _.each @callbacks[event], (callback) ->
-      callback()
+    @emit event
