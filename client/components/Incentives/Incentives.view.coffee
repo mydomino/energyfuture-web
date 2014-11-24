@@ -1,6 +1,7 @@
 {div, h2, p, a} = React.DOM
 
 _ = require 'lodash'
+IncentiveModal = require '../IncentiveModal/IncentiveModal.view'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -10,8 +11,14 @@ hasValidData = (guide) ->
 module.exports = React.createClass
   displayName: 'Incentives'
 
+  getInitialState: ->
+    modalIncentive: null
+
   getDefaultProps: ->
     guide: null
+
+  showModal: (i) ->
+    @setState modalIncentive: i
 
   render: ->
     return false unless hasValidData @props.guide
@@ -19,12 +26,25 @@ module.exports = React.createClass
 
     div {},
       h2 {className: "guide-module-header"}, "incentives"
+
+      if @state.modalIncentive
+        div {},
+          new IncentiveModal
+            incentive: @state.modalIncentive
+            onClose: =>
+              @setState modalIncentive: null
+
       div {className: 'incentives'},
-        _.map incentives, (i) ->
-          div {className: "incentive"},
+        _.map incentives, (i) =>
+          div {className: "incentive", onClick: @showModal.bind(@, i)},
             p {className: "incentive-provider"}, i.provider
-            p {className: "incentive-amount"}, i.amount if i.amount
-            p {className: "incentive-type"}, i.type if i.type
+
+            if i.amount
+              p {className: "incentive-amount"}, i.amount
+
+            if i.type
+              p {className: "incentive-type"}, i.type
+
             p {className: "incentive-description"}, i.description
             a {href: i.reference, className: "incentive-reference"}, "learn more" if i.reference
 
