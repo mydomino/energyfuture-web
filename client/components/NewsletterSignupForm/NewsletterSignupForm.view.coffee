@@ -8,9 +8,12 @@ module.exports = React.createClass
     email: ''
     submitted: false
     user: auth.user
+  setUser: ->
+    @setState user: auth.user
   componentWillMount: ->
-    auth.on 'authStateChange', =>
-      @state.user = auth.user
+    auth.on 'authStateChange', @setUser
+  componentWillUnmount: ->
+    auth.removeListener 'authStateChange', @setUser
   handleChange: (event) ->
     @setState email: event.target.value
   submit: ->

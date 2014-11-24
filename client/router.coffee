@@ -36,11 +36,17 @@ Router = React.createClass
     @props.routes.middleware.forEach addMiddleware.bind(this)
     @props.routes.pages.forEach addPage.bind(this)
 
-    auth.on 'authStateChange', (data) =>
-      @setState user: auth.user
+    auth.on 'authStateChange', @setUserState
 
     page.start()
     return
+
+  componentWillUnmount: ->
+    auth.removeListener 'authStateChange', @setUserState
+
+  setUserState: ->
+    if @isMounted()
+      @setState user: auth.user
 
   getInitialState: ->
     component: LoadingScreen

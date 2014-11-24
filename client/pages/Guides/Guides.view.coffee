@@ -36,16 +36,15 @@ module.exports = React.createClass
 
   componentWillMount: ->
     @coll = new GuideCollection
-    @coll.on "sync", =>
-      @refreshGuides(@state.ownership)
+    @coll.on "sync", @refreshGuides
+    auth.on 'authStateChange', @updateOwnership
 
-    auth.on 'authStateChange', (authData) =>
-      ownership = authData.user.get('ownership') || 'own'
-      if @isMounted()
-        @setState ownership: ownership
+  componentWillUnmount: ->
+    @coll.removeListener 'sync', @refreshGuides
+    auth.removeListener 'authStateChange', @updateOwnership
 
   componentDidMount: ->
-    @refreshGuides(@state.ownership)
+    @refreshGuides()
 
     anchor = @refs.anchor.getDOMNode()
     annotation = @refs.annotation.getDOMNode()
@@ -54,13 +53,16 @@ module.exports = React.createClass
     window?.onresize = ->
       positionAnnotation(annotation, anchor)
 
-  refreshGuides: (ownership) ->
+  refreshGuides: ->
     if @isMounted()
-      @setState guides: @coll.guides(ownership)
+      @setState guides: @coll.guides(@state.ownership)
+
+  updateOwnership: (authData) ->
+    @ownershipChangeAction(authData.user.get('ownership') || 'own')
 
   ownershipChangeAction: (ownership) ->
-    @setState ownership: ownership
-    @refreshGuides(ownership)
+    if @isMounted()
+      @setState ownership: ownership, guides: @coll.guides(ownership)
 
   render: ->
     ownershipData = [{name: "homeowners", value: "own"}, {name: "renters", value: "rent"}]

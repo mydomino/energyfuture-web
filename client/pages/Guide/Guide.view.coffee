@@ -16,12 +16,17 @@ module.exports = React.createClass
     guide: null
 
   componentWillMount: ->
-    guide = new Guide(id: @props.params.id)
-    guide.on "sync", =>
-      if @isMounted()
-        @setState guide: guide
+    @guide = new Guide(id: @props.params.id)
+    @guide.on "sync", @setGuide
 
-    @setState guide: guide
+    @setGuide(@guide)
+
+  componentWillUnmount: ->
+    @guide.removeListener 'sync', @setGuide
+
+  setGuide: (guide) ->
+    if @isMounted
+      @setState guide: guide
 
   render: ->
     if @state.guide

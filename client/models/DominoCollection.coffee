@@ -16,4 +16,4 @@ module.exports = class DominoCollection extends Emitter
       if snap
         @models = snap.val()
         @loaded = true
-        @emit('sync')
+        @emit('sync', this)
