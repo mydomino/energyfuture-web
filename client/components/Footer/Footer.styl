@@ -1,0 +1,59 @@
+.footer
+  padding 5em
+  font-size 0.9em
+  text-align center
+
+  .col
+    margin-bottom 20px
+
+  a
+    color #999
+    text-decoration underline
+
+  .col2
+    .footer-logo
+      height 63px
+      width 65px
+      margin 0 auto
+
+  .col3
+    .footer-logo
+      display none
+      height 25px
+      width 106px
+      background-position center right
+      margin-bottom 0.3em
+    p
+      margin 0
+      display inline-block
+
+.footer:after
+  content ""
+  display table
+  clear both
+
+.footer-logo
+  background-image url(../img/logo.png)
+  background-size 189px 63px
+  background-repeat no-repeat
+  background-position top left
+  display inline-block
+
+@media (min-width: 560px)
+  .footer
+    .col1
+      float left
+      width 40%
+      text-align left
+
+    .col2
+      float left
+      width 20%
+
+    .col3
+      float right
+      width 40%
+      text-align right
+
+      .footer-logo
+        display block

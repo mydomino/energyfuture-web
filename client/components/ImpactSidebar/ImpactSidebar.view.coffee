@@ -1,48 +1,104 @@
-{div, h2, p, span, a, hr} = React.DOM
+{div, span, a, hr, i} = React.DOM
+
+Categories = require '../../models/singletons/Categories'
+UserGuides = require '../../models/UserGuides'
+ImpactScore = require '../ImpactScore/ImpactScore.view'
 
 positionSidebar = (element) ->
   anchor = element.parentElement
+  style = { position: null, top: null, left: null }
+
   if window.scrollY + element.offsetHeight > anchor.offsetTop + anchor.offsetHeight - 40
-    element.style.position = null
-    element.style.top = (anchor.offsetHeight - element.offsetHeight) + 'px'
-    element.style.left = null
+    style.top = (anchor.offsetHeight - element.offsetHeight) + 'px'
   else if window.scrollY > anchor.offsetTop
-    element.style.position = 'fixed'
-    element.style.top = '40px'
-    element.style.left = (anchor.offsetLeft - 100) + 'px'
-  else
-    element.style.position = null
-    element.style.top = null
-    element.style.left = null
+    style.position = 'fixed'
+    style.top = '40px'
+    style.left = (anchor.offsetLeft - 100) + 'px'
+
+  for property, value of style
+    element.style[property] = value
 
   return
 
 module.exports = React.createClass
   displayName: 'ImpactSidebar'
+  propTypes:
+    user: React.PropTypes.object.isRequired
+
+  onScrollEventHandler: ->
+    if @refs.sidebar
+      positionSidebar(@refs.sidebar.getDOMNode())
+
+  setupSidebarPositioning: ->
+    window.addEventListener('scroll', @onScrollEventHandler, false);
+    window.addEventListener('resize', @onScrollEventHandler, false);
+
+  removeSidebarPositioning: ->
+    window.removeEventListener('scroll', @onScrollEventHandler, false);
+    window.removeEventListener('resize', @onScrollEventHandler, false);
+
+  componentWillMount: ->
+    @setupState()
+    @props.user.on 'sync', @setupState
+
+  componentWillUnmount: ->
+    @removeSidebarPositioning()
+    @props.user.removeListener 'sync', @setupState
+
   componentDidMount: ->
-    sidebar = @refs.sidebar.getDOMNode()
-    # positionSidebar(sidebar)
+    @setupSidebarPositioning()
 
-    window?.onscroll = (e) ->
-      positionSidebar(sidebar)
-
-    window?.onresize = (e) ->
-      positionSidebar(sidebar)
   getDefaultProps: ->
     category: ''
-    percent: 0
+    points: 1000
+    guide: null
+
+  getInitialState: ->
+    isClaimed: false
+    isSaved: true
+
+  setupState: ->
+    @savedForLater = new UserGuides(@props.user, 'saved')
+    @claimedImpact = new UserGuides(@props.user, 'claimed')
+
+    @setState @getCurrentState()
+
+  getCurrentState: ->
+    isClaimed: @claimedImpact?.includesGuide(@props.guide)
+    isSaved: @savedForLater?.includesGuide(@props.guide)
+
+  removeGuide: ->
+    @props.user.removeGuide @props.guide
+
   render: ->
-    div {className: "impact-sidebar", ref: 'sidebar'},
-      div {className: "impact-sidebar-graph"},
-        div {className: "progress"},
-          div {className: "progress-bar progress-bar-before", style: { height: @props.percent + '%' }},
-            span {className: "progress-bar-label"}, "Before"
-          div {className: "progress-bar progress-bar-after", style: { height: (100 - @props.percent) + '%' }},
-            span {className: "progress-bar-label"}, "After"
-        p {}, @props.category
+    claimedClass = if @state.isClaimed then 'active' else ''
+    savedClass = if @state.isSaved then 'active' else if @state.isClaimed then 'disabled' else ''
+    color = Categories.colorFor(@props.category) || 'inherit'
+
+    div {className: "impact-sidebar category-#{@props.category}", style: { color: color }, ref: 'sidebar'},
+      new ImpactScore score: @props.points, color: color
       hr {}
-      div {},
-        p {}, "Taking this action will bring you #{@props.percent}% closer to safe carbon levels."
+      div {className: "action-button #{claimedClass}"},
+        if @state.isClaimed
+          a {onClick: @removeGuide},
+            i {className: "icon pu-icon pu-icon-impact-o"}
+            span {}, "Done"
+        else
+          a {onClick: @claimedImpact.add.bind(@claimedImpact, @props.guide)},
+            i {className: "icon pu-icon pu-icon-impact-o"}
+            span {}, "I did this"
       hr {}
-      div {},
-        a {className: 'icon pu-icon icon-complete', href: '/footprint' }, "See Your Impact"
+      div {className: "action-button #{savedClass}"},
+        if @state.isClaimed
+          span {},
+            i {className: "icon pu-icon pu-icon-remindme"}
+            span {}, "Save for later"
+        else if @state.isSaved
+          a {onClick: @removeGuide},
+            i {className: "icon pu-icon pu-icon-remindme"}
+            span {}, "Saved for later"
+        else
+          a {onClick: @savedForLater.add.bind(@savedForLater, @props.guide)},
+            i {className: "icon pu-icon pu-icon-remindme"}
+            span {}, "Save for later"
+

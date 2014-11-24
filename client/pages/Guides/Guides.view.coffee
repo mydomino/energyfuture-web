@@ -3,6 +3,7 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
+Layout = require '../../components/Layout/Layout.view'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
@@ -68,24 +69,27 @@ module.exports = React.createClass
         div {className: "container-padding guides"},
           new NavBar user: @props.user, path: @props.context.pathname
 
-          div {className: "guides-intro"},
-            h1 {className: "guides-intro-header"},
-              "Your helpful guides to a "
-              span {className: "intro-annotation-anchor", ref: "anchor"}, "healthy planet"
-            p {className: "guides-intro-subtext"},
-              "In partnership with Rocky Mountain Institute and UC Berkeley"
-            div {className: "guides-user-context"},
-              p {},
-                span {}, "All guides for"
-                new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
-                span {}, " in Fort Collins"
-          if @state.guides.length > 0
-            div {className: "guides"},
-              @state.guides.map (guide, idx) =>
-                new GuidePreview
-                  key: "guide#{guide.id}"
-                  guide: guide
-                  customClass: posClass(idx)
-          else
-            new LoadingIcon
+    new Layout {name: 'guides'},
+      new NavBar user: @props.user, path: @props.context.pathname
+
+      div {className: "guides-intro"},
+        h1 {className: "guides-intro-header"},
+          "Your helpful guides to a "
+          span {className: "intro-annotation-anchor", ref: "anchor"}, "healthy planet"
+        p {className: "guides-intro-subtext"},
+          "In partnership with Rocky Mountain Institute and UC Berkeley"
+        div {className: "guides-user-context"},
+          p {},
+            span {}, "All guides for"
+            new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
+            span {}, " in Fort Collins"
+      if @state.guides.length > 0
+        div {className: "guides"},
+          @state.guides.map (guide, idx) =>
+            new GuidePreview
+              key: "guide#{guide.id}"
+              guide: guide
+              customClass: posClass(idx)
+      else
+        new LoadingIcon
       div {className: "guides-intro-annotation", ref: "annotation"}

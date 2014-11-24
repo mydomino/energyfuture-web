@@ -13,3 +13,9 @@ module.exports = class User extends DominoModel
     name = @get('displayName')
     return 'Friend' unless name
     return name.split(' ')[0]
+
+  addGuide: (guide) ->
+    @_firebase().child('guides').child(guide.id).set(guide)
+
+  removeGuide: (guide) ->
+    @_firebase().child('guides').child(guide.id).set(null)

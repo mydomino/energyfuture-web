@@ -10,3 +10,4 @@ module.exports =
   Amazon: require './Amazon/Amazon.view'
   SortableTable: require './SortableTable/SortableTable.view'
   CallToAction: require './CallToAction/CallToAction.view'
+  Map: require './Map/Map.view'
