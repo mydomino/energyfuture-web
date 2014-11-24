@@ -29,13 +29,14 @@ module.exports = React.createClass
     div {},
       h2 {className: "guide-module-header"}, "What you can do"
       p {className: "guide-module-subheader"}, "Real tips from real people near you."
-      div {className: 'guide-actions'},
-        _.map cta, (action) ->
-          div {className: "action"},
-            h2 {className: "action-grouping"}, action.grouping
-            a {href: action.reference, className: "action-title"}, action.title
-            p {className: "action-description"}, action.description
-            div {className: 'action-read-more'},
-              img {className : 'action-read-more-button', src: '/img/show-more.svg', onClick: showMore}
-              div {className: 'action-read-more-mask'}
-        div {className: "clear-both"}
+      div {className: 'guide-module-content'},
+        div {className: 'guide-actions'},
+          _.map cta, (action) ->
+            div {className: "action"},
+              h2 {className: "action-grouping"}, action.grouping
+              a {href: action.reference, className: "action-title"}, action.title
+              p {className: "action-description"}, action.description
+              div {className: 'action-read-more'},
+                img {className : 'action-read-more-button', src: '/img/show-more.svg', onClick: showMore}
+                div {className: 'action-read-more-mask'}
+          div {className: "clear-both"}
