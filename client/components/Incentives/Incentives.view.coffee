@@ -30,7 +30,7 @@ module.exports = React.createClass
     div {},
       h2 {className: "guide-module-header"}, "incentives"
 
-      if @state.modalIncentive
+      if @state.modalIncentive?
         div {},
           new IncentiveModal
             incentive: @state.modalIncentive
