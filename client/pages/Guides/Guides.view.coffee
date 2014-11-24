@@ -25,6 +25,10 @@ positionAnnotation = (element, anchor) ->
   element.style.left = (anchor.offsetLeft - 15) + 'px'
   return
 
+guideStatus = (userGuides, guide) ->
+  return null unless userGuides && userGuides.hasOwnProperty(guide.id)
+  userGuides[guide.id].status
+
 module.exports = React.createClass
   displayName: 'Guides'
   getDefaultProps: ->
@@ -66,10 +70,7 @@ module.exports = React.createClass
 
   render: ->
     ownershipData = [{name: "owners", value: "own"}, {name: "renters", value: "rent"}]
-    div {className: "page page-guides"},
-      div {className: "container"},
-        div {className: "container-padding guides"},
-          new NavBar user: @props.user, path: @props.context.pathname
+    userGuides = @props.user && @props.user.get('guides')
 
     new Layout {name: 'guides'},
       new NavBar user: @props.user, path: @props.context.pathname
@@ -92,6 +93,7 @@ module.exports = React.createClass
               key: "guide#{guide.id}"
               guide: guide
               customClass: posClass(idx)
+              status: guideStatus(userGuides, guide)
       else
         new LoadingIcon
       div {className: "guides-intro-annotation", ref: "annotation"}

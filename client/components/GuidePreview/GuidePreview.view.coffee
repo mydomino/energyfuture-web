@@ -12,6 +12,13 @@ module.exports = React.createClass
   viewGuide: ->
     page "/guides/#{@props.guide.id}"
 
+  statusIcon: ->
+    icon = switch @props.status
+      when 'claimed' then 'check'
+      when 'saved' then 'remindme'
+
+    span {className: "guide-preview-status pu-icon-#{icon}"} if icon
+
   render: ->
     guide = @props.guide.attributes
     return false if _.isEmpty guide
@@ -28,6 +35,7 @@ module.exports = React.createClass
     div {className: "guide-preview #{@props.customClass}", onClick: @viewGuide, style: style},
       if recommended
         span {className: "guide-preview-recommended", style: { backgroundColor: color }}, "Recommended"
+      @statusIcon()
       div {className: "guide-preview-content"},
         h2 {className: "guide-preview-title"}, guide.title
         p {className: "guide-preview-summary"}, summary
