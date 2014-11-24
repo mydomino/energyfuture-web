@@ -19,3 +19,9 @@ module.exports = class User extends DominoModel
 
   removeGuide: (guide) ->
     @_firebase().child('guides').child(guide.id).set(null)
+
+  newsletterSignup: (email) ->
+    @_firebase().update({newsletterEmail: email})
+
+  isNewsletterRecipient: ->
+    !!@get('newsletterEmail')
