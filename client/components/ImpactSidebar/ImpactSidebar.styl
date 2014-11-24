@@ -1,13 +1,23 @@
+@require './mixins/colors'
+
 .impact-sidebar
   width 130px
   font-size 0.8em
   text-align center
   position absolute
 
-  .footprint-icon
-    background-position top center
-    color #000
-    text-decoration underline
+  a
+    color inherit
+    cursor pointer
+
+    > span
+      color grey
+      text-decoration underline
+
+  .icon
+    display block
+    font-size 3.5em
+    margin-bottom .2em
 
   hr
     width 40%
@@ -15,27 +25,20 @@
     padding 0
     border 1px solid #e0e0e0
 
-  .impact-sidebar-graph p
+  .impact-score
+    margin-bottom -20px;
+    display inline-block;
+
+  .action-button
+    color grey
+
+  .action-button.active
+    color inherit
     font-weight bold
 
-.progress
-  margin-left 35px
-  padding-left 27px
-  width 47px
-  height 270px
-  background-color #f0f0f0
-  background url(/img/impact-sidebar-graph-marks.png) no-repeat left top
+    a > span
+      color inherit
+      text-decoration none
 
-.progress-bar
-  position relative
-
-.progress-bar-label
-  position absolute
-  left 25px
-
-.progress-bar-before
-  height 100%
-  background-color #7BD1C0
-
-.progress-bar-after
-  background-color #72BFB0
+  .action-button.disabled
+    color lightgrey
