@@ -1,4 +1,4 @@
-{div, h2, p, a} = React.DOM
+{div, h2, p, a, span} = React.DOM
 
 _ = require 'lodash'
 IncentiveModal = require '../IncentiveModal/IncentiveModal.view'
@@ -20,6 +20,9 @@ module.exports = React.createClass
   showModal: (i) ->
     @setState modalIncentive: i
 
+  truncateDescription: (description) ->
+    description.slice(0, 100) + "…"
+
   render: ->
     return false unless hasValidData @props.guide
     incentives = @props.guide.get('incentives')
@@ -36,7 +39,7 @@ module.exports = React.createClass
 
       div {className: 'incentives'},
         _.map incentives, (i) =>
-          div {className: "incentive", onClick: @showModal.bind(@, i)},
+          div {className: "incentive"},
             p {className: "incentive-provider"}, i.provider
 
             if i.amount
@@ -45,7 +48,13 @@ module.exports = React.createClass
             if i.type
               p {className: "incentive-type"}, i.type
 
-            p {className: "incentive-description"}, i.description
-            a {href: i.reference, className: "incentive-reference"}, "learn more" if i.reference
+            p {className: "incentive-description"}, @truncateDescription(i.description)
+
+            if i.reference
+              a {href: i.reference, className: "incentive-reference", target: "_blank"},
+                "learn more"
+            else
+              a {className: "incentive-reference", onClick: @showModal.bind(@, i)},
+                "learn more"
 
       div {className: 'clear-both'}
