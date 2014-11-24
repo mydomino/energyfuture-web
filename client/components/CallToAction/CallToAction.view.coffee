@@ -34,7 +34,7 @@ module.exports = React.createClass
           _.map cta, (action) ->
             div {className: "action"},
               h2 {className: "action-grouping"}, action.grouping
-              a {href: action.reference, className: "action-title"}, action.title
+              a {href: action.reference, className: "action-title", target: "_blank"}, action.title
               p {className: "action-description"}, action.description
               div {className: 'action-read-more'},
                 img {className : 'action-read-more-button', src: '/img/show-more.svg', onClick: showMore}
