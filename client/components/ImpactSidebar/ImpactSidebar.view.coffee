@@ -50,8 +50,8 @@ module.exports = React.createClass
 
   getDefaultProps: ->
     category: ''
-    points: 1000
     guide: null
+    user: null
 
   getInitialState: ->
     isClaimed: false
@@ -76,7 +76,7 @@ module.exports = React.createClass
     color = Categories.colorFor(@props.category) || 'inherit'
 
     div {className: "impact-sidebar category-#{@props.category}", style: { color: color }, ref: 'sidebar'},
-      new ImpactScore score: @props.points, color: color
+      new ImpactScore score: @props.guide.score(), color: color
       hr {}
       div {className: "action-button #{claimedClass}"},
         if @state.isClaimed

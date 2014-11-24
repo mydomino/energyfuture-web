@@ -37,14 +37,19 @@ module.exports = React.createClass
     guides: []
 
   componentWillMount: ->
-    coll = new GuideCollection
-    coll.on "sync", =>
-      if @isMounted()
-        @setState
-          categorizedGuides: coll.guidesByCategory()
-          categorizedScores: coll.scoreByCategory()
-          totalScore: coll.totalScore()
+    @coll = new GuideCollection
+    @coll.on "sync", @handleSync
 
+    @setupState(@coll)
+
+  componentWillUnount: ->
+    @coll.removeListener 'sync', @handleSync
+
+  handleSync: (coll) ->
+    if @isMounted()
+      @setupState(coll)
+
+  setupState: (coll) ->
     @setState
       categorizedGuides: coll.guidesByCategory()
       categorizedScores: coll.scoreByCategory()

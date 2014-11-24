@@ -16,7 +16,7 @@ module.exports = class DominoModel extends Emitter
       @_firebase().on 'value', (snap) =>
         if snap
           @attributes = snap.val()
-          @emit('sync')
+          @emit('sync', this)
 
   get: (attr) ->
     @attributes[attr]
