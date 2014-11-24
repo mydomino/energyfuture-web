@@ -13,7 +13,7 @@ module.exports = React.createClass
   render: ->
     div {className: 'nav-bar'},
       div {className: 'nav-bar-logo float-left'},
-        a {className: 'site-logo', href: '/'}, "Domino"
+        a {className: 'site-logo', href: '/guides'}, "Domino"
       if @props.user
         div {className: 'nav-bar-item nav-bar-user float-right'},
           a {onClick: @_logout},

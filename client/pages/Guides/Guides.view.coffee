@@ -62,7 +62,7 @@ module.exports = React.createClass
     @refreshGuides(ownership)
 
   render: ->
-    ownershipData = [{name: "homeowners", value: "own"}, {name: "renters", value: "rent"}]
+    ownershipData = [{name: "owners", value: "own"}, {name: "renters", value: "rent"}]
     div {className: "page page-guides"},
       div {className: "container"},
         div {className: "container-padding guides"},
