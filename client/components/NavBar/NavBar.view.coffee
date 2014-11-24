@@ -19,16 +19,16 @@ module.exports = React.createClass
           a {onClick: @_logout},
             new UserPhoto user: @props.user
             span {}, @_userLinkText()
-      div {className: "nav-bar-item nav-bar-footprint float-right #{@_activeClass('footprint')}"},
+      div {className: "nav-bar-item nav-bar-footprint float-right #{@_activeClass('/footprint')}"},
         a {className: 'footprint-icon', href: '/footprint' }, "My Impact"
-      div {className: "nav-bar-item nav-bar-guides float-right #{@_activeClass('guides')}"},
+      div {className: "nav-bar-item nav-bar-guides float-right #{@_activeClass('/guides')}"},
         a {className: 'guides-icon', href: '/guides' }, "All Guides"
 
   _userLinkText: ->
     if @props.user then "Logout" else "Login"
 
   _activeClass: (name) ->
-    if @props.path && @props.path.indexOf(name) > -1
+    if @props.path && @props.path == name
       'active'
     else
       ''
