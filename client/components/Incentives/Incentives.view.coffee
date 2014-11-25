@@ -20,8 +20,12 @@ module.exports = React.createClass
   showModal: (i) ->
     @setState modalIncentive: i
 
-  truncateDescription: (description) ->
-    description.slice(0, 100) + "…"
+  truncateDescription: (description, length) ->
+    d = description.slice(0,90)
+    if d.length < description.length
+      wordBoundary = d.lastIndexOf(' ')
+      d = "#{d.slice(0, wordBoundary)} #{String.fromCharCode(8230)}"
+    d
 
   render: ->
     return false unless hasValidData @props.guide
@@ -48,7 +52,7 @@ module.exports = React.createClass
             if i.type
               p {className: "incentive-type"}, i.type
 
-            p {className: "incentive-description"}, @truncateDescription(i.description)
+            p {className: "incentive-description", dangerouslySetInnerHTML: {"__html": @truncateDescription(i.description)}}
 
             if i.reference
               a {href: i.reference, className: "incentive-reference", target: "_blank"},
