@@ -1,3 +1,5 @@
+@require './mixins/colors'
+
 .nav-bar
   overflow auto
   width 88%
@@ -8,13 +10,29 @@
   display table
   clear both
 
-.nav-bar-footprint, .nav-bar-guides
+.nav-bar-item
   padding 18px 0 0
   margin 0 0 0 40px
+  text-align center
 
-  a.footprint-icon, a.guides-icon
+  > a
     color #868889
     text-decoration underline
+
+  .user-photo
+    margin -9px auto 0
+    width 30px
+    height 30px
+
+  &.active
+    > a
+      text-decoration none
+
+    .footprint-icon
+      background-image url(../img/footprint-icon-active.png)
+
+    .guides-icon
+      background-image url(../img/guides-icon-active.png)
 
 .site-logo
   background-image url(../img/logo.png)
@@ -31,12 +49,6 @@
   min-width 80px
   background-image url(../img/footprint-icon.png)
   background-repeat no-repeat
-  background-position top right
-
-.footprint-icon.footprint-icon-long
-  margin-top 0px
-  padding-top 5px
-  padding-right 90px !important
   background-position top right
 
 .guides-icon

@@ -41,24 +41,25 @@ module.exports = React.createClass
             onClose: =>
               @setState modalIncentive: null
 
-      div {className: 'incentives'},
-        _.map incentives, (i) =>
-          div {className: "incentive"},
-            p {className: "incentive-provider"}, i.provider
+      div {className: 'guide-module-content'},
+        div {className: 'incentives'},
+          _.map incentives, (i) =>
+            div {className: "incentive"},
+              p {className: "incentive-provider"}, i.provider
 
-            if i.amount
-              p {className: "incentive-amount"}, i.amount
+              if i.amount
+                p {className: "incentive-amount"}, i.amount
 
-            if i.type
-              p {className: "incentive-type"}, i.type
+              if i.type
+                p {className: "incentive-type"}, i.type
 
-            p {className: "incentive-description", dangerouslySetInnerHTML: {"__html": @truncateDescription(i.description)}}
+              p {className: "incentive-description", dangerouslySetInnerHTML: {"__html": @truncateDescription(i.description)}}
 
-            if i.reference
-              a {href: i.reference, className: "incentive-reference", target: "_blank"},
-                "learn more"
-            else
-              a {className: "incentive-reference", onClick: @showModal.bind(@, i)},
-                "learn more"
+              if i.reference
+                a {href: i.reference, className: "incentive-reference", target: "_blank"},
+                  "learn more"
+              else
+                a {className: "incentive-reference", onClick: @showModal.bind(@, i)},
+                  "learn more"
 
       div {className: 'clear-both'}

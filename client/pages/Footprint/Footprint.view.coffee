@@ -3,9 +3,32 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
+Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 YourProgress = require '../../components/YourProgress/YourProgress.view'
+ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
+UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
+
+FootprintHeader = React.createClass
+  displayName: 'FootprintHeader'
+  render: ->
+    div {className: "footprint-header"},
+      new UserPhoto user: @props.user
+      h2 {}, @_headline()
+      p {className: "sub-heading"}, @_tagline()
+
+  _headline: ->
+    if @props.user
+      "Welcome back, #{@props.user.firstName()}"
+    else
+      "Your small choices have a big impact."
+
+  _tagline: ->
+    if @props.user
+      "You're making great progress!"
+    else
+      "Here's your footprint, progress, and completed actions."
 
 module.exports = React.createClass
   displayName: 'Footprint'
@@ -14,14 +37,19 @@ module.exports = React.createClass
     guides: []
 
   componentWillMount: ->
-    coll = new GuideCollection
-    coll.on "sync", =>
-      if @isMounted()
-        @setState
-          categorizedGuides: coll.guidesByCategory()
-          categorizedScores: coll.scoreByCategory()
-          totalScore: coll.totalScore()
+    @coll = new GuideCollection
+    @coll.on "sync", @handleSync
 
+    @setupState(@coll)
+
+  componentWillUnount: ->
+    @coll.removeListener 'sync', @handleSync
+
+  handleSync: (coll) ->
+    if @isMounted()
+      @setupState(coll)
+
+  setupState: (coll) ->
     @setState
       categorizedGuides: coll.guidesByCategory()
       categorizedScores: coll.scoreByCategory()
@@ -36,47 +64,45 @@ module.exports = React.createClass
     carMilesData = [{name: "50 miles", value: 1}, {name: "100 miles", value: 2}]
     cycleFreqData = [{name: "rarely", value: 1}, {name: "daily", value: 2}]
     foodFreqData = [{name: "6", value: 1}, {name: "4", value: 2}]
-    div {className: "page page-footprint"},
-      div {className: "container"},
-        div {className: "container-padding"},
-          new NavBar
-          div {className: "footprint"},
-            div {className: "footprint-header"},
-              h2 {}, "Your small choices have a big impact."
-              p {className: "sub-heading"}, "Here's your footprint, progress, and completed actions."
-            div {className: "footprint-content"},
-              h2 {}, "did you know?"
-              p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"
 
-              hr {className: "h-divider"}
-              h2 {}, "about you"
-              p {className: "sub-heading"}, "These choices help us predict your footprint and offer customized recommendations."
-              div {className: "about-you-row"},
-                span {className: "about-you-label"}, "Home:"
-                span {className: "about-you-description"}, "You live in"
-                new DropdownComponent(data: locationData)
-                span {}, "in a"
-                new DropdownComponent(data: houseData)
-                span {}, "you"
-                new DropdownComponent(data: ownershipData)
-                span {}, "spending"
-                new DropdownComponent(data: energyData)
-                span {}, "on energy."
-              div {className: "about-you-row"},
-                span {className: "about-you-label"}, "Mobility:"
-                span {className: "about-you-description"}, "You drive a"
-                new DropdownComponent(data: carData)
-                span {}, "around"
-                new DropdownComponent(data: carMilesData)
-                span {}, "per week, and bicycle"
-                new DropdownComponent(data: cycleFreqData)
-              div {className: "about-you-row"},
-                span {className: "about-you-label"}, "Food:"
-                span {className: "about-you-description"}, "You eat red meat"
-                new DropdownComponent(data: foodFreqData)
-                span {}, "times/week and dairy"
-                new DropdownComponent(data: foodFreqData)
-                span {}, "times/week"
+    new Layout {name: 'footprint'},
+      new NavBar user: @props.user, path: @props.context.pathname
+      div {className: "footprint"},
+        new FootprintHeader user: @props.user
+        div {className: "footprint-content"},
+          h2 {}, "your points"
+          new ImpactScore score: @props.user?.attributes.score
+          h2 {}, "did you know?"
+          p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"
+          hr {className: "h-divider"}
+          h2 {}, "about you"
+          p {className: "sub-heading"}, "These choices help us predict your footprint and offer customized recommendations."
+          div {className: "about-you-row"},
+            span {className: "about-you-label"}, "Home:"
+            span {className: "about-you-description"}, "You live in"
+            new DropdownComponent(data: locationData)
+            span {}, "in a"
+            new DropdownComponent(data: houseData)
+            span {}, "you"
+            new DropdownComponent(data: ownershipData)
+            span {}, "spending"
+            new DropdownComponent(data: energyData)
+            span {}, "on energy."
+          div {className: "about-you-row"},
+            span {className: "about-you-label"}, "Mobility:"
+            span {className: "about-you-description"}, "You drive a"
+            new DropdownComponent(data: carData)
+            span {}, "around"
+            new DropdownComponent(data: carMilesData)
+            span {}, "per week, and bicycle"
+            new DropdownComponent(data: cycleFreqData)
+          div {className: "about-you-row"},
+            span {className: "about-you-label"}, "Food:"
+            span {className: "about-you-description"}, "You eat red meat"
+            new DropdownComponent(data: foodFreqData)
+            span {}, "times/week and dairy"
+            new DropdownComponent(data: foodFreqData)
+            span {}, "times/week"
 
-              hr {className: "h-divider"}
-              new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides, categorizedScores: @state.categorizedScores, totalScore: @state.totalScore)
+          hr {className: "h-divider"}
+          new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides, categorizedScores: @state.categorizedScores, totalScore: @state.totalScore)

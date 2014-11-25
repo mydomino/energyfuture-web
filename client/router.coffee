@@ -1,6 +1,11 @@
 auth = require './auth'
 AuthBar = require './components/AuthBar/AuthBar.view'
 
+LoadingScreen = React.createClass
+  displayName: 'LoadingScreen'
+  render: ->
+    React.DOM.div({}, 'Loading')
+
 addMiddleware = (route) ->
   page route[0], route[1]
   return
@@ -15,8 +20,12 @@ addPage = (route) ->
     window.scrollTo(0, 0)
 
     @setState
-      component: new Component params: ctx.params, querystring: ctx.querystring, user: ctx.user
+      component: Component
+      params: ctx.params
+      querystring: ctx.querystring
       user: ctx.user
+      context: ctx
+
     return
 
   return
@@ -27,20 +36,33 @@ Router = React.createClass
     @props.routes.middleware.forEach addMiddleware.bind(this)
     @props.routes.pages.forEach addPage.bind(this)
 
-    auth.on 'authStateChange', (data) =>
-      @setState user: auth.user
+    auth.on 'authStateChange', @setUserState
 
     page.start()
     return
 
+  componentWillUnmount: ->
+    auth.removeListener 'authStateChange', @setUserState
+
+  setUserState: ->
+    if @isMounted()
+      @setState user: auth.user
+
   getInitialState: ->
-    component: React.DOM.div({}, 'Hello World')
+    component: LoadingScreen
+    params: {}
+    querystring: null
     user: null
+    context: {}
 
   render: ->
     React.DOM.div {},
       new AuthBar loggedIn: auth.loggedIn
-      @state.component
+      new @state.component
+        params: @state.params
+        querystring: @state.querystring
+        user: @state.user
+        context: @state.context
 
 routes =
   middleware: [
@@ -51,7 +73,7 @@ routes =
     ["/", require('./pages/Splash/Splash.view'), 'splash']
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
     ["/guides", require('./pages/Guides/Guides.view'), 'guides']
-    ["/guide/:id", require('./pages/Guide/Guide.view'), 'guide']
+    ["/guides/:id", require('./pages/Guide/Guide.view'), 'guide']
     ["*", require('./pages/NotFound/NotFound.view'), 'not-found']
   ]
 

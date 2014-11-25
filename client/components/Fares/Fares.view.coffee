@@ -7,4 +7,5 @@ module.exports = React.createClass
     div {className: 'guide-module guide-module-fares'},
       h2 {className: 'guide-module-header'}, 'fares'
       p {className: 'guide-module-subheader'}, 'Powered by SMFTA'
-      img {src: '/img/fares.png'}
+      div {className: 'guide-module-content'},
+        img {src: '/img/fares.png'}
