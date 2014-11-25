@@ -25,3 +25,6 @@ module.exports = class User extends DominoModel
 
   isNewsletterRecipient: ->
     !!@get('newsletterEmail')
+
+  updateOwnership: (ownership) ->
+    @_firebase().update({'ownership': ownership})
