@@ -41,7 +41,8 @@ module.exports = React.createClass
     @coll.removeListener 'sync', @rerenderComponent
 
   componentDidMount: ->
-    @setUserOwnership(@props.user)
+    @loadLocalOwnership()
+    @loadUserOwnership(@props.user)
     anchor = @refs.anchor.getDOMNode()
     annotation = @refs.annotation.getDOMNode()
     positionAnnotation(annotation, anchor)
@@ -50,19 +51,28 @@ module.exports = React.createClass
       positionAnnotation(annotation, anchor)
 
   componentWillReceiveProps: (props) ->
-    @setUserOwnership(props.user)
+    @loadUserOwnership(props.user)
 
-  setUserOwnership: (user) ->
+  loadUserOwnership: (user) ->
     if @isMounted() && user
-      @setState ownership: (user.get('ownership') || 'own')
+      @setLocalOwnership user.ownership()
+      @setState ownership: user.ownership()
 
   rerenderComponent: ->
     @forceUpdate() if @isMounted()
 
   ownershipChangeAction: (ownership) ->
+    @setLocalOwnership ownership
     @props.user.updateOwnership(ownership) if @props.user
     if @isMounted()
       @setState ownership: ownership
+
+  loadLocalOwnership: ->
+    if @isMounted
+      @setState ownership: (localStorage.getItem('ownership') || 'own')
+
+  setLocalOwnership: (ownership) ->
+    localStorage.setItem 'ownership', ownership
 
   render: ->
     ownershipData = [{name: "owners", value: "own"}, {name: "renters", value: "rent"}]
