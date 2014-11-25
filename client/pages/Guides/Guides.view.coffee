@@ -62,7 +62,7 @@ module.exports = React.createClass
       @setState guides: @coll.guides(@state.ownership)
 
   updateOwnership: (authData) ->
-    @ownershipChangeAction(authData.user.get('ownership') || 'own')
+    @ownershipChangeAction(authData.user.get('ownership')) if authData.user
 
   ownershipChangeAction: (ownership) ->
     if @isMounted()
