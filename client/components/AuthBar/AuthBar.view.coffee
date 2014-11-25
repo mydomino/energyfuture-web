@@ -10,28 +10,14 @@ AuthMixin =
     auth.login 'twitter'
 
   handleLogin: (data) ->
-    if data.error
-      console.log 'something really went wrong'
-      @setState failedLogin: true
-    else if data.user
-      console.log 'success! logged in as ', data.user
+    if data.user
+      console.log 'Success! logged in as ', data.user
       @setState failedLogin: false
+    else if data.error.code == "USER_CANCELLED"
+      console.log 'User cancelled authentication.'
     else
-      console.log 'Something went wrong'
+      console.log 'Something really went wrong'
       @setState failedLogin: true
-
-  loginHeader: ->
-    if @state.failedLogin
-      h2Label = "Hmm..."
-      pLabel = "Let's try that again"
-    else
-      h2Label = "Ready?"
-      pLabel = "Log in to begin"
-
-    return [
-      h2 {}, h2Label
-      p {}, pLabel
-    ]
 
 module.exports = React.createClass
   displayName: 'AuthBar'

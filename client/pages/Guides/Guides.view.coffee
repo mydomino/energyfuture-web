@@ -8,16 +8,9 @@ DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
-auth = require '../../auth'
-data = require '../../sample-data'
 
 posClass = (num) ->
-  if (num + 1) % 3 == 0
-    return 'guide-preview-third'
-  else if (num + 1) % 3 == 1
-    return 'guide-preview-first'
-  else
-    return ""
+  return 'guide-preview-third' if (num + 1) % 3 == 0
 
 positionAnnotation = (element, anchor) ->
   element.style.display = 'block'
@@ -31,25 +24,20 @@ guideStatus = (userGuides, guide) ->
 
 module.exports = React.createClass
   displayName: 'Guides'
-  getDefaultProps: ->
-    guides: []
 
   getInitialState: ->
-    guides: @props.guides
     ownership: "own"
 
   componentWillMount: ->
     @coll = new GuideCollection
-    @coll.on "sync", @refreshGuides
-    auth.on 'authStateChange', @updateOwnership
+    @coll.on "sync", @rerenderComponent
 
   componentWillUnmount: ->
-    @coll.removeListener 'sync', @refreshGuides
-    auth.removeListener 'authStateChange', @updateOwnership
+    @coll.removeListener 'sync', @rerenderComponent
 
   componentDidMount: ->
-    @refreshGuides()
-
+    @loadLocalOwnership()
+    @loadUserOwnership(@props.user)
     anchor = @refs.anchor.getDOMNode()
     annotation = @refs.annotation.getDOMNode()
     positionAnnotation(annotation, anchor)
@@ -57,21 +45,34 @@ module.exports = React.createClass
     window?.onresize = ->
       positionAnnotation(annotation, anchor)
 
-  refreshGuides: ->
-    if @isMounted()
-      @setState guides: @coll.guides(@state.ownership)
+  componentWillReceiveProps: (props) ->
+    @loadUserOwnership(props.user)
 
-  updateOwnership: (authData) ->
-    @ownershipChangeAction(authData.user.get('ownership') || 'own')
+  loadUserOwnership: (user) ->
+    if @isMounted() && user
+      @setLocalOwnership user.ownership()
+      @setState ownership: user.ownership()
+
+  rerenderComponent: ->
+    @forceUpdate() if @isMounted()
 
   ownershipChangeAction: (ownership) ->
+    @setLocalOwnership ownership
+    @props.user.updateOwnership(ownership) if @props.user
     if @isMounted()
-      @setState ownership: ownership, guides: @coll.guides(ownership)
+      @setState ownership: ownership
+
+  loadLocalOwnership: ->
+    if @isMounted
+      @setState ownership: (sessionStorage.getItem('ownership') || 'own')
+
+  setLocalOwnership: (ownership) ->
+    sessionStorage.setItem 'ownership', ownership
 
   render: ->
     ownershipData = [{name: "owners", value: "own"}, {name: "renters", value: "rent"}]
     userGuides = @props.user && @props.user.get('guides')
-
+    guides = @coll.guides(@state.ownership)
     new Layout {name: 'guides'},
       new NavBar user: @props.user, path: @props.context.pathname
 
@@ -86,9 +87,9 @@ module.exports = React.createClass
             span {}, "All guides for"
             new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
             span {}, " in Fort Collins"
-      if @state.guides.length > 0
+      if guides.length > 0
         div {className: "guides"},
-          @state.guides.map (guide, idx) =>
+          guides.map (guide, idx) =>
             new GuidePreview
               key: "guide#{guide.id}"
               guide: guide
