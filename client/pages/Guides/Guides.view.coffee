@@ -69,10 +69,10 @@ module.exports = React.createClass
 
   loadLocalOwnership: ->
     if @isMounted
-      @setState ownership: (localStorage.getItem('ownership') || 'own')
+      @setState ownership: (sessionStorage.getItem('ownership') || 'own')
 
   setLocalOwnership: (ownership) ->
-    localStorage.setItem 'ownership', ownership
+    sessionStorage.setItem 'ownership', ownership
 
   render: ->
     ownershipData = [{name: "owners", value: "own"}, {name: "renters", value: "rent"}]
