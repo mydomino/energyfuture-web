@@ -16,7 +16,7 @@ module.exports = React.createClass
     guide: null
 
   getInitialState: ->
-    activeIndex: null
+    activeIndex: 0
 
   setActiveIndex: (idx) ->
     idx = null if idx == @state.activeIndex
