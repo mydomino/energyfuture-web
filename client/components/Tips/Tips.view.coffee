@@ -58,4 +58,4 @@ module.exports = React.createClass
           div {className: "tip", key: tip.id},
             p {className: "tip-content", dangerouslySetInnerHTML: {"__html": Autolinker.link(content)}}
             new TipProfile user: user, location: location
-        div {className: "clear"}
+        div {className: "clear-both"}

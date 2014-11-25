@@ -1,15 +1,31 @@
-.incentives
+.modal-overlay
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  overflow: auto;
+  color: #272b34;
+  font-size: 1rem;
+  z-index: 9999;
+
+.incentive-modal
+  position fixed
+  left 20%
+  right 20%
+  margin 0 auto
+  top 20%
+
   .incentive
-    position relative
-    float left
     display inline-block
-    width 30%
-    margin 25px 0 0 3%
+    width 100%
+    margin-left 3%
     padding 20px
     border-radius 20px
     background linear-gradient(#FFF, #D7D7D7)
     box-shadow 0 0 8px 3px #B0A7A7
-    min-height 250px
+
     &:nth-child(3n+1)
       margin-left 0
     p
@@ -34,8 +50,11 @@
       margin-top 10px
       color rgba(#272B2C, 0.5)
     .incentive-reference
-      position absolute
-      bottom 15px
       display block
+      margin-top 6px
       color black
       text-decoration underline
+
+    .close-icon
+      float right
+      color #808080
