@@ -33,7 +33,7 @@ module.exports = React.createClass
       p {className: 'newsletter-signup-subtext'}, 'Sign up for the freshest tips, news and incentives.'
       if !@state.submitted
         form {className: 'newsletter-signup-form', onSubmit: @submit},
-          input {type: 'text', placeholder: 'enter your email', className: 'newsletter-signup-input', value: @state.email, onChange: @handleChange}
+          input {type: 'email', placeholder: 'enter your email', className: 'newsletter-signup-input', value: @state.email, onChange: @handleChange}
           button {className: 'newsletter-signup-button'}, 'Submit'
       else
         p {className: 'newsletter-signup-notice'}, "Great, you're signed up!"
