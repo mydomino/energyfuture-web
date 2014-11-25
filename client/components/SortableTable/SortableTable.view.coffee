@@ -11,7 +11,9 @@ module.exports = React.createClass
   displayName: 'SortableTable'
 
   componentDidMount: ->
-    if $(@refs.tableContent.getDOMNode()).height() >= 500
+    tableObject = $(@refs.tableContent.getDOMNode())
+    if tableObject.height() >= 600
+      tableObject.css('max-height', 500)
       $(@refs.readMore.getDOMNode()).show()
 
   sortedHeaders: (headers) ->
