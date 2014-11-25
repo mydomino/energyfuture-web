@@ -10,12 +10,7 @@ GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 
 posClass = (num) ->
-  if (num + 1) % 3 == 0
-    return 'guide-preview-third'
-  else if (num + 1) % 3 == 1
-    return 'guide-preview-first'
-  else
-    return ""
+  return 'guide-preview-third' if (num + 1) % 3 == 0
 
 positionAnnotation = (element, anchor) ->
   element.style.display = 'block'
