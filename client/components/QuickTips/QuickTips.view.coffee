@@ -4,11 +4,10 @@ Carousel = require '../../components/Carousel/Carousel.view'
 
 hasValidData = (guide) ->
   return false unless guide
-  return false unless guide.didYouKnows()
   true
 
 module.exports = React.createClass
-  displayName: 'DidYouKnow'
+  displayName: 'QuickTips'
 
   getDefaultProps: ->
     guide: null
@@ -16,9 +15,9 @@ module.exports = React.createClass
   render: ->
     return false unless hasValidData @props.guide
 
-    items = @props.guide.didYouKnows()
+    items = @props.guide.get('quickTips')
 
     div {className: "guide-module"},
-      h2 {className: 'guide-module-header'}, "did you know?"
+      h2 {className: 'guide-module-header'}, "Quick tips"
       div {className: 'guide-module-content'},
         new Carousel items: items

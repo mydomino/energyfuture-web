@@ -11,3 +11,4 @@ module.exports =
   SortableTable: require './SortableTable/SortableTable.view'
   CallToAction: require './CallToAction/CallToAction.view'
   Map: require './Map/Map.view'
+  QuickTips: require './QuickTips/QuickTips.view'
