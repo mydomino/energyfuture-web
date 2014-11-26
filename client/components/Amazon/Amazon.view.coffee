@@ -31,13 +31,14 @@ module.exports = React.createClass
         h2 {className: 'guide-module-header'}, amazon.heading
         p {className: "guide-module-subheader"}, amazon.subheading
 
-        div {className: 'product-list'},
-          _.map @state.products, (product) ->
-            div {className: 'product-item'},
-              a {href: product.itemLink, target: '_blank'},
-                img {src: product.imageUrl, className: 'product-image'}
-              p {className: "product-creator-section"},
-                span {}, "by"
-                span {className: "product-creators"}, product.creators
-              img {src: product.avgStarRatingImage}
-              span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"
+        div {className: 'guide-module-content'},
+          div {className: 'product-list'},
+            _.map @state.products, (product) ->
+              div {className: 'product-item'},
+                a {href: product.itemLink, target: '_blank'},
+                  img {src: product.imageUrl, className: 'product-image'}
+                p {className: "product-creator-section"},
+                  span {}, "by"
+                  span {className: "product-creators"}, product.creators
+                img {src: product.avgStarRatingImage}
+                span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"
