@@ -1,4 +1,4 @@
-{div} = React.DOM
+{div, h2} = React.DOM
 _ = require 'lodash'
 locationSearch = require '../../vendor/location-search'
 
@@ -20,7 +20,7 @@ module.exports = React.createClass
     self = @
     markers.map (result) ->
       marker = new L.Marker(new L.LatLng(result.Latitude, result.Longitude));
-      marker.on 'click', ->
+      marker.on 'click', (e) ->
         self.handleMarkerClick(result)
       self.mapObj.addLayer(marker);
 
@@ -60,14 +60,6 @@ module.exports = React.createClass
   componentDidMount: ->
     @mapObj = L.mapbox.map(@refs.map.getDOMNode(), 'illanti.in9ig8o9', { zoomControl: false });
 
-    @mapObj.dragging.disable()
-    @mapObj.touchZoom.disable()
-    @mapObj.doubleClickZoom.disable()
-    @mapObj.scrollWheelZoom.disable()
-
-    # Disable tap handler, if present.
-    @mapObj.tap.disable() if @mapObj.tap
-
     if _locationCache?
       @handleLocation(_locationCache)
     else
@@ -85,10 +77,16 @@ module.exports = React.createClass
     @props.mapClickHandler(@) if @props.mapClickHandler
 
   handleMarkerClick: (marker) ->
+    console.log(marker)
     @props.markerClickHandler(marker) if @props.markerClickHandler
 
   componentWillUpdate: ->
     @mapObj.invalidateSize()
 
   render: ->
-    div {className: 'map', ref: 'map', onClick: @handleMapClick}
+    return false unless hasValidData @props.guide
+
+    div {className: 'guide-module'},
+      h2 {className: 'guide-module-header'}, 'Map'
+      div {className: 'guide-module-content'},
+        div {className: 'map', ref: 'map', onClick: @handleMapClick}
