@@ -16,10 +16,11 @@ module.exports = React.createClass
     guide: null
 
   getInitialState: ->
-    activeIndex: -1
+    activeIndex: null
 
   setActive: (idx, content) ->
     idx = null if idx == @state.activeIndex
+    content = null if content == @state.activeContent
 
     @setState
       activeIndex: idx
@@ -35,7 +36,7 @@ module.exports = React.createClass
         if content
           p {className: "leading-question-content"}, content
         if question
-          h4 {className: "leading-question-question"}, question
+          p {className: "leading-question-question"}, question
         dl {className: 'leading-question-list'},
           switch type
             when "radio"
@@ -65,4 +66,4 @@ module.exports = React.createClass
                 ]
 
             else
-              console.log("Boohoo.")
+              console.warn("Did not understand the Leading Question type.")
