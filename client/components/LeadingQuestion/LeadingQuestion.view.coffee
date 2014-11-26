@@ -2,6 +2,7 @@
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
+CallToAction = require '../CallToAction/CallToAction.view'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -32,8 +33,22 @@ module.exports = React.createClass
         h4 {className: "leading-question-question"}, question
         dl {className: 'leading-question-list'},
           options.map (opt, idx) =>
+            point = opt.point
+            result = opt.result
+
             openClass = 'active' if idx == @state.activeIndex
-            [
-              dt {key: "option#{idx}-point", className: openClass, onClick: @setActiveIndex.bind(this, idx)}, opt.point
-              dd {key: "option#{idx}-result", className: openClass, dangerouslySetInnerHTML: {"__html": Autolinker.link(opt.result)}}
-            ]
+
+            if result.hasOwnProperty('cta')
+              [
+                dt {key: "option#{idx}-point", className: openClass, onClick: @setActiveIndex.bind(this, idx)}, point
+                dd {key: "option#{idx}-result", className: openClass},
+                  if result.hasOwnProperty('description')
+                    p {},
+                      result.description
+                  new CallToAction(actions: result.cta)
+              ]
+            else
+              [
+                dt {key: "option#{idx}-point", className: openClass, onClick: @setActiveIndex.bind(this, idx)}, point
+                dd {key: "option#{idx}-result", className: openClass, dangerouslySetInnerHTML: {"__html": Autolinker.link(opt.result)}}
+              ]
