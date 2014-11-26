@@ -1,0 +1,68 @@
+.guide-module-leading-question
+  .radio-results
+    .radio-result
+      margin-top 1em
+      font-weight 300
+      font-size 1.3em
+      text-align center
+      background whitesmoke
+      border-radius 5px
+      padding 5px
+
+    .options
+      margin-top 2em
+      text-align center
+      display block
+
+      .option-button
+        padding-right 5%
+        display inline-block
+        cursor pointer
+
+        .option-button-text
+          text-align center
+          font-size 19px
+
+        .option-button-image-container
+          margin 0 auto
+          width 50%
+          display block
+
+          .option-button-image
+            content: url("../img/radio-option-empty.svg")
+            &.active
+              content: url("../img/radio-option-complete.svg")
+
+  .leading-question-content, .leading-question-question
+    margin-top 0
+
+  .leading-question-question
+    font-weight 300
+    font-size 1.2em
+    text-align center
+
+  .leading-question-list
+    margin-top 0
+
+    dt
+      margin-top 1em
+      font-weight normal
+      display list-item
+      list-style-type disc
+      margin-left 3em
+      cursor pointer
+
+      &:first-child
+        margin-top 0
+
+      &.active, &:hover
+        font-weight bold
+
+    dd
+      display none
+      margin-top 1em
+      font-weight 300
+      margin-left 4em
+
+      &.active
+        display block
