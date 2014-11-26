@@ -3,6 +3,7 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
+UserGuides = require '../../models/UserGuides'
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 DropdownComponent = require '../../components/Dropdown/Dropdown.view'
@@ -38,11 +39,14 @@ module.exports = React.createClass
 
   componentWillMount: ->
     @coll = new GuideCollection
+    @claimedGuides = new UserGuides(@props.user, 'claimed')
     @coll.on "sync", @handleSync
-
     @setupState(@coll)
 
-  componentWillUnount: ->
+  componentWillReceiveProps: (props) ->
+    @claimedGuides = new UserGuides(props.user, 'claimed')
+
+  componentWillUnmount: ->
     @coll.removeListener 'sync', @handleSync
 
   handleSync: (coll) ->
@@ -71,7 +75,7 @@ module.exports = React.createClass
         new FootprintHeader user: @props.user
         div {className: "footprint-content"},
           h2 {}, "your points"
-          new ImpactScore score: @props.user?.attributes.score
+          new ImpactScore score: @claimedGuides.getPoints()
           h2 {}, "did you know?"
           p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"
           hr {className: "h-divider"}

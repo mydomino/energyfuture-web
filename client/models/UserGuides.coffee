@@ -9,6 +9,7 @@ module.exports = class UserGuides
     @filteredGuides()
 
   filteredGuides: =>
+    return [] unless @user
     @guides ||= _.reduce @user.get('guides'), ((_guides, guide, uniqId) =>
       _guides[uniqId] = new Guide(guide) if guide.status == @status
       _guides
@@ -31,4 +32,4 @@ module.exports = class UserGuides
     _.reduce @filteredGuides(), ((total, guide) ->
       total += parseInt(guide.get('score'), 10)
       total
-    ), 380
+    ), 0
