@@ -52,7 +52,8 @@ module.exports = React.createClass
                       p {className: "option-button-text"},
                         point
 
-                p {className: "radio-result"}, @state.activeContent
+                if @state.activeContent
+                  p {className: "radio-result", dangerouslySetInnerHTML: {"__html": @state.activeContent}}
 
             when "bullet"
               options.map (opt, idx) =>
@@ -61,8 +62,7 @@ module.exports = React.createClass
 
                 [
                   dt {key: "option#{idx}-point", className: openClass, onClick: @setActive.bind(this, idx, opt.result)}, point
-                  dd {key: "option#{idx}-result", className: openClass},
-                    opt.result
+                  dd {key: "option#{idx}-result", className: openClass, dangerouslySetInnerHTML: {"__html": Autolinker.link(opt.result)}}
                 ]
 
             else
