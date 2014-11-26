@@ -2,7 +2,6 @@
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
-CallToAction = require '../CallToAction/CallToAction.view'
 
 hasValidData = (guide) ->
   return false unless guide
