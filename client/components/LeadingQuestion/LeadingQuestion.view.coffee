@@ -1,4 +1,4 @@
-{div, h2, h4, p, dl, dt, dd} = React.DOM
+{div, h2, h4, p, dl, dt, dd, img, span} = React.DOM
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
@@ -18,37 +18,51 @@ module.exports = React.createClass
   getInitialState: ->
     activeIndex: -1
 
-  setActiveIndex: (idx) ->
+  setActive: (idx, content) ->
     idx = null if idx == @state.activeIndex
-    @setState activeIndex: idx
+
+    @setState
+      activeIndex: idx
+      activeContent: content
 
   render: ->
     return false unless hasValidData @props.guide
-    {content, question, options} = @props.guide.get('leadingQuestion')
+    {content, question, type, options} = @props.guide.get('leadingQuestion')
 
     div {className: 'guide-module guide-module-leading-question'},
       h2 {className: 'guide-module-header'}, 'Take Action'
       div {className: 'guide-module-content'},
-        p {className: "leading-question-content"}, content
-        h4 {className: "leading-question-question"}, question
+        if content
+          p {className: "leading-question-content"}, content
+        if question
+          h4 {className: "leading-question-question"}, question
         dl {className: 'leading-question-list'},
-          options.map (opt, idx) =>
-            point = opt.point
-            result = opt.result
+          switch type
+            when "radio"
+              div {className: "radio-results"},
+                div {className: "options"},
+                  options.map (opt, idx) =>
+                    point = opt.point
+                    openClass = 'active' if idx == @state.activeIndex
 
-            openClass = 'active' if idx == @state.activeIndex
+                    div {className: "option-button", onClick: @setActive.bind(this, idx, opt.result)},
+                      div {className: "option-button-image-container"},
+                        img {className: "option-button-image #{openClass}"}
+                      p {className: "option-button-text"},
+                        point
 
-            if result.hasOwnProperty('cta')
-              [
-                dt {key: "option#{idx}-point", className: openClass, onClick: @setActiveIndex.bind(this, idx)}, point
-                dd {key: "option#{idx}-result", className: openClass},
-                  if result.hasOwnProperty('description')
-                    p {},
-                      result.description
-                  new CallToAction(actions: result.cta)
-              ]
+                p {className: "radio-result"}, @state.activeContent
+
+            when "bullet"
+              options.map (opt, idx) =>
+                point = opt.point
+                openClass = 'active' if idx == @state.activeIndex
+
+                [
+                  dt {key: "option#{idx}-point", className: openClass, onClick: @setActive.bind(this, idx, opt.result)}, point
+                  dd {key: "option#{idx}-result", className: openClass},
+                    opt.result
+                ]
+
             else
-              [
-                dt {key: "option#{idx}-point", className: openClass, onClick: @setActiveIndex.bind(this, idx)}, point
-                dd {key: "option#{idx}-result", className: openClass, dangerouslySetInnerHTML: {"__html": Autolinker.link(opt.result)}}
-              ]
+              console.log("Boohoo.")

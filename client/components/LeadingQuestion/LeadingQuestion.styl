@@ -1,4 +1,33 @@
 .guide-module-leading-question
+  .radio-results
+    .radio-result
+      margin-top 1em
+      font-weight 300
+      margin-left 4em
+
+    .options
+      margin 0 auto
+      width 50%
+      display block
+
+      .option-button
+        padding-right 5%
+        display inline-block
+
+        .option-button-text
+          text-align center
+          font-size 19px
+
+        .option-button-image-container
+          margin 0 auto
+          width 50%
+          display block
+
+          .option-button-image
+            content: url("../img/radio-option-empty.svg")
+            &.active
+              content: url("../img/radio-option-complete.svg")
+
   .leading-question-content, .leading-question-question
     margin-top 0
 
