@@ -12,3 +12,4 @@ module.exports =
   WhatYouCanDo: require './WhatYouCanDo/WhatYouCanDo.view'
   Map: require './Map/Map.view'
   QuickTips: require './QuickTips/QuickTips.view'
+  LeadingQuestion: require './LeadingQuestion/LeadingQuestion.view'

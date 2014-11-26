@@ -1,0 +1,29 @@
+.guide-module-leading-question
+  .leading-question-content
+    margin-top 0
+
+  .leading-question-list
+    margin-top 0
+
+    dt
+      margin-top 1em
+      font-weight normal
+      display list-item
+      list-style-type disc
+      margin-left 3em
+      cursor pointer
+
+      &:first-child
+        margin-top 0
+
+      &.active, &:hover
+        font-weight bold
+
+    dd
+      display none
+      margin-top 1em
+      font-weight 300
+      margin-left 4em
+
+      &.active
+        display block
