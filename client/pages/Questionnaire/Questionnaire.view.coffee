@@ -16,6 +16,7 @@ module.exports = React.createClass
 
   getInitialState: ->
     guide: null
+    page: 1
 
   sortedFormModules: (questionnaire) ->
     _.sortBy(questionnaire, 'position')
@@ -38,9 +39,9 @@ module.exports = React.createClass
             div {className: 'guide-module guide-module-questionnaire'},
               h2 {className: 'questionnaire-header'}, title
               div {className: 'questionnaire-progress-container'},
-                div {className: 'questionnaire-progress-bar'}
+                div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}}
               form {className: 'questionnaire-form'},
-                _.map @sortedFormModules(questionnaire), (formModule, index) ->
+                _.map @sortedFormModules(questionnaire), (formModule, index) =>
                   new QuestionnaireModules[formModule.module](key: "component-#{index}", formData: formModule)
 
           else
