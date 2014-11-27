@@ -18,3 +18,4 @@ module.exports = React.createClass
         div {className: 'fieldset-item'},
           if input.type == 'radio'
             new RadioButton(radio: input)
+      new FormActions(nextAction: @props.nextAction)
