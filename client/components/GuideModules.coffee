@@ -9,4 +9,4 @@ module.exports =
   Incentives: require './Incentives/Incentives.view'
   Amazon: require './Amazon/Amazon.view'
   SortableTable: require './SortableTable/SortableTable.view'
-  CallToAction: require './CallToAction/CallToAction.view'
+  Questionnaire: require './Questionnaire/CallToAction.view'
