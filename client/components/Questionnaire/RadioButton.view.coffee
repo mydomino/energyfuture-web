@@ -1,4 +1,4 @@
-{div, h2, input, label, span} = React.DOM
+{div, h2, input, label, p} = React.DOM
 _ = require 'lodash'
 
 module.exports = React.createClass
@@ -18,3 +18,4 @@ module.exports = React.createClass
           div {className: 'questionnaire-radio-input', key: optionId},
             input {id: optionId, type: 'radio', name: radio.name, value: option.value}
             label {htmlFor: optionId}, option.label
+            p {className: 'input-description'}, option.description if option.description
