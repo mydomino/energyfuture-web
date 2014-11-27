@@ -40,8 +40,8 @@ module.exports = React.createClass
               div {className: 'questionnaire-progress-container'},
                 div {className: 'questionnaire-progress-bar'}
               form {className: 'questionnaire-form'},
-                _.map @sortedFormModules(questionnaire), (formModule) ->
-                  new QuestionnaireModules[formModule.module](formData: formModule)
+                _.map @sortedFormModules(questionnaire), (formModule, index) ->
+                  new QuestionnaireModules[formModule.module](key: "component-#{index}", formData: formModule)
 
           else
             new LoadingIcon

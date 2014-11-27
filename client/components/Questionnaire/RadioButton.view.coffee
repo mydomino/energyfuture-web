@@ -13,8 +13,8 @@ module.exports = React.createClass
     div {className: 'questionnaire-radio'},
       h2 {className: 'questionnaire-radio-header'}, radio.text
       div {},
-        _.map radio.options, (option) ->
-          optionId = "radio-#{option.value}"
-          div {className: 'questionnaire-radio-input'},
+        _.map radio.options, (option, index) ->
+          optionId = "option-#{index}"
+          div {className: 'questionnaire-radio-input', key: optionId},
             input {id: optionId, type: 'radio', name: radio.name}
             label {htmlFor: optionId}, option.label
