@@ -16,5 +16,5 @@ module.exports = React.createClass
         _.map radio.options, (option, index) ->
           optionId = "option-#{index}"
           div {className: 'questionnaire-radio-input', key: optionId},
-            input {id: optionId, type: 'radio', name: radio.name}
+            input {id: optionId, type: 'radio', name: radio.name, value: option.value}
             label {htmlFor: optionId}, option.label

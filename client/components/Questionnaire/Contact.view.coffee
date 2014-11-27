@@ -41,4 +41,4 @@ module.exports = React.createClass
       h2 {}, "Where are you located?"
       textarea {}
       new RadioButton(radio: radioData)
-      new FormActions
+      new FormActions(nextAction: @props.nextAction)

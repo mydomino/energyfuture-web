@@ -12,5 +12,5 @@ module.exports = React.createClass
     nextClass = if @props.page == @props.totalPageCount then 'disabled' else ''
     div {className: 'questionnaire-form-actions'},
       div {className: "previous #{previousClass}"}, "Previous"
-      div {className: "next #{nextClass}"}, "Next"
+      div {className: "next #{nextClass}", onClick: @props.nextAction}, "Next"
       div {className: 'clear-both'}
