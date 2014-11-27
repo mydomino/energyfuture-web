@@ -2,7 +2,7 @@
 _ = require 'lodash'
 
 RadioButton = require './RadioButton.view.coffee'
-FormActions = require './FormActions.view.coffee'
+PaginateActions = require './PaginateActions.view.coffee'
 
 module.exports = React.createClass
   displayName: 'Fieldset'
@@ -12,10 +12,11 @@ module.exports = React.createClass
 
   render: ->
     return unless @props.moduleData
+
     inputTypes = @props.moduleData["input-types"]
     div {className: 'questionnaire-fieldset'},
       _.map @sortedInputs(inputTypes), (input) ->
         div {className: 'fieldset-item'},
           if input.type == 'radio'
             new RadioButton(radio: input)
-      new FormActions(nextAction: @props.nextAction)
+      new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction)

@@ -1,7 +1,7 @@
 {div} = React.DOM
 
 module.exports = React.createClass
-  displayName: 'FormActions'
+  displayName: 'PaginateActions'
 
   getDefaultProps: ->
     page: 1
@@ -10,7 +10,8 @@ module.exports = React.createClass
   render: ->
     previousClass = if @props.page == 1 then 'disabled' else ''
     nextClass = if @props.page == @props.totalPageCount then 'disabled' else ''
-    div {className: 'questionnaire-form-actions'},
-      div {className: "previous #{previousClass}"}, "Previous"
+
+    div {className: 'questionnaire-paginate-actions'},
+      div {className: "previous #{previousClass}", onClick: @props.prevAction}, "Previous"
       div {className: "next #{nextClass}", onClick: @props.nextAction}, "Next"
       div {className: 'clear-both'}

@@ -10,6 +10,7 @@ module.exports = React.createClass
   render: ->
     radio = @props.radio
     return false if _.isEmpty radio
+
     div {className: 'questionnaire-radio'},
       h2 {className: 'questionnaire-radio-header'}, radio.text
       div {},

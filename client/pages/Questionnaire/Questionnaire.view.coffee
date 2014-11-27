@@ -16,10 +16,10 @@ module.exports = React.createClass
 
   getInitialState: ->
     guide: null
-    page: 2
+    page: 1
 
-  sortedFormModules: (questionnaire) ->
-    _.sortBy(questionnaire, 'position')
+  pickModule: (questionnaire) ->
+    _.find questionnaire, (q) => @state.page == q.position
 
   componentWillMount: ->
     guide = new Guide(id: @props.params.guide_id)
@@ -31,10 +31,15 @@ module.exports = React.createClass
 
   nextAction: ->
     if @isMounted()
-      @setState page: page + 1
+      @setState page: @state.page + 1
+
+  prevAction: ->
+    if @isMounted()
+      @setState page: @state.page - 1
 
   render: ->
     {title, questionnaire} = @state.guide.attributes if hasValidData(@state.guide)
+
     div {className: "page"},
       div {className: "container"},
         div {className: "container-padding"},
@@ -45,9 +50,7 @@ module.exports = React.createClass
               div {className: 'questionnaire-progress-container'},
                 div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}}
               form {className: 'questionnaire-form'},
-                _.map @sortedFormModules(questionnaire), (moduleData, index) =>
-                  if index + 1 == @state.page
-                    new QuestionnaireModules[moduleData.module](key: "component-#{index}", moduleData: moduleData, nextAction: @nextAction)
-
+                moduleData = @pickModule(questionnaire)
+                new QuestionnaireModules[moduleData.module](key: "component-#{@state.page}", moduleData: moduleData, nextAction: @nextAction, prevAction: @prevAction)
           else
             new LoadingIcon
