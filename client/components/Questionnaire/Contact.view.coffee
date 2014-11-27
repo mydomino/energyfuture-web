@@ -1,6 +1,7 @@
 {h2, div, label, input, textarea} = React.DOM
 
 RadioButton = require './RadioButton.view.coffee'
+FormActions = require './FormActions.view.coffee'
 
 module.exports = React.createClass
   displayName: 'Contact'
@@ -40,3 +41,4 @@ module.exports = React.createClass
       h2 {}, "Where are you located?"
       textarea {}
       new RadioButton(radio: radioData)
+      new FormActions
