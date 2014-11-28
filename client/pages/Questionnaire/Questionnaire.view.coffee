@@ -42,6 +42,9 @@ module.exports = React.createClass
 
     @setState guide: guide
 
+  componentDidUpdate: ->
+    window.scrollTo(0, 0)
+
   nextAction: ->
     if @isMounted()
       @setState page: @state.page + 1
