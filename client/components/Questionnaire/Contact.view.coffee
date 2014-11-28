@@ -11,7 +11,7 @@ module.exports = React.createClass
       position: "1"
       type: "radio"
       text: "Do you rent or own a house?"
-      name: "roof"
+      name: "house-ownership"
       options: [
         {
           value: "rent"
@@ -28,17 +28,17 @@ module.exports = React.createClass
       h2 {}, "What's your name?"
       div {className: 'contact-names'},
         div {className: 'contact-first-name'},
-          input {id: 'first-name'}
+          input {id: 'first-name', name: 'contact-first-name'}
           label {htmlFor: "first-name"}, "First Name"
         div {className: 'contact-last-name'},
-          input {id: 'last-name'}
+          input {id: 'last-name', name: 'contact-last-name'}
           label {htmlFor: "last-name"}, "Last Name"
         div {className: 'clear-both'}
       h2 {}, "What's your email address?"
-      input {}
+      input {type: 'email', required: true, name: 'contact-email'}
       h2 {}, "What's your phone number?"
-      input {}
+      input {required: true, name: 'contact-phone'}
       h2 {}, "Where are you located?"
-      textarea {}
+      textarea {name: 'contact-location'}
       new RadioButton(radio: radioData)
       new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction, page: @props.page, totalPageCount: @props.totalPageCount)
