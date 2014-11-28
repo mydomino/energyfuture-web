@@ -41,4 +41,4 @@ module.exports = React.createClass
       h2 {}, "Where are you located?"
       textarea {}
       new RadioButton(radio: radioData)
-      new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction)
+      new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction, page: @props.page, totalPageCount: @props.totalPageCount)

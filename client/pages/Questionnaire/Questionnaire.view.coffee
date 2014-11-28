@@ -21,6 +21,9 @@ module.exports = React.createClass
   pickModule: (questionnaire) ->
     _.find questionnaire, (q) => @state.page == q.position
 
+  totalPageCount: (questionnaire) ->
+    _.max(_.pluck(questionnaire, "position"))
+
   componentWillMount: ->
     guide = new Guide(id: @props.params.guide_id)
     guide.on "sync", =>
@@ -50,7 +53,6 @@ module.exports = React.createClass
               div {className: 'questionnaire-progress-container'},
                 div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}}
               form {className: 'questionnaire-form'},
-                moduleData = @pickModule(questionnaire)
-                new QuestionnaireModules[moduleData.module](key: "component-#{@state.page}", moduleData: moduleData, nextAction: @nextAction, prevAction: @prevAction)
+                new QuestionnaireModules[@pickModule(questionnaire).module](key: "component-#{@state.page}", moduleData: @pickModule(questionnaire), nextAction: @nextAction, prevAction: @prevAction, page: @state.page, totalPageCount: @totalPageCount(questionnaire))
           else
             new LoadingIcon

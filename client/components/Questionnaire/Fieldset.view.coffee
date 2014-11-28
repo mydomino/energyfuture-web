@@ -19,4 +19,4 @@ module.exports = React.createClass
         div {className: 'fieldset-item'},
           if input.type == 'radio'
             new RadioButton(radio: input)
-      new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction)
+      new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction, page: @props.page, totalPageCount: @props.totalPageCount)
