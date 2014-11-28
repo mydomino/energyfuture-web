@@ -1,22 +1,37 @@
 .guide-module-questionnaire
   margin-top 60px
   text-align center
+
   .questionnaire-header
     color rgba(#000000, 0.87)
     text-align left
+
   .questionnaire-progress-container
     position relative
     width 100%
     background #D8D8D8
-    height 20px
+    height 27px
     border-radius 10px
+
   .questionnaire-progress-bar
     position absolute
     background rgba(#272B2C, 0.5)
     top 0
     left 0
-    height 20px
+    height 27px
     border-radius 10px
+    .questionnaire-progress-bar-text
+      float left
+      margin-left 2em
+      margin-top 3px
+      color white
+      font-weight 600
+      &:first-letter
+        text-transform: uppercase
+      &.complete
+        float right
+        margin-right 2em
+
   .questionnaire-form
     margin-top 40px
     width 80%

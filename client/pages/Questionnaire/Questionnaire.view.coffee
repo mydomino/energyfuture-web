@@ -1,4 +1,4 @@
-{div, h2, p, form, input} = React.DOM
+{div, h2, p, form, input, span} = React.DOM
 
 _ = require 'lodash'
 Guide = require '../../models/Guide'
@@ -18,11 +18,21 @@ module.exports = React.createClass
     guide: null
     page: 1
 
-  pickModule: (questionnaire) ->
-    _.find questionnaire, (q) => @state.page == q.position
+  questionnaire: ->
+    @state.guide.get('questionnaire')
 
-  totalPageCount: (questionnaire) ->
-    _.max(_.pluck(questionnaire, "position"))
+  pickModule: ->
+    _.find @questionnaire(), (q) => @state.page == q.position
+
+  totalPageCount: ->
+    _.max(_.pluck(@questionnaire(), "position"))
+
+  isLastModule: ->
+    @state.page == @totalPageCount()
+
+  progressText:  ->
+    return "complete" if @isLastModule()
+    "#{@state.page} of #{@totalPageCount()}"
 
   componentWillMount: ->
     guide = new Guide(id: @props.params.guide_id)
@@ -51,8 +61,9 @@ module.exports = React.createClass
             div {className: 'guide-module guide-module-questionnaire'},
               h2 {className: 'questionnaire-header'}, title
               div {className: 'questionnaire-progress-container'},
-                div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}}
+                div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}},
+                  span {className: "questionnaire-progress-bar-text #{"complete" if @isLastModule()}"}, @progressText()
               form {className: 'questionnaire-form'},
-                new QuestionnaireModules[@pickModule(questionnaire).module](key: "component-#{@state.page}", guideId: @state.guide.id, moduleData: @pickModule(questionnaire), nextAction: @nextAction, prevAction: @prevAction, page: @state.page, totalPageCount: @totalPageCount(questionnaire))
+                new QuestionnaireModules[@pickModule().module](key: "component-#{@state.page}", guideId: @state.guide.id, moduleData: @pickModule(), nextAction: @nextAction, prevAction: @prevAction, page: @state.page, totalPageCount: @totalPageCount())
           else
             new LoadingIcon
