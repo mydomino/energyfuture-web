@@ -18,11 +18,22 @@ module.exports = React.createClass
 
   handleMarkers: (markers) ->
     self = @
-    markers.map (result) ->
+    markers.map (result) =>
       marker = new L.Marker(new L.LatLng(result.Latitude, result.Longitude));
-      marker.on 'click', (e) ->
-        self.handleMarkerClick(result)
+      @handleTooltip(marker, result)
+      marker.on 'click', -> self.handleMarkerClick(result)
       self.mapObj.addLayer(marker);
+
+  handleTooltip: (marker, result) ->
+    name = result.Title
+    if result.Rating.AverageRating == "NaN"
+      rating = "No average rating found"
+    else
+      rating = "Average rating is #{result.Rating.AverageRating} stars"
+    distance = result.Distance + " miles away"
+
+    popupContent = "<div class='map-search-tooltip'><ul><li>#{name}</li><li>#{distance}</li><li>#{rating}</li></ul></div>"
+    marker.bindPopup(popupContent, closeButton: true, minWidth: 200)
 
   handleLocation: (loc) ->
     locationSearchTerm = @props.guide.get('mapSearchTerm')
@@ -53,12 +64,22 @@ module.exports = React.createClass
           _searchResultsCache[locationSearchTerm] = results
           @handleMarkers(results)
 
+    featureLayer.on "layeradd", (e) ->
+      marker = e.layer
+      feature = marker.feature
+
+      popupContent = "<a target=\"_blank\" class=\"popup\" href=\"" + feature.properties.url + "\">" + "<img src=\"" + feature.properties.image + "\" />" + feature.properties.city + "</a>"
+
+      marker.bindPopup popupContent,
+        closeButton: false
+        minWidth: 320
+
   handleFailedLocation: (e) ->
     console.log "Position could not be found"
-    return
 
   componentDidMount: ->
     @mapObj = L.mapbox.map(@refs.map.getDOMNode(), 'illanti.in9ig8o9', { zoomControl: false });
+    @toolTipLayer = L.mapbox.featureLayer().addTo(@mapObj)
 
     if _locationCache?
       @handleLocation(_locationCache)
@@ -77,7 +98,6 @@ module.exports = React.createClass
     @props.mapClickHandler(@) if @props.mapClickHandler
 
   handleMarkerClick: (marker) ->
-    console.log(marker)
     @props.markerClickHandler(marker) if @props.markerClickHandler
 
   componentWillUpdate: ->
