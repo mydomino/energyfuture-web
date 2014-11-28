@@ -15,12 +15,10 @@ module.exports = React.createClass
     guide: null
 
   isExternal: (url) ->
-    return false unless /^(f|ht)tps?:\/\//i.test(url)
-    true
+    /^(f|ht)tps?:\/\//i.test(url)
 
   imageSrc: (url) ->
-    return url if @isExternal(url)
-    "/img/" + url
+    if @isExternal(url) then url else "/img/" + url
 
   render: ->
     return false unless hasValidData @props.guide
