@@ -32,6 +32,7 @@ module.exports = React.createClass
 
   render: ->
     return false unless hasValidData(@props.guide)
+
     sortableTable = @props.guide.get('sortable-table')
     sortedHeaderTitles = @sortedHeaderTitles(sortableTable.headers)
     sortedHeaderKeys = @sortedHeaderKeys(sortableTable.headers)
