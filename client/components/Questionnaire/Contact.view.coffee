@@ -28,17 +28,17 @@ module.exports = React.createClass
       h2 {}, "What's your name?"
       div {className: 'contact-names'},
         div {className: 'contact-first-name'},
-          input {id: 'first-name', name: 'contact-first-name'}
+          input {id: 'first-name', name: 'contact-first-name', defaultValue: @props.answers['contact-first-name']}
           label {htmlFor: "first-name"}, "First Name"
         div {className: 'contact-last-name'},
-          input {id: 'last-name', name: 'contact-last-name'}
+          input {id: 'last-name', name: 'contact-last-name', defaultValue: @props.answers['contact-last-name']}
           label {htmlFor: "last-name"}, "Last Name"
         div {className: 'clear-both'}
       h2 {}, "What's your email address?"
-      input {type: 'email', required: true, name: 'contact-email'}
+      input {type: 'email', required: true, name: 'contact-email', defaultValue: @props.answers['contact-email']}
       h2 {}, "What's your phone number?"
-      input {required: true, name: 'contact-phone'}
+      input {required: true, name: 'contact-phone', defaultValue: @props.answers['contact-phone']}
       h2 {}, "Where are you located?"
-      textarea {name: 'contact-location'}
-      new RadioButton(radio: radioData)
+      textarea {name: 'contact-location', defaultValue: @props.answers['contact-location']}
+      new RadioButton(radio: radioData, answers: @props.answers)
       new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction, page: @props.page, totalPageCount: @props.totalPageCount)

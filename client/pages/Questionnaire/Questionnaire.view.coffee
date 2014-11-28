@@ -44,14 +44,19 @@ module.exports = React.createClass
   componentDidUpdate: ->
     window.scrollTo(0, 0)
 
-  storeAnswers: ->
-    answers = JSON.parse(sessionStorage.getItem('questionnaire-answers')) || {}
+  loadAnswersFromSession: ->
+    JSON.parse(sessionStorage.getItem('questionnaire-answers')) || {}
+
+  loadAnswers: ->
     inputs = $(@refs.questionnaireForm.getDOMNode()).serializeArray()
     newAnswers = _.reduce inputs, (acc, input) ->
       acc[input.name] = input.value
       acc
     , {}
-    sessionStorage.setItem('questionnaire-answers', JSON.stringify(_.merge(answers, newAnswers)))
+    _.merge(@loadAnswersFromSession(), newAnswers)
+
+  storeAnswers: ->
+    sessionStorage.setItem('questionnaire-answers', JSON.stringify(@loadAnswers()))
 
   nextAction: ->
     @storeAnswers()
@@ -59,6 +64,7 @@ module.exports = React.createClass
       @setState page: @state.page + 1
 
   prevAction: ->
+    @storeAnswers()
     if @isMounted()
       @setState page: @state.page - 1
 
@@ -76,6 +82,6 @@ module.exports = React.createClass
                 div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}},
                   span {className: "questionnaire-progress-bar-text #{"complete" if @isLastModule()}"}, @progressText()
               form {className: 'questionnaire-form', ref: 'questionnaireForm'},
-                new QuestionnaireModules[@pickModule().module](key: "component-#{@state.page}", guideId: @state.guide.id, moduleData: @pickModule(), nextAction: @nextAction, prevAction: @prevAction, page: @state.page, totalPageCount: @totalPageCount())
+                new QuestionnaireModules[@pickModule().module](key: "component-#{@state.page}", guideId: @state.guide.id, moduleData: @pickModule(), nextAction: @nextAction, prevAction: @prevAction, page: @state.page, totalPageCount: @totalPageCount(), answers: @loadAnswersFromSession())
           else
             new LoadingIcon

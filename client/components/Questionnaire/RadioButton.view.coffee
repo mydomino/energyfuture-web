@@ -14,9 +14,10 @@ module.exports = React.createClass
     div {className: 'questionnaire-radio'},
       h2 {className: 'questionnaire-radio-header'}, radio.text
       div {},
-        _.map radio.options, (option, index) ->
+        _.map radio.options, (option, index) =>
           optionId = "option-#{index}"
+          checked = @props.answers[radio.name] == option.value
           div {className: 'questionnaire-radio-input', key: optionId},
-            input {id: optionId, type: 'radio', name: radio.name, value: option.value}
+            input {id: optionId, type: 'radio', name: radio.name, value: option.value, defaultChecked: checked}
             label {htmlFor: optionId}, option.label
             p {className: 'input-description'}, option.description if option.description
