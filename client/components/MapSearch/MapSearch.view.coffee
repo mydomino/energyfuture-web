@@ -54,9 +54,7 @@ module.exports = React.createClass
 
   handleLocation: (loc) ->
     locationSearchTerm = @props.guide.get('mapSearchTerm')
-
-    featureLayer = L.mapbox.featureLayer().addTo(@mapObj);
-
+    featureLayer = L.mapbox.featureLayer().addTo(@mapObj)
     @mapObj.fitBounds loc.bounds, { maxZoom: 13 }
 
     featureLayer.setGeoJSON
@@ -81,22 +79,14 @@ module.exports = React.createClass
           _searchResultsCache[locationSearchTerm] = results
           @handleMarkers(results)
 
-    featureLayer.on "layeradd", (e) ->
-      marker = e.layer
-      feature = marker.feature
-
-      popupContent = "<a target=\"_blank\" class=\"popup\" href=\"" + feature.properties.url + "\">" + "<img src=\"" + feature.properties.image + "\" />" + feature.properties.city + "</a>"
-
-      marker.bindPopup popupContent,
-        closeButton: false
-        minWidth: 320
-
   handleFailedLocation: (e) ->
     console.log "Position could not be found"
 
   componentDidMount: ->
-    @mapObj = L.mapbox.map(@refs.map.getDOMNode(), 'illanti.in9ig8o9', { zoomControl: false });
+    @mapObj = L.mapbox.map(@refs.map.getDOMNode(), 'illanti.in9ig8o9', { zoomControl: false })
     @toolTipLayer = L.mapbox.featureLayer().addTo(@mapObj)
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(@mapObj)
+    @mapObj.scrollWheelZoom.disable()
 
     if _locationCache?
       @handleLocation(_locationCache)
