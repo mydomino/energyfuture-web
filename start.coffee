@@ -5,6 +5,7 @@ http = require 'http'
 {join} = require 'path'
 
 AmazonProducts = require './server/AmazonProducts'
+YelpListings = require './server/YelpListings'
 
 PORT = Number(process.env.PORT || 8080);
 
@@ -20,6 +21,10 @@ app.use (err, req, res, next) ->
 
 app.get "/amazon-products", (req, res) ->
   new AmazonProducts().itemLookup req.query.products, (data) =>
+    res.status(200).send(data)
+
+app.get "/yelp-listings", (req, res) ->
+  new YelpListings().search req.query.term, req.query.location, (data) =>
     res.status(200).send(data)
 
 # page.js - client-side routing
