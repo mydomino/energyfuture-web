@@ -15,15 +15,11 @@ module.exports = React.createClass
     guide: null
 
   getInitialState: ->
-    activeIndex: null
+    activeIndex: 0
 
-  setActive: (idx, content) ->
+  setActive: (idx) ->
     idx = null if idx == @state.activeIndex
-    content = null if content == @state.activeContent
-
-    @setState
-      activeIndex: idx
-      activeContent: content
+    @setState activeIndex: idx
 
   render: ->
     return false unless hasValidData @props.guide
@@ -46,14 +42,13 @@ module.exports = React.createClass
                     point = opt.point
                     openClass = 'active' if idx == @state.activeIndex
 
-                    div {className: "option-button", onClick: @setActive.bind(this, idx, opt.result)},
+                    div {className: "option-button", onClick: @setActive.bind(this, idx)},
                       div {className: "option-button-image-container"},
                         img {className: "option-button-image #{openClass}"}
-                      p {className: "option-button-text"},
-                        point
+                      p {className: "option-button-text"}, point
 
-                if @state.activeContent
-                  p {className: "radio-result", dangerouslySetInnerHTML: {"__html": @state.activeContent}}
+                if @state.activeIndex?
+                  p {className: "radio-result", dangerouslySetInnerHTML: {"__html": options[@state.activeIndex].result}}
 
             when "bullet"
               options.map (opt, idx) =>
@@ -61,7 +56,7 @@ module.exports = React.createClass
                 openClass = 'active' if idx == @state.activeIndex
 
                 [
-                  dt {key: "option#{idx}-point", className: openClass, onClick: @setActive.bind(this, idx, opt.result)}, point
+                  dt {key: "option#{idx}-point", className: openClass, onClick: @setActive.bind(this, idx)}, point
                   dd {key: "option#{idx}-result", className: openClass, dangerouslySetInnerHTML: {"__html": Autolinker.link(opt.result)}}
                 ]
 
