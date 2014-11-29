@@ -24,7 +24,7 @@ app.get "/amazon-products", (req, res) ->
     res.status(200).send(data)
 
 app.get "/yelp-listings", (req, res) ->
-  new YelpListings().search req.query.term, req.query.location, (data) =>
+  new YelpListings().search req.query, (data) =>
     res.status(200).send(data)
 
 # page.js - client-side routing

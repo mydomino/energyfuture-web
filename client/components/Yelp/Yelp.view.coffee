@@ -18,7 +18,13 @@ module.exports = React.createClass
     guide: {}
 
   componentDidMount: ->
-    $.get "/yelp-listings", term: @props.guide.get('yelp').searchTerms[0], location: "San Fransisco", (res) =>
+    y = @props.guide.get('yelp')
+    query =
+      term: y.searchTerms[0]
+      location: "San Fransisco"
+      limit: y.limit
+
+    $.get "/yelp-listings", query, (res) =>
       @setState data: res if @isMounted()
 
   render: ->
@@ -34,9 +40,9 @@ module.exports = React.createClass
 
         div {className: 'guide-module-content'},
           ul {className: 'yelp-list'},
-            _.map _.first(@state.data.businesses, 7), (i) =>
+            _.map @state.data['businesses'], (i) =>
               console.log(i)
-              li {},
+              li {key: "yelp-item-#{i.id}"},
                 div {className: "yelp-main"},
                   div {className: "yelp-media-block"},
                     div {className: "yelp-media-avatar"},
@@ -48,10 +54,10 @@ module.exports = React.createClass
                       h3 {}, i.name
                       div {className: "yelp-media-ratingsbox"},
                         div {className: "yelp-media-rating"},
-                          img {alt:"#{i.rating} star rating", class:"offscreen", src: i.rating_img_url}
+                          img {alt:"#{i.rating} star rating", className:"offscreen", src: i.rating_img_url}
                         span {className: "yelp-media-review-count"}, "#{i.review_count} reviews"
 
                     div {className: "clear-both"}
 
-            console.log(@state.data)
+
 

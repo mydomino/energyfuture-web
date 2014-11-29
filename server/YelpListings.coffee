@@ -12,7 +12,7 @@ module.exports = class YelpListing
   constructor: ->
     @yelp = yelp.createClient(consumer_key: consumerKey, consumer_secret: consumerSecret, token: token, token_secret: tokenSecret)
 
-  search: (term, location, callback) ->
-    @yelp.search({ term: term, location: location }, (error, data) ->
+  search: (q, callback) ->
+    @yelp.search(q, (error, data) ->
       console.error(error)
       return callback(error || data))
