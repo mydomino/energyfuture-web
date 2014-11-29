@@ -25,7 +25,10 @@ app.get "/amazon-products", (req, res) ->
 
 app.get "/yelp-listings", (req, res) ->
   new YelpListings().search req.query, (data) =>
-    res.status(200).send(data)
+    if data.hasOwnProperty('error')
+      res.status(502).send("Server error on trying to fetch data from Yelp.")
+    else
+      res.status(200).send(data)
 
 # page.js - client-side routing
 app.get '/*', (req, res) ->
