@@ -1,7 +1,5 @@
 _ = require 'lodash'
 yelp = require 'yelp'
-cheerio = require 'cheerio'
-Q = require 'q'
 
 consumerKey = process.env.YELP_CONSUMER_KEY
 consumerSecret = process.env.YELP_CONSUMER_SECRET

@@ -66,9 +66,3 @@ module.exports = React.createClass
                         img {src: i.snippet_image_url}
                       div {className: "yelp-review-snippet-story"},
                         p {}, i.snippet_text
-
-
-
-
-
-
