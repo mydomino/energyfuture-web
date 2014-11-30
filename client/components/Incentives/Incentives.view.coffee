@@ -8,6 +8,8 @@ hasValidData = (guide) ->
   return false unless guide.get('incentives')
   true
 
+CutLength = 90
+
 module.exports = React.createClass
   displayName: 'Incentives'
 
@@ -20,12 +22,15 @@ module.exports = React.createClass
   showModal: (i) ->
     @setState modalIncentive: i
 
-  truncateDescription: (description, length) ->
-    d = description.slice(0,90)
-    if d.length < description.length
-      wordBoundary = d.lastIndexOf(' ')
-      d = "#{d.slice(0, wordBoundary)} #{String.fromCharCode(8230)}"
-    d
+  descriptionFits: (description) ->
+    d = description.slice(0, CutLength)
+    return false if d.length < description.length
+    true
+
+  truncateDescription: (description) ->
+    d = description.slice(0, CutLength)
+    wordBoundary = d.lastIndexOf(' ')
+    "#{d.slice(0, wordBoundary)} #{String.fromCharCode(8230)}"
 
   render: ->
     return false unless hasValidData @props.guide
@@ -53,13 +58,11 @@ module.exports = React.createClass
               if i.type
                 p {className: "incentive-type"}, i.type
 
-              p {className: "incentive-description", dangerouslySetInnerHTML: {"__html": @truncateDescription(i.description)}}
-
-              if i.reference
-                a {href: i.reference, className: "incentive-reference", target: "_blank"},
-                  "learn more"
+              if @descriptionFits(i.description)
+                p {className: "incentive-description"}, i.description
               else
-                a {className: "incentive-reference", onClick: @showModal.bind(@, i)},
-                  "learn more"
+                div {},
+                  p {className: "incentive-description", dangerouslySetInnerHTML: {"__html": @truncateDescription(i.description)}}
+                  a {className: "incentive-reference", onClick: @showModal.bind(@, i)}, "more"
 
       div {className: 'clear-both'}

@@ -16,10 +16,10 @@ module.exports = React.createClass
 
   render: ->
     return false unless hasValidData @props.guide
-    whatYouCanDos = @props.guide.get('whatYouCanDo')
+    whatYouCanDo = @props.guide.get('whatYouCanDo')
 
     div {},
       h2 {className: "guide-module-header"}, "What you can do"
-      p {className: "guide-module-subheader"}, "Real tips from real people near you."
+      p {className: "guide-module-subheader"}, whatYouCanDo.subheading
       div {className: 'guide-module-content'},
-        new CallToAction(actions: whatYouCanDos)
+        new CallToAction(actions: whatYouCanDo.cta)

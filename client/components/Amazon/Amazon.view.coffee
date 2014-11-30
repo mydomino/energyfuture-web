@@ -35,10 +35,10 @@ module.exports = React.createClass
           div {className: 'product-list'},
             _.map @state.products, (product) ->
               div {className: 'product-item'},
-                a {href: product.itemLink, target: '_blank', className: 'product-link'},
+                a {href: product.itemLink, className: "product-link", target: '_blank'},
                   img {src: product.imageUrl, className: 'product-image'}
-                p {className: "product-creator-section"},
-                  span {}, "by"
-                  span {className: "product-creators"}, product.creators
+                  p {className: "product-creator-section"},
+                    span {}, "by"
+                    span {className: "product-creators"}, product.creators
                 img {src: product.avgStarRatingImage}
                 span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"

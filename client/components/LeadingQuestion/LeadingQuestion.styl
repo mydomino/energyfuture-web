@@ -25,10 +25,11 @@
 
         .option-button-image-container
           margin 0 auto
-          width 50%
+          width 30%
           display block
 
           .option-button-image
+            width 45%
             content: url("../img/radio-option-empty.svg")
             &.active
               content: url("../img/radio-option-complete.svg")
@@ -39,7 +40,12 @@
   .leading-question-question
     font-weight 300
     font-size 1.2em
-    text-align center
+
+    &.radio
+      text-align center
+
+    &.bullet
+      text-align left
 
   .leading-question-list
     margin-top 0
@@ -49,7 +55,7 @@
       font-weight normal
       display list-item
       list-style-type disc
-      margin-left 3em
+      margin-left 1em
       cursor pointer
 
       &:first-child
@@ -62,7 +68,7 @@
       display none
       margin-top 1em
       font-weight 300
-      margin-left 4em
+      margin-left 2em
 
       &.active
         display block
