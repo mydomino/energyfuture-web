@@ -10,6 +10,9 @@ hasValidData = (guide) ->
   return false if _.isEmpty guide.get('mapSearchTerm')
   true
 
+$.fn.ratingStars = ->
+  $(@).html $("<span/>").width($(@).text() * 16)
+
 module.exports = React.createClass
   displayName: 'MapSearch'
 
@@ -17,18 +20,41 @@ module.exports = React.createClass
     guide: null
 
   handleMarkers: (markers) ->
-    self = @
-    markers.map (result) ->
-      marker = new L.Marker(new L.LatLng(result.Latitude, result.Longitude));
-      marker.on 'click', (e) ->
-        self.handleMarkerClick(result)
-      self.mapObj.addLayer(marker);
+    markers.map (result) =>
+      marker = new L.Marker(new L.LatLng(result.Latitude, result.Longitude))
+
+      markerClickCallbacks = []
+      markerClickCallbacks.push(@handleTooltip(marker, result))
+
+      marker.on 'click', =>
+        @handleMarkerClick(result, markerClickCallbacks)
+
+      @mapObj.addLayer(marker)
+
+  handleTooltip: (marker, result) ->
+    name = result.Title
+    address = result.Address
+    phone = result.Phone
+
+    link = if result.BusinessClickUrl
+      "<a href='" + result.BusinessClickUrl + "' target='_blank'>#{result.BusinessClickUrl}</a>"
+    else
+      ""
+
+    averageRating = Number(result.Rating.AverageRating)
+    ratingStars = unless isNaN(averageRating)
+      "<span class='map-search-tooltip-average-rating'>" + averageRating + "</span>"
+    else
+      ""
+
+    popupContent = "<div class='map-search-tooltip'><ul><li>#{name}</li><li>#{address}</li><li>#{phone}</li><li>#{link}</li><li>#{ratingStars}</li></ul></div>"
+    marker.bindPopup(popupContent, closeButton: true, minWidth: 200)
+
+    -> $('.map-search-tooltip-average-rating').ratingStars()
 
   handleLocation: (loc) ->
     locationSearchTerm = @props.guide.get('mapSearchTerm')
-
-    featureLayer = L.mapbox.featureLayer().addTo(@mapObj);
-
+    featureLayer = L.mapbox.featureLayer().addTo(@mapObj)
     @mapObj.fitBounds loc.bounds, { maxZoom: 13 }
 
     featureLayer.setGeoJSON
@@ -55,10 +81,12 @@ module.exports = React.createClass
 
   handleFailedLocation: (e) ->
     console.log "Position could not be found"
-    return
 
   componentDidMount: ->
-    @mapObj = L.mapbox.map(@refs.map.getDOMNode(), 'illanti.in9ig8o9', { zoomControl: false });
+    @mapObj = L.mapbox.map(@refs.map.getDOMNode(), 'illanti.in9ig8o9', { zoomControl: false })
+    @toolTipLayer = L.mapbox.featureLayer().addTo(@mapObj)
+    new L.Control.Zoom({ position: 'bottomright' }).addTo(@mapObj)
+    @mapObj.scrollWheelZoom.disable()
 
     if _locationCache?
       @handleLocation(_locationCache)
@@ -76,9 +104,9 @@ module.exports = React.createClass
   handleMapClick: ->
     @props.mapClickHandler(@) if @props.mapClickHandler
 
-  handleMarkerClick: (marker) ->
-    console.log(marker)
+  handleMarkerClick: (marker, callbacks) ->
     @props.markerClickHandler(marker) if @props.markerClickHandler
+    callbacks.map (c) -> c()
 
   componentWillUpdate: ->
     @mapObj.invalidateSize()

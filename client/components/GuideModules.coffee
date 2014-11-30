@@ -14,3 +14,5 @@ module.exports =
   MapSearch: require './MapSearch/MapSearch.view'
   QuickTips: require './QuickTips/QuickTips.view'
   LeadingQuestion: require './LeadingQuestion/LeadingQuestion.view'
+  Yelp: require './Yelp/Yelp.view'
+  Images: require './Images/Images.view'
