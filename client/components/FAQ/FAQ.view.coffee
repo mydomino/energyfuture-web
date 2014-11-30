@@ -3,7 +3,6 @@
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-# Defines what is required for this module to render
 hasValidData = (guide) ->
   return false unless guide
   return false if _.isEmpty guide.get('faq')

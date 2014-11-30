@@ -1,0 +1,27 @@
+.map
+  height 500px
+  width 100%
+
+.map-search-tooltip
+  span.map-search-tooltip-average-rating, span.map-search-tooltip-average-rating span {
+    display: block;
+    background: url('../img/rating-stars.png') 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+  }
+
+  span.map-search-tooltip-average-rating span {
+    background-position: 0 0;
+  }
+
+  ul
+    padding-left 0
+    li
+      color rgba(100,100,100,1)
+      font-weight 600
+      list-style-type: none
+      padding: 5px 0 5px 0
+
+.leaflet-popup-content
+  padding 5px 15px 5px 15px !important
+  background: rgba(255, 255, 255, 0.3)

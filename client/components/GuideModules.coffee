@@ -11,6 +11,7 @@ module.exports =
   SortableTable: require './SortableTable/SortableTable.view'
   WhatYouCanDo: require './WhatYouCanDo/WhatYouCanDo.view'
   Map: require './Map/Map.view'
+  MapSearch: require './MapSearch/MapSearch.view'
   QuickTips: require './QuickTips/QuickTips.view'
   LeadingQuestion: require './LeadingQuestion/LeadingQuestion.view'
   Yelp: require './Yelp/Yelp.view'
