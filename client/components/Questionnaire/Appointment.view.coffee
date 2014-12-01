@@ -103,5 +103,5 @@ module.exports = React.createClass
     else
       div {className: 'questionnaire-appointment'},
           div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @dateChangeAction)
-          div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers)
+          div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers, changeAction: @dateChangeAction)
           new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")
