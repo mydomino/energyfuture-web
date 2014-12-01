@@ -43,12 +43,12 @@ module.exports = React.createClass
                     openClass = 'active' if idx == @state.activeIndex
 
                     div {className: "option-button", onClick: @setActive.bind(this, idx)},
-                      div {className: "option-button-image-container"},
-                        img {className: "option-button-image #{openClass}"}
+                      img {className: "option-button-image #{openClass}"}
                       p {className: "option-button-text"}, point
 
+                  div {className: "clear-both"}
                 if @state.activeIndex?
-                  p {className: "radio-result", dangerouslySetInnerHTML: {"__html": options[@state.activeIndex].result}}
+                  p {className: "radio-result", dangerouslySetInnerHTML: {"__html": Autolinker.link(options[@state.activeIndex].result)}}
 
             when "bullet"
               options.map (opt, idx) =>

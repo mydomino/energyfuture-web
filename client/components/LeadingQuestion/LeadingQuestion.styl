@@ -4,7 +4,6 @@
       margin-top 1em
       font-weight 300
       font-size 1.3em
-      text-align center
       background whitesmoke
       border-radius 5px
       padding 5px
@@ -16,23 +15,19 @@
 
       .option-button
         padding-right 5%
-        display inline-block
+        float left
         cursor pointer
+        width 20%
 
         .option-button-text
           text-align center
-          font-size 19px
+          font-size 14px
 
-        .option-button-image-container
-          margin 0 auto
-          width 30%
-          display block
-
-          .option-button-image
-            width 45%
-            content: url("../img/radio-option-empty.svg")
-            &.active
-              content: url("../img/radio-option-complete.svg")
+        .option-button-image
+          width 10%
+          content: url("../img/radio-option-empty.svg")
+          &.active
+            content: url("../img/radio-option-complete.svg")
 
   .leading-question-content, .leading-question-question
     margin-top 0
@@ -42,7 +37,7 @@
     font-size 1.2em
 
     &.radio
-      text-align center
+      text-align left
 
     &.bullet
       text-align left
