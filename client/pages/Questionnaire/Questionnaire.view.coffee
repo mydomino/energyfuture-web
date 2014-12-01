@@ -74,9 +74,21 @@ module.exports = React.createClass
     answerData = _.merge @loadAnswers(), {guide_id: @state.guide.id, user_id: @props.user.id}
     @answerColl.add(answerData)
 
+  sendEmailToAdmins: ->
+    $.ajax
+      type: 'POST'
+      url: '/questionnaire-email'
+      data: JSON.stringify(answers: _.merge @loadAnswers(), {guide_id: @state.guide.id, user_id: @props.user.id})
+      contentType: 'application/json; charset=utf-8'
+      success: ->
+        console.log 'Email sent to admins.'
+      error: ->
+        console.log 'Server borked while sending emails.'
+
   storeInSessionAndFirebaseAction: ->
     @storeAnswers()
     @storeInFirebase()
+    @sendEmailToAdmins()
 
   render: ->
     {title, questionnaire} = @state.guide.attributes if hasValidData(@state.guide)
