@@ -71,14 +71,20 @@ module.exports = React.createClass
       @setState page: @state.page - 1
 
   storeInFirebase: ->
-    answerData = _.merge @loadAnswers(), {guide_id: @state.guide.id, user_id: @props.user.id}
+    params = {guide_id: @state.guide.id}
+    _.merge(params, {user_id: @props.user.id}) if @props.user?
+
+    answerData = _.merge @loadAnswers(), params
     @answerColl.add(answerData)
 
   sendEmailToAdmins: ->
+    params = {guide_id: @state.guide.id}
+    _.merge(params, {user_id: @props.user.id}) if @props.user?
+
     $.ajax
       type: 'POST'
       url: '/questionnaire-email'
-      data: JSON.stringify(answers: _.merge @loadAnswers(), {guide_id: @state.guide.id, user_id: @props.user.id})
+      data: JSON.stringify(answers: _.merge @loadAnswers(), params
       contentType: 'application/json; charset=utf-8'
       success: ->
         console.log 'Email sent to admins.'
