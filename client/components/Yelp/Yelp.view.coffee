@@ -51,10 +51,11 @@ module.exports = React.createClass
                 div {className: "yelp-media-block"},
                   div {className: "yelp-media-avatar"},
                     div {className: "yelp-media-photobox"},
-                      a {href: i.url},
+                      a {href: i.url, target: "_blank"},
                         img {src: i.image_url}
                   div {className: "yelp-media-story"},
-                    h3 {}, i.name
+                    a {href: i.url, target: "_blank"},
+                      h3 {}, i.name
                     div {className: "yelp-media-ratingsbox"},
                       div {className: "yelp-media-rating"},
                         img {alt:"#{i.rating} star rating", className:"offscreen", src: i.rating_img_url}
