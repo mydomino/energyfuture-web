@@ -1,4 +1,4 @@
-{h2, div, p} = React.DOM
+{h2, div, p, input} = React.DOM
 
 moment = require 'moment'
 RadioButton = require './RadioButton.view.coffee'
@@ -26,6 +26,7 @@ module.exports = React.createClass
       position: "1",
       text: "When is a good day to talk?",
       type: "radio",
+      required: true,
       options: [
         {
           description: @laterDate(1).date,
@@ -56,6 +57,7 @@ module.exports = React.createClass
       position: "3",
       text: "What time should we call you?",
       type: "radio",
+      required: true,
       options: [
         {
           description: "9a-11a",

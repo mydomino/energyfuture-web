@@ -1,4 +1,4 @@
-{div} = React.DOM
+{div, input} = React.DOM
 
 module.exports = React.createClass
   displayName: 'PaginateActions'
@@ -6,8 +6,6 @@ module.exports = React.createClass
   getDefaultProps: ->
     page: 1
     totalPageCount: 1
-    nextClass: ''
-    previousClass: ''
 
   disableNext: ->
     @props.page == @props.totalPageCount
@@ -15,11 +13,26 @@ module.exports = React.createClass
   disablePrev: ->
     @props.page == 1
 
+  componentDidMount: ->
+    #this is done to trigger html validations
+    $(".questionnaire-form").on 'submit', (event) ->
+      event.preventDefault()
+
+  prevAction: ->
+    @props.prevAction() unless @disablePrev()
+
+  isFormValid: ->
+    $('.questionnaire-form')[0].checkValidity()
+
+  nextAction: ->
+    if @isFormValid() && !@disableNext()
+      @props.nextAction()
+
   render: ->
-    previousClass = @props.previousClass + 'disabled' if @disablePrev()
-    nextClass = @props.nextClass + 'disabled' if @disableNext()
+    previousClass = if @disablePrev() then 'disabled' else ''
+    nextClass = if @disableNext() then 'disabled' else ''
 
     div {className: 'questionnaire-paginate-actions'},
-      div {className: "previous #{previousClass}", onClick: => @props.prevAction() unless @disablePrev()}, "Previous"
-      div {className: "next #{nextClass}", onClick: => @props.nextAction() unless @disableNext()}, "Next"
+      input {type: 'button', className: "previous #{previousClass}", onClick: @prevAction, defaultValue: "Previous"}
+      input {type: 'submit', className: "next #{nextClass}", onClick: @nextAction, defaultValue: "Next"}
       div {className: 'clear-both'}
