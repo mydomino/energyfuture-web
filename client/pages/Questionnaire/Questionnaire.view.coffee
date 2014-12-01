@@ -70,9 +70,13 @@ module.exports = React.createClass
     if @isMounted()
       @setState page: @state.page - 1
 
-  firebaseSaveAction: ->
+  storeInFirebase: ->
     answerData = _.merge @loadAnswers(), {guide_id: @state.guide.id, user_id: @props.user.id}
     @answerColl.add(answerData)
+
+  storeInSessionAndFirebaseAction: ->
+    @storeAnswers()
+    @storeInFirebase()
 
   render: ->
     {title, questionnaire} = @state.guide.attributes if hasValidData(@state.guide)
@@ -97,6 +101,6 @@ module.exports = React.createClass
                   page: @state.page
                   totalPageCount: @totalPageCount()
                   answers: @loadAnswersFromSession()
-                  firebaseSaveAction: @firebaseSaveAction
+                  storeInSessionAndFirebaseAction: @storeInSessionAndFirebaseAction
           else
             new LoadingIcon

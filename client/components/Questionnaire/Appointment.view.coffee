@@ -12,20 +12,6 @@ module.exports = React.createClass
     next = moment(moment().add(inc, "days"))
     { date: next.format("MMMM Do"), day: next.format("dddd") }
 
-  loadAnswersFromSession: ->
-    JSON.parse(sessionStorage.getItem('questionnaire-answers')) || {}
-
-  loadAnswers: ->
-    inputs = $('.questionnaire-form').serializeArray()
-    newAnswers = _.reduce inputs, (acc, input) ->
-      acc[input.name] = input.value
-      acc
-    , {}
-    _.merge(@loadAnswersFromSession(), newAnswers)
-
-  storeAnswersInSession: ->
-    sessionStorage.setItem('questionnaire-answers', JSON.stringify(@loadAnswers()))
-
   dateChangeAction: ->
     if $("input[name='appointment-date']:checked").val() == 'later'
       @setState callLater: true
@@ -34,7 +20,7 @@ module.exports = React.createClass
     page "/guides"
 
   confirmAction: ->
-    @props.firebaseSaveAction()
+    @props.storeInSessionAndFirebaseAction()
     @setState confirmed: true
 
   getInitialState: ->
@@ -58,12 +44,12 @@ module.exports = React.createClass
           description: @laterDate(2).date,
           label: @laterDate(2).day,
           position: "10",
-          value: "thursday"
+          value: @laterDate(2).day.toLowerCase()
         }, {
           description: @laterDate(3).date,
           label: @laterDate(3).day,
           position: "30",
-          value: "friday"
+          value: @laterDate(3).day.toLowerCase()
         }, {
           description: "In the future...",
           label: "Later",
