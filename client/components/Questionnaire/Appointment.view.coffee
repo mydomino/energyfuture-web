@@ -1,4 +1,4 @@
-{h2, div, label, input, textarea} = React.DOM
+{h2, div, p} = React.DOM
 
 moment = require 'moment'
 RadioButton = require './RadioButton.view.coffee'
@@ -11,8 +11,14 @@ module.exports = React.createClass
     next = moment(moment().add(inc, "days"))
     { date: next.format("MMMM Do"), day: next.format("dddd") }
 
-  moreAction: ->
-    page "/guide/#{@props.guideId}"
+  confirmAction: ->
+    @setState confirmed: true
+
+  guideIndexAction: ->
+    page "/guides"
+
+  getInitialState: ->
+    confirmed: false
 
   render: ->
     appointmentDateData = {
@@ -70,7 +76,13 @@ module.exports = React.createClass
       ]
     }
 
-    div {className: 'questionnaire-appointment'},
-      div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData)
-      div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData)
-      new Action(moreAction: @moreAction, actionName: "Confirm Appointment")
+    if @state.confirmed
+      div {className: 'questionnaire-appointment'},
+        h2 {className: 'confirmation-header'}, "Great."
+        p {className: 'confirmation-subheader'}, "We'll call you #{@props.answers['appointment-date']} between #{@props.answers['appointment-time']}."
+        new Action(moreAction: @guideIndexAction, actionName: "Explore another guide")
+    else
+      div {className: 'questionnaire-appointment'},
+          div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers)
+          div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers)
+          new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")
