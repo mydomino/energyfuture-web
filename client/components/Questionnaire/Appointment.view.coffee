@@ -14,11 +14,16 @@ module.exports = React.createClass
   confirmAction: ->
     @setState confirmed: true
 
+  scheduleAction: ->
+    if $("input[name='appointment-date']:checked").val() == 'later'
+      @setState callLater: true
+
   guideIndexAction: ->
     page "/guides"
 
   getInitialState: ->
     confirmed: false
+    callLater: false
 
   render: ->
     appointmentDateData = {
@@ -79,12 +84,16 @@ module.exports = React.createClass
     }
 
     if @state.confirmed
+      subheader = if @state.callLater
+          "We'll call you later."
+        else
+          "We'll call you #{@props.answers['appointment-date']} between #{@props.answers['appointment-time']}."
       div {className: 'questionnaire-appointment'},
         h2 {className: 'confirmation-header'}, "Great."
-        p {className: 'confirmation-subheader'}, "We'll call you #{@props.answers['appointment-date']} between #{@props.answers['appointment-time']}."
+        p {className: 'confirmation-subheader'}, subheader
         new Action(moreAction: @guideIndexAction, actionName: "Explore another guide")
     else
       div {className: 'questionnaire-appointment'},
-          div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers)
+          div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @scheduleAction)
           div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers)
           new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")

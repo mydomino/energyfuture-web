@@ -19,6 +19,6 @@ module.exports = React.createClass
           required = if (radio.required && index == 0) then true else false
           checked = @props.answers[radio.name] == option.value
           div {className: 'questionnaire-radio-input', key: optionId},
-            input {id: optionId, type: 'radio', name: radio.name, value: option.value, required: required, defaultChecked: checked}
+            input {id: optionId, type: 'radio', name: radio.name, value: option.value, required: required, defaultChecked: checked, onChange: @props.changeAction}
             label {htmlFor: optionId}, option.label
             p {className: 'input-description'}, option.description if option.description
