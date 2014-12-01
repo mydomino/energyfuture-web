@@ -2,6 +2,8 @@
 
 _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
+Carousel = require '../Carousel/Carousel.view'
+
 
 hasValidData = (guide) ->
   return false unless guide
@@ -21,6 +23,17 @@ module.exports = React.createClass
     $.get "/amazon-products", products: @props.guide.get('amazon').productIds, (res) =>
       @setState products: res if @isMounted()
 
+  productItems: ->
+    _.map @state.products, (product) ->
+      div {className: 'product-item'},
+        a {href: product.itemLink, className: "product-link", target: '_blank'},
+          img {src: product.imageUrl, className: 'product-image'}
+          p {className: "product-creator-section"},
+            span {}, "by"
+            span {className: "product-creators"}, product.creators
+        img {src: product.avgStarRatingImage}
+        span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"
+
   render: ->
     return false unless hasValidData(@props.guide)
     amazon = @props.guide.get('amazon')
@@ -33,12 +46,7 @@ module.exports = React.createClass
 
         div {className: 'guide-module-content'},
           div {className: 'product-list'},
-            _.map @state.products, (product) ->
-              div {className: 'product-item'},
-                a {href: product.itemLink, className: "product-link", target: '_blank'},
-                  img {src: product.imageUrl, className: 'product-image'}
-                  p {className: "product-creator-section"},
-                    span {}, "by"
-                    span {className: "product-creators"}, product.creators
-                img {src: product.avgStarRatingImage}
-                span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"
+            if @state.products.length > 3
+              new Carousel count: 3, items: @productItems()
+            else
+              @productItems()

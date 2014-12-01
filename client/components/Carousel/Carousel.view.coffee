@@ -8,13 +8,14 @@ module.exports = React.createClass
 
   getDefaultProps: ->
     items: []
+    count: 1
 
   attachSlider: ->
     $(@refs.slider.getDOMNode()).slick
       infinite: true,
       speed: 300,
-      slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToShow: @props.count,
+      slidesToScroll: @props.count,
       adaptiveHeight: true
 
   componentDidMount: ->
@@ -29,4 +30,7 @@ module.exports = React.createClass
     div {className: 'guide-module-carousel'},
       div {className: "slider", ref: 'slider'},
         @props.items.map (item, idx) ->
-          div {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(item)}}
+          if typeof item == 'string'
+            div {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(item)}}
+          else
+            div {key: "item#{idx}"}, item
