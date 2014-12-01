@@ -84,7 +84,7 @@ module.exports = React.createClass
     $.ajax
       type: 'POST'
       url: '/questionnaire-email'
-      data: JSON.stringify(answers: _.merge @loadAnswers(), params
+      data: JSON.stringify(answers: _.merge @loadAnswers(), params)
       contentType: 'application/json; charset=utf-8'
       success: ->
         console.log 'Email sent to admins.'
