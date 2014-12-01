@@ -1,26 +1,39 @@
 {div, form, h1, button, p, input} = React.DOM
 firebase = require '../../firebase'
+auth = require '../../auth'
 
 module.exports = React.createClass
   displayName: 'NewsletterSignupForm'
   getInitialState: ->
     email: ''
     submitted: false
+    user: auth.user
+  setUser: ->
+    @setState user: auth.user
+  componentWillMount: ->
+    auth.on 'authStateChange', @setUser
+  componentWillUnmount: ->
+    auth.removeListener 'authStateChange', @setUser
   handleChange: (event) ->
     @setState email: event.target.value
   submit: ->
     firebaseRef = firebase.inst('/newsletter-signups')
     firebaseRef.push(@state.email)
 
+    @state.user.newsletterSignup(@state.email) if @state.user
+
     @setState email: '', submitted: true
+
     return false
   render: ->
+    return false if !@state.submitted && @state.user && @state.user.isNewsletterRecipient()
+
     div {className: 'newsletter-signup'},
       h1 {className: 'newsletter-signup-title'}, 'Get tipped.'
       p {className: 'newsletter-signup-subtext'}, 'Sign up for the freshest tips, news and incentives.'
       if !@state.submitted
         form {className: 'newsletter-signup-form', onSubmit: @submit},
-          input {type: 'text', placeholder: 'enter your email', className: 'newsletter-signup-input', value: @state.email, onChange: @handleChange}
+          input {type: 'email', placeholder: 'enter your email', className: 'newsletter-signup-input', value: @state.email, onChange: @handleChange, required: 'required'}
           button {className: 'newsletter-signup-button'}, 'Submit'
       else
-        p {className: 'newsletter-signup-notice'}, "Thanks! You've been added."
+        p {className: 'newsletter-signup-notice'}, "Great, you're signed up!"

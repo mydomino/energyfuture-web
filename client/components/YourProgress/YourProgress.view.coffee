@@ -12,7 +12,7 @@ module.exports = React.createClass
     totalScore: 0
 
   viewGuide: (id) ->
-    page "/guide/#{id}"
+    page "/guides/#{id}"
 
   setCompletedProgress: (category, score) ->
     refItem = "progressCompletedFor#{category}"

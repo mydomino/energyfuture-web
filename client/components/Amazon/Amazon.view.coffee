@@ -5,38 +5,40 @@ LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 
 hasValidData = (guide) ->
   return false unless guide
-  return false if _.isEmpty guide.get('bookIds')
+  return false if _.isEmpty guide.get('amazon')
   true
 
 module.exports = React.createClass
   displayName: 'Amazon'
 
   getInitialState: ->
-    books: []
+    products: []
 
   getDefaultProps: ->
     guide: {}
 
   componentDidMount: ->
-    $.get "/amazon-products", books: @props.guide.get('bookIds'), (res) =>
-      @setState books: res if @isMounted()
+    $.get "/amazon-products", products: @props.guide.get('amazon').productIds, (res) =>
+      @setState products: res if @isMounted()
 
   render: ->
     return false unless hasValidData(@props.guide)
-    if _.isEmpty @state.books
+    amazon = @props.guide.get('amazon')
+    if _.isEmpty @state.products
       new LoadingIcon
     else
       div {className: 'guide-module guide-module-amazon-products'},
-        h2 {className: 'guide-module-header'}, 'popular books'
-        p {className: "guide-module-subheader"}, "Book reviews from Amazon.com"
+        h2 {className: 'guide-module-header'}, amazon.heading
+        p {className: "guide-module-subheader"}, amazon.subheading
 
-        div {className: 'book-list'},
-          _.map @state.books, (book) ->
-            div {className: 'book-item'},
-              a {href: book.itemLink, target: '_blank'},
-                img {src: book.imageUrl, className: 'book-image'}
-              p {className: "book-author-section"},
-                span {}, "by"
-                span {className: "book-authors"}, book.authors
-              img {src: book.avgStarRatingImage}
-              span {className: 'book-review-count'}, "(#{book.reviewCount} Reviews)"
+        div {className: 'guide-module-content'},
+          div {className: 'product-list'},
+            _.map @state.products, (product) ->
+              div {className: 'product-item'},
+                a {href: product.itemLink, className: "product-link", target: '_blank'},
+                  img {src: product.imageUrl, className: 'product-image'}
+                  p {className: "product-creator-section"},
+                    span {}, "by"
+                    span {className: "product-creators"}, product.creators
+                img {src: product.avgStarRatingImage}
+                span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"

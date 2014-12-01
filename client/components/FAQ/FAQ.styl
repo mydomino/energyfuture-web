@@ -1,5 +1,7 @@
 .guide-module-faq
   .faq-list
+    margin-top 0
+
     dt
       margin-top 1em
       font-weight normal
@@ -8,7 +10,10 @@
       margin-left 3em
       cursor pointer
 
-      &.active
+      &:first-child
+        margin-top 0
+
+      &.active, &:hover
         font-weight bold
 
     dd

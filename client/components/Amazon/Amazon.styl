@@ -1,19 +1,29 @@
 .guide-module-amazon-products
-  .book-list
+  .product-link
+    text-decoration: none
+    color black
+    &:visited
+      color #808080
+  .product-item
     margin-top: 20px
-  .book-item
     display: inline-block
     width: 27.659%
     margin-left: 7%
-    &:first-child
+    vertical-align: top
+    &:nth-child(3n+1)
       margin-left: 0
-  .book-author-section
+  .product-creator-section
     font-weight: bold
-  .book-authors
+  .product-creators
     margin-left: 5px
     text-decoration: underline
-  .book-image
+  .product-link
+    display: block
+  .product-image
     box-shadow: 0 3px 14px 1px rgba(0,0,0,0.5)
     max-width: 100%
-  .book-review-count
+    height 250px
+    display block
+    margin 0 auto
+  .product-review-count
     margin-left: 10px

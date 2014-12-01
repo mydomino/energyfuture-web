@@ -40,11 +40,12 @@ module.exports = React.createClass
 
     {caption, duration, videoUrl, imageUrl} = @props.guide.get('intro')
 
-    div {className: "guide-module guide-module-intro", style: @introStyle(imageUrl, videoUrl)},
-      if videoUrl
-        div {className: "intro-video"},
-          iframe @videoProps(videoUrl)
-      if duration || caption
-        div {className: "intro-overlay"},
-          span {className: "intro-duration"}, duration
-          span {className: "intro-title"}, caption
+    div {className: 'guide-module-content'},
+      div {className: "guide-module guide-module-intro", style: @introStyle(imageUrl, videoUrl)},
+        if videoUrl
+          div {className: "intro-video"},
+            iframe @videoProps(videoUrl)
+        if duration || caption
+          div {className: "intro-overlay"},
+            span {className: "intro-duration"}, duration
+            span {className: "intro-title"}, caption

@@ -11,27 +11,38 @@ module.exports = class AWS
   constructor: ->
     @prodAdv = aws.createProdAdvClient(accessKeyId, secretKeyId, "dummyTag")
 
-  extractBookInfo: (data) =>
+  extractProductInfo: (data) =>
     items = data.Items.Item
-    _.map items, (item) ->
-      reviewsUrl = item.CustomerReviews.IFrameURL
-      author = item.ItemAttributes.Author
-      author = author.join(", ") if _.isArray(author)
-      itemLink = item.DetailPageURL
-      deferred = Q.defer()
+    _.chain(items)
+      .map (item) ->
+        unless item.LargeImage
+          console.log "Missing image for item: #{item.ItemAttributes.Title}"
+          return
+        if _.contains(item.ItemAttributes.ProductGroup.toLowerCase(), 'book')
+          creators = item.ItemAttributes.Author
+          creators = creators.join(", ") if _.isArray(creators)
+        else
+          creators = item.ItemAttributes.Manufacturer
 
-      request reviewsUrl, (error, response, body) =>
-        if not error and response.statusCode is 200
-          $ = cheerio.load(body)
-          data =
-            imageUrl: item.LargeImage.URL
-            authors: author
-            avgStarRatingImage: $('.crAvgStars img').attr('src')
-            reviewCount: $('.crAvgStars a').last().text().match(/\d+/)[0]
-            itemLink: itemLink
-          deferred.resolve(data)
+        reviewsUrl = item.CustomerReviews.IFrameURL
+        imageUrl = item.LargeImage.URL
+        itemLink = item.DetailPageURL
+        deferred = Q.defer()
 
-      deferred.promise
+        request reviewsUrl, (error, response, body) =>
+          if not error and response.statusCode is 200
+            $ = cheerio.load(body)
+            data =
+              imageUrl: imageUrl
+              creators: creators
+              avgStarRatingImage: $('.crAvgStars img').attr('src')
+              reviewCount: $('.crAvgStars a').last().text().match(/\d+/)[0]
+              itemLink: itemLink
+            deferred.resolve(data)
+
+        deferred.promise
+      .compact()
+      .value()
 
   itemLookup: (ids, callback) =>
     @prodAdv.call "ItemLookup",
@@ -39,5 +50,5 @@ module.exports = class AWS
       IdType: "ASIN"
       ResponseGroup: "Reviews,Images,Small"
     , (err, result) =>
-      Q.all(@extractBookInfo(result)).then (data) =>
+      Q.all(@extractProductInfo(result)).then (data) =>
         callback(data)

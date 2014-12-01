@@ -1,20 +1,21 @@
 .guide-module-sortable-table
   table
-    margin-top: 40px
-    max-height: 500px
     display: block
     overflow: hidden
   th
     font-weight: normal
     font-size: 20px
   tbody
+    tr
+      td
+        line-height 1.5em
     td:not(:first-child)
       border-bottom: 1px solid #979797
     tr:last-child
       td
         border-bottom: none
   th,td
-    padding: 20px 10px
+    padding: 20px 30px
   td:nth-child(1)
     font-weight: bold
   th:nth-child(even), td:nth-child(even)

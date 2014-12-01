@@ -1,7 +1,7 @@
 firebase = require '../firebase'
-Events = require './Events'
+Emitter = require('events').EventEmitter
 
-module.exports = class DominoModel extends Events
+module.exports = class DominoModel extends Emitter
   _firebase: () ->
     @firebase || firebase.inst(@url())
 
@@ -16,7 +16,7 @@ module.exports = class DominoModel extends Events
       @_firebase().on 'value', (snap) =>
         if snap
           @attributes = snap.val()
-          @trigger('sync')
+          @emit('sync', this)
 
   get: (attr) ->
     @attributes[attr]
