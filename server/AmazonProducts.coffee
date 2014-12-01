@@ -32,11 +32,12 @@ module.exports = class AWS
         request reviewsUrl, (error, response, body) =>
           if not error and response.statusCode is 200
             $ = cheerio.load(body)
+            reviewRegex = /[1-9](?:\d{0,2})(?:,\d{3})*(?:\.\d*[1-9])?|0?\.\d*[1-9]|0/
             data =
               imageUrl: imageUrl
               creators: creators
               avgStarRatingImage: $('.crAvgStars img').attr('src')
-              reviewCount: $('.crAvgStars a').last().text().match(/\d+/)[0]
+              reviewCount: $('.crAvgStars a').last().text().match(reviewRegex)
               itemLink: itemLink
             deferred.resolve(data)
 
