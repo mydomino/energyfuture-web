@@ -2,43 +2,63 @@
   ul.yelp-list
     list-style none
     padding 0
+    margin-bottom 0
 
     li.yelp-main
-      margin 0
       display inline-block
       border-bottom 1px solid #e5e5e1
       padding-bottom 17px
+
+      margin 1.5em 0 0 0
+
+      &:first-child
+        margin-top 0
+
       &:last-child
         border-bottom none
+        padding-botton none
         padding-top 17px
 
       .yelp-media-block
         .yelp-media-avatar
-          display inline-block
+          float left
           margin-right 12px
-
           a
             text-decoration none
             img
               outline none
               border-radius 4px
-              vertical-align middle
 
         .yelp-media-story
-          display inline-block
+          margin-top -1.5em
+          float left
 
           h3
+            color #3b65a7
             margin-bottom 3px
             font-weight normal
 
         .yelp-address-block
-          display inline-block
+          float right
+
+          .yelp-address-line
+            margin 0
+            padding 0
 
         .yelp-review-snippet-container
           float left
+          margin-left -1em
+          .yelp-review-snippet-story
+            p
+              font-size 15px
+              line-height 1.3em
           .yelp-review-snippet
             position relative
-            margin-top 20px
+            margin-top 2em
+            a
+              display block
+              float left
+              margin 0.5em 1em
             img
               outline none
               border-radius 4px
