@@ -3,6 +3,7 @@
 moment = require 'moment'
 RadioButton = require './RadioButton.view.coffee'
 Action = require './Action.view.coffee'
+auth = require '../../auth.coffee'
 
 module.exports = React.createClass
   displayName: 'Appointment'
@@ -11,15 +12,30 @@ module.exports = React.createClass
     next = moment(moment().add(inc, "days"))
     { date: next.format("MMMM Do"), day: next.format("dddd") }
 
-  confirmAction: ->
-    @setState confirmed: true
+  loadAnswersFromSession: ->
+    JSON.parse(sessionStorage.getItem('questionnaire-answers')) || {}
 
-  scheduleAction: ->
+  loadAnswers: ->
+    inputs = $('.questionnaire-form').serializeArray()
+    newAnswers = _.reduce inputs, (acc, input) ->
+      acc[input.name] = input.value
+      acc
+    , {}
+    _.merge(@loadAnswersFromSession(), newAnswers)
+
+  storeAnswersInSession: ->
+    sessionStorage.setItem('questionnaire-answers', JSON.stringify(@loadAnswers()))
+
+  dateChangeAction: ->
     if $("input[name='appointment-date']:checked").val() == 'later'
       @setState callLater: true
 
-  guideIndexAction: ->
+  exploreGuideAction: ->
     page "/guides"
+
+  confirmAction: ->
+    @props.firebaseSaveAction()
+    @setState confirmed: true
 
   getInitialState: ->
     confirmed: false
@@ -91,9 +107,9 @@ module.exports = React.createClass
       div {className: 'questionnaire-appointment'},
         h2 {className: 'confirmation-header'}, "Great."
         p {className: 'confirmation-subheader'}, subheader
-        new Action(moreAction: @guideIndexAction, actionName: "Explore another guide")
+        new Action(moreAction: @exploreGuideAction, actionName: "Explore another guide")
     else
       div {className: 'questionnaire-appointment'},
-          div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @scheduleAction)
+          div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @dateChangeAction)
           div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers)
           new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")

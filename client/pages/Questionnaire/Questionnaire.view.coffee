@@ -2,6 +2,7 @@
 
 _ = require 'lodash'
 Guide = require '../../models/Guide'
+AnswerCollection = require '../../models/AnswerCollection.coffee'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 QuestionnaireModules = require '../../components/Questionnaire/QuestionnaireModules'
@@ -35,6 +36,7 @@ module.exports = React.createClass
 
   componentWillMount: ->
     guide = new Guide(id: @props.params.guide_id)
+    @answerColl = new AnswerCollection
     guide.on "sync", =>
       if @isMounted()
         @setState guide: guide
@@ -68,6 +70,10 @@ module.exports = React.createClass
     if @isMounted()
       @setState page: @state.page - 1
 
+  firebaseSaveAction: ->
+    answerData = _.merge @loadAnswers(), {guide_id: @state.guide.id, user_id: @props.user.id}
+    @answerColl.add(answerData)
+
   render: ->
     {title, questionnaire} = @state.guide.attributes if hasValidData(@state.guide)
 
@@ -82,6 +88,15 @@ module.exports = React.createClass
                 div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}},
                   span {className: "questionnaire-progress-bar-text #{"complete" if @isLastModule()}"}, @progressText()
               form {className: 'questionnaire-form', ref: 'questionnaireForm'},
-                new QuestionnaireModules[@pickModule().module](key: "component-#{@state.page}", guideId: @state.guide.id, moduleData: @pickModule(), nextAction: @nextAction, prevAction: @prevAction, page: @state.page, totalPageCount: @totalPageCount(), answers: @loadAnswersFromSession())
+                new QuestionnaireModules[@pickModule().module]
+                  key: "component-#{@state.page}"
+                  guideId: @state.guide.id
+                  moduleData: @pickModule()
+                  nextAction: @nextAction
+                  prevAction: @prevAction
+                  page: @state.page
+                  totalPageCount: @totalPageCount()
+                  answers: @loadAnswersFromSession()
+                  firebaseSaveAction: @firebaseSaveAction
           else
             new LoadingIcon
