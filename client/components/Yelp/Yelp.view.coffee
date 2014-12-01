@@ -59,6 +59,7 @@ module.exports = React.createClass
                     div {className: "yelp-media-photobox"},
                       a {href: i.url, target: "_blank"},
                         img {src: i.image_url}
+
                   div {className: "yelp-media-story"},
                     a {href: i.url, target: "_blank"},
                       h3 {}, i.name
@@ -73,7 +74,7 @@ module.exports = React.createClass
                     p {className: "yelp-address-line"},
                       @addressText(i.location)["line2"]
                     p {className: "yelp-address-line"},
-                        i.phone
+                        i.display_phone
 
                   div {className: "yelp-review-snippet-container"},
                     div {className: "yelp-review-snippet"},
