@@ -1,6 +1,7 @@
 {div, h2, p, span, ul, li, hr} = React.DOM
 
 _ = require 'lodash'
+auth = require '../../auth'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
 UserGuides = require '../../models/UserGuides'
@@ -58,6 +59,10 @@ module.exports = React.createClass
       categorizedGuides: coll.guidesByCategory()
       categorizedScores: coll.scoreByCategory()
       totalScore: coll.totalScore()
+
+  componentDidMount: ->
+    unless @props.user
+      auth.emit('show-auth-prompt')
 
   render: ->
     locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
