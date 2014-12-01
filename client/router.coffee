@@ -37,12 +37,24 @@ Router = React.createClass
     @props.routes.pages.forEach addPage.bind(this)
 
     auth.on 'authStateChange', @setUserState
+    auth.on 'show-auth-prompt', @showAuthPrompt
+    auth.on 'hide-auth-prompt', @hideAuthPrompt
 
     page.start()
     return
 
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @setUserState
+    auth.removeListener 'show-auth-prompt', @showAuthPrompt
+    auth.removeListener 'hide-auth-prompt', @hideAuthPrompt
+
+  showAuthPrompt: ->
+    if @isMounted()
+      @setState authPrompt: true
+
+  hideAuthPrompt: ->
+    if @isMounted()
+      @setState authPrompt: false
 
   setUserState: ->
     if @isMounted()
@@ -54,9 +66,12 @@ Router = React.createClass
     querystring: null
     user: null
     context: {}
+    authPrompt: false
 
   render: ->
-    React.DOM.div {},
+    classes = if @state.authPrompt then 'auth-prompt' else ''
+
+    React.DOM.div {className: classes},
       new AuthBar loggedIn: auth.loggedIn
       new @state.component
         params: @state.params

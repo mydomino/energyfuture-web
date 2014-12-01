@@ -1,5 +1,6 @@
 {div, span, a, hr, i} = React.DOM
 
+auth = require '../../auth'
 Categories = require '../../models/singletons/Categories'
 UserGuides = require '../../models/UserGuides'
 ImpactScore = require '../ImpactScore/ImpactScore.view'
@@ -20,11 +21,7 @@ positionSidebar = (element) ->
 
   return
 
-module.exports = React.createClass
-  displayName: 'ImpactSidebar'
-  propTypes:
-    user: React.PropTypes.object.isRequired
-
+FloatingSidebar =
   onScrollEventHandler: ->
     if @refs.sidebar
       positionSidebar(@refs.sidebar.getDOMNode())
@@ -37,16 +34,22 @@ module.exports = React.createClass
     window.removeEventListener('scroll', @onScrollEventHandler, false);
     window.removeEventListener('resize', @onScrollEventHandler, false);
 
-  componentWillMount: ->
-    @setupState()
-    @props.user.on 'sync', @setupState
-
   componentWillUnmount: ->
     @removeSidebarPositioning()
-    @props.user.removeListener 'sync', @setupState
 
   componentDidMount: ->
     @setupSidebarPositioning()
+
+module.exports = React.createClass
+  displayName: 'ImpactSidebar'
+  mixins: [FloatingSidebar]
+  componentWillMount: ->
+    @initUser()
+
+  componentWillUnmount: ->
+    if @props.user
+      @props.user.removeListener 'sync', @setupState
+    auth.removeListener 'authStateChange', @setupState
 
   getDefaultProps: ->
     category: ''
@@ -55,20 +58,47 @@ module.exports = React.createClass
 
   getInitialState: ->
     isClaimed: false
-    isSaved: true
+    isSaved: false
+
+  initUser: ->
+    if @props.user
+      @setupState()
+      @props.user.on 'sync', @setupState
+    else
+      auth.on 'authStateChange', @initUser
 
   setupState: ->
+    return unless @props.user
+
     @savedForLater = new UserGuides(@props.user, 'saved')
     @claimedImpact = new UserGuides(@props.user, 'claimed')
 
     @setState @getCurrentState()
 
   getCurrentState: ->
-    isClaimed: @claimedImpact?.includesGuide(@props.guide)
-    isSaved: @savedForLater?.includesGuide(@props.guide)
+    claimed = @claimedImpact?.includesGuide(@props.guide)
+    saved = @savedForLater?.includesGuide(@props.guide)
+
+    isClaimed: !!claimed
+    isSaved: !!saved
 
   removeGuide: ->
-    @props.user.removeGuide @props.guide
+    if @props.user
+      @props.user.removeGuide @props.guide
+    else
+      auth.prompt()
+
+  claimGuide: ->
+    if @props.user
+      @claimedImpact.add(@props.guide)
+    else
+      auth.prompt()
+
+  saveGuide: ->
+    if @props.user
+      @savedForLater.add(@props.guide)
+    else
+      auth.prompt()
 
   render: ->
     claimedClass = if @state.isClaimed then 'active' else ''
@@ -84,7 +114,7 @@ module.exports = React.createClass
             i {className: "icon pu-icon pu-icon-impact-o"}
             span {}, "Done"
         else
-          a {onClick: @claimedImpact.add.bind(@claimedImpact, @props.guide)},
+          a {onClick: @claimGuide},
             i {className: "icon pu-icon pu-icon-impact-o"}
             span {}, "I did this"
       hr {}
@@ -98,7 +128,7 @@ module.exports = React.createClass
             i {className: "icon pu-icon pu-icon-remindme"}
             span {}, "Saved for later"
         else
-          a {onClick: @savedForLater.add.bind(@savedForLater, @props.guide)},
+          a {onClick: @saveGuide},
             i {className: "icon pu-icon pu-icon-remindme"}
             span {}, "Save for later"
 

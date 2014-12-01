@@ -1,5 +1,4 @@
-{div, span, p, a} = React.DOM
-_ = require 'lodash'
+{div, h2, span, p, a} = React.DOM
 auth = require '../../auth'
 
 AuthMixin =
@@ -30,27 +29,50 @@ module.exports = React.createClass
   handleClose: ->
     @setState closed: true
 
+  resetState: ->
+    @setState closed: false, failedLogin: false
+
   componentDidMount: ->
     auth.on 'authStateChange', @handleLogin
+    auth.on 'show-auth-prompt', @resetState
 
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @handleLogin
+    auth.removeListener 'show-auth-prompt', @resetState
+
+  thinView: (failed) ->
+    if failed
+      p {className: 'auth-bar-content'},
+        span {}, "Hmm... Something went wrong. Let's try that again: "
+        a {onClick: @loginFacebook}, 'Facebook'
+        span {}, ' or '
+        a {onClick: @loginTwitter}, 'Twitter'
+    else
+      p {className: 'auth-bar-content'},
+        span {}, 'Login with '
+        a {onClick: @loginFacebook}, 'Facebook'
+        span {}, ' or '
+        a {onClick: @loginTwitter}, 'Twitter'
+        span {}, ' to save your impact and sync with mobile.'
+
+  expandedView: (failed) ->
+    if failed
+      title = 'Hmm.. Something went wrong'
+      subtitle = "Let's try that again"
+    else
+      title = 'Save Your Impact!'
+      subtitle = 'and sync with our mobile app'
+
+    div {className: 'auth-bar-content-expanded'},
+      h2 {}, title
+      p {}, subtitle
+      a {className: 'btn', onClick: @loginFacebook}, 'Log in with Facebook'
+      a {className: 'btn', onClick: @loginTwitter}, 'Log in with Twitter'
 
   render: ->
     return null if @props.loggedIn or @state.closed
 
     div {className: 'auth-bar'},
       span {className: 'auth-bar-close', onClick: @handleClose}, 'x'
-      if @state.failedLogin
-        p {},
-          span {}, "Hmm... Something went wrong. Let's try that again: "
-          a {onClick: @loginFacebook}, 'Facebook'
-          span {}, ' or '
-          a {onClick: @loginTwitter}, 'Twitter'
-      else
-        p {},
-          span {}, 'Login with '
-          a {onClick: @loginFacebook}, 'Facebook'
-          span {}, ' or '
-          a {onClick: @loginTwitter}, 'Twitter'
-          span {}, ' to save your impact and sync with mobile.'
+      @expandedView(@state.failedLogin)
+      @thinView(@state.failedLogin)

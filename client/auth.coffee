@@ -91,5 +91,9 @@ class Auth extends emitter
   logout: ->
     @_firebase.unauth()
     window.location.reload()
+  prompt: ->
+    @emit('show-auth-prompt')
+  unprompt: ->
+    @emit('hide-auth-prompt')
 
 module.exports = new Auth
