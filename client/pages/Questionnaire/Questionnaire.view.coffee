@@ -102,7 +102,7 @@ module.exports = React.createClass
     div {className: "page"},
       div {className: "container"},
         div {className: "container-padding"},
-          new NavBar
+          new NavBar user: @props.user
           if hasValidData(@state.guide)
             div {className: 'guide-module guide-module-questionnaire'},
               h2 {className: 'questionnaire-header'}, title
