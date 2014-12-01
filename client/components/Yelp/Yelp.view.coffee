@@ -32,6 +32,12 @@ module.exports = React.createClass
       console.error(res)
       @setState dataError: true if @isMounted())
 
+  addressText: (l) ->
+    {
+      "line1": l.address.join(" ")
+      "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
+    }
+
   render: ->
     return false unless hasValidData(@props.guide)
     yelp = @props.guide.get('yelp')
@@ -51,14 +57,24 @@ module.exports = React.createClass
                 div {className: "yelp-media-block"},
                   div {className: "yelp-media-avatar"},
                     div {className: "yelp-media-photobox"},
-                      a {href: i.url},
+                      a {href: i.url, target: "_blank"},
                         img {src: i.image_url}
+
                   div {className: "yelp-media-story"},
-                    h3 {}, i.name
+                    a {href: i.url, target: "_blank"},
+                      h3 {}, i.name
                     div {className: "yelp-media-ratingsbox"},
                       div {className: "yelp-media-rating"},
                         img {alt:"#{i.rating} star rating", className:"offscreen", src: i.rating_img_url}
                       span {className: "yelp-media-review-count"}, "#{i.review_count} reviews"
+
+                  div {className: "yelp-address-block"},
+                    p {className: "yelp-address-line"},
+                      @addressText(i.location)["line1"]
+                    p {className: "yelp-address-line"},
+                      @addressText(i.location)["line2"]
+                    p {className: "yelp-address-line"},
+                        i.display_phone
 
                   div {className: "yelp-review-snippet-container"},
                     div {className: "yelp-review-snippet"},
