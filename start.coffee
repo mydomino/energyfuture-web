@@ -2,9 +2,11 @@ express = require 'express'
 compress = require 'compression'
 staticFiles = require 'serve-static'
 http = require 'http'
+bodyParser = require('body-parser')
 {join} = require 'path'
 
 AmazonProducts = require './server/AmazonProducts'
+QuestionnaireEmail = require './server/QuestionnaireEmail'
 YelpListings = require './server/YelpListings'
 
 PORT = Number(process.env.PORT || 8080);
@@ -14,6 +16,7 @@ app.disable 'x-powered-by'
 
 app.use compress()
 app.use staticFiles './public'
+app.use bodyParser.json()
 
 app.use (err, req, res, next) ->
   console.error err.stack
@@ -29,6 +32,13 @@ app.get "/yelp-listings", (req, res) ->
       res.status(502).send("Server error on trying to fetch data from Yelp.")
     else
       res.status(200).send(data)
+
+app.post "/questionnaire-email", (req, res) ->
+  new QuestionnaireEmail().send req.body.answers, (data) =>
+    if data.error
+      res.status(502).send("Server errored out while trying to send email.")
+    else
+      res.status(201).send(data.json)
 
 # page.js - client-side routing
 app.get '/*', (req, res) ->

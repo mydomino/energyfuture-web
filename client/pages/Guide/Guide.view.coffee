@@ -1,7 +1,6 @@
 {div, h2, p, hr} = React.DOM
 
 _ = require 'lodash'
-firebase = require '../../firebase'
 Guide = require '../../models/Guide'
 TipCollection = require '../../models/TipCollection'
 Layout = require '../../components/Layout/Layout.view'
