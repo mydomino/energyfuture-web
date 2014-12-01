@@ -11,7 +11,7 @@ module.exports = React.createClass
   displayName: 'CallToAction'
 
   viewQuestionnaire: ->
-    page "/guide/#{@props.guide.id}/questionnaire"
+    page "/guides/#{@props.guide.id}/questionnaire"
 
   render: ->
     return false unless hasValidData(@props.guide)
