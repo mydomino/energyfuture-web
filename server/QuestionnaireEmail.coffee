@@ -7,8 +7,9 @@ Sendgrid = require('sendgrid')(username, password)
 jsonToText = (json) ->
   text = ["<p>A new questionnaire response has been submitted</p>"]
   for key, value of json
-    label = key.replace(/\-/, ' ')
-    text.push "<p><strong>#{label}:</strong> #{value}</p>"
+    if ['guide_id', 'user_id'].indexOf(key) == -1
+      label = key.replace(/\-/g, ' ')
+      text.push "<p><strong>#{label}:</strong> #{value}</p>"
   text.join('')
 
 module.exports = class QuestionnaireEmail
@@ -16,7 +17,7 @@ module.exports = class QuestionnaireEmail
     @email = new Sendgrid.Email()
     @email.setFrom(from)
     @email.setSubject('New answer')
-    @email.addTo(recipients)
+    @email.addTo(recipients.split(','))
     @email.addHeader('X-Sent-Using', 'SendGrid-API')
     @email.addHeader('X-Transport', 'web')
 

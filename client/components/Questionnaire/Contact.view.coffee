@@ -39,7 +39,7 @@ module.exports = React.createClass
       input {type: 'email', required: true, name: 'contact-email', defaultValue: @props.answers['contact-email']}
       h2 {}, "What's your phone number?"
       input {required: true, name: 'contact-phone', required: true, defaultValue: @props.answers['contact-phone']}
-      h2 {}, "Where are you located?"
-      textarea {name: 'contact-location', defaultValue: @props.answers['contact-location']}
+      h2 {}, "What's your address?"
+      textarea {name: 'contact-address', defaultValue: @props.answers['contact-address']}
       new RadioButton(radio: radioData, answers: @props.answers)
       new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction, page: @props.page, totalPageCount: @props.totalPageCount)
