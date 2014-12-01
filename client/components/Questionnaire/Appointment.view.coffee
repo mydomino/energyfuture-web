@@ -13,8 +13,14 @@ module.exports = React.createClass
     { date: next.format("MMMM Do"), day: next.format("dddd") }
 
   dateChangeAction: ->
-    if $("input[name='appointment-date']:checked").val() == 'later'
-      @setState callLater: true
+    callTime = $("input[name='appointment-time']:checked").parent().find('.input-description').text()
+    callDate = $("input[name='appointment-date']:checked").parent().find('label').text()
+    callLater = $("input[name='appointment-date']:checked").val() == 'later'
+    if @isMounted()
+      @setState
+        callTime: callTime
+        callDate: callDate
+        callLater: callLater
 
   exploreGuideAction: ->
     page "/guides"
@@ -89,7 +95,7 @@ module.exports = React.createClass
       subheader = if @state.callLater
           "We'll call you later."
         else
-          "We'll call you #{@props.answers['appointment-date']} between #{@props.answers['appointment-time']}."
+          "We'll call you #{@state.callDate} between #{@state.callTime}."
       div {className: 'questionnaire-appointment'},
         h2 {className: 'confirmation-header'}, "Great."
         p {className: 'confirmation-subheader'}, subheader
