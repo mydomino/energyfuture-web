@@ -9,6 +9,6 @@ describe "AuthBar", ->
     h.classOccurs instance, 'auth-bar', 1
 
   it "does not render the auth bar if the user is present", () ->
-    instance = ReactTestUtils.renderIntoDocument(AuthBar(user: true))
+    instance = ReactTestUtils.renderIntoDocument(AuthBar(loggedIn: true))
 
     h.classOccurs instance, 'auth-bar', 0
