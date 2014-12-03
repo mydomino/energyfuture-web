@@ -22,16 +22,20 @@ module.exports = React.createClass
   products: ->
     @props.guide.get('amazon').productIds
 
+  productIds: ->
+    _.pluck(_.sortBy(@products(), 'position'), 'id')
+
   productImportanceCategory: (id) ->
-    @products()[id].category
+    _.find(@products(), 'id': id).category
 
   componentDidMount: ->
-    $.get "/amazon-products", products: _.keys(@products()), (res) =>
+    $.get "/amazon-products", products: @productIds(), (res) =>
       @setState products: res if @isMounted()
 
   productItems: ->
     _.map @state.products, (product) =>
-      div {className: 'product-item'},
+      cat = @productImportanceCategory(product.id)
+      div {className: 'product-item', key: "product-item-#{product.id}"},
         a {href: product.itemLink, className: "product-link", target: '_blank'},
           img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},
@@ -40,7 +44,6 @@ module.exports = React.createClass
         a {href: product.reviewsLink, className: "review-link", target: '_blank'},
           img {src: product.avgStarRatingImage}
           span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"
-        cat = @productImportanceCategory(product.id)
         div {className: "product-importance-category #{cat}"}, cat
 
   render: ->
