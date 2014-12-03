@@ -38,6 +38,7 @@ module.exports = class AWS
             itemURL.hash = "customerReviews"
             reviewsLink = url.format(itemURL)
             data =
+              id: item.ASIN
               imageUrl: imageUrl
               creators: creators
               avgStarRatingImage: $('.crAvgStars img').attr('src')

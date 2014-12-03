@@ -19,12 +19,18 @@ module.exports = React.createClass
   getDefaultProps: ->
     guide: {}
 
+  products: ->
+    @props.guide.get('amazon').productIds
+
+  productImportanceCategory: (id) ->
+    @products()[id].category
+
   componentDidMount: ->
-    $.get "/amazon-products", products: @props.guide.get('amazon').productIds, (res) =>
+    $.get "/amazon-products", products: _.keys(@products()), (res) =>
       @setState products: res if @isMounted()
 
   productItems: ->
-    _.map @state.products, (product) ->
+    _.map @state.products, (product) =>
       div {className: 'product-item'},
         a {href: product.itemLink, className: "product-link", target: '_blank'},
           img {src: product.imageUrl, className: 'product-image'}
@@ -34,6 +40,8 @@ module.exports = React.createClass
         a {href: product.reviewsLink, className: "review-link", target: '_blank'},
           img {src: product.avgStarRatingImage}
           span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"
+        cat = @productImportanceCategory(product.id)
+        div {className: "product-importance-category #{cat}"}, cat
 
   render: ->
     return false unless hasValidData(@props.guide)
