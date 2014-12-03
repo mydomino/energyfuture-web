@@ -35,11 +35,16 @@ module.exports = class GuideCollection extends DominoCollection
       memo
     ), 0
 
-  guides: (ownership) ->
-    _.chain(@models)
-      .filter (m) ->
-        guideOwnership = m.ownership
-        _.isUndefined(guideOwnership) || guideOwnership == ownership
+  guides: (opts) ->
+    allGuides = _.chain(@models)
       .map (m) ->
         new Guide(m)
-      .value()
+    if opts.ownership
+      allGuides = allGuides.filter (m) ->
+        guideOwnership = m.ownership
+        _.isUndefined(guideOwnership) || guideOwnership == opts.ownership
+    if opts.sortByImpactScore
+      allGuides = allGuides.sortBy (g) ->
+        g.score()
+      .reverse()
+    allGuides.value()
