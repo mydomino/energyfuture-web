@@ -3,11 +3,13 @@ compress = require 'compression'
 staticFiles = require 'serve-static'
 http = require 'http'
 bodyParser = require('body-parser')
+json2csv = require 'nice-json2csv'
 {join} = require 'path'
 
 AmazonProducts = require './server/AmazonProducts'
 QuestionnaireEmail = require './server/QuestionnaireEmail'
 YelpListings = require './server/YelpListings'
+Appointments = require './server/Appointments'
 
 PORT = Number(process.env.PORT || 8080);
 
@@ -17,6 +19,7 @@ app.disable 'x-powered-by'
 app.use compress()
 app.use staticFiles './public'
 app.use bodyParser.json()
+app.use json2csv.expressDecorator
 
 app.use (err, req, res, next) ->
   console.error err.stack
@@ -39,6 +42,10 @@ app.post "/questionnaire-email", (req, res) ->
       res.status(502).send("Server errored out while trying to send email.")
     else
       res.status(201).send(data.json)
+
+app.get "/appointments.csv", (req, res) ->
+  Appointments (statusCode, data) ->
+    res.status(statusCode).csv(data, "appointments.csv")
 
 # page.js - client-side routing
 app.get '/*', (req, res) ->
