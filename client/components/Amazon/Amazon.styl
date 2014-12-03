@@ -9,17 +9,24 @@
     text-transform capitalize
     margin-top 0.4em
     &.good
-      color rgb(151, 203, 223)
+      color #6BC4D9
     &.better
-      color rgb(121, 194, 170)
+      color #38BA99
     &.best
-      color rgb(207, 118, 81)
+      color #E0613D
   .product-item
     margin-top: 20px
     display: inline-block
     width: 27.659%
     margin-left: 7%
     vertical-align: top
+
+    /** carousel styles override start */
+    font-size: 16px
+    line-height: normal
+    text-align: left
+    /* carousel styles override finish **/
+
     &:nth-child(3n+1)
       margin-left: 0
     img
