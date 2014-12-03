@@ -41,7 +41,7 @@ module.exports = class GuideCollection extends DominoCollection
         new Guide(m)
     if opts.ownership
       allGuides = allGuides.filter (m) ->
-        guideOwnership = m.ownership
+        guideOwnership = m.get('ownership')
         _.isUndefined(guideOwnership) || guideOwnership == opts.ownership
     if opts.sortByImpactScore
       allGuides = allGuides.sortBy (g) ->
