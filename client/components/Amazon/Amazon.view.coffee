@@ -31,8 +31,9 @@ module.exports = React.createClass
           p {className: "product-creator-section"},
             span {}, "by"
             span {className: "product-creators"}, product.creators
-        img {src: product.avgStarRatingImage}
-        span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"
+        a {href: product.reviewsLink, className: "review-link", target: '_blank'},
+          img {src: product.avgStarRatingImage}
+          span {className: 'product-review-count'}, "(#{product.reviewCount} Reviews)"
 
   render: ->
     return false unless hasValidData(@props.guide)
