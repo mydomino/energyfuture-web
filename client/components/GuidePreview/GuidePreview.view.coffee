@@ -1,6 +1,5 @@
 {div, h2, p, span} = React.DOM
 Categories = require '../../models/singletons/Categories'
-Mixpanel = require '../../models/Mixpanel'
 ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
 
 _ = require 'lodash'
@@ -12,7 +11,6 @@ module.exports = React.createClass
     customClass: ''
 
   viewGuide: ->
-    Mixpanel.track("View Guide", {guide_id: @props.guide.id})
     page "/guides/#{@props.guide.id}"
 
   statusIcon: ->
