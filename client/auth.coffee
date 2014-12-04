@@ -61,13 +61,13 @@ class Auth extends emitter
         # save new user's profile into Firebase so we can
         # list users, use them in security rules, and show profiles
         @_userRef.set userData
+        Mixpanel.signup(id: user.uid, name: userData.displayName)
 
       @_userData = userData
       @_userId = user.uid
 
       userData.uid = user.uid
       @user = new User(userData)
-      Mixpanel.setUser @user
       callback() if callback
 
   _onAuthStateChange: (error, userData) ->

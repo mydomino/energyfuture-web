@@ -9,8 +9,7 @@ module.exports =
   track: (event, opts) ->
     @_instance().track event, opts
 
-  setUser: (user) ->
-    @_instance().people.set user.id,
-      $first_name: user.firstName()
-      $last_name: user.lastName()
+  signup: (userData) ->
+    @_instance().people.set userData.id,
+      $name: userData.name
       $created: moment().toISOString()
