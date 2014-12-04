@@ -8,11 +8,14 @@ auth = require '../../auth.coffee'
 module.exports = React.createClass
   displayName: 'Appointment'
 
+  componentDidMount: ->
+    @setCallDetails()
+
   laterDate: (inc) ->
     next = moment(moment().add(inc, "days"))
     { date: next.format("MMMM Do"), day: next.format("dddd") }
 
-  dateChangeAction: ->
+  setCallDetails: ->
     callTime = $("input[name='appointment-time']:checked").parent().find('.input-description').text()
     callDate = $("input[name='appointment-date']:checked").parent().find('label').text()
     callLater = $("input[name='appointment-date']:checked").val() == 'later'
@@ -102,6 +105,6 @@ module.exports = React.createClass
         new Action(moreAction: @exploreGuideAction, actionName: "Explore another guide")
     else
       div {className: 'questionnaire-appointment'},
-          div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @dateChangeAction)
-          div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers, changeAction: @dateChangeAction)
+          div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @setCallDetails)
+          div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers, changeAction: @setCallDetails)
           new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")
