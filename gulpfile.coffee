@@ -69,6 +69,7 @@ gulp.task 'coffee', ->
 # styles
 gulp.task 'stylus', ->
   gulp.src(paths.stylus)
+    .pipe(preprocess())
     .pipe(stylus({
       use: [
         nib(),
@@ -102,6 +103,7 @@ gulp.task 'img', ->
 
 gulp.task 'raw-css', ->
   gulp.src(paths.css)
+    .pipe(preprocess())
     .pipe(cache('css'))
     .pipe(gulp.dest('./public'))
     .pipe(gif(gutil.env.development, reload()))
