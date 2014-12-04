@@ -32,7 +32,7 @@ module.exports = React.createClass
       {title, summary, category, intro} = @state.guide.attributes
       modules = @state.guide.modules()
 
-    new Layout {name: 'guide'},
+    new Layout {name: 'guide', guideId: @props.params.id},
       new NavBar user: @props.user, path: @props.context.pathname
       if !@state.guide
         new LoadingIcon
