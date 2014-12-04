@@ -1,4 +1,6 @@
 {div, h2, p, a} = React.DOM
+Mixpanel = require '../../models/Mixpanel'
+auth = require '../../auth'
 
 _ = require 'lodash'
 
@@ -11,6 +13,9 @@ module.exports = React.createClass
   displayName: 'CallToAction'
 
   viewQuestionnaire: ->
+    Mixpanel.track 'View Questionnaire',
+      guide_id: @props.guideId,
+      distinct_id: auth.user?.id
     page "/guides/#{@props.guide.id}/questionnaire"
 
   render: ->
