@@ -1,6 +1,7 @@
 firebase = require './firebase'
 emitter = require('events').EventEmitter
 User = require './models/User'
+Mixpanel = require './models/Mixpanel'
 
 collectProviderUserData = (provider, user) ->
   if provider == 'twitter'
@@ -32,6 +33,7 @@ class Auth extends emitter
   constructor: ->
     @_firebase = firebase.inst()
     @check()
+
   user: null
   loggedIn: false
   _userId: null
@@ -40,11 +42,13 @@ class Auth extends emitter
   _firebase: null
   _client: null
   _loaded: false
+
   _clearUser: ->
     @user = null
     @_userId = null
     @_userData = null
     @_userRef = null
+
   _setupUser: (user, callback) ->
     @_userRef = @_firebase.child('users').child(user.uid)
 
@@ -54,7 +58,6 @@ class Auth extends emitter
         userData = snap.val()
       else
         userData = collectProviderUserData user.provider, user
-
         # save new user's profile into Firebase so we can
         # list users, use them in security rules, and show profiles
         @_userRef.set userData
@@ -64,8 +67,9 @@ class Auth extends emitter
 
       userData.uid = user.uid
       @user = new User(userData)
-
+      Mixpanel.setUser @user
       callback() if callback
+
   _onAuthStateChange: (error, userData) ->
     @_loaded = true
     if error
@@ -80,6 +84,7 @@ class Auth extends emitter
       @_clearUser()
       @loggedIn = false
       @emit('authStateChange', {})
+
   check: ->
     auth = @_firebase.getAuth()
     if auth
@@ -87,12 +92,19 @@ class Auth extends emitter
       @_onAuthStateChange(false, auth)
 
   login: (provider, opts = {}) ->
-    @_firebase.authWithOAuthPopup(provider, @_onAuthStateChange.bind(@), opts)
+    Mixpanel.track 'View Login Modal'
+    @_firebase.authWithOAuthPopup provider, (error, userData) =>
+      Mixpanel.track 'User Login', {user_id: userData.uid} if userData
+      @_onAuthStateChange(error, userData)
+    , opts
+
   logout: ->
     @_firebase.unauth()
     window.location.reload()
+
   prompt: ->
     @emit('show-auth-prompt')
+
   unprompt: ->
     @emit('hide-auth-prompt')
 

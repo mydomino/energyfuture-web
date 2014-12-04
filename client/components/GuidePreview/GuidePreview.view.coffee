@@ -12,7 +12,7 @@ module.exports = React.createClass
     customClass: ''
 
   viewGuide: ->
-    Mixpanel.track("Visiting guide: #{@props.guide.id}")
+    Mixpanel.track("View Guide", {guide_id: @props.guide.id})
     page "/guides/#{@props.guide.id}"
 
   statusIcon: ->
