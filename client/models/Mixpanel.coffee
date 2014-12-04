@@ -4,7 +4,7 @@ moment = require 'moment'
 
 module.exports =
   _instance: ->
-    @_mixpanel ||= mixpanelFactory.init(mixpanelToken)
+    @_mixpanel ||= mixpanelFactory.init(mixpanelToken, cross_subdomain_cookie: false)
 
   track: (event, opts) ->
     @_instance().track event, opts
