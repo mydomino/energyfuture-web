@@ -69,7 +69,6 @@ gulp.task 'coffee', ->
 # styles
 gulp.task 'stylus', ->
   gulp.src(paths.stylus)
-    .pipe(preprocess())
     .pipe(stylus({
       use: [
         nib(),
@@ -77,14 +76,15 @@ gulp.task 'stylus', ->
       ]
     }))
     .pipe(concat('app.css'))
+    .pipe(preprocess())
     .pipe(gif(gutil.env.production, csso()))
     .pipe(gulp.dest('./public/css'))
     .pipe(gif(gutil.env.development, reload()))
 
 gulp.task 'html', ->
   gulp.src(paths.html)
-    .pipe(preprocess())
     .pipe(cache('html'))
+    .pipe(preprocess())
     .pipe(gif(gutil.env.production, htmlmin()))
     .pipe(gulp.dest('./public'))
     .pipe(gif(gutil.env.development, reload()))
