@@ -43,6 +43,10 @@ module.exports = React.createClass
 
     @setState guide: guide
 
+  formSubmitAction: (event) ->
+    #submit actions are done to trigger html validations
+    event.preventDefault()
+
   componentDidUpdate: ->
     window.scrollTo(0, 0)
 
@@ -61,6 +65,7 @@ module.exports = React.createClass
     sessionStorage.setItem('questionnaire-answers', JSON.stringify(@loadAnswers()))
 
   nextAction: ->
+    return unless @isFormValid()
     @storeAnswers()
     if @isMounted()
       @setState page: @state.page + 1
@@ -69,6 +74,9 @@ module.exports = React.createClass
     @storeAnswers()
     if @isMounted()
       @setState page: @state.page - 1
+
+  isFormValid: ->
+    @refs.questionnaireForm.getDOMNode().checkValidity()
 
   cancelAction: ->
     page "/guides/#{@props.params.guide_id}"
@@ -112,7 +120,7 @@ module.exports = React.createClass
               div {className: 'questionnaire-progress-container'},
                 div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}},
                   span {className: "questionnaire-progress-bar-text #{"complete" if @isLastModule()}"}, @progressText()
-              form {className: 'questionnaire-form', ref: 'questionnaireForm'},
+              form {className: 'questionnaire-form', ref: 'questionnaireForm', onSubmit: @formSubmitAction},
                 new QuestionnaireModules[@pickModule().module]
                   key: "component-#{@state.page}"
                   guideId: @state.guide.id
@@ -123,6 +131,7 @@ module.exports = React.createClass
                   totalPageCount: @totalPageCount()
                   answers: @loadAnswersFromSession()
                   storeInSessionAndFirebaseAction: @storeInSessionAndFirebaseAction
+                  isFormValid: @isFormValid
               a {className: 'questionnaire-cancel', onClick: @cancelAction}, "Cancel"
           else
             new LoadingIcon

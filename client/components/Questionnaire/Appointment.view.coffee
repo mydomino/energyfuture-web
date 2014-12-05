@@ -44,6 +44,7 @@ module.exports = React.createClass
     page "/guides"
 
   confirmAction: ->
+    return unless @props.isFormValid()
     @props.storeInSessionAndFirebaseAction()
     @setState confirmed: true
 
