@@ -1,5 +1,6 @@
 {h2, div, p, input} = React.DOM
 
+_ = require 'lodash'
 moment = require 'moment'
 RadioButton = require './RadioButton.view.coffee'
 Action = require './Action.view.coffee'
@@ -11,9 +12,23 @@ module.exports = React.createClass
   componentDidMount: ->
     @setCallDetails()
 
-  laterDate: (inc) ->
-    next = moment(moment().add(inc, "days"))
-    { date: next.format("MMMM Do"), day: next.format("dddd") }
+  laterDate: (days) ->
+    next = @nextBusinessDate(days)
+    day = if next.diff(moment(), 'days') == 1 then 'Tomorrow' else next.format("dddd")
+    { date: next.format("MMMM Do"), day: day }
+
+  isTodaySaturday: ->
+    moment().isoWeekday() == 6
+
+  nextBusinessDate: (days) ->
+    offset = 0
+    _.times days, (idx) =>
+      if @isTodaySaturday()
+        offset = 1
+      else
+        day = moment().add(idx + 1, "days").format('dddd')
+        offset = 2 if (day == "Saturday" || day == "Sunday")
+    moment(moment().add(days + offset, "days"))
 
   setCallDetails: ->
     callTime = $("input[name='appointment-time']:checked").parent().find('.input-description').text()
@@ -46,9 +61,9 @@ module.exports = React.createClass
       options: [
         {
           description: @laterDate(1).date,
-          label: "Tomorrow",
+          label: @laterDate(1).day,
           position: "1",
-          value: "tomorrow"
+          value: @laterDate(1).day.toLowerCase()
         }, {
           description: @laterDate(2).date,
           label: @laterDate(2).day,
@@ -62,7 +77,7 @@ module.exports = React.createClass
         }, {
           description: "In the future...",
           label: "Later",
-          position: "30",
+          position: "40",
           value: "later"
         }
       ]
@@ -105,6 +120,6 @@ module.exports = React.createClass
         new Action(moreAction: @exploreGuideAction, actionName: "Explore another guide")
     else
       div {className: 'questionnaire-appointment'},
-          div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @setCallDetails)
-          div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers, changeAction: @setCallDetails)
-          new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")
+        div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @setCallDetails)
+        div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers, changeAction: @setCallDetails)
+        new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")
