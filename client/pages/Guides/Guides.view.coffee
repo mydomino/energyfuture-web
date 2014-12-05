@@ -72,7 +72,7 @@ module.exports = React.createClass
   render: ->
     ownershipData = [{name: "owners", value: "own"}, {name: "renters", value: "rent"}]
     userGuides = @props.user && @props.user.get('guides')
-    guides = @coll.guides(@state.ownership)
+    guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
     new Layout {name: 'guides'},
       new NavBar user: @props.user, path: @props.context.pathname
 
