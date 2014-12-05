@@ -20,8 +20,6 @@ module.exports = React.createClass
     guide: null
 
   handleMarkers: (markers) ->
-    console.log(markers)
-
     markers.map (result) =>
       marker = new L.Marker(new L.LatLng(result.Latitude, result.Longitude))
 
