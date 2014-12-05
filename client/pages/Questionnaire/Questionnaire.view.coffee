@@ -1,4 +1,4 @@
-{div, h2, p, form, input, span} = React.DOM
+{div, h2, p, form, input, span, a} = React.DOM
 
 _ = require 'lodash'
 Guide = require '../../models/Guide'
@@ -70,6 +70,9 @@ module.exports = React.createClass
     if @isMounted()
       @setState page: @state.page - 1
 
+  cancelAction: ->
+    page "/guides/#{@props.params.guide_id}"
+
   storeInFirebase: ->
     params = {guide_id: @state.guide.id}
     _.merge(params, {user_id: @props.user.id}) if @props.user?
@@ -120,5 +123,6 @@ module.exports = React.createClass
                   totalPageCount: @totalPageCount()
                   answers: @loadAnswersFromSession()
                   storeInSessionAndFirebaseAction: @storeInSessionAndFirebaseAction
+              a {className: 'questionnaire-cancel', onClick: @cancelAction}, "Cancel"
           else
             new LoadingIcon
