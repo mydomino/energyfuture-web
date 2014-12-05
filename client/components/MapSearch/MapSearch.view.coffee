@@ -20,6 +20,8 @@ module.exports = React.createClass
     guide: null
 
   handleMarkers: (markers) ->
+    console.log(markers)
+
     markers.map (result) =>
       marker = new L.Marker(new L.LatLng(result.Latitude, result.Longitude))
 
@@ -47,7 +49,13 @@ module.exports = React.createClass
     else
       ""
 
-    popupContent = "<div class='map-search-tooltip'><ul><li>#{name}</li><li>#{address}</li><li>#{phone}</li><li>#{link}</li><li>#{ratingStars}</li></ul></div>"
+    popupContent = "<div class='map-search-tooltip'><ul>
+<li class='heading'>#{name}</li>
+<li class='address'>#{address}</li>
+<li>#{phone}</li>
+<li>#{link}</li>
+<li>#{ratingStars}</li>
+</ul></div>"
     marker.bindPopup(popupContent, closeButton: true, minWidth: 200)
 
     -> $('.map-search-tooltip-average-rating').ratingStars()
