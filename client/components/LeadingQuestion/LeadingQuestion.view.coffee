@@ -23,10 +23,10 @@ module.exports = React.createClass
 
   render: ->
     return false unless hasValidData @props.guide
-    {content, question, type, options} = @props.guide.get('leadingQuestion')
+    {heading, content, question, type, options} = @props.guide.get('leadingQuestion')
 
     div {className: 'guide-module guide-module-leading-question'},
-      h2 {className: 'guide-module-header'}, 'Take Action'
+      h2 {className: 'guide-module-header'}, (heading || "Take Action")
       div {className: 'guide-module-content'},
         if content
           p {className: "leading-question-content"}, content
