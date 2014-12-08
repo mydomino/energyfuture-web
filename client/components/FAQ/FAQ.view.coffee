@@ -1,7 +1,7 @@
 {div, h2, dl, dt, dd} = React.DOM
 
 _ = require 'lodash'
-Autolinker = require 'autolinker'
+Autolinker = require '../../Autolinker'
 
 hasValidData = (guide) ->
   return false unless guide
