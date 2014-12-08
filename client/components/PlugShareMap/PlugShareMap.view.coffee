@@ -11,4 +11,4 @@ module.exports = React.createClass
         a {href: 'http://www.plugshare.com/', target: '_blank'},
           'PlugShare'
       div {className: 'guide-module-content'},
-        iframe {src:"http://www.plugshare.com/widget.html?latitude=&longitude=&spanLat=&spanLng="}
+        iframe {src:"https://www.plugshare.com/widget.html?latitude=&longitude=&spanLat=&spanLng="}
