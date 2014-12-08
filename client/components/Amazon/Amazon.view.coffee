@@ -3,7 +3,7 @@
 _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
-
+Autolinker = require 'autolinker'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -62,7 +62,7 @@ module.exports = React.createClass
     else
       div {className: 'guide-module guide-module-amazon-products'},
         h2 {className: 'guide-module-header'}, amazon.heading
-        p {className: "guide-module-subheader"}, amazon.subheading
+        p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}}
 
         div {className: 'guide-module-content'},
           div {className: 'product-list'},
