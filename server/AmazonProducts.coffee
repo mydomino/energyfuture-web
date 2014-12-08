@@ -14,6 +14,7 @@ module.exports = class AWS
 
   extractProductInfo: (data) =>
     items = data.Items.Item
+    items = if _.isArray(items) then items else [items]
     _.chain(items)
       .map (item) ->
         unless item.LargeImage
