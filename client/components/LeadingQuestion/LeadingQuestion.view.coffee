@@ -27,7 +27,7 @@ module.exports = React.createClass
 
     div {className: 'guide-module guide-module-leading-question'},
       h2 {className: 'guide-module-header'}, (heading || "Take Action")
-      p {className: 'guide-module-subheader', dangerouslySetInnerHTML: {"__html": Autolinker.link(subheading)}}
+      p {className: 'guide-module-subheader', dangerouslySetInnerHTML: {"__html": Autolinker.link((subheading || ""))}}
       div {className: 'guide-module-content'},
         if content
           p {className: "leading-question-content"}, content
@@ -43,7 +43,7 @@ module.exports = React.createClass
                     point = opt.point
                     openClass = 'active' if idx == @state.activeIndex
 
-                    div {className: "option-button", onClick: @setActive.bind(this, idx)},
+                    div {key: "option#{idx}", className: "option-button", onClick: @setActive.bind(this, idx)},
                       img {className: "option-button-image #{openClass}"}
                       p {className: "option-button-text"}, point
 
