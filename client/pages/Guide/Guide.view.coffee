@@ -24,7 +24,7 @@ module.exports = React.createClass
     @guide.removeListener 'sync', @setGuide
 
   setGuide: (guide) ->
-    if @isMounted
+    if guide.exists() && @isMounted
       @setState guide: guide
 
   render: ->
