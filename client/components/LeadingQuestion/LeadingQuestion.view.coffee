@@ -23,10 +23,11 @@ module.exports = React.createClass
 
   render: ->
     return false unless hasValidData @props.guide
-    {heading, content, question, type, options} = @props.guide.get('leadingQuestion')
+    {heading, subheading, content, question, type, options} = @props.guide.get('leadingQuestion')
 
     div {className: 'guide-module guide-module-leading-question'},
       h2 {className: 'guide-module-header'}, (heading || "Take Action")
+      p {className: 'guide-module-subheader', dangerouslySetInnerHTML: {"__html": Autolinker.link(subheading)}}
       div {className: 'guide-module-content'},
         if content
           p {className: "leading-question-content"}, content
