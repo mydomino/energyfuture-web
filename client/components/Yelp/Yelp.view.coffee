@@ -52,7 +52,6 @@ module.exports = React.createClass
         div {className: 'guide-module-content'},
           ul {className: 'yelp-list'},
             _.map @state.data['businesses'], (i) =>
-              console.log(i)
               li {key: "yelp-item-#{i.id}", className: "yelp-main"},
                 div {className: "yelp-media-block"},
                   div {className: "yelp-media-avatar"},

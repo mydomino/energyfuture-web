@@ -20,9 +20,15 @@ module.exports = React.createClass
   submit: ->
     Mixpanel.track 'Tips Signup', {guide_id: @props.guideId, distinct_id: @state.user?.id}
     firebaseRef = firebase.inst('/newsletter-signups')
-    firebaseRef.push(@state.email)
+    firebaseRef.push
+      email: @state.email
+      url: document?.location?.pathname || 'Unknown'
+      timestamp: Math.round(new Date().getTime() / 1000)
+
     @state.user.newsletterSignup(@state.email) if @state.user
+
     @setState email: '', submitted: true
+
     return false
 
   render: ->

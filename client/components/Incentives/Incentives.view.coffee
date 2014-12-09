@@ -48,8 +48,8 @@ module.exports = React.createClass
 
       div {className: 'guide-module-content'},
         div {className: 'incentives'},
-          _.map incentives, (i) =>
-            div {className: "incentive"},
+          _.map incentives, (i, idx) =>
+            div {key: "incentive-#{idx}",className: "incentive"},
               p {className: "incentive-provider"}, i.provider
 
               if i.amount
@@ -59,7 +59,9 @@ module.exports = React.createClass
                 p {className: "incentive-type"}, i.type
 
               if @descriptionFits(i.description)
-                p {className: "incentive-description"}, i.description
+                div {},
+                  p {className: "incentive-description"}, i.description
+                  a {className: "incentive-reference", href: i.reference, target: '_blank'}, "learn more" if i.reference
               else
                 div {},
                   p {className: "incentive-description", dangerouslySetInnerHTML: {"__html": @truncateDescription(i.description)}}

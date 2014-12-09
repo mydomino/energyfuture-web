@@ -16,3 +16,6 @@ module.exports = class Guide extends DominoModel
 
   score: ->
     parseInt(@get('score'), 10)
+
+  exists: ->
+    !!@attributes

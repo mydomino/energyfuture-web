@@ -3,6 +3,7 @@ aws = require 'aws-lib'
 request = require 'request'
 cheerio = require 'cheerio'
 Q = require 'q'
+url = require 'url'
 
 accessKeyId = process.env.AWS_ACCESS_KEY_ID
 secretKeyId = process.env.AWS_SECRET_KEY_ID
@@ -13,10 +14,11 @@ module.exports = class AWS
 
   extractProductInfo: (data) =>
     items = data.Items.Item
+    items = [items] unless _.isArray(items)
     _.chain(items)
       .map (item) ->
         unless item.LargeImage
-          console.log "Missing image for item: #{item.ItemAttributes.Title}"
+          console.error "Missing image for item: #{item.ASIN}"
           return
         if _.contains(item.ItemAttributes.ProductGroup.toLowerCase(), 'book')
           creators = item.ItemAttributes.Author
@@ -33,12 +35,17 @@ module.exports = class AWS
           if not error and response.statusCode is 200
             $ = cheerio.load(body)
             reviewRegex = /[1-9](?:\d{0,2})(?:,\d{3})*(?:\.\d*[1-9])?|0?\.\d*[1-9]|0/
+            itemURL = url.parse(itemLink)
+            itemURL.hash = "customerReviews"
+            reviewsLink = url.format(itemURL)
             data =
+              id: item.ASIN
               imageUrl: imageUrl
               creators: creators
               avgStarRatingImage: $('.crAvgStars img').attr('src')
               reviewCount: $('.crAvgStars a').last().text().match(reviewRegex)
               itemLink: itemLink
+              reviewsLink: reviewsLink
             deferred.resolve(data)
 
         deferred.promise

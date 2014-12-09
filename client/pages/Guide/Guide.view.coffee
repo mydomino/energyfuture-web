@@ -26,7 +26,7 @@ module.exports = React.createClass
     debouncedMixpanelUpdate()
 
   componentDidMount: ->
-    $('.affiliate-link').click ->
+    $('.mixpanel-affiliate-link').click ->
       Mixpanel.track("View Affliate Link", distinct_id: auth.user?.id)
 
   componentWillUnmount: ->
@@ -36,7 +36,7 @@ module.exports = React.createClass
     Mixpanel.track("View Guide", {guide_id: @guide.id, distinct_id: auth.user?.id})
 
   setGuide: (guide) ->
-    if @isMounted
+    if guide.exists() && @isMounted
       @setState guide: guide
 
   render: ->
