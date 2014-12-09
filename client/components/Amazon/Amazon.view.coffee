@@ -4,7 +4,6 @@ _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 
-
 hasValidData = (guide) ->
   return false unless guide
   return false if _.isEmpty guide.get('amazon')
@@ -26,7 +25,7 @@ module.exports = React.createClass
   productItems: ->
     _.map @state.products, (product) ->
       div {className: 'product-item'},
-        a {href: product.itemLink, className: "product-link", target: '_blank'},
+        a {href: product.itemLink, className: "product-link affiliate-link", target: '_blank'},
           img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},
             span {}, "by"
