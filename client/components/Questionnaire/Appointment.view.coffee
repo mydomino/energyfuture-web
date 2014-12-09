@@ -1,9 +1,10 @@
 {h2, div, p, input} = React.DOM
 
 moment = require 'moment'
-RadioButton = require './RadioButton.view.coffee'
-Action = require './Action.view.coffee'
-auth = require '../../auth.coffee'
+RadioButton = require './RadioButton.view'
+Action = require './Action.view'
+auth = require '../../auth'
+Mixpanel = require '../../models/Mixpanel'
 
 module.exports = React.createClass
   displayName: 'Appointment'
@@ -26,6 +27,9 @@ module.exports = React.createClass
     page "/guides"
 
   confirmAction: ->
+    Mixpanel.track 'Confirm Appointment',
+      guide_id: @props.guideId
+      distinct_id: auth.user?.id
     @props.storeInSessionAndFirebaseAction()
     @setState confirmed: true
 

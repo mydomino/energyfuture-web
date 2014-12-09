@@ -12,4 +12,8 @@ module.exports =
       query: query
 
     request.get yql.getUrlFromQuery(sql), (r) ->
-      callback r.body.query.results.Result
+      results = r.body.query.results
+      if results
+        callback results.Result
+      else
+        console.log "No location results found for #{query}"

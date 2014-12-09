@@ -6,6 +6,7 @@ _ = require 'lodash'
 
 module.exports = React.createClass
   displayName: 'GuidePreview'
+
   getDefaultProps: ->
     customClass: ''
 

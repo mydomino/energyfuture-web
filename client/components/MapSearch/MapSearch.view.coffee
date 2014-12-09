@@ -7,7 +7,7 @@ _searchResultsCache = {}
 
 hasValidData = (guide) ->
   return false unless guide
-  return false if _.isEmpty guide.get('mapSearchTerm')
+  return false if _.isEmpty guide.get('mapSearch')
   true
 
 $.fn.ratingStars = ->
@@ -59,7 +59,7 @@ module.exports = React.createClass
     -> $('.map-search-tooltip-average-rating').ratingStars()
 
   handleLocation: (loc) ->
-    locationSearchTerm = @props.guide.get('mapSearchTerm')
+    locationSearchTerm = @props.guide.get('mapSearch').query
     featureLayer = L.mapbox.featureLayer().addTo(@mapObj)
     @mapObj.fitBounds loc.bounds, { maxZoom: 13 }
 
@@ -91,7 +91,7 @@ module.exports = React.createClass
   componentDidMount: ->
     @mapObj = L.mapbox.map(@refs.map.getDOMNode(), 'illanti.in9ig8o9', { zoomControl: false })
     @toolTipLayer = L.mapbox.featureLayer().addTo(@mapObj)
-    new L.Control.Zoom({ position: 'bottomright' }).addTo(@mapObj)
+    new L.Control.Zoom(position: 'bottomright').addTo(@mapObj)
     @mapObj.scrollWheelZoom.disable()
 
     if _locationCache?
@@ -119,8 +119,8 @@ module.exports = React.createClass
 
   render: ->
     return false unless hasValidData @props.guide
-
+    map = @props.guide.get('mapSearch')
     div {className: 'guide-module'},
-      h2 {className: 'guide-module-header'}, 'Map'
+      h2 {className: 'guide-module-header'}, map.heading
       div {className: 'guide-module-content'},
         div {className: 'map', ref: 'map', onClick: @handleMapClick}

@@ -10,5 +10,5 @@ module.exports = React.createClass
       div {className: "container"},
         div {className: "container-padding"},
           @props.children
-        new NewsletterSignup
+        new NewsletterSignup guideId: @props.guideId
       new Footer

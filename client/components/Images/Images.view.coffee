@@ -24,8 +24,9 @@ module.exports = React.createClass
     return false unless hasValidData @props.guide
     images = @props.guide.get('images')
 
-    div {className: 'guide-module guide-module-fares'},
-      h2 {className: 'guide-module-header'}, 'Action Shots'
-      p {className: 'guide-module-subheader', dangerouslySetInnerHTML: {"__html": Autolinker.link(images.subheading)}}
+    div {className: 'guide-module guide-module-images'},
       div {className: 'guide-module-content'},
-        images.links.map (i) => img {key: "images-module-#{i}", className: "images-module-image", src: @imageSrc(i)}
+        images.map (i) =>
+          div {},
+            img {key: "images-module-#{i}", className: "images-module-image", src: @imageSrc(i.link)}
+            p {className: 'image-module-caption', dangerouslySetInnerHTML: {"__html": Autolinker.link(i.caption)}}
