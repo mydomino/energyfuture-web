@@ -25,10 +25,6 @@ module.exports = React.createClass
     auth.on 'authStateChange', debouncedMixpanelUpdate
     debouncedMixpanelUpdate()
 
-  componentDidMount: ->
-    $('.mixpanel-affiliate-link').click ->
-      Mixpanel.track("View Affliate Link", distinct_id: auth.user?.id)
-
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide
 
