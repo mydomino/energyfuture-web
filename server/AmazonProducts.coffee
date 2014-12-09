@@ -14,10 +14,11 @@ module.exports = class AWS
 
   extractProductInfo: (data) =>
     items = data.Items.Item
+    items = [items] unless _.isArray(items)
     _.chain(items)
       .map (item) ->
         unless item.LargeImage
-          console.log "Missing image for item: #{item.ItemAttributes.Title}"
+          console.error "Missing image for item: #{item.ASIN}"
           return
         if _.contains(item.ItemAttributes.ProductGroup.toLowerCase(), 'book')
           creators = item.ItemAttributes.Author

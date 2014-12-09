@@ -19,7 +19,7 @@ module.exports = React.createClass
     whatYouCanDo = @props.guide.get('whatYouCanDo')
 
     div {},
-      h2 {className: "guide-module-header"}, "What you can do"
+      h2 {className: "guide-module-header"}, (whatYouCanDo.heading || "What you can do")
       p {className: "guide-module-subheader"}, whatYouCanDo.subheading
       div {className: 'guide-module-content'},
         new CallToAction(actions: whatYouCanDo.cta)

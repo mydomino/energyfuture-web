@@ -10,6 +10,7 @@ AmazonProducts = require './server/AmazonProducts'
 QuestionnaireEmail = require './server/QuestionnaireEmail'
 YelpListings = require './server/YelpListings'
 Appointments = require './server/Appointments'
+Signups = require './server/Signups'
 
 PORT = Number(process.env.PORT || 8080);
 
@@ -46,6 +47,10 @@ app.post "/questionnaire-email", (req, res) ->
 app.get "/appointments.csv", (req, res) ->
   Appointments (statusCode, data) ->
     res.status(statusCode).csv(data, "appointments.csv")
+
+app.get "/signups.csv", (req, res) ->
+  Signups (statusCode, data) ->
+    res.status(statusCode).csv(data, "signups.csv")
 
 # page.js - client-side routing
 app.get '/*', (req, res) ->
