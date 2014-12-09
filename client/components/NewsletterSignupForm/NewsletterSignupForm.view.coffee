@@ -18,7 +18,10 @@ module.exports = React.createClass
     @setState email: event.target.value
   submit: ->
     firebaseRef = firebase.inst('/newsletter-signups')
-    firebaseRef.push(@state.email)
+    firebaseRef.push
+      email: @state.email
+      url: document?.location?.pathname || 'Unknown'
+      timestamp: Math.round(new Date().getTime() / 1000)
 
     @state.user.newsletterSignup(@state.email) if @state.user
 
