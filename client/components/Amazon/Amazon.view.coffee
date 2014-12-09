@@ -48,7 +48,7 @@ module.exports = React.createClass
     _.map @state.products, (product) =>
       cat = @productImportanceCategory(product.id)
       div {className: 'product-item', key: "product-item-#{product.id}"},
-        a {href: product.itemLink, className: "product-link mixpanel-affiliate-link", target: '_blank', onClick: @trackAffiliateAction},
+        a {href: product.itemLink, className: "product-link mixpanel-affiliate-link", target: '_blank', onClick: => @trackAffiliateAction('affiliate': 'amazon')},
           img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},
             span {}, "by"

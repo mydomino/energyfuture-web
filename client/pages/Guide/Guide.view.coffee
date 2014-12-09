@@ -3,7 +3,7 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 TipCollection = require '../../models/TipCollection'
-MixpanelMixin = require '../../mixins/MixpanelMixin'
+Mixpanel = require '../../models/Mixpanel'
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
@@ -13,7 +13,6 @@ auth = require '../../auth'
 
 module.exports = React.createClass
   displayName: 'Guide'
-  mixins: [MixpanelMixin]
   getInitialState: ->
     guide: null
 
@@ -22,9 +21,16 @@ module.exports = React.createClass
     @guide.on "sync", @setGuide
 
     @setGuide(@guide)
-    debouncedMixpanelUpdate = _.debounce(@trackViewGuideAction, 2000, {leading: false, trailing: true})
+    debouncedMixpanelUpdate = _.debounce =>
+      Mixpanel.emit('analytics.guide.view', {guide_id: @guide.id, distinct_id: auth.user?.id})
+    , 2000
+    , {leading: false, trailing: true}
     auth.on 'authStateChange', debouncedMixpanelUpdate
     debouncedMixpanelUpdate()
+
+  componentDidUpdate: (props, state) ->
+    if state.guide
+      $('.mixpanel-affiliate-link').click Mixpanel.emit('analytics.affiliate.view')
 
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide

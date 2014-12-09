@@ -18,7 +18,9 @@ module.exports = React.createClass
   handleChange: (event) ->
     @setState email: event.target.value
   submit: ->
-    Mixpanel.track 'Tips Signup', {guide_id: @props.guideId, distinct_id: @state.user?.id}
+    Mixpanel.emit 'analytics.tips.signup',
+      guide_id: @props.guideId
+      distinct_id: @state.user?.id
     firebaseRef = firebase.inst('/newsletter-signups')
     firebaseRef.push
       email: @state.email

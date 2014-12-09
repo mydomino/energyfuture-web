@@ -27,7 +27,7 @@ module.exports = React.createClass
     page "/guides"
 
   confirmAction: ->
-    Mixpanel.track 'Confirm Appointment',
+    Mixpanel.emit 'analytics.appointment.confirm',
       guide_id: @props.guideId
       distinct_id: auth.user?.id
     @props.storeInSessionAndFirebaseAction()

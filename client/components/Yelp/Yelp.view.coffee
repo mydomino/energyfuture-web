@@ -2,6 +2,7 @@
 
 _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
+MixpanelMixin = require '../../mixins/MixpanelMixin'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -10,6 +11,7 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Yelp'
+  mixins: [MixpanelMixin]
 
   getInitialState: ->
     data: []
@@ -56,11 +58,11 @@ module.exports = React.createClass
                 div {className: "yelp-media-block"},
                   div {className: "yelp-media-avatar"},
                     div {className: "yelp-media-photobox"},
-                      a {href: i.url, target: "_blank"},
+                      a {href: i.url, target: "_blank", onClick: => @trackAffiliateAction('affiliate': 'yelp')},
                         img {src: i.image_url}
 
                   div {className: "yelp-media-story"},
-                    a {href: i.url, target: "_blank"},
+                    a {href: i.url, target: "_blank", onClick: => @trackAffiliateAction('affiliate': 'yelp')},
                       h3 {}, i.name
                     div {className: "yelp-media-ratingsbox"},
                       div {className: "yelp-media-rating"},
@@ -77,7 +79,7 @@ module.exports = React.createClass
 
                   div {className: "yelp-review-snippet-container"},
                     div {className: "yelp-review-snippet"},
-                      a {href: i.url},
+                      a {href: i.url, onClick: => @trackAffiliateAction('affiliate': 'yelp')},
                         img {src: i.snippet_image_url}
                       div {className: "yelp-review-snippet-story"},
                         p {}, i.snippet_text

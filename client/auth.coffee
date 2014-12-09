@@ -92,9 +92,9 @@ class Auth extends emitter
       @_onAuthStateChange(false, auth)
 
   login: (provider, opts = {}) ->
-    Mixpanel.track 'View Login Modal'
+    Mixpanel.emit 'analytics.login.openmodal'
     @_firebase.authWithOAuthPopup provider, (error, userData) =>
-      Mixpanel.track 'User Login', {user_id: userData.uid, distinct_id: userData.uid} if userData
+      Mixpanel.emit 'analytics.login.userlogin', distinct_id: userData.uid if userData
       @_onAuthStateChange(error, userData)
     , opts
 

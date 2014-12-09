@@ -13,7 +13,7 @@ module.exports = React.createClass
   displayName: 'CallToAction'
 
   viewQuestionnaire: ->
-    Mixpanel.track 'View Questionnaire',
+    Mixpanel.emit 'analytics.questionnaire.view',
       guide_id: @props.guideId,
       distinct_id: auth.user?.id
     page "/guides/#{@props.guide.id}/questionnaire"
