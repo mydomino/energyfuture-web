@@ -2,7 +2,7 @@
 
 _ = require 'lodash'
 auth = require '../../auth'
-Mixpanel = require '../../models/Mixpanel'
+MixpanelMixin = require '../../mixins/MixpanelMixin'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
@@ -14,6 +14,7 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Amazon'
+  mixins: [MixpanelMixin]
 
   getInitialState: ->
     products: []
@@ -38,9 +39,6 @@ module.exports = React.createClass
     .fail((res) =>
         console.error(res)
         @setState dataError: true if @isMounted())
-
-  trackAffiliateAction: ->
-    Mixpanel.track("View Affliate Link", distinct_id: auth.user?.id)
 
   productItems: ->
     _.map @state.products, (product) =>
