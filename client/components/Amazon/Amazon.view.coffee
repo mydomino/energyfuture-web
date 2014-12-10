@@ -44,10 +44,6 @@ module.exports = React.createClass
   onClickTrackingLink: ->
     console.log "Track this link Amazon"
 
-  trackingLinksContainer: ->
-    unless _.isUndefined(@refs['amazon-products-container'])
-      @refs['amazon-products-container'].getDOMNode()
-
   productItems: ->
     _.map @state.products, (product) =>
       cat = @productImportanceCategory(product.id)
@@ -70,7 +66,7 @@ module.exports = React.createClass
     if _.isEmpty @state.products
       new LoadingIcon
     else
-      div {className: 'guide-module guide-module-amazon-products', ref: 'amazon-products-container'},
+      div {className: 'guide-module guide-module-amazon-products'},
         h2 {className: 'guide-module-header'}, amazon.heading
         p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}}
 

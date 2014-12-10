@@ -1,10 +1,10 @@
 module.exports =
-  trackLinks: ->
-    $(@trackingLinksContainer()).find('a').each (i, l) =>
-      $(l).click(@onClickTrackingLink)
+  trackLinks: (node) ->
+    $(node).find('a').each (i, l) =>
+      $(l).unbind('click').click(@onClickTrackingLink)
 
   componentDidMount: ->
-    @trackLinks()
+    @trackLinks(@getDOMNode())
   
   componentDidUpdate: ->
-    @trackLinks()
+    @trackLinks(@getDOMNode())
