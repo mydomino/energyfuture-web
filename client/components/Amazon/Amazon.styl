@@ -1,15 +1,34 @@
 .guide-module-amazon-products
-  .product-link
+  .product-link, .review-link
     text-decoration: none
     color black
     &:visited
       color #808080
+  .product-importance-category
+    font-weight 600
+    text-transform capitalize
+    margin-top 0.4em
+    &.good
+      color #6BC4D9
+    &.better
+      color #38BA99
+    &.best
+      color #E0613D
   .product-item
     margin-top: 20px
     display: inline-block
     width: 27.659%
     margin-left: 7%
     vertical-align: top
+
+    /** carousel styles override start */
+    font-size: 16px
+    line-height: normal
+    text-align: left
+    img
+      pointer-events auto
+    /* carousel styles override finish **/
+
     &:nth-child(3n+1)
       margin-left: 0
     img

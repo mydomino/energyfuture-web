@@ -3,11 +3,13 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 TipCollection = require '../../models/TipCollection'
+Mixpanel = require '../../models/Mixpanel'
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
 GuideModules = require '../../components/GuideModules.coffee'
+auth = require '../../auth'
 
 module.exports = React.createClass
   displayName: 'Guide'
@@ -19,12 +21,18 @@ module.exports = React.createClass
     @guide.on "sync", @setGuide
 
     @setGuide(@guide)
+    debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
+    auth.on 'authStateChange', debouncedMixpanelUpdate
+    debouncedMixpanelUpdate()
 
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide
 
+  updateMixpanel: ->
+    Mixpanel.track("View Guide", {guide_id: @guide.id, distinct_id: auth.user?.id})
+
   setGuide: (guide) ->
-    if @isMounted
+    if guide.exists() && @isMounted
       @setState guide: guide
 
   render: ->
@@ -32,7 +40,7 @@ module.exports = React.createClass
       {title, summary, category, intro} = @state.guide.attributes
       modules = @state.guide.modules()
 
-    new Layout {name: 'guide'},
+    new Layout {name: 'guide', guideId: @props.params.id},
       new NavBar user: @props.user, path: @props.context.pathname
       if !@state.guide
         new LoadingIcon
