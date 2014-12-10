@@ -9,7 +9,6 @@ module.exports =
   track: (event, opts) ->
     @_instance().track event, opts
 
-  signup: (userData) ->
-    @_instance().people.set userData.id,
-      $name: userData.name
-      $created: moment().toISOString()
+  setUser: (user) ->
+    @_instance().people.set user.id,
+      $name: user.get('displayName')

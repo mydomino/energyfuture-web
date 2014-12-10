@@ -1,6 +1,8 @@
 {div, p, img, span, h2, a} = React.DOM
 
 _ = require 'lodash'
+auth = require '../../auth'
+MixpanelMixin = require '../../mixins/MixpanelMixin'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
@@ -13,8 +15,7 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Amazon'
-
-  mixins: [LinkParserMixin]
+  mixins: [MixpanelMixin]
 
   getInitialState: ->
     products: []
@@ -50,7 +51,7 @@ module.exports = React.createClass
     _.map @state.products, (product) =>
       cat = @productImportanceCategory(product.id)
       div {className: 'product-item', key: "product-item-#{product.id}"},
-        a {href: product.itemLink, className: "product-link", target: '_blank'},
+        a {href: product.itemLink, className: "product-link mixpanel-affiliate-link", target: '_blank', onClick: @trackAffiliateAction},
           img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},
             span {}, "by"

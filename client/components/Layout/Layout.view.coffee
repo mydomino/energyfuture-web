@@ -7,7 +7,7 @@ LinkParserMixin = require '../../mixins/LinkParserMixin'
 module.exports = React.createClass
   displayName: 'Layout'
 
-  mixins: [LinkParserMixin]
+  mixins: [MixpanelMixin]
 
   onClickTrackingLink: ->
     console.log "Track this link."

@@ -3,7 +3,7 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 TipCollection = require '../../models/TipCollection'
-Mixpanel = require '../../models/Mixpanel'
+MixpanelMixin = require '../../mixins/MixpanelMixin'
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
@@ -13,6 +13,7 @@ auth = require '../../auth'
 
 module.exports = React.createClass
   displayName: 'Guide'
+  mixins: [MixpanelMixin]
   getInitialState: ->
     guide: null
 
@@ -21,15 +22,12 @@ module.exports = React.createClass
     @guide.on "sync", @setGuide
 
     @setGuide(@guide)
-    debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
+    debouncedMixpanelUpdate = _.debounce(@trackViewGuideAction, 2000, {leading: false, trailing: true})
     auth.on 'authStateChange', debouncedMixpanelUpdate
     debouncedMixpanelUpdate()
 
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide
-
-  updateMixpanel: ->
-    Mixpanel.track("View Guide", {guide_id: @guide.id, distinct_id: auth.user?.id})
 
   setGuide: (guide) ->
     if guide.exists() && @isMounted
