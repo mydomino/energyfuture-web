@@ -5,4 +5,4 @@ module.exports = React.createClass
 
   render: ->
     div {className: 'questionnaire-action'},
-      input {className: "action", type: 'submit', onClick: @props.moreAction, value: @props.actionName}
+      input {className: 'action', type: 'submit', onClick: @props.moreAction, value: @props.actionName}
