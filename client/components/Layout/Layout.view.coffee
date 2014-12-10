@@ -2,15 +2,15 @@
 
 NewsletterSignup = require '../NewsletterSignupForm/NewsletterSignupForm.view'
 Footer = require '../Footer/Footer.view'
-LinkParserMixin = require '../../mixins/LinkParserMixin'
+LinkCatcherMixin = require '../../mixins/LinkCatcherMixin'
 
 module.exports = React.createClass
   displayName: 'Layout'
 
-  mixins: [MixpanelMixin]
+  mixins: [LinkCatcherMixin]
 
   onClickTrackingLink: ->
-    console.log "Track this link."
+    console.log "Track this link Layout"
 
   trackingLinksContainer: ->
     @refs['layout-container'].getDOMNode()

@@ -2,11 +2,11 @@
 
 _ = require 'lodash'
 auth = require '../../auth'
-MixpanelMixin = require '../../mixins/MixpanelMixin'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
-LinkParserMixin = require '../../mixins/LinkParserMixin'
+MixpanelMixin = require '../../mixins/MixpanelMixin'
+LinkCatcherMixin = require '../../mixins/LinkCatcherMixin'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -15,7 +15,7 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Amazon'
-  mixins: [MixpanelMixin]
+  mixins: [MixpanelMixin, LinkCatcherMixin]
 
   getInitialState: ->
     products: []
@@ -42,10 +42,11 @@ module.exports = React.createClass
         @setState dataError: true if @isMounted())
 
   onClickTrackingLink: ->
-    console.log "Track this link."
+    console.log "Track this link Amazon"
 
   trackingLinksContainer: ->
-    @refs['amazon-products-container'].getDOMNode()
+    unless _.isUndefined(@refs['amazon-products-container'])
+      @refs['amazon-products-container'].getDOMNode()
 
   productItems: ->
     _.map @state.products, (product) =>
