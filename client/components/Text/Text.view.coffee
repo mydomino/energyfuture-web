@@ -1,4 +1,4 @@
-{div, p} = React.DOM
+{div, p, a} = React.DOM
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 

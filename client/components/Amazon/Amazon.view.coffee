@@ -4,6 +4,7 @@ _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
+LinkParserMixin = require '../../mixins/LinkParserMixin'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -12,6 +13,8 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Amazon'
+
+  mixins: [LinkParserMixin]
 
   getInitialState: ->
     products: []
@@ -37,6 +40,11 @@ module.exports = React.createClass
         console.error(res)
         @setState dataError: true if @isMounted())
 
+  onClickTrackingLink: ->
+    console.log "Track this link."
+
+  trackingLinksContainer: ->
+    @refs['amazon-products-container'].getDOMNode()
 
   productItems: ->
     _.map @state.products, (product) =>
@@ -60,7 +68,7 @@ module.exports = React.createClass
     if _.isEmpty @state.products
       new LoadingIcon
     else
-      div {className: 'guide-module guide-module-amazon-products'},
+      div {className: 'guide-module guide-module-amazon-products', ref: 'amazon-products-container'},
         h2 {className: 'guide-module-header'}, amazon.heading
         p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}}
 

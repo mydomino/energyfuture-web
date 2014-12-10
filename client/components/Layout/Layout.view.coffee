@@ -9,9 +9,15 @@ module.exports = React.createClass
 
   mixins: [LinkParserMixin]
 
+  onClickTrackingLink: ->
+    console.log "Track this link."
+
+  trackingLinksContainer: ->
+    @refs['layout-container'].getDOMNode()
+
   render: ->
     div {className: "page page-#{@props.name}"},
-      div {className: "container", ref: "linkContainer"},
+      div {className: "container", ref: "layout-container"},
         div {className: "container-padding"},
           @props.children
         new NewsletterSignup guideId: @props.guideId
