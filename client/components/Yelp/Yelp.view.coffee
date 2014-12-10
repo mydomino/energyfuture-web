@@ -4,7 +4,7 @@ _ = require 'lodash'
 auth = require '../../auth'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Mixpanel = require '../../models/Mixpanel'
-LinkCatcherMixin = require '../../mixins/LinkCatcherMixin'
+BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -13,7 +13,7 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Yelp'
-  mixins: [LinkCatcherMixin]
+  mixins: [BindAffiliateLinkMixin]
 
   getInitialState: ->
     data: []
@@ -42,7 +42,7 @@ module.exports = React.createClass
       "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
     }
 
-  onClickTrackingLink: ->
+  trackAffiliateLinkAction: ->
     Mixpanel.emit 'analytics.affiliate.click',
       affiliate: 'yelp'
       guide_id: @props.guide.id

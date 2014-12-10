@@ -21,6 +21,8 @@ class Mixpanel extends Emitter
       @track "Tips Signup", opts
     @on 'analytics.affiliate.click', (opts) =>
       @track "View Affliate Link", opts
+    @on 'analytics.external.click', (opts) =>
+      @track "View External Link", opts
 
   _instance: ->
     @_mixpanel ||= mixpanelFactory.init(mixpanelToken, cross_subdomain_cookie: false)

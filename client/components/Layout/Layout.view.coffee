@@ -2,15 +2,18 @@
 
 NewsletterSignup = require '../NewsletterSignupForm/NewsletterSignupForm.view'
 Footer = require '../Footer/Footer.view'
-LinkCatcherMixin = require '../../mixins/LinkCatcherMixin'
+BindExternalLinkMixin = require '../../mixins/BindExternalLinkMixin'
+Mixpanel = require '../../models/Mixpanel'
+auth = require '../../auth'
 
 module.exports = React.createClass
   displayName: 'Layout'
 
-  mixins: [LinkCatcherMixin]
+  mixins: [BindExternalLinkMixin]
 
-  onClickTrackingLink: ->
-    console.log "Track this link Layout"
+  trackExternalLinkAction: ->
+    Mixpanel.emit 'analytics.external.click',
+      distinct_id: auth.user?.id
 
   render: ->
     div {className: "page page-#{@props.name}"},

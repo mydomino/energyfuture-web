@@ -6,7 +6,7 @@ LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
 Mixpanel = require '../../models/Mixpanel'
-LinkCatcherMixin = require '../../mixins/LinkCatcherMixin'
+BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -15,7 +15,7 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Amazon'
-  mixins: [LinkCatcherMixin]
+  mixins: [BindAffiliateLinkMixin]
 
   getInitialState: ->
     products: []
@@ -42,7 +42,7 @@ module.exports = React.createClass
       console.error(res)
       @setState dataError: true if @isMounted()
 
-  onClickTrackingLink: ->
+  trackAffiliateLinkAction: ->
     Mixpanel.emit 'analytics.affiliate.click',
       affiliate: 'amazon'
       guide_id: @props.guide.id
