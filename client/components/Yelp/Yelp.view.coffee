@@ -1,8 +1,10 @@
 {div, p, img, span, h2, h3, a, ul, li} = React.DOM
 
 _ = require 'lodash'
+auth = require '../../auth'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
-MixpanelMixin = require '../../mixins/MixpanelMixin'
+Mixpanel = require '../../models/Mixpanel'
+LinkCatcherMixin = require '../../mixins/LinkCatcherMixin'
 
 hasValidData = (guide) ->
   return false unless guide
@@ -11,7 +13,7 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Yelp'
-  mixins: [MixpanelMixin]
+  mixins: [LinkCatcherMixin]
 
   getInitialState: ->
     data: []
@@ -40,6 +42,12 @@ module.exports = React.createClass
       "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
     }
 
+  onClickTrackingLink: ->
+    Mixpanel.emit 'analytics.affiliate.click',
+      affiliate: 'yelp'
+      guide_id: @props.guide.id
+      distinct_id: auth.user?.id
+
   render: ->
     return false unless hasValidData(@props.guide)
     yelp = @props.guide.get('yelp')
@@ -49,7 +57,7 @@ module.exports = React.createClass
     else
       div {className: "guide-module guide-module-yelp"},
         h2 {className: "guide-module-header"}, yelp.heading
-        p {className: "guide-module-subheader"}, "Powered by Yelp.com"
+        p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": "Powered by <a href='yelp.com'>Yelp</a>"}}
 
         div {className: 'guide-module-content'},
           ul {className: 'yelp-list'},
@@ -58,11 +66,11 @@ module.exports = React.createClass
                 div {className: "yelp-media-block"},
                   div {className: "yelp-media-avatar"},
                     div {className: "yelp-media-photobox"},
-                      a {href: i.url, target: "_blank", onClick: => @trackAffiliateAction('affiliate': 'yelp')},
+                      a {href: i.url, target: "_blank", className: 'mixpanel-affiliate-link'},
                         img {src: i.image_url}
 
                   div {className: "yelp-media-story"},
-                    a {href: i.url, target: "_blank", onClick: => @trackAffiliateAction('affiliate': 'yelp')},
+                    a {href: i.url, target: "_blank", className: 'mixpanel-affiliate-link'},
                       h3 {}, i.name
                     div {className: "yelp-media-ratingsbox"},
                       div {className: "yelp-media-rating"},
@@ -79,7 +87,7 @@ module.exports = React.createClass
 
                   div {className: "yelp-review-snippet-container"},
                     div {className: "yelp-review-snippet"},
-                      a {href: i.url, onClick: => @trackAffiliateAction('affiliate': 'yelp')},
+                      a {href: i.url, target: '_blank', className: 'mixpanel-affiliate-link'},
                         img {src: i.snippet_image_url}
                       div {className: "yelp-review-snippet-story"},
                         p {}, i.snippet_text

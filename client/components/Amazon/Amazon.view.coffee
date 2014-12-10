@@ -5,7 +5,7 @@ auth = require '../../auth'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
-MixpanelMixin = require '../../mixins/MixpanelMixin'
+Mixpanel = require '../../models/Mixpanel'
 LinkCatcherMixin = require '../../mixins/LinkCatcherMixin'
 
 hasValidData = (guide) ->
@@ -15,7 +15,7 @@ hasValidData = (guide) ->
 
 module.exports = React.createClass
   displayName: 'Amazon'
-  mixins: [MixpanelMixin, LinkCatcherMixin]
+  mixins: [LinkCatcherMixin]
 
   getInitialState: ->
     products: []
@@ -34,21 +34,25 @@ module.exports = React.createClass
     _.find(@products(), 'id': id).category
 
   componentDidMount: ->
-    $.get("/amazon-products", products: @productIds())
-    .done((res) =>
-      @setState products: res if @isMounted())
-    .fail((res) =>
-        console.error(res)
-        @setState dataError: true if @isMounted())
+    $.get "/amazon-products",
+      products: @productIds()
+    .done (res) =>
+      @setState products: res if @isMounted()
+    .fail (res) =>
+      console.error(res)
+      @setState dataError: true if @isMounted()
 
   onClickTrackingLink: ->
-    console.log "Track this link Amazon"
+    Mixpanel.emit 'analytics.affiliate.click',
+      affiliate: 'amazon'
+      guide_id: @props.guide.id
+      distinct_id: auth.user?.id
 
   productItems: ->
     _.map @state.products, (product) =>
       cat = @productImportanceCategory(product.id)
       div {className: 'product-item', key: "product-item-#{product.id}"},
-        a {href: product.itemLink, className: "product-link mixpanel-affiliate-link", target: '_blank', onClick: => @trackAffiliateAction('affiliate': 'amazon')},
+        a {href: product.itemLink, className: "product-link mixpanel-affiliate-link", target: '_blank'},
           img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},
             span {}, "by"
@@ -63,13 +67,13 @@ module.exports = React.createClass
     return false if @state.dataError
     amazon = @props.guide.get('amazon')
 
-    if _.isEmpty @state.products
-      new LoadingIcon
-    else
-      div {className: 'guide-module guide-module-amazon-products'},
-        h2 {className: 'guide-module-header'}, amazon.heading
-        p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}}
+    div {className: 'guide-module guide-module-amazon-products'},
+      h2 {className: 'guide-module-header'}, amazon.heading
+      p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}}
 
+      if _.isEmpty @state.products
+        new LoadingIcon
+      else
         div {className: 'guide-module-content'},
           div {className: 'product-list'},
             if @state.products.length > 3
