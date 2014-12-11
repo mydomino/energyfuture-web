@@ -8,15 +8,17 @@ url = require 'url'
 accessKeyId = process.env.AWS_ACCESS_KEY_ID
 secretKeyId = process.env.AWS_SECRET_KEY_ID
 
-module.exports = class AWS
+module.exports = class AmazonProducts
   constructor: ->
     @prodAdv = aws.createProdAdvClient(accessKeyId, secretKeyId, "dummyTag")
+    @errors = []
 
   requestProductMeta: (reviewsUrl) =>
     deferred = Q.defer()
 
     request reviewsUrl, (error, response, body) =>
       if error or response.statusCode is 403
+        console.error "Error in fetching product meta data #{error}"
         deferred.reject(new Error(error))
       else
         if response.statusCode is 200
@@ -33,17 +35,19 @@ module.exports = class AWS
     items = data.Items.Item
     items = [items] unless _.isArray(items) # api does not return an array if it's just one item
 
-    data = _.chain(items)
+    _.chain(items)
       .map (item) =>
         image = item.LargeImage
         attrs = item.ItemAttributes
 
         unless image?
           console.error "Missing image for item: #{item.ASIN}"
+          @errors.push("Missing image for item: #{item.ASIN}")
           return
 
         unless attrs?
           console.error "Missing attributes for item: #{item.ASIN}"
+          @errors.push("Missing attributes for item: #{item.ASIN}")
           return
 
         if _.contains(attrs.ProductGroup.toLowerCase(), 'book')
@@ -67,7 +71,7 @@ module.exports = class AWS
 
         @requestProductMeta(item.CustomerReviews.IFrameURL)
         .then((metaData) => _.merge(metaData, baseProductInfo))
-        .fail((e) => errors.push(e))
+        .fail((e) => @errors.push(e))
 
       .compact()
       .value()
@@ -79,7 +83,10 @@ module.exports = class AWS
       ResponseGroup: "Reviews,Images,Small"
     , (err, result) =>
       unless err
-        Q.all(@extractProductInfo(result)).then (data) =>
-          successCallback(data)
+        Q.all(@extractProductInfo(result)).then (res) =>
+          if _.isEmpty(@errors)
+            successCallback(res)
+          else
+            errorCallback(@errors)
       else
-        errorCallback()
+        errorCallback(err)
