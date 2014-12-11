@@ -89,7 +89,7 @@ module.exports = React.createClass
             span {}, " in Fort Collins"
       if guides.length > 0
         div {className: "guides"},
-          guides.map (guide, idx) =>
+          _.shuffle(guides).map (guide, idx) =>
             new GuidePreview
               key: "guide#{guide.id}"
               guide: guide
