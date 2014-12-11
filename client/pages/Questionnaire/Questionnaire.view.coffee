@@ -47,6 +47,14 @@ module.exports = React.createClass
     #submit actions are done to trigger html validations
     event.preventDefault()
 
+  validateFormFields: ->
+    emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/
+    email = $(@refs.questionnaireForm.getDOMNode()).find("[type='email']")
+    if emailRegex.test(email.val().toUpperCase())
+      email[0].setCustomValidity('')
+    else
+      email[0].setCustomValidity("Please provide an acceptable email format.")
+
   componentDidUpdate: ->
     window.scrollTo(0, 0)
 
@@ -65,6 +73,7 @@ module.exports = React.createClass
     sessionStorage.setItem('questionnaire-answers', JSON.stringify(@loadAnswers()))
 
   nextAction: ->
+    @validateFormFields()
     return unless @isFormValid()
     @storeAnswers()
     if @isMounted()
