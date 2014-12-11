@@ -36,7 +36,7 @@ module.exports = class AWS
     data = _.chain(items)
       .map (item) =>
         image = item.LargeImage
-        attrs = item.ItemAttribute
+        attrs = item.ItemAttributes
 
         unless image?
           console.error "Missing image for item: #{item.ASIN}"

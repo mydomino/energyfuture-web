@@ -32,11 +32,9 @@ app.get "/amazon-products", (req, res) ->
     ((errr) => res.status(502).send("Server error on trying to fetch data from Amazon. #{errr}")))
 
 app.get "/yelp-listings", (req, res) ->
-  new YelpListings().search req.query, (data) =>
-    if data.hasOwnProperty('error')
-      res.status(502).send("Server error on trying to fetch data from Yelp.")
-    else
-      res.status(200).send(data)
+  new YelpListings().search(req.query,
+    ((data) => res.status(200).send(data)),
+    ((errr) => res.status(502).send("Server error on trying to fetch data from Yelp. #{errr}")))
 
 app.post "/questionnaire-email", (req, res) ->
   new QuestionnaireEmail().send req.body.answers, (data) =>
