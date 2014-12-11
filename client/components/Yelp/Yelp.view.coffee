@@ -47,7 +47,7 @@ module.exports = React.createClass
     else
       div {className: "guide-module guide-module-yelp"},
         h2 {className: "guide-module-header"}, yelp.heading
-        p {className: "guide-module-subheader"}, "Powered by Yelp.com"
+        p {className: "guide-module-subheader"}, (yelp.subheading or "Powered by Yelp.com")
 
         div {className: 'guide-module-content'},
           ul {className: 'yelp-list'},
