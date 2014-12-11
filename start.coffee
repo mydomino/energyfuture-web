@@ -27,8 +27,9 @@ app.use (err, req, res, next) ->
   res.send 500, 'Something broke!'
 
 app.get "/amazon-products", (req, res) ->
-  new AmazonProducts().itemLookup req.query.products, (data) =>
-    res.status(200).send(data)
+  new AmazonProducts().itemLookup(req.query.products,
+    ((data) => res.status(200).send(data)),
+    ((errr) => res.status(502).send("Server error on trying to fetch data from Amazon. #{errr}")))
 
 app.get "/yelp-listings", (req, res) ->
   new YelpListings().search req.query, (data) =>
