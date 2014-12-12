@@ -18,7 +18,7 @@ module.exports = class AmazonProducts
 
     request reviewsUrl, (error, response, body) =>
       if error or response.statusCode is 403
-        console.error "Error in fetching product meta data #{error}"
+        console.error "Error in fetching product metadata #{error}"
         deferred.reject(new Error(error))
       else
         if response.statusCode is 200
@@ -37,39 +37,32 @@ module.exports = class AmazonProducts
 
     _.chain(items)
       .map (item) =>
-        image = item.LargeImage
-        attrs = item.ItemAttributes
+        {LargeImage, ItemAttributes, DetailPageURL, CustomerReviews} = item
 
-        unless image?
-          console.error "Missing image for item: #{item.ASIN}"
-          @errors.push("Missing image for item: #{item.ASIN}")
+        if not LargeImage or not ItemAttributes or not DetailPageURL or not CustomerReviews
+          missing = "Missing Amazon item information: #{item.ASIN}"
+          console.error(missing)
+          @errors.push(missing)
           return
 
-        unless attrs?
-          console.error "Missing attributes for item: #{item.ASIN}"
-          @errors.push("Missing attributes for item: #{item.ASIN}")
-          return
-
-        if _.contains(attrs.ProductGroup.toLowerCase(), 'book')
-          creators = attrs.Author
+        if _.contains(ItemAttributes.ProductGroup.toLowerCase(), 'book')
+          creators = ItemAttributes.Author
           creators = creators.join(", ") if _.isArray(creators)
         else
-          creators = attrs.Manufacturer
+          creators = ItemAttributes.Manufacturer
 
-        imageUrl = image.URL
-        itemLink = item.DetailPageURL
-        itemURL = url.parse(item.DetailPageURL)
+        itemURL = url.parse(DetailPageURL)
         itemURL.hash = "customerReviews"
         reviewsLink = url.format(itemURL)
 
         baseProductInfo =
           id: item.ASIN
-          imageUrl: imageUrl
+          imageUrl: LargeImage.URL
           creators: creators
-          itemLink: itemLink
+          itemLink: DetailPageURL
           reviewsLink: reviewsLink
 
-        @requestProductMeta(item.CustomerReviews.IFrameURL)
+        @requestProductMeta(CustomerReviews.IFrameURL)
         .then((metaData) => _.merge(metaData, baseProductInfo))
         .fail((e) => @errors.push(e))
 
