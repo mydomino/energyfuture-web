@@ -30,13 +30,12 @@ module.exports = React.createClass
     _.find(@products(), 'id': id).category
 
   componentDidMount: ->
-    $.get("/amazon-products", products: @productIds())
+    $.ajax(type: 'GET', url: "/amazon-products", data: { products: @productIds() }, timeout: 8000)
     .done((res) =>
       @setState products: res if @isMounted())
     .fail((res) =>
         console.error(res)
         @setState dataError: true if @isMounted())
-
 
   productItems: ->
     _.map @state.products, (product) =>

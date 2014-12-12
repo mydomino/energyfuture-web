@@ -70,7 +70,9 @@ module.exports = class AmazonProducts
       IdType: "ASIN"
       ResponseGroup: "Reviews,Images,Small"
     , (err, result) =>
-      return errorCallback() if err
+      return errorCallback(err) if err
 
       Q.all(@extractProductInfo(result)).then (res) =>
-        successCallback(_.compact(res))
+        data = _.compact(res)
+        return errorCallback() if _.isEmpty(data)
+        successCallback(data)
