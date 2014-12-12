@@ -11,14 +11,12 @@ secretKeyId = process.env.AWS_SECRET_KEY_ID
 module.exports = class AmazonProducts
   constructor: ->
     @prodAdv = aws.createProdAdvClient(accessKeyId, secretKeyId, "dummyTag")
-    @errors = []
 
   requestProductMeta: (reviewsUrl) =>
     deferred = Q.defer()
 
     request reviewsUrl, (error, response, body) =>
       if error or response.statusCode is 403
-        console.error "Error in fetching product metadata #{error}"
         deferred.reject(new Error(error))
       else
         if response.statusCode is 200
@@ -35,39 +33,36 @@ module.exports = class AmazonProducts
     items = data.Items.Item
     items = [items] unless _.isArray(items) # api does not return an array if it's just one item
 
-    _.chain(items)
-      .map (item) =>
-        {LargeImage, ItemAttributes, DetailPageURL, CustomerReviews} = item
+    _.map items, (item) =>
+      {LargeImage, ItemAttributes, DetailPageURL, CustomerReviews} = item
 
-        if not LargeImage or not ItemAttributes or not DetailPageURL or not CustomerReviews
-          missing = "Missing Amazon item information: #{item.ASIN}"
-          console.error(missing)
-          @errors.push(missing)
-          return
+      if not (LargeImage and ItemAttributes and DetailPageURL and CustomerReviews)
+        console.error("Missing Amazon item information: #{item.ASIN}")
+        return
 
-        if _.contains(ItemAttributes.ProductGroup.toLowerCase(), 'book')
-          creators = ItemAttributes.Author
-          creators = creators.join(", ") if _.isArray(creators)
-        else
-          creators = ItemAttributes.Manufacturer
+      if _.contains(ItemAttributes.ProductGroup.toLowerCase(), 'book')
+        creators = ItemAttributes.Author
+        creators = creators.join(", ") if _.isArray(creators)
+      else
+        creators = ItemAttributes.Manufacturer
 
-        itemURL = url.parse(DetailPageURL)
-        itemURL.hash = "customerReviews"
-        reviewsLink = url.format(itemURL)
+      itemURL = url.parse(DetailPageURL)
+      itemURL.hash = "customerReviews"
+      reviewsLink = url.format(itemURL)
 
-        baseProductInfo =
-          id: item.ASIN
-          imageUrl: LargeImage.URL
-          creators: creators
-          itemLink: DetailPageURL
-          reviewsLink: reviewsLink
+      baseProductInfo =
+        id: item.ASIN
+        imageUrl: LargeImage.URL
+        creators: creators
+        itemLink: DetailPageURL
+        reviewsLink: reviewsLink
 
-        @requestProductMeta(CustomerReviews.IFrameURL)
-        .then((metaData) => _.merge(metaData, baseProductInfo))
-        .fail((e) => @errors.push(e))
-
-      .compact()
-      .value()
+      @requestProductMeta(CustomerReviews.IFrameURL)
+      .then((metaData) =>
+        _.merge(metaData, baseProductInfo))
+      .fail((e) =>
+        console.error("Error in fetching product metadata #{e}")
+        false)
 
   itemLookup: (ids, successCallback, errorCallback) =>
     @prodAdv.call "ItemLookup",
@@ -75,11 +70,7 @@ module.exports = class AmazonProducts
       IdType: "ASIN"
       ResponseGroup: "Reviews,Images,Small"
     , (err, result) =>
-      unless err
-        Q.all(@extractProductInfo(result)).then (res) =>
-          if _.isEmpty(@errors)
-            successCallback(res)
-          else
-            errorCallback(@errors)
-      else
-        errorCallback(err)
+      return errorCallback() if err
+
+      Q.all(@extractProductInfo(result)).then (res) =>
+        successCallback(_.compact(res))
