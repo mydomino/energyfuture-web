@@ -52,16 +52,18 @@ module.exports = React.createClass
     @validatePhoneNumber()
 
   validateEmail: ->
-    emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/
     email = $(@refs.questionnaireForm.getDOMNode()).find("[type='email']")
+    return if _.isEmpty(email)
+    emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/
     if emailRegex.test(email.val().toUpperCase())
       email[0].setCustomValidity('')
     else
       email[0].setCustomValidity("Please provide an acceptable email format.")
 
   validatePhoneNumber: ->
-    phoneRegex = /^[0-9]{10}$/
     phone = $(@refs.questionnaireForm.getDOMNode()).find("[type='tel']")
+    return if _.isEmpty(phone)
+    phoneRegex = /^[0-9]{10}$/
     if phoneRegex.test(phone.val().replace(/[-\s]/g, ''))
       phone[0].setCustomValidity('')
     else
