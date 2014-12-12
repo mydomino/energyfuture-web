@@ -1,6 +1,7 @@
 {div, h2, p, form, input, span, a} = React.DOM
 
 _ = require 'lodash'
+moment = require 'moment'
 Guide = require '../../models/Guide'
 AnswerCollection = require '../../models/AnswerCollection.coffee'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
@@ -105,7 +106,7 @@ module.exports = React.createClass
     page "/guides/#{@props.params.guide_id}"
 
   storeInFirebase: ->
-    params = {guide_id: @state.guide.id}
+    params = {guide_id: @state.guide.id, submission_time: moment().format('MMMM Do YYYY, h:mm a')}
     _.merge(params, {user_id: @props.user.id}) if @props.user?
 
     answerData = _.merge @loadAnswers(), params
