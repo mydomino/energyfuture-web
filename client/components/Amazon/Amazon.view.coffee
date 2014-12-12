@@ -54,7 +54,8 @@ module.exports = React.createClass
 
   render: ->
     return false unless hasValidData(@props.guide)
-    return false if @state.dataError
+    return @props.onError() if @state.dataError
+
     amazon = @props.guide.get('amazon')
 
     if _.isEmpty @state.products

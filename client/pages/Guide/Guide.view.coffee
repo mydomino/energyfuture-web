@@ -35,9 +35,13 @@ module.exports = React.createClass
     if guide.exists() && @isMounted
       @setState guide: guide
 
+  hideModule: (name) ->
+    $(@refs[name].getDOMNode()).hide()
+    false
+
   render: ->
     if @state.guide
-      {title, summary, category, intro} = @state.guide.attributes
+      {title, summary, category} = @state.guide.attributes
       modules = @state.guide.modules()
 
     new Layout {name: 'guide', guideId: @props.params.id},
@@ -58,8 +62,8 @@ module.exports = React.createClass
               if modules
                 modules.map (moduleName) =>
                   if GuideModules[moduleName]
-                    div {key: moduleName},
-                      new GuideModules[moduleName](guide: @state.guide)
+                    div {key: moduleName, ref: moduleName},
+                      new GuideModules[moduleName](guide: @state.guide, onError: @hideModule.bind(@, moduleName))
                       hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName

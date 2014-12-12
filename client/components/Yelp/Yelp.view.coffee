@@ -40,6 +40,8 @@ module.exports = React.createClass
 
   render: ->
     return false unless hasValidData(@props.guide)
+    return @props.onError() if @state.dataError
+
     yelp = @props.guide.get('yelp')
 
     if _.isEmpty @state.data
