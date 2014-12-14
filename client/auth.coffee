@@ -102,8 +102,8 @@ class Auth extends emitter
     @_firebase.unauth()
     window.location.reload()
 
-  prompt: ->
-    @emit('show-auth-prompt')
+  prompt: (expanded = false) ->
+    @emit('show-auth-prompt', expanded)
 
   unprompt: ->
     @emit('hide-auth-prompt')

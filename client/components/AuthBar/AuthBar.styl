@@ -1,5 +1,12 @@
 @require 'mixins/colors'
 
+@keyframes flash
+  0%, 50%, 100%
+    opacity 1
+
+  25%, 75%
+    opacity 0
+
 .auth-bar
   position absolute
   top: 0
@@ -12,6 +19,11 @@
   color: #fff
   z-index 1200
   transition min-height 0.5s
+  animation-fill-mode both
+  animation-duration 1s
+
+  &.get-attention
+    animation-name flash
 
   p.auth-bar-content
     margin: 0
@@ -50,10 +62,13 @@
   font-size 1.4em
   cursor pointer
 
-.auth-prompt
-  .auth-bar
-    position fixed
-    min-height 100%
+.auth-bar.auth-bar-expanded
+  position fixed
+  min-height 100%
+
+  &.get-attention
+    animation-name none
+
   .auth-bar-content
     opacity 0
   .auth-bar-content-expanded
