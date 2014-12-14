@@ -67,20 +67,22 @@ module.exports = React.createClass
     auth.removeListener 'show-auth-prompt', @_showPrompt
     auth.removeListener 'hide-auth-prompt', @_hidePrompt
 
-  thinView: (failed) ->
+  collapsedView: (failed) ->
     if failed
-      p {className: 'auth-bar-content'},
-        span {}, "Hmm... Something went wrong. Let's try that again: "
-        a {onClick: @loginFacebook}, 'Facebook'
-        span {}, ' or '
-        a {onClick: @loginTwitter}, 'Twitter'
+      div {className: 'auth-bar-content-collapsed'},
+        p {},
+          'Hmm... Something went wrong. Let\'s try that again: '
+          a {onClick: @loginFacebook}, 'Facebook'
+          ' or '
+          a {onClick: @loginTwitter}, 'Twitter'
     else
-      p {className: 'auth-bar-content'},
-        span {}, 'Login with '
-        a {onClick: @loginFacebook}, 'Facebook'
-        span {}, ' or '
-        a {onClick: @loginTwitter}, 'Twitter'
-        span {}, ' to save your impact and sync with mobile.'
+      div {className: 'auth-bar-content-collapsed'},
+        p {},
+          'Login with '
+          a {onClick: @loginFacebook}, 'Facebook'
+          ' or '
+          a {onClick: @loginTwitter}, 'Twitter'
+          ' to save your impact and sync with mobile.'
 
   expandedView: (failed) ->
     if failed
@@ -103,8 +105,9 @@ module.exports = React.createClass
       'auth-bar': true
       'get-attention': this.state.attention
       'auth-bar-expanded': this.state.expanded
+      'auth-bar-collapsed': !this.state.expanded
 
     div {className: classes},
       span {className: 'auth-bar-close', onClick: @_hidePrompt}, 'x'
       @expandedView(@state.failedLogin)
-      @thinView(@state.failedLogin)
+      @collapsedView(@state.failedLogin)
