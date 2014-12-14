@@ -70,7 +70,7 @@ module.exports = React.createClass
     sessionStorage.setItem 'ownership', ownership
 
   render: ->
-    ownershipData = [{name: "owners", value: "own"}, {name: "renters", value: "rent"}]
+    ownershipData = [{name: "home owners", value: "own"}, {name: "home renters", value: "rent"}]
     userGuides = @props.user && @props.user.get('guides')
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
     new Layout {name: 'guides'},
