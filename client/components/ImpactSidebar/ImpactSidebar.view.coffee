@@ -89,16 +89,22 @@ module.exports = React.createClass
       auth.prompt(true)
 
   claimGuide: ->
-    if @props.user
+    action = =>
       @claimedImpact.add(@props.guide)
+
+    if @props.user
+      action()
     else
-      auth.prompt(true)
+      auth.prompt(true, action)
 
   saveGuide: ->
-    if @props.user
+    action = =>
       @savedForLater.add(@props.guide)
+
+    if @props.user
+      action()
     else
-      auth.prompt(true)
+      auth.prompt(true, action)
 
   render: ->
     claimedClass = if @state.isClaimed then 'active' else ''
