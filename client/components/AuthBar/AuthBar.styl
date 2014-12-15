@@ -22,9 +22,6 @@ zIndex = 1200
   animation-fill-mode both
   animation-duration 1s
 
-  &.get-attention
-    animation-name flash
-
   .auth-bar-content-collapsed
     p
       margin 0
@@ -68,6 +65,9 @@ zIndex = 1200
 
 .auth-bar.auth-bar-collapsed
   padding: .25em
+
+  &.get-attention
+    animation-name flash
 
   .auth-bar-content-expanded
     opacity 0
