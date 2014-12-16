@@ -14,6 +14,9 @@ module.exports = class Guide extends DominoModel
   modules: ->
     _.pluck _.sortBy(@attributes['modules'], 'position'), 'name'
 
+  sortedModules: ->
+    _.sortBy(_.values(@attributes['modules']), 'position')
+
   score: ->
     parseInt(@get('score'), 10)
 

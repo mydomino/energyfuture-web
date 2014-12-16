@@ -38,7 +38,7 @@ module.exports = React.createClass
   render: ->
     if @state.guide
       {title, summary, category, intro} = @state.guide.attributes
-      modules = @state.guide.modules()
+      modules = @state.guide.sortedModules()
 
     new Layout {name: 'guide', guideId: @props.params.id},
       new NavBar user: @props.user, path: @props.context.pathname
@@ -56,10 +56,11 @@ module.exports = React.createClass
               p {}, summary
             div {className: "guide-modules"},
               if modules
-                modules.map (moduleName) =>
+                modules.map (module) =>
+                  moduleName = module.name
                   if GuideModules[moduleName]
                     div {key: moduleName},
-                      new GuideModules[moduleName](guide: @state.guide)
+                      new GuideModules[moduleName](guide: @state.guide, moduleContent: module.content)
                       hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName
