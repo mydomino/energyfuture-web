@@ -5,19 +5,11 @@ locationSearch = require '../../vendor/location-search'
 _locationCache = null
 _searchResultsCache = {}
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('mapSearch')
-  true
-
 $.fn.ratingStars = ->
   $(@).html $("<span/>").width($(@).text() * 16)
 
 module.exports = React.createClass
   displayName: 'MapSearch'
-
-  getDefaultProps: ->
-    guide: null
 
   handleMarkers: (markers) ->
     markers.map (result) =>
@@ -59,7 +51,7 @@ module.exports = React.createClass
     -> $('.map-search-tooltip-average-rating').ratingStars()
 
   handleLocation: (loc) ->
-    locationSearchTerm = @props.guide.get('mapSearch').query
+    locationSearchTerm = @props.moduleContent.query
     featureLayer = L.mapbox.featureLayer().addTo(@mapObj)
     @mapObj.fitBounds loc.bounds, { maxZoom: 13 }
 
@@ -118,8 +110,8 @@ module.exports = React.createClass
     @mapObj.invalidateSize()
 
   render: ->
-    return false unless hasValidData @props.guide
-    map = @props.guide.get('mapSearch')
+    map = @props.moduleContent
+    return false if _.isEmpty map
     div {className: 'guide-module'},
       h2 {className: 'guide-module-header'}, map.heading
       div {className: 'guide-module-content'},

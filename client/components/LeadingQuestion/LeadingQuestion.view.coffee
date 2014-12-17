@@ -3,16 +3,8 @@
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('leadingQuestion')
-  true
-
 module.exports = React.createClass
   displayName: 'LeadingQuestion'
-
-  getDefaultProps: ->
-    guide: null
 
   getInitialState: ->
     activeIndex: 0
@@ -22,8 +14,9 @@ module.exports = React.createClass
     @setState activeIndex: idx
 
   render: ->
-    return false unless hasValidData @props.guide
-    {heading, subheading, content, question, type, options} = @props.guide.get('leadingQuestion')
+    leadingQuestion = @props.moduleContent
+    return false if _.isEmpty leadingQuestion
+    {heading, subheading, content, question, type, options} = leadingQuestion
 
     div {className: 'guide-module guide-module-leading-question'},
       h2 {className: 'guide-module-header'}, (heading || "Take Action")

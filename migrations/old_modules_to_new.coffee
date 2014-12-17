@@ -21,6 +21,7 @@ mapModuleToData =
   'Text' : 'text'
   'Amazon' : 'amazon'
   'Images' : 'images'
+  'Yelp' : 'yelp'
 
 _ = require('lodash')
 Firebase = require('firebase')

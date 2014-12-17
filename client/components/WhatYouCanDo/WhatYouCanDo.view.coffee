@@ -3,11 +3,6 @@
 _ = require 'lodash'
 CallToAction = require '../CallToAction/CallToAction.view'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false unless guide.get('whatYouCanDo')
-  true
-
 module.exports = React.createClass
   displayName: 'whatYouCanDo'
 
@@ -15,8 +10,8 @@ module.exports = React.createClass
     guide: null
 
   render: ->
-    return false unless hasValidData @props.guide
-    whatYouCanDo = @props.guide.get('whatYouCanDo')
+    whatYouCanDo = @props.moduleContent
+    return false if _.isEmpty whatYouCanDo
 
     div {},
       h2 {className: "guide-module-header"}, (whatYouCanDo.heading || "What you can do")

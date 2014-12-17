@@ -3,16 +3,8 @@
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('images')
-  true
-
 module.exports = React.createClass
   displayName: 'Images'
-
-  getDefaultProps: ->
-    guide: null
 
   isExternal: (url) ->
     /^(f|ht)tps?:\/\//i.test(url)
@@ -21,8 +13,8 @@ module.exports = React.createClass
     if @isExternal(url) then url else "/img/" + url
 
   render: ->
-    return false unless hasValidData @props.guide
-    images = @props.guide.get('images')
+    images = @props.moduleContent
+    return false if _.isEmpty images
 
     div {className: 'guide-module guide-module-images'},
       div {className: 'guide-module-content'},

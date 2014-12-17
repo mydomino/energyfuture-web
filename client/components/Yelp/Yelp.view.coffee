@@ -3,11 +3,6 @@
 _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('yelp')
-  true
-
 module.exports = React.createClass
   displayName: 'Yelp'
 
@@ -15,11 +10,8 @@ module.exports = React.createClass
     data: []
     dataError: false
 
-  getDefaultProps: ->
-    guide: {}
-
   componentDidMount: ->
-    y = @props.guide.get('yelp')
+    y = @props.moduleContent
     query =
       term: y.searchTerms[0]
       location: "San Fransisco"
@@ -39,8 +31,8 @@ module.exports = React.createClass
     }
 
   render: ->
-    return false unless hasValidData(@props.guide)
-    yelp = @props.guide.get('yelp')
+    yelp = @props.moduleContent
+    return false if _.isEmpty yelp
 
     if _.isEmpty @state.data
       new LoadingIcon

@@ -3,11 +3,6 @@
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('faq')
-  true
-
 module.exports = React.createClass
   displayName: 'FAQ'
 
@@ -22,8 +17,8 @@ module.exports = React.createClass
     @setState activeIndex: idx
 
   render: ->
-    return false unless hasValidData @props.guide
-    faqs = @props.guide.get('faq')
+    faqs = @props.moduleContent
+    return false if _.isEmpty(faqs)
 
     div {className: 'guide-module guide-module-faq'},
       h2 {className: 'guide-module-header'}, 'faq'

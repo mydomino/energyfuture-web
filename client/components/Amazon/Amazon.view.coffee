@@ -5,11 +5,6 @@ LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('amazon')
-  true
-
 module.exports = React.createClass
   displayName: 'Amazon'
 
@@ -21,7 +16,7 @@ module.exports = React.createClass
     guide: {}
 
   products: ->
-    @props.guide.get('amazon').productIds
+    @props.moduleContent.productIds
 
   productIds: ->
     _.pluck(_.sortBy(@products(), 'position'), 'id')
@@ -53,9 +48,8 @@ module.exports = React.createClass
         div {className: "product-importance-category #{cat}"}, cat
 
   render: ->
-    return false unless hasValidData(@props.guide)
-    return false if @state.dataError
-    amazon = @props.guide.get('amazon')
+    amazon = @props.moduleContent
+    return false if @state.dataError || _.isEmpty amazon
 
     if _.isEmpty @state.products
       new LoadingIcon

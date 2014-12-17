@@ -1,24 +1,21 @@
 {div, h2} = React.DOM
+_ = require 'lodash'
 
 Carousel = require '../../components/Carousel/Carousel.view'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false unless guide.didYouKnows()
-  true
+hasValidData = (content) ->
+  not _.isEmpty(content)
 
 module.exports = React.createClass
   displayName: 'DidYouKnow'
 
   getDefaultProps: ->
-    guide: null
+    moduleContent: null
 
   render: ->
-    return false unless hasValidData @props.guide
-
-    items = @props.guide.didYouKnows()
+    return false unless hasValidData @props.moduleContent
 
     div {className: "guide-module"},
       h2 {className: 'guide-module-header'}, "did you know?"
       div {className: 'guide-module-content'},
-        new Carousel items: items
+        new Carousel items: @props.moduleContent
