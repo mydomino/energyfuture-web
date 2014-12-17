@@ -62,7 +62,7 @@ module.exports = React.createClass
 
   componentDidMount: ->
     unless @props.user
-      auth.emit('show-auth-prompt')
+      auth.prompt(true)
 
   render: ->
     locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
