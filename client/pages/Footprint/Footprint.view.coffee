@@ -79,7 +79,7 @@ module.exports = React.createClass
       div {className: "footprint"},
         new FootprintHeader user: @props.user
         div {className: "footprint-content"},
-          h2 {}, "your points"
+          h2 {}, "your impact"
           new ImpactScore score: @claimedGuides.getPoints()
           h2 {}, "did you know?"
           p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"

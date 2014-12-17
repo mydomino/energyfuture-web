@@ -113,6 +113,7 @@ module.exports = React.createClass
 
     div {className: "impact-sidebar category-#{@props.category}", style: { color: color }, ref: 'sidebar'},
       new ImpactScore score: @props.guide.score(), color: color
+      div {className: "impact-text"}, "Impact"
       hr {}
       div {className: "action-button #{claimedClass}"},
         if @state.isClaimed
