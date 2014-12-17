@@ -20,7 +20,7 @@ AuthMixin =
       @setState failedLogin: true
 
 userHasBeenOnlineFor10Minutes = ->
-  Math.abs(new Date() - new Date(sessionStorage.sessionStartedAt)) > 60000 # 10 minutes
+  Math.abs(new Date() - new Date(sessionStorage.sessionStartedAt)) > 600000 # 10 minutes
 
 RePromptMixin =
   componentDidMount: ->
