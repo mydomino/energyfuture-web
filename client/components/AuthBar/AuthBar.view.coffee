@@ -1,6 +1,6 @@
 {div, h2, span, p, a} = React.DOM
 auth = require '../../auth'
-merge = require 'react/lib/merge'
+_ = require 'lodash'
 
 AuthMixin =
   loginFacebook: ->
@@ -49,7 +49,7 @@ module.exports = React.createClass
     failedLogin: false
 
   resetState: (newState = {}) ->
-    @setState merge({ closed: false, failedLogin: false, expanded: false }, newState)
+    @setState _.extend({ closed: false, failedLogin: false, expanded: false }, newState)
 
   _showPrompt: (expanded) ->
     @resetState closed: false, expanded: expanded
