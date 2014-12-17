@@ -13,6 +13,7 @@
   padding 18px 0 0
   margin 0 0 0 40px
   text-align center
+  white-space nowrap
 
   > a
     color #868889
@@ -35,6 +36,9 @@
 
 .site-logo
   background-image url(../img/logo.png)
+  background-repeat no-repeat
+  background-position top center
+  background-size 189px 63px
   display block
   width 189px
   height 63px
@@ -44,17 +48,41 @@
   display block
   margin-top -9px
   padding-top 30px
-  height 20px
-  min-width 80px
   background-image url(../img/footprint-icon.png)
   background-repeat no-repeat
   background-position top right
+  background-size 80px 26px
 
 .guides-icon
   display block
   margin-top -9px
   padding-top 30px
-  height 20px
   background-image url(../img/guides-icon.png)
   background-repeat no-repeat
   background-position top center
+  background-size 52px 26px
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx)
+
+  .nav-bar-item
+    &.active
+      .footprint-icon
+        background-image url("../img/footprint-icon-active@2X.png")
+
+      .guides-icon
+        background-image url("../img/guides-icon-active@2X.png")
+
+  .site-logo
+    background-image url("../img/logo@2X.png")
+
+  .footprint-icon
+    background-image url("../img/footprint-icon@2X.png")
+
+  .guides-icon
+    background-image url("../img/guides-icon@2X.png")

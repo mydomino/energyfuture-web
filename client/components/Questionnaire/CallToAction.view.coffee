@@ -25,6 +25,6 @@ module.exports = React.createClass
     div {className: 'guide-module'},
       h2 {className: 'guide-module-header'}, title
       div {className: 'guide-module-content guide-module-cta'},
-        h2 {className: 'cta-header'}, "Ready for a free, no obligation quote?"
+        h2 {className: 'cta-header'}, "Ready for a free, no-obligation quote?"
         p {className: 'cta-subheader'}, "or just want to talk to someone to get more information?"
         a {className: 'cta-get-started', onClick: @viewQuestionnaire}, "Get started"

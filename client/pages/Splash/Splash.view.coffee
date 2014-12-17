@@ -9,4 +9,4 @@ module.exports = React.createClass
       h1 {className: 'splash-header'}, "domino"
       p {className: 'splash-subheader'}, "We’re working together to reduce global carbon emissions by 20% before 2020. How?"
       img {className: 'splash-logo', src: 'img/splash-logo.gif'}
-      a {className: 'splash-button', onClick: @continue}, "Get Started"
+      a {className: 'btn splash-button', onClick: @continue}, "Get Started"
