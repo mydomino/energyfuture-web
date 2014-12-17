@@ -25,7 +25,7 @@ module.exports = React.createClass
       location: "San Fransisco"
       limit: y.limit
 
-    $.get("/yelp-listings", query)
+    $.ajax(type: 'GET', url: "/yelp-listings", data: query, timeout: 8000)
     .done((res) =>
       @setState data: res if @isMounted())
     .fail((res) =>
@@ -33,13 +33,13 @@ module.exports = React.createClass
       @setState dataError: true if @isMounted())
 
   addressText: (l) ->
-    {
-      "line1": l.address.join(" ")
-      "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
-    }
+    "line1": l.address.join(" ")
+    "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
 
   render: ->
     return false unless hasValidData(@props.guide)
+    return @props.onError() if @state.dataError
+
     yelp = @props.guide.get('yelp')
 
     if _.isEmpty @state.data
