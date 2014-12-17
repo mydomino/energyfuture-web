@@ -34,6 +34,8 @@ convertModuleDataFromGuide = (guide, module) ->
   if typeof dataKeys == 'string'
     data = guide[dataKeys] || ''
     delete guide[dataKeys]
+    if module.name == 'DidYouKnow'
+      data = _.map data, (d) -> d.content
   else
     data = {}
     _.each dataKeys, (key) ->
@@ -62,8 +64,9 @@ convertGuides = (guides) =>
   _.each guides, (guide) ->
     newGuides[guide.id] = convertGuide(guide)
 
-  firebaseRef.child('newGuides').set(newGuides)
-  console.log "Converted #{_.keys(newGuides).length} guides."
+  firebaseRef.child('newGuides').set newGuides, ->
+    console.log "Converted #{_.keys(newGuides).length} guides."
+    process.exit 0
 
 processGuides = (ref) ->
   ref.child('guides').on 'value', (snap) ->
@@ -73,8 +76,9 @@ login = (c) ->
   firebaseRef.authWithCustomToken process.env.FIREBASE_SECRET, (error, result) ->
     if error
       console.log "Login Failed!", error
+      process.exit 1
     else
       console.log "Authenticated successfully."
-    c(firebaseRef)
+      c(firebaseRef)
 
 login(processGuides)
