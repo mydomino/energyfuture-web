@@ -56,10 +56,10 @@ module.exports = React.createClass
               p {}, summary
             div {className: "guide-modules"},
               if modules
-                modules.map (module) =>
+                modules.map (module, idx) =>
                   moduleName = module.name
                   if GuideModules[moduleName]
-                    div {key: moduleName},
+                    div {key: "#{moduleName}-#{idx}"},
                       new GuideModules[moduleName](guide: @state.guide, moduleContent: module.content)
                       hr {className: "h-divider"}
                   else
