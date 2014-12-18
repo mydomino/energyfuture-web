@@ -2,16 +2,23 @@
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
+GuideModules = require '../GuideModules'
+Amazon = require '../Amazon/Amazon.view'
 
 module.exports = React.createClass
   displayName: 'LeadingQuestion'
 
   getInitialState: ->
     activeIndex: 0
+    activeSubModule: @props.moduleContent.options[0].submodule
 
   setActive: (idx) ->
     idx = null if idx == @state.activeIndex
     @setState activeIndex: idx
+
+  setSubModule: (module) ->
+    unless module == @state.activeSubModule
+      @setState activeSubModule: module
 
   render: ->
     leadingQuestion = @props.moduleContent
@@ -33,16 +40,20 @@ module.exports = React.createClass
               div {className: "radio-results"},
                 div {className: "options"},
                   options.map (opt, idx) =>
-                    point = opt.point
-                    openClass = 'active' if idx == @state.activeIndex
+                    {label, submodule} = opt
+                    openClass = 'active' if submodule == @state.activeSubModule
 
-                    div {key: "option#{idx}", className: "option-button", onClick: @setActive.bind(this, idx)},
+                    div {key: "option#{idx}", className: "option-button", onClick: @setSubModule.bind(this, submodule)},
                       img {className: "option-button-image #{openClass}"}
-                      p {className: "option-button-text"}, point
+                      p {className: "option-button-text"}, label
 
                   div {className: "clear-both"}
-                if @state.activeIndex?
-                  p {className: "radio-result", dangerouslySetInnerHTML: {"__html": Autolinker.link(options[@state.activeIndex].result)}}
+
+                if @state.activeSubModule?
+                  new Amazon
+                    guide: @props.guide
+                    moduleContent: @props.guide.moduleByKey(@state.activeSubModule)?.content
+                    key: @state.activeSubModule
 
             when "bullet"
               options.map (opt, idx) =>

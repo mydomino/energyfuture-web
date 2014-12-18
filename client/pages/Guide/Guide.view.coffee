@@ -58,6 +58,8 @@ module.exports = React.createClass
               if modules
                 modules.map (module, idx) =>
                   moduleName = module.name
+                  return if module.submodule?
+
                   if GuideModules[moduleName]
                     div {key: "#{moduleName}-#{idx}"},
                       new GuideModules[moduleName](guide: @state.guide, moduleContent: module.content)

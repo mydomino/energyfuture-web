@@ -16,3 +16,8 @@ module.exports = class Guide extends DominoModel
 
   exists: ->
     !!@attributes
+
+  moduleByKey: (moduleKey) ->
+    _.find @attributes['modules'], (_, k) ->
+      k == moduleKey
+
