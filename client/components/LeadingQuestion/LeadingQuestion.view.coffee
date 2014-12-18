@@ -2,23 +2,17 @@
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
-GuideModules = require '../GuideModules'
-Amazon = require '../Amazon/Amazon.view'
+GuideModules = require('../GuideModules')()
 
 module.exports = React.createClass
   displayName: 'LeadingQuestion'
 
   getInitialState: ->
-    activeIndex: 0
-    activeSubModule: @props.moduleContent.options[0].submodule
+    activeSubmodule: @props.moduleContent.options[0].submodule
 
-  setActive: (idx) ->
-    idx = null if idx == @state.activeIndex
-    @setState activeIndex: idx
-
-  setSubModule: (module) ->
-    unless module == @state.activeSubModule
-      @setState activeSubModule: module
+  setSubmodule: (module) ->
+    unless module == @state.activeSubmodule
+      @setState activeSubmodule: module
 
   render: ->
     leadingQuestion = @props.moduleContent
@@ -41,29 +35,20 @@ module.exports = React.createClass
                 div {className: "options"},
                   options.map (opt, idx) =>
                     {label, submodule} = opt
-                    openClass = 'active' if submodule == @state.activeSubModule
+                    openClass = 'active' if submodule == @state.activeSubmodule
 
-                    div {key: "option#{idx}", className: "option-button", onClick: @setSubModule.bind(this, submodule)},
+                    div {key: "option#{idx}", className: "option-button", onClick: @setSubmodule.bind(this, submodule)},
                       img {className: "option-button-image #{openClass}"}
                       p {className: "option-button-text"}, label
 
                   div {className: "clear-both"}
 
-                if @state.activeSubModule?
-                  new Amazon
+                if @state.activeSubmodule?
+                  activeSubmodule = @props.guide.moduleByKey(@state.activeSubmodule)
+                  new GuideModules[activeSubmodule?.name]
                     guide: @props.guide
-                    moduleContent: @props.guide.moduleByKey(@state.activeSubModule)?.content
-                    key: @state.activeSubModule
-
-            when "bullet"
-              options.map (opt, idx) =>
-                point = opt.point
-                openClass = 'active' if idx == @state.activeIndex
-
-                [
-                  dt {key: "option#{idx}-point", className: openClass, onClick: @setActive.bind(this, idx)}, point
-                  dd {key: "option#{idx}-result", className: openClass, dangerouslySetInnerHTML: {"__html": Autolinker.link(opt.result)}}
-                ]
+                    moduleContent: activeSubmodule?.content
+                    key: @state.activeSubmodule
 
             else
               console.warn("Did not understand the Leading Question type.")
