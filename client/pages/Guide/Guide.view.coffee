@@ -8,7 +8,7 @@ Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
-GuideModules = require '../../components/GuideModules.coffee'
+GuideModules = require('../../components/GuideModules.coffee')()
 auth = require '../../auth'
 
 module.exports = React.createClass
