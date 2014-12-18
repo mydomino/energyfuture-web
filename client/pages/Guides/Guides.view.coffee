@@ -14,8 +14,8 @@ posClass = (num) ->
 
 positionAnnotation = (element, anchor) ->
   element.style.display = 'block'
-  element.style.top = (anchor.offsetTop + anchor.offsetHeight) + 'px'
-  element.style.left = (anchor.offsetLeft) + 'px'
+  element.style.top = (anchor.offsetTop + anchor.offsetHeight - 20) + 'px'
+  element.style.left = (anchor.offsetLeft - 5) + 'px'
   return
 
 guideStatus = (userGuides, guide) ->
@@ -79,7 +79,7 @@ module.exports = React.createClass
       div {className: "guides-intro"},
         h1 {className: "guides-intro-header"},
           "Your helpful guides to "
-          span {className: "intro-annotation-anchor", ref: "anchor"}, "low carbon living"
+          span {className: "intro-annotation-anchor", ref: "anchor"}, "low-carbon living"
         p {className: "guides-intro-subtext"},
           "In partnership with Rocky Mountain Institute and UC Berkeley"
         div {className: "guides-user-context"},
