@@ -2,6 +2,13 @@
 
 module.exports = React.createClass
   displayName: 'Footer'
+  goToContactPage: (e) ->
+    # We're forcing a page reload here because the contact
+    # page has a widget that won't load if it's already been
+    # loaded once. This is a hack until we find a workaround.
+    e.preventDefault()
+    document.location = '/contact'
+
   render: ->
       div {className: 'footer'},
         div {className: 'col col1'},
@@ -14,6 +21,6 @@ module.exports = React.createClass
         div {className: 'col col3'},
           p {},
             span {className: 'footer-logo'}
-            a {}, 'Learn More'
+            a {href: '/about'}, 'Learn More'
             ' or '
-            a {}, 'Contact Us'
+            a {href: '/contact', onClick: @goToContactPage}, 'Contact Us'
