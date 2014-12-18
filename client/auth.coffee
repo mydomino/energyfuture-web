@@ -16,7 +16,7 @@ collectTwitterUserData = (user) ->
   provider_id: user.id
   displayName: user.name
   provider: 'twitter'
-  profile_image_url: user.profile_background_image_url_https
+  profile_image_url: user.profile_image_url_https
   location: user.location
 
 collectFacebookUserData = (user) ->
