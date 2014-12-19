@@ -7,10 +7,11 @@ url = require 'url'
 
 accessKeyId = process.env.AWS_ACCESS_KEY_ID
 secretKeyId = process.env.AWS_SECRET_KEY_ID
+associateTag = process.env.AWS_ASSOCIATE_TAG || 'dummyTag'
 
 module.exports = class AmazonProducts
   constructor: ->
-    @prodAdv = aws.createProdAdvClient(accessKeyId, secretKeyId, "dummyTag")
+    @prodAdv = aws.createProdAdvClient(accessKeyId, secretKeyId, associateTag)
 
   requestProductMeta: (reviewsUrl) =>
     deferred = Q.defer()
