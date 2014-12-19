@@ -11,8 +11,7 @@ module.exports = React.createClass
     activeSubmodules: @props.moduleContent.options[0].submodules
 
   setActiveSubmodules: (modules) ->
-    unless _.isEqual(modules, @state.activeSubmodules)
-      @setState activeSubmodules: modules
+    @setState activeSubmodules: modules unless _.isEqual(modules, @state.activeSubmodules)
 
   render: ->
     leadingQuestion = @props.moduleContent
@@ -29,27 +28,22 @@ module.exports = React.createClass
           p {className: "leading-question-question #{type}"}, question
 
         dl {className: 'leading-question-list'},
-          switch type
-            when "radio"
-              div {className: "radio-results"},
-                div {className: "options"},
-                  options.map (opt, idx) =>
-                    {label, submodules} = opt
-                    openClass = 'active' if _.isEqual(submodules, @state.activeSubmodules)
+          div {className: "radio-results"},
+            div {className: "options"},
+              options.map (opt, idx) =>
+                {label, submodules} = opt
+                openClass = 'active' if _.isEqual(submodules, @state.activeSubmodules)
 
-                    div {key: "option#{idx}", className: "option-button", onClick: @setActiveSubmodules.bind(this, submodules)},
-                      img {className: "option-button-image #{openClass}"}
-                      p {className: "option-button-text"}, label
+                div {key: "option#{idx}", className: "option-button", onClick: @setActiveSubmodules.bind(this, submodules)},
+                  img {className: "option-button-image #{openClass}"}
+                  p {className: "option-button-text"}, label
 
-                  div {className: "clear-both"}
+              div {className: "clear-both"}
 
-                if @state.activeSubmodules?
-                  _.map @state.activeSubmodules, (sm, i) =>
-                    activeSubmodule = @props.guide.moduleByKey(sm)
-                    new GuideModules[activeSubmodule?.name]
-                      guide: @props.guide
-                      moduleContent: activeSubmodule?.content
-                      key: "submodule-#{i}"
-
-            else
-              console.warn("Did not understand the Leading Question type.")
+            if @state.activeSubmodules?
+              _.map @state.activeSubmodules, (sm, i) =>
+                activeSubmodule = @props.guide.moduleByKey(sm)
+                new GuideModules[activeSubmodule?.name]
+                  guide: @props.guide
+                  moduleContent: activeSubmodule?.content
+                  key: "submodule-#{sm}-#{i}"
