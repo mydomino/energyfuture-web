@@ -17,7 +17,7 @@ module.exports = React.createClass
     @setState activeIndex: idx
 
   render: ->
-    faqs = @props.moduleContent
+    faqs = @props.content
     return false if _.isEmpty(faqs)
 
     div {className: 'guide-module guide-module-faq'},

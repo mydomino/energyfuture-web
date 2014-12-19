@@ -8,13 +8,13 @@ module.exports = React.createClass
   displayName: 'LeadingQuestion'
 
   getInitialState: ->
-    activeOption: @props.moduleContent?.options[0]
+    activeOption: @props.content?.options[0]
 
   setActiveOption: (option) ->
     @setState activeOption: option unless _.isEqual(option, @state.activeOption)
 
   render: ->
-    leadingQuestion = @props.moduleContent
+    leadingQuestion = @props.content
     return false if _.isEmpty leadingQuestion
     {heading, subheading, content, question, options} = leadingQuestion
 
@@ -47,5 +47,5 @@ module.exports = React.createClass
                   activeSubmodule = @props.guide.moduleByKey(sm)
                   new GuideModules[activeSubmodule?.name]
                     guide: @props.guide
-                    moduleContent: activeSubmodule?.content
+                    content: activeSubmodule?.content
                     key: "submodule-#{sm}-#{i}"

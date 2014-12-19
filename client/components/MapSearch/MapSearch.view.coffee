@@ -51,7 +51,7 @@ module.exports = React.createClass
     -> $('.map-search-tooltip-average-rating').ratingStars()
 
   handleLocation: (loc) ->
-    locationSearchTerm = @props.moduleContent.query
+    locationSearchTerm = @props.content.query
     featureLayer = L.mapbox.featureLayer().addTo(@mapObj)
     @mapObj.fitBounds loc.bounds, { maxZoom: 13 }
 
@@ -110,7 +110,7 @@ module.exports = React.createClass
     @mapObj.invalidateSize()
 
   render: ->
-    map = @props.moduleContent
+    map = @props.content
     return false if _.isEmpty map
     div {className: 'guide-module'},
       h2 {className: 'guide-module-header'}, map.heading

@@ -10,7 +10,7 @@ module.exports = React.createClass
     guide: null
 
   render: ->
-    items = @props.moduleContent
+    items = @props.content
     return false if _.isEmpty items
 
     div {className: "guide-module"},

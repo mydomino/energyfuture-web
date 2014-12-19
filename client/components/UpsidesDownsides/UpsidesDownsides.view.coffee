@@ -17,8 +17,8 @@ module.exports = React.createClass
     guide: null
 
   render: ->
-    return false unless hasValidData @props.moduleContent
-    {upsides, downsides} = @props.moduleContent
+    return false unless hasValidData @props.content
+    {upsides, downsides} = @props.content
 
     div {className: "guide-module guide-module-upsidesdownsides"},
       ul {className: "upside"},

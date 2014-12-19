@@ -10,7 +10,7 @@ module.exports = React.createClass
     guide: null
 
   render: ->
-    whatYouCanDo = @props.moduleContent
+    whatYouCanDo = @props.content
     return false if _.isEmpty whatYouCanDo
 
     div {},

@@ -9,9 +9,6 @@ hasValidData = (content) ->
 
 module.exports = React.createClass
   displayName: 'Intro'
-  getDefaultProps: ->
-    guide: null
-    moduleContent: null
 
   introStyle: (imageUrl, videoUrl) ->
     style = {}
@@ -36,9 +33,9 @@ module.exports = React.createClass
     height: '100%'
 
   render: ->
-    return null unless hasValidData(@props.moduleContent)
+    return null unless hasValidData(@props.content)
 
-    {caption, duration, videoUrl, imageUrl} = @props.moduleContent
+    {caption, duration, videoUrl, imageUrl} = @props.content
 
     div {className: 'guide-module-content'},
       div {className: "guide-module guide-module-intro", style: @introStyle(imageUrl, videoUrl)},

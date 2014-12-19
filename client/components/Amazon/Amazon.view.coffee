@@ -16,7 +16,7 @@ module.exports = React.createClass
     guide: {}
 
   products: ->
-    @props.moduleContent.productIds
+    @props.content.productIds
 
   productIds: ->
     _.pluck(_.sortBy(@products(), 'position'), 'id')
@@ -48,7 +48,7 @@ module.exports = React.createClass
         div {className: "product-importance-category #{cat}"}, cat
 
   render: ->
-    amazon = @props.moduleContent
+    amazon = @props.content
     return false if @state.dataError || _.isEmpty amazon
 
     if _.isEmpty @state.products

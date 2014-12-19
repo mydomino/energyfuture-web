@@ -26,7 +26,7 @@ module.exports = React.createClass
     $(@refs.readMore.getDOMNode()).hide()
 
   render: ->
-    sortableTable = @props.moduleContent
+    sortableTable = @props.content
     return false if _.isEmpty sortableTable
 
     sortedHeaderTitles = @sortedHeaderTitles(sortableTable.headers)

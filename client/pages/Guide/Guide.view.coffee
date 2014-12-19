@@ -62,7 +62,7 @@ module.exports = React.createClass
 
                   if GuideModules[moduleName]
                     div {key: "#{moduleName}-#{idx}"},
-                      new GuideModules[moduleName](guide: @state.guide, moduleContent: module.content)
+                      new GuideModules[moduleName](guide: @state.guide, content: module.content)
                       hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName

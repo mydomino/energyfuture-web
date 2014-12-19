@@ -11,7 +11,7 @@ module.exports = React.createClass
     dataError: false
 
   componentDidMount: ->
-    y = @props.moduleContent
+    y = @props.content
     query =
       term: y.searchTerms[0]
       location: "San Fransisco"
@@ -31,7 +31,7 @@ module.exports = React.createClass
     }
 
   render: ->
-    yelp = @props.moduleContent
+    yelp = @props.content
     return false if _.isEmpty yelp
 
     if _.isEmpty @state.data

@@ -6,7 +6,7 @@ module.exports = React.createClass
   displayName: 'Text'
 
   render: ->
-    text = @props.moduleContent
+    text = @props.content
     return false if _.isEmpty text
 
     div {className: 'guide-module guide-module-text'},

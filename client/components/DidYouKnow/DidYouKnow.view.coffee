@@ -9,13 +9,10 @@ hasValidData = (content) ->
 module.exports = React.createClass
   displayName: 'DidYouKnow'
 
-  getDefaultProps: ->
-    moduleContent: null
-
   render: ->
-    return false unless hasValidData @props.moduleContent
+    return false unless hasValidData @props.content
 
     div {className: "guide-module"},
       h2 {className: 'guide-module-header'}, "did you know?"
       div {className: 'guide-module-content'},
-        new Carousel items: @props.moduleContent
+        new Carousel items: @props.content

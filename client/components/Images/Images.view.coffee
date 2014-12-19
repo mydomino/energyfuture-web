@@ -13,7 +13,7 @@ module.exports = React.createClass
     if @isExternal(url) then url else "/img/" + url
 
   render: ->
-    images = @props.moduleContent
+    images = @props.content
     return false if _.isEmpty images
 
     div {className: 'guide-module guide-module-images'},

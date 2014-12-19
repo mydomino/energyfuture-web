@@ -28,7 +28,7 @@ module.exports = React.createClass
     "#{d.slice(0, wordBoundary)} #{String.fromCharCode(8230)}"
 
   render: ->
-    incentives = @props.moduleContent
+    incentives = @props.content
     return false if _.isEmpty incentives
 
     div {},
