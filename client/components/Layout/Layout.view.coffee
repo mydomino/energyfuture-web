@@ -11,9 +11,13 @@ module.exports = React.createClass
 
   mixins: [BindExternalLinkMixin]
 
-  trackExternalLinkAction: ->
+  stripQueryString: (url) ->
+    url.slice(0, url.indexOf '?')
+
+  trackExternalLinkAction: (event) ->
     Mixpanel.emit 'analytics.external.click',
       distinct_id: auth.user?.id
+      url: @stripQueryString(unescape(event.currentTarget.href))
 
   render: ->
     div {className: "page page-#{@props.name}"},
