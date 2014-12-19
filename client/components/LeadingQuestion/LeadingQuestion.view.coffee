@@ -8,15 +8,15 @@ module.exports = React.createClass
   displayName: 'LeadingQuestion'
 
   getInitialState: ->
-    activeSubmodules: @props.moduleContent.options[0].submodules
+    activeOption: @props.moduleContent?.options[0]
 
-  setActiveSubmodules: (modules) ->
-    @setState activeSubmodules: modules unless _.isEqual(modules, @state.activeSubmodules)
+  setActiveOption: (option) ->
+    @setState activeOption: option unless _.isEqual(option, @state.activeOption)
 
   render: ->
     leadingQuestion = @props.moduleContent
     return false if _.isEmpty leadingQuestion
-    {heading, subheading, content, question, type, options} = leadingQuestion
+    {heading, subheading, content, question, options} = leadingQuestion
 
     div {className: 'guide-module guide-module-leading-question'},
       h2 {className: 'guide-module-header'}, (heading || "Take Action")
@@ -25,25 +25,27 @@ module.exports = React.createClass
         if content
           p {className: "leading-question-content"}, content
         if question
-          p {className: "leading-question-question #{type}"}, question
+          p {className: "leading-question-question"}, question
 
         dl {className: 'leading-question-list'},
-          div {className: "radio-results"},
+          div {className: "results"},
             div {className: "options"},
               options.map (opt, idx) =>
-                {label, submodules} = opt
-                openClass = 'active' if _.isEqual(submodules, @state.activeSubmodules)
+                openClass = 'active' if _.isEqual(opt, @state.activeOption)
 
-                div {key: "option#{idx}", className: "option-button", onClick: @setActiveSubmodules.bind(this, submodules)},
+                div {key: "option#{idx}", className: "option-button", onClick: @setActiveOption.bind(this, opt)},
                   img {className: "option-button-image #{openClass}"}
-                  p {className: "option-button-text"}, label
+                  div {className: "option-button-text"},
+                    p {className: "option-button-text-label"}, opt.label
+                    p {className: "option-button-text-subtext"}, opt.subtext
 
               div {className: "clear-both"}
 
-            if @state.activeSubmodules?
-              _.map @state.activeSubmodules, (sm, i) =>
-                activeSubmodule = @props.guide.moduleByKey(sm)
-                new GuideModules[activeSubmodule?.name]
-                  guide: @props.guide
-                  moduleContent: activeSubmodule?.content
-                  key: "submodule-#{sm}-#{i}"
+            if @state.activeOption?
+              div {className: "leading-question-submodule"},
+                _.map @state.activeOption.submodules, (sm, i) =>
+                  activeSubmodule = @props.guide.moduleByKey(sm)
+                  new GuideModules[activeSubmodule?.name]
+                    guide: @props.guide
+                    moduleContent: activeSubmodule?.content
+                    key: "submodule-#{sm}-#{i}"
