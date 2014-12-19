@@ -42,11 +42,16 @@ module.exports = React.createClass
       "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
     }
 
-  trackAffiliateLinkAction: ->
+  parseRestaurantInfo: (url) ->
+    r = url.match /biz\/(.*)/
+    r[1] unless _.isEmpty r
+
+  trackAffiliateLinkAction: (event) ->
     Mixpanel.emit 'analytics.affiliate.click',
       affiliate: 'yelp'
       guide_id: @props.guide.id
       distinct_id: auth.user?.id
+      restaurant: @parseRestaurantInfo(event.currentTarget.href)
 
   render: ->
     return false unless hasValidData(@props.guide)
