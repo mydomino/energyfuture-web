@@ -78,7 +78,7 @@ module.exports = React.createClass
     else
       div {className: 'auth-bar-content-collapsed'},
         p {},
-          'Login with '
+          'Log in with '
           a {onClick: @loginFacebook}, 'Facebook'
           ' or '
           a {onClick: @loginTwitter}, 'Twitter'
