@@ -33,6 +33,10 @@ module.exports = React.createClass
   productImportanceCategory: (id) ->
     _.find(@products(), 'id': id).category
 
+  parseProductName: (url) ->
+    r = url.match(/amazon\.com\/(.*)\/dp|gp/)
+    r[1] unless _.isEmpty r
+
   componentDidMount: ->
     $.get "/amazon-products",
       products: @productIds()
@@ -42,17 +46,18 @@ module.exports = React.createClass
       console.error(res)
       @setState dataError: true if @isMounted()
 
-  trackAffiliateLinkAction: ->
+  trackAffiliateLinkAction: (event) ->
     Mixpanel.emit 'analytics.affiliate.click',
       affiliate: 'amazon'
       guide_id: @props.guide.id
       distinct_id: auth.user?.id
+      product: @parseProductName(event.currentTarget.href)
 
   productItems: ->
     _.map @state.products, (product) =>
       cat = @productImportanceCategory(product.id)
       div {className: 'product-item', key: "product-item-#{product.id}"},
-        a {href: product.itemLink, className: "product-link mixpanel-affiliate-link", target: '_blank'},
+        a {href: unescape(product.itemLink), className: "product-link mixpanel-affiliate-link", target: '_blank'},
           img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},
             span {}, "by"
