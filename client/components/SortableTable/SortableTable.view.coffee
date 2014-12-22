@@ -43,7 +43,7 @@ module.exports = React.createClass
             _.map sortableTable.content, (row, i) ->
               tr {key: "sorted-content-#{i}"},
               _.map sortedHeaderKeys, (key, i) ->
-                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key]}},
+                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key].replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')}},
         div {className: 'sortable-table-read-more', ref: 'readMore'},
           div {className: 'read-more-mask'}
           img {className : 'read-more-button', src: '/img/show-more.svg', onClick: @showMore}
