@@ -17,7 +17,7 @@ module.exports = React.createClass
       location: "Fort Collins"
       limit: y.limit
 
-    $.get("/yelp-listings", query)
+    $.ajax(type: 'GET', url: "/yelp-listings", data: query, timeout: 8000)
     .done((res) =>
       @setState data: res if @isMounted())
     .fail((res) =>
@@ -25,12 +25,11 @@ module.exports = React.createClass
       @setState dataError: true if @isMounted())
 
   addressText: (l) ->
-    {
-      "line1": l.address.join(" ")
-      "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
-    }
+    "line1": l.address.join(" ")
+    "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
 
   render: ->
+    return @props.onError() if @state.dataError
     yelp = @props.content
     return false if _.isEmpty yelp
 
@@ -39,7 +38,7 @@ module.exports = React.createClass
     else
       div {className: "guide-module guide-module-yelp"},
         h2 {className: "guide-module-header"}, yelp.heading
-        p {className: "guide-module-subheader"}, "Powered by Yelp.com"
+        p {className: "guide-module-subheader"}, (yelp.subheading or "Powered by Yelp.com")
 
         div {className: 'guide-module-content'},
           ul {className: 'yelp-list'},

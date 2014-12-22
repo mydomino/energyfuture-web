@@ -22,11 +22,13 @@ module.exports = React.createClass
 
     div {className: "guide-module guide-module-upsidesdownsides"},
       ul {className: "upside"},
-        h2 {}, "upside"
-        upsides.map (upside, idx) ->
-          li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(upside)}}
+        h2 {className: "guide-module-header"}, "upside"
+        div {className: 'guide-module-content'},
+          upsides.map (upside, idx) ->
+            li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(upside)}}
       ul {className: "downside"},
-        h2 {}, "downside"
-        downsides.map (downside, idx) ->
-          li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(downside)}}
+        h2 {className: "guide-module-header"}, "downside"
+        div {className: 'guide-module-content'},
+          downsides.map (downside, idx) ->
+            li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(downside)}}
       div {className: "clear-both"}

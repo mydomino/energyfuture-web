@@ -14,7 +14,7 @@ module.exports = React.createClass
     return false if _.isEmpty whatYouCanDo
 
     div {},
-      h2 {className: "guide-module-header"}, (whatYouCanDo.heading || "What you can do")
+      h2 {className: "guide-module-header"}, (whatYouCanDo.heading or "What you can do")
       p {className: "guide-module-subheader"}, whatYouCanDo.subheading
       div {className: 'guide-module-content'},
         new CallToAction(actions: whatYouCanDo.cta)

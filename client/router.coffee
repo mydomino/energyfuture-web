@@ -39,24 +39,12 @@ Router = React.createClass
     @props.routes.pages.forEach addPage.bind(this)
 
     auth.on 'authStateChange', @setUserState
-    auth.on 'show-auth-prompt', @showAuthPrompt
-    auth.on 'hide-auth-prompt', @hideAuthPrompt
 
     page.start()
     return
 
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @setUserState
-    auth.removeListener 'show-auth-prompt', @showAuthPrompt
-    auth.removeListener 'hide-auth-prompt', @hideAuthPrompt
-
-  showAuthPrompt: ->
-    if @isMounted()
-      @setState authPrompt: true
-
-  hideAuthPrompt: ->
-    if @isMounted()
-      @setState authPrompt: false
 
   setUserState: ->
     if @isMounted()
@@ -68,12 +56,9 @@ Router = React.createClass
     querystring: null
     user: null
     context: {}
-    authPrompt: false
 
   render: ->
-    classes = if @state.authPrompt then 'auth-prompt' else ''
-
-    React.DOM.div {className: classes},
+    React.DOM.div {},
       new AuthBar loggedIn: auth.loggedIn
       new @state.component
         params: @state.params
@@ -88,6 +73,8 @@ routes =
   ]
   pages:[
     ["/", require('./pages/Splash/Splash.view'), 'splash']
+    ["/about", require('./pages/AboutUs/AboutUs.view'), 'aboutus']
+    ["/contact", require('./pages/ContactUs/ContactUs.view'), 'contactus']
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
     ["/guides", require('./pages/Guides/Guides.view'), 'guides']
     ["/guides/:id", require('./pages/Guide/Guide.view'), 'guide']

@@ -10,10 +10,10 @@ module.exports = class YelpListings
   constructor: ->
     @yelp = yelp.createClient(consumer_key: consumerKey, consumer_secret: consumerSecret, token: token, token_secret: tokenSecret)
 
-  search: (q, callback) ->
+  search: (q, successCallback, errorCallback) ->
     @yelp.search(q, (error, data) ->
       if error
         console.error(error)
-        return callback(error: error)
+        return errorCallback(error)
       else
-        return callback(data))
+        return successCallback(data))

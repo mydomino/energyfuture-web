@@ -15,7 +15,7 @@ posClass = (num) ->
 positionAnnotation = (element, anchor) ->
   element.style.display = 'block'
   element.style.top = (anchor.offsetTop + anchor.offsetHeight) + 'px'
-  element.style.left = (anchor.offsetLeft - 15) + 'px'
+  element.style.left = (anchor.offsetLeft) + 'px'
   return
 
 guideStatus = (userGuides, guide) ->
@@ -70,7 +70,7 @@ module.exports = React.createClass
     sessionStorage.setItem 'ownership', ownership
 
   render: ->
-    ownershipData = [{name: "owners", value: "own"}, {name: "renters", value: "rent"}]
+    ownershipData = [{name: "home owners", value: "own"}, {name: "home renters", value: "rent"}]
     userGuides = @props.user && @props.user.get('guides')
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
     new Layout {name: 'guides'},
@@ -78,8 +78,8 @@ module.exports = React.createClass
 
       div {className: "guides-intro"},
         h1 {className: "guides-intro-header"},
-          "Your helpful guides to a "
-          span {className: "intro-annotation-anchor", ref: "anchor"}, "healthy planet"
+          "Your helpful guides to "
+          span {className: "intro-annotation-anchor", ref: "anchor"}, "low carbon living"
         p {className: "guides-intro-subtext"},
           "In partnership with Rocky Mountain Institute and UC Berkeley"
         div {className: "guides-user-context"},
@@ -89,7 +89,7 @@ module.exports = React.createClass
             span {}, " in Fort Collins"
       if guides.length > 0
         div {className: "guides"},
-          guides.map (guide, idx) =>
+          _.shuffle(guides).map (guide, idx) =>
             new GuidePreview
               key: "guide#{guide.id}"
               guide: guide

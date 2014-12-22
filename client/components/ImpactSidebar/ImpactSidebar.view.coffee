@@ -86,19 +86,25 @@ module.exports = React.createClass
     if @props.user
       @props.user.removeGuide @props.guide
     else
-      auth.prompt()
+      auth.prompt(true)
 
   claimGuide: ->
-    if @props.user
+    action = =>
       @claimedImpact.add(@props.guide)
+
+    if @props.user
+      action()
     else
-      auth.prompt()
+      auth.prompt(true, action)
 
   saveGuide: ->
-    if @props.user
+    action = =>
       @savedForLater.add(@props.guide)
+
+    if @props.user
+      action()
     else
-      auth.prompt()
+      auth.prompt(true, action)
 
   render: ->
     claimedClass = if @state.isClaimed then 'active' else ''
@@ -107,6 +113,7 @@ module.exports = React.createClass
 
     div {className: "impact-sidebar category-#{@props.category}", style: { color: color }, ref: 'sidebar'},
       new ImpactScore score: @props.guide.score(), color: color
+      div {className: "impact-text"}, "Impact"
       hr {}
       div {className: "action-button #{claimedClass}"},
         if @state.isClaimed

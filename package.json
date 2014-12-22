@@ -69,7 +69,7 @@
     "postinstall": "NODE_ENV=production gulp deploy"
   },
   "engines": {
-    "node": ">= 0.9"
+    "node": "0.10.x"
   },
   "devDependencies": {
     "firebase": "^1.0.24"

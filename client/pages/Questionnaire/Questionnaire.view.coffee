@@ -1,6 +1,7 @@
-{div, h2, p, form, input, span} = React.DOM
+{div, h2, p, form, input, span, a} = React.DOM
 
 _ = require 'lodash'
+moment = require 'moment'
 Guide = require '../../models/Guide'
 AnswerCollection = require '../../models/AnswerCollection.coffee'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
@@ -43,6 +44,32 @@ module.exports = React.createClass
 
     @setState guide: guide
 
+  formSubmitAction: (event) ->
+    #submit actions are done to trigger html validations
+    event.preventDefault()
+
+  validateFormFields: ->
+    @validateEmail()
+    @validatePhoneNumber()
+
+  validateEmail: ->
+    email = $(@refs.questionnaireForm.getDOMNode()).find("[type='email']")
+    return if _.isEmpty(email)
+    emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$/
+    if emailRegex.test(email.val().toUpperCase())
+      email[0].setCustomValidity('')
+    else
+      email[0].setCustomValidity("Please provide an acceptable email format.")
+
+  validatePhoneNumber: ->
+    phone = $(@refs.questionnaireForm.getDOMNode()).find("[type='tel']")
+    return if _.isEmpty(phone)
+    phoneRegex = /^[0-9]{10}$/
+    if phoneRegex.test(phone.val().replace(/[-\s]/g, ''))
+      phone[0].setCustomValidity('')
+    else
+      phone[0].setCustomValidity("Please provide an 10 digit phone number.")
+
   componentDidUpdate: ->
     window.scrollTo(0, 0)
 
@@ -61,6 +88,8 @@ module.exports = React.createClass
     sessionStorage.setItem('questionnaire-answers', JSON.stringify(@loadAnswers()))
 
   nextAction: ->
+    @validateFormFields()
+    return unless @isFormValid()
     @storeAnswers()
     if @isMounted()
       @setState page: @state.page + 1
@@ -70,8 +99,14 @@ module.exports = React.createClass
     if @isMounted()
       @setState page: @state.page - 1
 
+  isFormValid: ->
+    @refs.questionnaireForm.getDOMNode().checkValidity()
+
+  cancelAction: ->
+    page "/guides/#{@props.params.guide_id}"
+
   storeInFirebase: ->
-    params = {guide_id: @state.guide.id}
+    params = {guide_id: @state.guide.id, submission_time: moment().format('MMMM Do YYYY, h:mm a')}
     _.merge(params, {user_id: @props.user.id}) if @props.user?
 
     answerData = _.merge @loadAnswers(), params
@@ -102,14 +137,14 @@ module.exports = React.createClass
     div {className: "page"},
       div {className: "container"},
         div {className: "container-padding"},
-          new NavBar user: @props.user
+          new NavBar user: @props.user, path: @props.context.pathname
           if hasValidData(@state.guide)
             div {className: 'guide-module guide-module-questionnaire'},
               h2 {className: 'questionnaire-header'}, title
               div {className: 'questionnaire-progress-container'},
                 div {className: 'questionnaire-progress-bar', style: {width: "#{(@state.page/_.size(questionnaire)) * 100}%"}},
                   span {className: "questionnaire-progress-bar-text #{"complete" if @isLastModule()}"}, @progressText()
-              form {className: 'questionnaire-form', ref: 'questionnaireForm'},
+              form {className: 'questionnaire-form', ref: 'questionnaireForm', onSubmit: @formSubmitAction},
                 new QuestionnaireModules[@pickModule().module]
                   key: "component-#{@state.page}"
                   guideId: @state.guide.id
@@ -120,5 +155,7 @@ module.exports = React.createClass
                   totalPageCount: @totalPageCount()
                   answers: @loadAnswersFromSession()
                   storeInSessionAndFirebaseAction: @storeInSessionAndFirebaseAction
+                  isFormValid: @isFormValid
+              a {className: 'questionnaire-cancel', onClick: @cancelAction}, "Cancel"
           else
             new LoadingIcon

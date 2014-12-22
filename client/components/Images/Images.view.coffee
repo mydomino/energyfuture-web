@@ -19,6 +19,6 @@ module.exports = React.createClass
     div {className: 'guide-module guide-module-images'},
       div {className: 'guide-module-content'},
         images.map (i) =>
-          div {},
-            img {key: "images-module-#{i}", className: "images-module-image", src: @imageSrc(i.link)}
+          div {key: "images-module-#{i}"},
+            img {className: "images-module-image", src: @imageSrc(i.link)}
             p {className: 'image-module-caption', dangerouslySetInnerHTML: {"__html": Autolinker.link(i.caption)}}

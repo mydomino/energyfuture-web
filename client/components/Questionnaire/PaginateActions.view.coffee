@@ -13,19 +13,11 @@ module.exports = React.createClass
   disablePrev: ->
     @props.page == 1
 
-  componentDidMount: ->
-    #this is done to trigger html validations
-    $(".questionnaire-form").on 'submit', (event) ->
-      event.preventDefault()
-
   prevAction: ->
     @props.prevAction() unless @disablePrev()
 
-  isFormValid: ->
-    $('.questionnaire-form')[0].checkValidity()
-
   nextAction: ->
-    if @isFormValid() && !@disableNext()
+    if !@disableNext()
       @props.nextAction()
 
   render: ->

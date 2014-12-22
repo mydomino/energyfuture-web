@@ -1,40 +1,52 @@
 @require 'mixins/colors'
 
+zIndex = 1200
+
+@keyframes flash
+  0%, 50%, 100%
+    opacity 1
+
+  25%, 75%
+    opacity 0
+
 .auth-bar
   position absolute
-  top: 0
-  right: 0
-  left: 0
-  padding: .25em
-  width: 100%
-  background-color: highlight
-  background-color: rgba(highlight, 0.9)
-  color: #fff
-  z-index 1200
+  top 0
+  left 0
+  right 0
+  background-color highlight
+  background-color rgba(highlight, 0.9)
+  color #fff
+  z-index zIndex
   transition min-height 0.5s
+  animation-fill-mode both
+  animation-duration 1s
 
-  p.auth-bar-content
-    margin: 0
-    line-height: 2em
-    text-align: center
-    a
-      color: #fff
-      text-decoration underline
-      line-height 1em
+  .auth-bar-content-collapsed
+    p
+      margin 0
+      line-height 2em
+      text-align center
+      a
+        color #fff
+        text-decoration underline
+        line-height 1em
 
   .auth-bar-content-expanded
-    max-height 0px
-    margin-top 0
-    opacity 0
-    overflow hidden
     transition all 1s
-
     text-align center
+    position absolute
+    top 50%
+    left 50%
+    transform translate(-50%,-50%)
+
     h2
       margin-bottom 10px
+      font-size 3em
     p
       margin-top 0
       margin-bottom 20px
+      font-size 2em
     .btn
       display inline-block
       background-color #fff
@@ -43,20 +55,34 @@
       margin 0 10px
       color highlight
 
-.auth-bar-close
-  position absolute
-  top 5px
-  right 10px
-  font-size 1.4em
-  cursor pointer
+  .auth-bar-close
+    position absolute
+    top 5px
+    right 10px
+    font-size 1.4em
+    cursor pointer
+    z-index zIndex + 1
 
-.auth-prompt
-  .auth-bar
-    position fixed
-    min-height 100%
-  .auth-bar-content
+.auth-bar.auth-bar-collapsed
+  padding: .25em
+
+  &.get-attention
+    animation-name flash
+
+  .auth-bar-content-expanded
     opacity 0
+    max-height 0
+    overflow hidden
+  .auth-bar-content-collapsed
+    opacity 1
+
+.auth-bar.auth-bar-expanded
+  position fixed
+  min-height 100%
+
   .auth-bar-content-expanded
     opacity 1
-    max-height 500px
-    margin-top 100px
+  .auth-bar-content-collapsed
+    opacity 0
+    max-height 0
+    overflow hidden

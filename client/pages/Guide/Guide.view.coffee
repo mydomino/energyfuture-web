@@ -35,12 +35,16 @@ module.exports = React.createClass
     if guide.exists() && @isMounted
       @setState guide: guide
 
+  hideModule: (name) ->
+    $(@refs[name].getDOMNode()).hide()
+    false
+
   render: ->
     if @state.guide
-      {title, summary, category, intro} = @state.guide.attributes
+      {title, summary, category} = @state.guide.attributes
       modules = @state.guide.sortedModules()
 
-    new Layout {name: 'guide', guideId: @props.params.id},
+    new Layout {name: 'guide', guideId: @props.params.id, showNewsletterSignup: true},
       new NavBar user: @props.user, path: @props.context.pathname
       if !@state.guide
         new LoadingIcon
@@ -62,7 +66,10 @@ module.exports = React.createClass
 
                   if GuideModules[moduleName]
                     div {key: "#{moduleName}-#{idx}"},
-                      new GuideModules[moduleName](guide: @state.guide, content: module.content)
+                      new GuideModules[moduleName]
+                        guide: @state.guide
+                        content: module.content
+                        onError: @hideModule.bind(@, moduleName)
                       hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName

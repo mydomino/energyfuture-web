@@ -1,5 +1,6 @@
 {div, h2, span, p, a} = React.DOM
 auth = require '../../auth'
+_ = require 'lodash'
 
 AuthMixin =
   loginFacebook: ->
@@ -18,42 +19,70 @@ AuthMixin =
       console.log 'Something really went wrong'
       @setState failedLogin: true
 
+userHasBeenOnlineFor10Minutes = ->
+  Math.abs(new Date() - new Date(sessionStorage.sessionStartedAt)) > 600000 # 10 minutes
+
+RePromptMixin =
+  componentDidMount: ->
+    if !sessionStorage.hasOwnProperty('sessionStartedAt')
+      sessionStorage.sessionStartedAt = new Date()
+
+  resetAttention: ->
+    if @isMounted()
+      @setState({ attention: false, expanded: @state.expanded })
+
+  componentDidUpdate: ->
+    if userHasBeenOnlineFor10Minutes()
+      sessionStorage.sessionStartedAt = new Date()
+      @resetState({ attention: true, expanded: @state.expanded })
+
+      # Remove the attention class after 2 seconds
+      setTimeout(@resetAttention, 2000)
+
 module.exports = React.createClass
   displayName: 'AuthBar'
-  mixins: [AuthMixin]
+  mixins: [AuthMixin, RePromptMixin]
 
   getInitialState: ->
     closed: false
+    expanded: false
     failedLogin: false
 
-  handleClose: ->
-    @setState closed: true
+  resetState: (newState = {}) ->
+    @setState _.extend({ closed: false, failedLogin: false, expanded: false }, newState)
 
-  resetState: ->
-    @setState closed: false, failedLogin: false
+  _showPrompt: (expanded) ->
+    @resetState closed: false, expanded: expanded
+
+  _hidePrompt: ->
+    @resetState closed: true
 
   componentDidMount: ->
     auth.on 'authStateChange', @handleLogin
-    auth.on 'show-auth-prompt', @resetState
+    auth.on 'show-auth-prompt', @_showPrompt
+    auth.on 'hide-auth-prompt', @_hidePrompt
 
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @handleLogin
-    auth.removeListener 'show-auth-prompt', @resetState
+    auth.removeListener 'show-auth-prompt', @_showPrompt
+    auth.removeListener 'hide-auth-prompt', @_hidePrompt
 
-  thinView: (failed) ->
+  collapsedView: (failed) ->
     if failed
-      p {className: 'auth-bar-content'},
-        span {}, "Hmm... Something went wrong. Let's try that again: "
-        a {onClick: @loginFacebook}, 'Facebook'
-        span {}, ' or '
-        a {onClick: @loginTwitter}, 'Twitter'
+      div {className: 'auth-bar-content-collapsed'},
+        p {},
+          'Hmm... Something went wrong. Let\'s try that again: '
+          a {onClick: @loginFacebook}, 'Facebook'
+          ' or '
+          a {onClick: @loginTwitter}, 'Twitter'
     else
-      p {className: 'auth-bar-content'},
-        span {}, 'Login with '
-        a {onClick: @loginFacebook}, 'Facebook'
-        span {}, ' or '
-        a {onClick: @loginTwitter}, 'Twitter'
-        span {}, ' to save your impact and sync with mobile.'
+      div {className: 'auth-bar-content-collapsed'},
+        p {},
+          'Log in with '
+          a {onClick: @loginFacebook}, 'Facebook'
+          ' or '
+          a {onClick: @loginTwitter}, 'Twitter'
+          ' to save your impact and sync with mobile.'
 
   expandedView: (failed) ->
     if failed
@@ -72,7 +101,13 @@ module.exports = React.createClass
   render: ->
     return null if @props.loggedIn or @state.closed
 
-    div {className: 'auth-bar'},
-      span {className: 'auth-bar-close', onClick: @handleClose}, 'x'
+    classes = React.addons.classSet
+      'auth-bar': true
+      'get-attention': this.state.attention
+      'auth-bar-expanded': this.state.expanded
+      'auth-bar-collapsed': !this.state.expanded
+
+    div {className: classes},
+      span {className: 'auth-bar-close', onClick: @_hidePrompt}, 'x'
       @expandedView(@state.failedLogin)
-      @thinView(@state.failedLogin)
+      @collapsedView(@state.failedLogin)
