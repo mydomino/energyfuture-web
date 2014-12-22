@@ -14,7 +14,7 @@ module.exports = React.createClass
     y = @props.content
     query =
       term: y.searchTerms[0]
-      location: "San Fransisco"
+      location: "Fort Collins"
       limit: y.limit
 
     $.get("/yelp-listings", query)
