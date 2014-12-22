@@ -13,7 +13,6 @@ module.exports = React.createClass
   componentDidMount: ->
     tableObject = $(@refs.tableContent.getDOMNode())
     if tableObject.height() >= 600
-      tableObject.css('max-height', 500)
       @setState collapsible: true
 
   sortedHeaders: (headers) ->
@@ -26,12 +25,15 @@ module.exports = React.createClass
     _.pluck @sortedHeaders(headers), 'key'
 
   toggleExpandCollapse: (event) ->
-    $(@refs.tableContent.getDOMNode()).css('max-height', 'none')
-    $(@refs.expandCollapse.getDOMNode()).hide()
+    @setState collapsed: !@state.collapsed
 
   render: ->
     sortableTable = @props.content
     return false if _.isEmpty sortableTable
+    if @state.collapsible && @state.collapsed
+     tableStyle = { maxHeight: 500 }
+    else
+     tableStyle = {}
 
     sortedHeaderTitles = @sortedHeaderTitles(sortableTable.headers)
     sortedHeaderKeys = @sortedHeaderKeys(sortableTable.headers)
@@ -39,7 +41,7 @@ module.exports = React.createClass
       h2 {className: 'guide-module-header'}, sortableTable.heading
       p {className: 'guide-module-subheader', dangerouslySetInnerHTML: {"__html": Autolinker.link(sortableTable.subheading)}}
       div {className: 'guide-module-content'},
-        table {ref: 'tableContent'},
+        table {style: tableStyle, ref: 'tableContent'},
           thead {},
             _.map sortedHeaderTitles, (title, i) ->
               th {key: "sorted-header-titles-#{i}"}, title
@@ -50,6 +52,7 @@ module.exports = React.createClass
                 td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key]}},
 
         if @state.collapsible
-          div {className: 'sortable-table-expand-collapse', ref: 'expandCollapse'},
+          collapsedClass = if @state.collapsed then '' else 'expanded'
+          div {className: "sortable-table-expand-collapse #{collapsedClass}", ref: 'expandCollapse'},
             div {className: 'expand-collapse-mask'}
             img {className : 'expand-collapse-button', src: '/img/show-more.svg', onClick: @toggleExpandCollapse}
