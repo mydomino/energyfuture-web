@@ -33,8 +33,7 @@ module.exports = React.createClass
               options.map (opt, idx) =>
                 openClass = 'active' if _.isEqual(opt, @state.activeOption)
 
-                div {key: "option#{idx}", className: "option-button", onClick: @setActiveOption.bind(this, opt)},
-                  img {className: "option-button-image #{openClass}"}
+                div {key: "option#{idx}", className: "option-button #{openClass}", onClick: @setActiveOption.bind(this, opt)},
                   div {className: "option-button-text"},
                     p {className: "option-button-text-label"}, opt.label
                     p {className: "option-button-text-subtext"}, opt.subtext
