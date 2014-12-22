@@ -10,7 +10,7 @@ module.exports = React.createClass
       div {},
         h2 { id: "we-re-reinventing-zero-emissions-living"}, "We’re reinventing zero-emissions living"
         p {}, "Domino is your one-stop personal toolkit for cultivating clean, low-carbon living – while saving money. From changing your light bulbs to going solar and everything in between, Domino guides you through actions you can take to enhance your lifestyle. Your actions will also help clean our air and water, achieve energy independence, and vitalize our economy."
-        p {}, "How does it work? At Domino, we provide you a menu of options you can choose from to take action. In collaboration with the Rocky Mountain Institute (RMI), we&#39;ve crunched the numbers and researched products and services to develop easy-to-understand, no-BS guides for you."
+        p {}, "How does it work? At Domino, we provide you a menu of options you can choose from to take action. In collaboration with the Rocky Mountain Institute (RMI), we've crunched the numbers and researched products and services to develop easy-to-understand, no-BS guides for you."
         p {}, "You can try an appetizer from our menu, and if you like it, go on to the main course. You can even sample the whole menu! Or you can try some items now, and leave some for later. It’s up to you how far you want to take your actions."
         h2 { id: "you-can-be-a-domino"}, "You can be a Domino"
         p {}, "Each action you take, no matter how small, helps create a much bigger effect – just like a stack of dominoes."
