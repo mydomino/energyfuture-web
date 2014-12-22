@@ -6,11 +6,15 @@ Autolinker = require 'autolinker'
 module.exports = React.createClass
   displayName: 'SortableTable'
 
+  getInitialState: ->
+    collapsible: false
+    collapsed: true
+
   componentDidMount: ->
     tableObject = $(@refs.tableContent.getDOMNode())
     if tableObject.height() >= 600
       tableObject.css('max-height', 500)
-      $(@refs.expandCollapse.getDOMNode()).show()
+      @setState collapsible: true
 
   sortedHeaders: (headers) ->
     _.sortBy(headers, 'position')
@@ -44,6 +48,8 @@ module.exports = React.createClass
               tr {key: "sorted-content-#{i}"},
               _.map sortedHeaderKeys, (key, i) ->
                 td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key]}},
-        div {className: 'sortable-table-expand-collapse', ref: 'expandCollapse'},
-          div {className: 'expand-collapse-mask'}
-          img {className : 'expand-collapse-button', src: '/img/show-more.svg', onClick: @toggleExpandCollapse}
+
+        if @state.collapsible
+          div {className: 'sortable-table-expand-collapse', ref: 'expandCollapse'},
+            div {className: 'expand-collapse-mask'}
+            img {className : 'expand-collapse-button', src: '/img/show-more.svg', onClick: @toggleExpandCollapse}
