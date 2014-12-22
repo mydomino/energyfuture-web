@@ -10,7 +10,7 @@ module.exports = React.createClass
     tableObject = $(@refs.tableContent.getDOMNode())
     if tableObject.height() >= 600
       tableObject.css('max-height', 500)
-      $(@refs.readMore.getDOMNode()).show()
+      $(@refs.expandCollapse.getDOMNode()).show()
 
   sortedHeaders: (headers) ->
     _.sortBy(headers, 'position')
@@ -21,9 +21,9 @@ module.exports = React.createClass
   sortedHeaderKeys: (headers) ->
     _.pluck @sortedHeaders(headers), 'key'
 
-  showMore: (event) ->
+  toggleExpandCollapse: (event) ->
     $(@refs.tableContent.getDOMNode()).css('max-height', 'none')
-    $(@refs.readMore.getDOMNode()).hide()
+    $(@refs.expandCollapse.getDOMNode()).hide()
 
   render: ->
     sortableTable = @props.content
@@ -44,6 +44,6 @@ module.exports = React.createClass
               tr {key: "sorted-content-#{i}"},
               _.map sortedHeaderKeys, (key, i) ->
                 td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key]}},
-        div {className: 'sortable-table-read-more', ref: 'readMore'},
-          div {className: 'read-more-mask'}
-          img {className : 'read-more-button', src: '/img/show-more.svg', onClick: @showMore}
+        div {className: 'sortable-table-expand-collapse', ref: 'expandCollapse'},
+          div {className: 'expand-collapse-mask'}
+          img {className : 'expand-collapse-button', src: '/img/show-more.svg', onClick: @toggleExpandCollapse}
