@@ -37,7 +37,8 @@ module.exports = React.createClass
       cat = @productImportanceCategory(product.id)
       div {className: 'product-item', key: "product-item-#{product.id}"},
         a {href: product.itemLink, className: "product-link", target: '_blank'},
-          img {src: product.imageUrl, className: 'product-image'}
+          span {className: 'product-image-wrapper'},
+            img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},
             span {}, "by"
             span {className: "product-creators"}, product.creators
