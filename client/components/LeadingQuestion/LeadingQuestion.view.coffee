@@ -8,7 +8,7 @@ module.exports = React.createClass
   displayName: 'LeadingQuestion'
 
   getInitialState: ->
-    activeOption: @props.content?.options[0]
+    activeOption: null
 
   setActiveOption: (option) ->
     @setState activeOption: option unless _.isEqual(option, @state.activeOption)
