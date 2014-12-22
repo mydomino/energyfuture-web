@@ -52,7 +52,7 @@ module.exports = React.createClass
             _.map sortableTable.content, (row, i) ->
               tr {key: "sorted-content-#{i}"},
               _.map sortedHeaderKeys, (key, i) ->
-                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key]}},
+                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key].replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')}}
 
         if @state.collapsible
           collapsedClass = if @state.collapsed then '' else 'expanded'
