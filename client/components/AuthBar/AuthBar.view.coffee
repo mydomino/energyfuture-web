@@ -19,25 +19,48 @@ AuthMixin =
       console.log 'Something really went wrong'
       @setState failedLogin: true
 
-userHasBeenOnlineFor10Minutes = ->
-  Math.abs(new Date() - new Date(sessionStorage.sessionStartedAt)) > 600000 # 10 minutes
-
 RePromptMixin =
-  componentDidMount: ->
-    if !sessionStorage.hasOwnProperty('sessionStartedAt')
-      sessionStorage.sessionStartedAt = new Date()
+  timeoutTracker: null
 
-  resetAttention: ->
+  incrementViewingTimer: ->
+    if sessionStorage.hasOwnProperty('viewingTimer')
+      sessionStorage.viewingTimer = parseInt(sessionStorage.viewingTimer, 10) + 1
+    else
+      sessionStorage.viewingTimer = 1
+
+    if sessionStorage.viewingTimer >= 600
+      sessionStorage.viewingTimer = 0
+      @triggerPrompt()
+
+  startTracking: ->
+    unless @timeoutTracker
+      @timeoutTracker = setInterval @incrementViewingTimer, 1000
+
+  stopTracking: ->
+    if @timeoutTracker
+      clearTimeout @timeoutTracker
+      @timeoutTracker = null
+
+  componentDidMount: ->
+    window.addEventListener('focus', @startTracking, false)
+    window.addEventListener('blur', @stopTracking, false)
+    @startTracking()
+
+  componentWillUnmount: ->
+    window.removeEventListener('focus', @startTracking)
+    window.removeEventListener('blur', @stopTracking)
+    @stopTracking()
+
+  resetPrompt: ->
     if @isMounted()
       @setState({ attention: false, expanded: @state.expanded })
 
-  componentDidUpdate: ->
-    if userHasBeenOnlineFor10Minutes()
-      sessionStorage.sessionStartedAt = new Date()
+  triggerPrompt: ->
+    if @isMounted()
       @resetState({ attention: true, expanded: @state.expanded })
 
       # Remove the attention class after 2 seconds
-      setTimeout(@resetAttention, 2000)
+      setTimeout(@resetPrompt, 2000)
 
 module.exports = React.createClass
   displayName: 'AuthBar'
