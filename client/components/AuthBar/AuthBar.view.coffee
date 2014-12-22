@@ -44,18 +44,18 @@ module.exports = React.createClass
   mixins: [AuthMixin, RePromptMixin]
 
   getInitialState: ->
-    closed: false
+    closed: true
     expanded: false
     failedLogin: false
 
   resetState: (newState = {}) ->
-    @setState _.extend({ closed: false, failedLogin: false, expanded: false }, newState)
+    @setState _.extend({ closed: true, failedLogin: false, expanded: false }, newState)
 
   _showPrompt: (expanded) ->
     @resetState closed: false, expanded: expanded
 
   _hidePrompt: ->
-    @resetState closed: true
+    @resetState()
 
   componentDidMount: ->
     auth.on 'authStateChange', @handleLogin
