@@ -24,7 +24,10 @@ module.exports = React.createClass
   sortedHeaderKeys: (headers) ->
     _.pluck @sortedHeaders(headers), 'key'
 
-  toggleExpandCollapse: (event) ->
+  toggleExpandCollapse: ->
+    unless @state.collapsed
+      tablePosition = $(@refs.tableContent.getDOMNode()).offset()
+      scrollTo(tablePosition.left, tablePosition.top)
     @setState collapsed: !@state.collapsed
 
   render: ->
