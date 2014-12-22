@@ -39,9 +39,30 @@ RePromptMixin =
       # Remove the attention class after 2 seconds
       setTimeout(@resetAttention, 2000)
 
+CloseFromKeyboardMixin =
+
+  _closeOnEsc: (e) ->
+    if e.keyCode == 27
+      @resetState()
+
+  _setListener: ->
+    if @state.expanded
+      document.addEventListener 'keyup', @_closeOnEsc
+    else
+      document.removeEventListener 'keyup', @_closeOnEsc
+
+  componentDidMount: ->
+    @_setListener()
+
+  componentDidUpdate: ->
+    @_setListener()
+
+  componentWillUnmount: ->
+    document.removeEventListener 'keyup', @_closeOnEsc
+
 module.exports = React.createClass
   displayName: 'AuthBar'
-  mixins: [AuthMixin, RePromptMixin]
+  mixins: [AuthMixin, RePromptMixin, CloseFromKeyboardMixin]
 
   getInitialState: ->
     closed: true
