@@ -1,17 +1,14 @@
 {div, span, iframe} = React.DOM
 
 # Defines what is required for this module to render
-hasValidData = (guide) ->
-  return false unless guide
-  return false unless guide.get('intro')
-  {caption, duration, videoUrl, imageUrl} = guide.get('intro')
+hasValidData = (content) ->
+  return false unless content
+  {videoUrl, imageUrl} = content
   return false unless imageUrl || videoUrl
   true
 
 module.exports = React.createClass
   displayName: 'Intro'
-  getDefaultProps: ->
-    guide: null
 
   introStyle: (imageUrl, videoUrl) ->
     style = {}
@@ -36,9 +33,9 @@ module.exports = React.createClass
     height: '100%'
 
   render: ->
-    return null unless hasValidData(@props.guide)
+    return null unless hasValidData(@props.content)
 
-    {caption, duration, videoUrl, imageUrl} = @props.guide.get('intro')
+    {caption, duration, videoUrl, imageUrl} = @props.content
 
     div {className: 'guide-module-content'},
       div {className: "guide-module guide-module-intro", style: @introStyle(imageUrl, videoUrl)},

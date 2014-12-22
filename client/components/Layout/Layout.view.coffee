@@ -19,10 +19,13 @@ module.exports = React.createClass
       distinct_id: auth.user?.id
       url: @stripQueryString(unescape(event.currentTarget.href))
 
+  getDefaultProps: ->
+    showNewsletterSignup: false
+
   render: ->
     div {className: "page page-#{@props.name}"},
       div {className: "container"},
         div {className: "container-padding"},
           @props.children
-        new NewsletterSignup guideId: @props.guideId
+        new NewsletterSignup guideId: @props.guideId if @props.showNewsletterSignup
       new Footer

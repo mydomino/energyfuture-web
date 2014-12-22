@@ -1,4 +1,4 @@
-module.exports =
+module.exports = ->
   Intro: require './Intro/Intro.view'
   DidYouKnow: require './DidYouKnow/DidYouKnow.view'
   Fares: require './Fares/Fares.view'

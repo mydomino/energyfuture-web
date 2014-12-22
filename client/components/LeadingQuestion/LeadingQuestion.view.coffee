@@ -2,28 +2,21 @@
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
-
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('leadingQuestion')
-  true
+GuideModules = require('../GuideModules')()
 
 module.exports = React.createClass
   displayName: 'LeadingQuestion'
 
-  getDefaultProps: ->
-    guide: null
-
   getInitialState: ->
-    activeIndex: 0
+    activeOption: null
 
-  setActive: (idx) ->
-    idx = null if idx == @state.activeIndex
-    @setState activeIndex: idx
+  setActiveOption: (option) ->
+    @setState activeOption: option unless _.isEqual(option, @state.activeOption)
 
   render: ->
-    return false unless hasValidData @props.guide
-    {heading, subheading, content, question, type, options} = @props.guide.get('leadingQuestion')
+    leadingQuestion = @props.content
+    return false if _.isEmpty leadingQuestion
+    {heading, subheading, content, question, options} = leadingQuestion
 
     div {className: 'guide-module guide-module-leading-question'},
       h2 {className: 'guide-module-header'}, (heading || "Take Action")
@@ -32,34 +25,27 @@ module.exports = React.createClass
         if content
           p {className: "leading-question-content"}, content
         if question
-          p {className: "leading-question-question #{type}"}, question
+          p {className: "leading-question-question"}, question
 
         dl {className: 'leading-question-list'},
-          switch type
-            when "radio"
-              div {className: "radio-results"},
-                div {className: "options"},
-                  options.map (opt, idx) =>
-                    point = opt.point
-                    openClass = 'active' if idx == @state.activeIndex
-
-                    div {key: "option#{idx}", className: "option-button", onClick: @setActive.bind(this, idx)},
-                      img {className: "option-button-image #{openClass}"}
-                      p {className: "option-button-text"}, point
-
-                  div {className: "clear-both"}
-                if @state.activeIndex?
-                  p {className: "radio-result", dangerouslySetInnerHTML: {"__html": Autolinker.link(options[@state.activeIndex].result)}}
-
-            when "bullet"
+          div {className: "results"},
+            div {className: "options"},
               options.map (opt, idx) =>
-                point = opt.point
-                openClass = 'active' if idx == @state.activeIndex
+                openClass = 'active' if _.isEqual(opt, @state.activeOption)
 
-                [
-                  dt {key: "option#{idx}-point", className: openClass, onClick: @setActive.bind(this, idx)}, point
-                  dd {key: "option#{idx}-result", className: openClass, dangerouslySetInnerHTML: {"__html": Autolinker.link(opt.result)}}
-                ]
+                div {key: "option#{idx}", className: "option-button", onClick: @setActiveOption.bind(this, opt)},
+                  img {className: "option-button-image #{openClass}"}
+                  div {className: "option-button-text"},
+                    p {className: "option-button-text-label"}, opt.label
+                    p {className: "option-button-text-subtext"}, opt.subtext
 
-            else
-              console.warn("Did not understand the Leading Question type.")
+              div {className: "clear-both"}
+
+            if @state.activeOption?
+              div {className: "leading-question-submodule"},
+                _.map @state.activeOption.submodules, (sm, i) =>
+                  activeSubmodule = @props.guide.moduleByKey(sm)
+                  new GuideModules[activeSubmodule?.name]
+                    guide: @props.guide
+                    content: activeSubmodule?.content
+                    key: "submodule-#{sm}-#{i}"

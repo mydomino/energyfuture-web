@@ -8,7 +8,7 @@ Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
-GuideModules = require '../../components/GuideModules.coffee'
+GuideModules = require('../../components/GuideModules.coffee')()
 auth = require '../../auth'
 
 module.exports = React.createClass
@@ -39,12 +39,16 @@ module.exports = React.createClass
     if guide.exists() && @isMounted
       @setState guide: guide
 
+  hideModule: (name) ->
+    $(@refs[name].getDOMNode()).hide()
+    false
+
   render: ->
     if @state.guide
-      {title, summary, category, intro} = @state.guide.attributes
-      modules = @state.guide.modules()
+      {title, summary, category} = @state.guide.attributes
+      modules = @state.guide.sortedModules()
 
-    new Layout {name: 'guide', guideId: @props.params.id},
+    new Layout {name: 'guide', guideId: @props.params.id, showNewsletterSignup: true},
       new NavBar user: @props.user, path: @props.context.pathname
       if !@state.guide
         new LoadingIcon
@@ -60,10 +64,16 @@ module.exports = React.createClass
               p {}, summary
             div {className: "guide-modules"},
               if modules
-                modules.map (moduleName) =>
+                modules.map (module, idx) =>
+                  moduleName = module.name
+                  return if module.submodule?
+
                   if GuideModules[moduleName]
-                    div {key: moduleName},
-                      new GuideModules[moduleName](guide: @state.guide)
+                    div {key: "#{moduleName}-#{idx}"},
+                      new GuideModules[moduleName]
+                        guide: @state.guide
+                        content: module.content
+                        onError: @hideModule.bind(@, moduleName)
                       hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName

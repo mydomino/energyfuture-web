@@ -1,26 +1,34 @@
 .guide-module-faq
   .faq-list
     margin-top 0
+    margin-left 2em
 
     dt
       margin-top 1em
       font-weight normal
-      display list-item
-      list-style-type disc
-      margin-left 3em
+      padding-left 1.2em
       cursor pointer
 
       &:first-child
         margin-top 0
 
-      &.active, &:hover
+      &.active
         font-weight bold
+
+      &:before
+        content: '\f0da'; /* FontAwesome char code inside the '' */
+        font-family: FontAwesome; /* FontAwesome or whatever */
+        display: inline-block;
+        width: 1.2em; /* same as padding-left set on li */
+        margin-left: -1.2em; /* same as padding-left set on li */
+
+      &.active:before
+        content: '\f0d7'
 
     dd
       display none
       margin-top 1em
       font-weight 300
-      margin-left 4em
 
       &.active
         display block

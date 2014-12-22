@@ -8,11 +8,6 @@ Autolinker = require 'autolinker'
 Mixpanel = require '../../models/Mixpanel'
 BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('amazon')
-  true
-
 module.exports = React.createClass
   displayName: 'Amazon'
   mixins: [BindAffiliateLinkMixin]
@@ -25,7 +20,7 @@ module.exports = React.createClass
     guide: {}
 
   products: ->
-    @props.guide.get('amazon').productIds
+    @props.content.productIds
 
   productIds: ->
     _.pluck(_.sortBy(@products(), 'position'), 'id')
@@ -38,8 +33,7 @@ module.exports = React.createClass
     r[1] unless _.isEmpty r
 
   componentDidMount: ->
-    $.get "/amazon-products",
-      products: @productIds()
+    $.ajax(type: 'GET', url: "/amazon-products", data: { products: @productIds() }, timeout: 15000)
     .done (res) =>
       @setState products: res if @isMounted()
     .fail (res) =>
@@ -58,7 +52,8 @@ module.exports = React.createClass
       cat = @productImportanceCategory(product.id)
       div {className: 'product-item', key: "product-item-#{product.id}"},
         a {href: unescape(product.itemLink), className: "product-link mixpanel-affiliate-link", target: '_blank'},
-          img {src: product.imageUrl, className: 'product-image'}
+          span {className: 'product-image-wrapper'},
+            img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},
             span {}, "by"
             span {className: "product-creators"}, product.creators
@@ -68,17 +63,16 @@ module.exports = React.createClass
         div {className: "product-importance-category #{cat}"}, cat
 
   render: ->
-    return false unless hasValidData(@props.guide)
-    return false if @state.dataError
-    amazon = @props.guide.get('amazon')
+    return @props.onError() if @state.dataError
+    amazon = @props.content
+    return false if _.isEmpty amazon
 
-    div {className: 'guide-module guide-module-amazon-products'},
-      h2 {className: 'guide-module-header'}, amazon.heading
-      p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}}
-
-      if _.isEmpty @state.products
-        new LoadingIcon
-      else
+    if _.isEmpty @state.products
+      new LoadingIcon
+    else
+      div {className: 'guide-module guide-module-amazon-products'},
+        h2 {className: 'guide-module-header'}, amazon.heading if amazon.heading?
+        p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}} if amazon.subheading?
         div {className: 'guide-module-content'},
           div {className: 'product-list'},
             if @state.products.length > 3

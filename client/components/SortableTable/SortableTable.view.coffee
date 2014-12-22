@@ -3,11 +3,6 @@
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('sortable-table')
-  true
-
 module.exports = React.createClass
   displayName: 'SortableTable'
 
@@ -31,9 +26,9 @@ module.exports = React.createClass
     $(@refs.readMore.getDOMNode()).hide()
 
   render: ->
-    return false unless hasValidData(@props.guide)
+    sortableTable = @props.content
+    return false if _.isEmpty sortableTable
 
-    sortableTable = @props.guide.get('sortable-table')
     sortedHeaderTitles = @sortedHeaderTitles(sortableTable.headers)
     sortedHeaderKeys = @sortedHeaderKeys(sortableTable.headers)
     div {className: 'guide-module guide-module-sortable-table'},
@@ -42,13 +37,13 @@ module.exports = React.createClass
       div {className: 'guide-module-content'},
         table {ref: 'tableContent'},
           thead {},
-            _.map sortedHeaderTitles, (title) ->
-              th {}, title
+            _.map sortedHeaderTitles, (title, i) ->
+              th {key: "sorted-header-titles-#{i}"}, title
           tbody {},
-            _.map sortableTable.content, (row) ->
-              tr {},
-              _.map sortedHeaderKeys, (key) ->
-                td {dangerouslySetInnerHTML: {"__html": row[key]}},
+            _.map sortableTable.content, (row, i) ->
+              tr {key: "sorted-content-#{i}"},
+              _.map sortedHeaderKeys, (key, i) ->
+                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key].replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')}},
         div {className: 'sortable-table-read-more', ref: 'readMore'},
           div {className: 'read-more-mask'}
           img {className : 'read-more-button', src: '/img/show-more.svg', onClick: @showMore}

@@ -6,11 +6,6 @@ LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Mixpanel = require '../../models/Mixpanel'
 BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('yelp')
-  true
-
 module.exports = React.createClass
   displayName: 'Yelp'
   mixins: [BindAffiliateLinkMixin]
@@ -19,17 +14,14 @@ module.exports = React.createClass
     data: []
     dataError: false
 
-  getDefaultProps: ->
-    guide: {}
-
   componentDidMount: ->
-    y = @props.guide.get('yelp')
+    y = @props.content
     query =
       term: y.searchTerms[0]
-      location: "San Fransisco"
+      location: "Fort Collins"
       limit: y.limit
 
-    $.get("/yelp-listings", query)
+    $.ajax(type: 'GET', url: "/yelp-listings", data: query, timeout: 8000)
     .done((res) =>
       @setState data: res if @isMounted())
     .fail((res) =>
@@ -37,10 +29,8 @@ module.exports = React.createClass
       @setState dataError: true if @isMounted())
 
   addressText: (l) ->
-    {
-      "line1": l.address.join(" ")
-      "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
-    }
+    "line1": l.address.join(" ")
+    "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
 
   parseRestaurantInfo: (url) ->
     r = url.match /biz\/(.*)/
@@ -54,15 +44,16 @@ module.exports = React.createClass
       restaurant: @parseRestaurantInfo(event.currentTarget.href)
 
   render: ->
-    return false unless hasValidData(@props.guide)
-    yelp = @props.guide.get('yelp')
+    return @props.onError() if @state.dataError
+    yelp = @props.content
+    return false if _.isEmpty yelp
 
     if _.isEmpty @state.data
       new LoadingIcon
     else
       div {className: "guide-module guide-module-yelp"},
         h2 {className: "guide-module-header"}, yelp.heading
-        p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": "Powered by <a href='yelp.com'>Yelp</a>"}}
+        p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": (yelp.subheading or "Powered by <a href='yelp.com'>Yelp</a>")}}
 
         div {className: 'guide-module-content'},
           ul {className: 'yelp-list'},

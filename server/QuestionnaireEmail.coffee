@@ -3,9 +3,11 @@ password = process.env.SENDGRID_PASSWORD
 recipients = process.env.EMAIL_RECIPIENTS
 from = process.env.EMAIL_HOST
 Sendgrid = require('sendgrid')(username, password)
+moment = require 'moment'
 
 jsonToText = (json) ->
-  text = ["<p>A new questionnaire response has been submitted</p>"]
+  submissionTime = moment().format('MMMM Do YYYY, h:mm a')
+  text = ["<p>A new questionnaire response has been submitted at #{submissionTime}.</p>"]
   for key, value of json
     if ['guide_id', 'user_id'].indexOf(key) == -1
       label = key.replace(/\-/g, ' ')

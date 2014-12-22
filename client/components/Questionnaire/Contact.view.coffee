@@ -38,7 +38,7 @@ module.exports = React.createClass
       h2 {}, "What's your email address?"
       input {type: 'email', required: true, name: 'contact-email', defaultValue: @props.answers['contact-email']}
       h2 {}, "What's your phone number?"
-      input {required: true, name: 'contact-phone', required: true, defaultValue: @props.answers['contact-phone']}
+      input {type: 'tel', required: true, name: 'contact-phone', required: true, defaultValue: @props.answers['contact-phone']}
       h2 {}, "What's your address?"
       textarea {name: 'contact-address', defaultValue: @props.answers['contact-address']}
       new RadioButton(radio: radioData, answers: @props.answers)

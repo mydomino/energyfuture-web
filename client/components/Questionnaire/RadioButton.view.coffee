@@ -15,7 +15,7 @@ module.exports = React.createClass
       h2 {className: 'questionnaire-radio-header'}, radio.text
       div {},
         _.map radio.options, (option, index) =>
-          optionId = "option-#{index}"
+          optionId = "#{radio.name}-option-#{index}"
           required = if (radio.required && index == 0) then true else false
           checked = @props.answers[radio.name] == option.value
           div {className: 'questionnaire-radio-input', key: optionId},

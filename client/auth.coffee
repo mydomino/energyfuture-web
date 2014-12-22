@@ -2,6 +2,7 @@ firebase = require './firebase'
 emitter = require('events').EventEmitter
 User = require './models/User'
 Mixpanel = require './models/Mixpanel'
+_ = require 'lodash'
 
 collectProviderUserData = (provider, user) ->
   if provider == 'twitter'
@@ -15,7 +16,7 @@ collectTwitterUserData = (user) ->
   provider_id: user.id
   displayName: user.name
   provider: 'twitter'
-  profile_image_url: user.profile_background_image_url_https
+  profile_image_url: user.profile_image_url_https
   location: user.location
 
 collectFacebookUserData = (user) ->
@@ -42,6 +43,7 @@ class Auth extends emitter
   _firebase: null
   _client: null
   _loaded: false
+  _pendingCallbacks: []
 
   _clearUser: ->
     @user = null
@@ -80,6 +82,9 @@ class Auth extends emitter
       @_setupUser userData, =>
         @loggedIn = true
         @emit('authStateChange', { user: @user })
+        @_pendingCallbacks = _.reject @_pendingCallbacks, (func) ->
+          func()
+          true
     else
       @_clearUser()
       @loggedIn = false
@@ -102,8 +107,11 @@ class Auth extends emitter
     @_firebase.unauth()
     window.location.reload()
 
-  prompt: ->
-    @emit('show-auth-prompt')
+  prompt: (expanded = false, onSuccess) ->
+    if onSuccess && _.isFunction(onSuccess)
+      @_pendingCallbacks.push(onSuccess)
+
+    @emit('show-auth-prompt', expanded)
 
   unprompt: ->
     @emit('hide-auth-prompt')

@@ -3,11 +3,6 @@
 _ = require 'lodash'
 IncentiveModal = require '../IncentiveModal/IncentiveModal.view'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false unless guide.get('incentives')
-  true
-
 CutLength = 90
 
 module.exports = React.createClass
@@ -33,8 +28,8 @@ module.exports = React.createClass
     "#{d.slice(0, wordBoundary)} #{String.fromCharCode(8230)}"
 
   render: ->
-    return false unless hasValidData @props.guide
-    incentives = @props.guide.get('incentives')
+    incentives = @props.content
+    return false if _.isEmpty incentives
 
     div {},
       h2 {className: "guide-module-header"}, "incentives"

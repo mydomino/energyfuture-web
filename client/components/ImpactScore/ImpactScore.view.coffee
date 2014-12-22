@@ -27,5 +27,4 @@ module.exports = React.createClass
       color: @props.color
 
     span {className: 'impact-score', style: style},
-      i {className: 'pu-icon-impact'}
-      formatScore(@props.score)
+      formatScore(@props.score) + "%"

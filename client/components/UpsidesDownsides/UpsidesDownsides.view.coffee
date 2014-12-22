@@ -4,11 +4,10 @@ _ = require 'lodash'
 Autolinker = require 'autolinker'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 
-# Defines what is required for this module to render
-hasValidData = (guide) ->
-  return false unless guide
-  return false unless guide.get('upsides')
-  return false unless guide.get('downsides')
+hasValidData = (content) ->
+  return false unless content
+  return false if _.isEmpty content.upsides
+  return false if _.isEmpty content.downsides
   true
 
 module.exports = React.createClass
@@ -18,16 +17,18 @@ module.exports = React.createClass
     guide: null
 
   render: ->
-    return false unless hasValidData @props.guide
-    {upsides, downsides} = @props.guide.attributes
+    return false unless hasValidData @props.content
+    {upsides, downsides} = @props.content
 
     div {className: "guide-module guide-module-upsidesdownsides"},
       ul {className: "upside"},
-        h2 {}, "upside"
-        upsides.map (upside, idx) ->
-          li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(upside)}}
+        h2 {className: "guide-module-header"}, "upside"
+        div {className: 'guide-module-content'},
+          upsides.map (upside, idx) ->
+            li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(upside)}}
       ul {className: "downside"},
-        h2 {}, "downside"
-        downsides.map (downside, idx) ->
-          li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(downside)}}
+        h2 {className: "guide-module-header"}, "downside"
+        div {className: 'guide-module-content'},
+          downsides.map (downside, idx) ->
+            li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(downside)}}
       div {className: "clear-both"}

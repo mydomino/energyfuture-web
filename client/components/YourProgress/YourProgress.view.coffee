@@ -41,18 +41,18 @@ module.exports = React.createClass
             _.map @props.categorizedGuides, (_, category) =>
               catPerc = Math.round((@categoryScore(category)) * 100)
 
-              li {},
+              li {key: "guide-category-#{category}"},
                 div {className: "guide-progress"},
                   div {className: "striped", style: {height: "#{catPerc}%"}},
                     span {className: "guide-progress-text"}, "#{catPerc}%"
                   div {className: "guide-progress-completed", ref: "progressCompletedFor#{category}"}
                   div {className: "category-name"}, category
 
-          _.map @props.categorizedGuides, (guides) =>
-            div {className: "guide-list"},
+          _.map @props.categorizedGuides, (guides, i) =>
+            div {className: "guide-list", key: "guide-list-#{i}"},
               ul {},
-                _.map guides, (g) =>
-                  li {onMouseEnter: @setCompletedProgress.bind(@, g.attributes.category, Number(g.attributes.score)), onMouseLeave: @setCompletedProgress.bind(@, g.attributes.category, Number(0)), onClick: @viewGuide.bind(@, g.id)},
+                _.map guides, (g, gi) =>
+                  li {onMouseEnter: @setCompletedProgress.bind(@, g.attributes.category, Number(g.attributes.score)), onMouseLeave: @setCompletedProgress.bind(@, g.attributes.category, Number(0)), onClick: @viewGuide.bind(@, g.id), key: "guide-#{gi}"},
                     span {className: "item-point"}
                     span {className: "item-text"}, g.get('title')
 

@@ -12,5 +12,5 @@ module.exports = React.createClass
   render: ->
     span {className: "dropdown-component"},
       select {onChange: @changeAction, value: @props.selectedOption},
-        _.map @props.data, (entry) ->
-          option {value: entry.value}, entry.name
+        _.map @props.data, (entry, index) ->
+          option {key: "#{entry.value}-#{index}", value: entry.value}, entry.name

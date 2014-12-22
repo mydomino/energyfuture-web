@@ -8,14 +8,15 @@ module.exports = class Guide extends DominoModel
   category: ->
     @attributes['category']
 
-  didYouKnows: ->
-    _.map @attributes['whatToKnow'], (i) -> i.content
-
-  modules: ->
-    _.pluck _.sortBy(@attributes['modules'], 'position'), 'name'
+  sortedModules: ->
+    _.sortBy(_.values(@attributes['modules']), 'position')
 
   score: ->
     parseInt(@get('score'), 10)
 
   exists: ->
     !!@attributes
+
+  moduleByKey: (moduleKey) ->
+    _.find @attributes['modules'], (_, k) ->
+      k == moduleKey
