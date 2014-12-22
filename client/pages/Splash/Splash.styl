@@ -1,20 +1,38 @@
 body.body-splash
-  background-color white
   text-align center
+  overflow hidden
 
+  .page-splash
+    position fixed
+    background-color rgba(0,0,0,0.9)
+    top 0
+    left 0
+    right 0
+    bottom 0
+    z-index 1200
+    color rgba(95,169,233,1)
   .splash-header
     font-size 3.5em
     font-weight normal
-    margin-top 70px
+    margin-top 20px
+    line-height 1
   .splash-subheader
     font-size 1.6em
     font-weight 300
+    margin 10px 0
   .splash-logo
-    margin-top 20px
-  .splash-button
-    display block
-    background #272B2C
-    font-size 1.2em
-    width 300px
-    margin 0px auto 100px
-    color white
+    margin-top 60px
+    max-height: 300px
+    max-height: 40vh
+  .splash-cta
+    .splash-button
+      display block
+      background #A44742
+      font-size 1.2em
+      width 300px
+      margin 60px auto 0
+      color white
+      border-radius 5px
+    p
+      color white
+      font-size 0.9em
