@@ -17,8 +17,20 @@
     margin-top 2em
 
 .guides-intro-annotation
-  background-image url(/img/less-carbon-tagline.png)
-  width 532px
-  height 118px
+  background-image url("../img/easy-savings-tagline.png")
+  background-size 500px 78px
+  width 500px
+  height 78px
   position absolute
   display none
+
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx)
+
+  .guides-intro-annotation
+    background-image url("../img/easy-savings-tagline@2X.png")
