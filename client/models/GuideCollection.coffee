@@ -3,7 +3,7 @@ Guide = require './Guide'
 DominoCollection = require './DominoCollection'
 
 module.exports = class GuideCollection extends DominoCollection
-  url: -> "/newGuides"
+  url: -> "/guides"
 
   guidesByCategory: ->
     _.reduce @models, ((memo, m) =>
