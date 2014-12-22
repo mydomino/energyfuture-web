@@ -3,11 +3,6 @@
 _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('yelp')
-  true
-
 module.exports = React.createClass
   displayName: 'Yelp'
 
@@ -15,14 +10,11 @@ module.exports = React.createClass
     data: []
     dataError: false
 
-  getDefaultProps: ->
-    guide: {}
-
   componentDidMount: ->
-    y = @props.guide.get('yelp')
+    y = @props.content
     query =
       term: y.searchTerms[0]
-      location: "San Fransisco"
+      location: "Fort Collins"
       limit: y.limit
 
     $.ajax(type: 'GET', url: "/yelp-listings", data: query, timeout: 8000)
@@ -37,10 +29,9 @@ module.exports = React.createClass
     "line2": "#{l.city}, #{l.state_code} #{l.postal_code}"
 
   render: ->
-    return false unless hasValidData(@props.guide)
     return @props.onError() if @state.dataError
-
-    yelp = @props.guide.get('yelp')
+    yelp = @props.content
+    return false if _.isEmpty yelp
 
     if _.isEmpty @state.data
       new LoadingIcon

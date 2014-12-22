@@ -1,10 +1,7 @@
 {div, h2} = React.DOM
+_ = require 'lodash'
 
 Carousel = require '../../components/Carousel/Carousel.view'
-
-hasValidData = (guide) ->
-  return false unless guide
-  true
 
 module.exports = React.createClass
   displayName: 'QuickTips'
@@ -13,9 +10,8 @@ module.exports = React.createClass
     guide: null
 
   render: ->
-    return false unless hasValidData @props.guide
-
-    items = @props.guide.get('quickTips')
+    items = @props.content
+    return false if _.isEmpty items
 
     div {className: "guide-module"},
       h2 {className: 'guide-module-header'}, "Quick tips"

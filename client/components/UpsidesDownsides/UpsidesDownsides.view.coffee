@@ -4,11 +4,10 @@ _ = require 'lodash'
 Autolinker = require 'autolinker'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 
-# Defines what is required for this module to render
-hasValidData = (guide) ->
-  return false unless guide
-  return false unless guide.get('upsides')
-  return false unless guide.get('downsides')
+hasValidData = (content) ->
+  return false unless content
+  return false if _.isEmpty content.upsides
+  return false if _.isEmpty content.downsides
   true
 
 module.exports = React.createClass
@@ -18,8 +17,8 @@ module.exports = React.createClass
     guide: null
 
   render: ->
-    return false unless hasValidData @props.guide
-    {upsides, downsides} = @props.guide.attributes
+    return false unless hasValidData @props.content
+    {upsides, downsides} = @props.content
 
     div {className: "guide-module guide-module-upsidesdownsides"},
       ul {className: "upside"},

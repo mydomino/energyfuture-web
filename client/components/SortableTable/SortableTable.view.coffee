@@ -3,11 +3,6 @@
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('sortable-table')
-  true
-
 module.exports = React.createClass
   displayName: 'SortableTable'
 
@@ -31,9 +26,9 @@ module.exports = React.createClass
     $(@refs.readMore.getDOMNode()).hide()
 
   render: ->
-    return false unless hasValidData(@props.guide)
+    sortableTable = @props.content
+    return false if _.isEmpty sortableTable
 
-    sortableTable = @props.guide.get('sortable-table')
     sortedHeaderTitles = @sortedHeaderTitles(sortableTable.headers)
     sortedHeaderKeys = @sortedHeaderKeys(sortableTable.headers)
     div {className: 'guide-module guide-module-sortable-table'},
