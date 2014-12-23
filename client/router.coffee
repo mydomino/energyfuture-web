@@ -59,7 +59,8 @@ Router = React.createClass
 
   render: ->
     React.DOM.div {},
-      new AuthBar loggedIn: auth.loggedIn
+      unless @state.component.displayName == 'EmailLoginRegister'
+        new AuthBar loggedIn: auth.loggedIn
       new @state.component
         params: @state.params
         querystring: @state.querystring
@@ -73,6 +74,7 @@ routes =
   ]
   pages:[
     ["/", require('./pages/Splash/Splash.view'), 'splash']
+    ["/login", require('./pages/EmailLoginRegister/EmailLoginRegister.view'), 'login-register']
     ["/about", require('./pages/AboutUs/AboutUs.view'), 'aboutus']
     ["/contact", require('./pages/ContactUs/ContactUs.view'), 'contactus']
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']

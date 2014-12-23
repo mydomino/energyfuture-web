@@ -3,6 +3,10 @@ auth = require '../../auth'
 _ = require 'lodash'
 
 AuthMixin =
+  loginEmail: ->
+    @setState closed: true
+    page('/login')
+
   loginFacebook: ->
     auth.login 'facebook'
 
@@ -117,15 +121,19 @@ module.exports = React.createClass
         p {},
           'Hmm... Something went wrong. Let\'s try that again: '
           a {onClick: @loginFacebook}, 'Facebook'
-          ' or '
+          ', '
           a {onClick: @loginTwitter}, 'Twitter'
+          ', or '
+          a {onClick: @loginEmail}, 'Email'
     else
       div {className: 'auth-bar-content-collapsed'},
         p {},
           'Log in with '
           a {onClick: @loginFacebook}, 'Facebook'
-          ' or '
+          ', '
           a {onClick: @loginTwitter}, 'Twitter'
+          ', or '
+          a {onClick: @loginEmail}, 'Email'
           ' to save your impact and sync with mobile.'
 
   expandedView: (failed) ->
@@ -141,6 +149,7 @@ module.exports = React.createClass
       p {}, subtitle
       a {className: 'btn', onClick: @loginFacebook}, 'Log in with Facebook'
       a {className: 'btn', onClick: @loginTwitter}, 'Log in with Twitter'
+      a {className: 'btn', onClick: @loginEmail}, 'Log in with Email'
 
   render: ->
     return null if @props.loggedIn or @state.closed
