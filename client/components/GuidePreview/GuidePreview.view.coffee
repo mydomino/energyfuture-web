@@ -42,4 +42,4 @@ module.exports = React.createClass
         p {className: "guide-preview-summary"}, summary
         div {className: "guide-preview-impact-score"},
           new ImpactScore score: @props.guide.score(), color: color
-          span {className: "impact-text"}, "impact"
+          div {className: "impact-text"}, "impact"
