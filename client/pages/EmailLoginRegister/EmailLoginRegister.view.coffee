@@ -157,3 +157,6 @@ module.exports = React.createClass
   render: ->
     div {className: 'auth'},
       new actions[@state.action] actionChangeCallback: @switchAction
+      p {},
+        'Changed your mind? Head '
+        a {href: '/guides'}, 'back to the guides'
