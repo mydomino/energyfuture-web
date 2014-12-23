@@ -3,7 +3,6 @@
 NewsletterSignup = require '../NewsletterSignupForm/NewsletterSignupForm.view'
 Footer = require '../Footer/Footer.view'
 BindExternalLinkMixin = require '../../mixins/BindExternalLinkMixin'
-Mixpanel = require '../../models/Mixpanel'
 auth = require '../../auth'
 
 module.exports = React.createClass
@@ -15,9 +14,7 @@ module.exports = React.createClass
     url.slice(0, url.indexOf '?')
 
   trackExternalLinkAction: (event) ->
-    Mixpanel.emit 'analytics.external.click',
-      distinct_id: auth.user?.id
-      url: @stripQueryString(unescape(event.currentTarget.href))
+    mixpanel.track 'View External Link', url: @stripQueryString(unescape(event.currentTarget.href))
 
   getDefaultProps: ->
     showNewsletterSignup: false

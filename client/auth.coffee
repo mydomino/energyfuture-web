@@ -1,7 +1,6 @@
 firebase = require './firebase'
 emitter = require('events').EventEmitter
 User = require './models/User'
-Mixpanel = require './models/Mixpanel'
 _ = require 'lodash'
 
 collectProviderUserData = (provider, user) ->
@@ -57,19 +56,23 @@ class Auth extends emitter
     # Check to see what data we have stored for the user
     @_userRef.once 'value', (snap) =>
       if snap.val()
+        mixpanel.identify snap.name()
         userData = snap.val()
       else
         userData = collectProviderUserData user.provider, user
         # save new user's profile into Firebase so we can
         # list users, use them in security rules, and show profiles
         @_userRef.set userData
+        mixpanel.alias(user.uid)
+        mixpanel.people.set $name: userData.displayName
+        mixpanel.identify(user.uid)
+        mixpanel.track 'User Login'
 
       @_userData = userData
       @_userId = user.uid
 
       userData.uid = user.uid
       @user = new User(userData)
-      Mixpanel.setUser(@user)
       callback() if callback
 
   _onAuthStateChange: (error, userData) ->
@@ -97,9 +100,8 @@ class Auth extends emitter
       @_onAuthStateChange(false, auth)
 
   login: (provider, opts = {}) ->
-    Mixpanel.emit 'analytics.login.openmodal'
+    mixpanel.track 'View Login Modal'
     @_firebase.authWithOAuthPopup provider, (error, userData) =>
-      Mixpanel.emit 'analytics.login.userlogin', distinct_id: userData.uid if userData
       @_onAuthStateChange(error, userData)
     , opts
 

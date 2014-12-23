@@ -5,7 +5,6 @@ auth = require '../../auth'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
-Mixpanel = require '../../models/Mixpanel'
 BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
 module.exports = React.createClass
@@ -41,10 +40,9 @@ module.exports = React.createClass
       @setState dataError: true if @isMounted()
 
   trackAffiliateLinkAction: (event) ->
-    Mixpanel.emit 'analytics.affiliate.click',
+    mixpanel.track 'View Affiliate Link',
       affiliate: 'amazon'
       guide_id: @props.guide.id
-      distinct_id: auth.user?.id
       product: @parseProductName(event.currentTarget.href)
 
   productItems: ->

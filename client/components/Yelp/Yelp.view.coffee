@@ -3,7 +3,6 @@
 _ = require 'lodash'
 auth = require '../../auth'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
-Mixpanel = require '../../models/Mixpanel'
 BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
 module.exports = React.createClass
@@ -37,10 +36,9 @@ module.exports = React.createClass
     r[1] unless _.isEmpty r
 
   trackAffiliateLinkAction: (event) ->
-    Mixpanel.emit 'analytics.affiliate.click',
+    Mixpanel.track 'View Affliate Link',
       affiliate: 'yelp'
       guide_id: @props.guide.id
-      distinct_id: auth.user?.id
       restaurant: @parseRestaurantInfo(event.currentTarget.href)
 
   render: ->
