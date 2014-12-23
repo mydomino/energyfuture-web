@@ -1,7 +1,7 @@
 {div, h2, p, a, span} = React.DOM
 
 _ = require 'lodash'
-IncentiveModal = require '../IncentiveModal/IncentiveModal.view'
+IncentiveModal = React.createFactory(require '../IncentiveModal/IncentiveModal.view')
 
 CutLength = 90
 

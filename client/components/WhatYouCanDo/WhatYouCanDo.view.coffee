@@ -1,7 +1,7 @@
 {div, h2, p} = React.DOM
 
 _ = require 'lodash'
-CallToAction = require '../CallToAction/CallToAction.view'
+CallToAction = React.createFactory(require '../CallToAction/CallToAction.view')
 
 module.exports = React.createClass
   displayName: 'whatYouCanDo'

@@ -5,14 +5,14 @@ auth = require '../../auth'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
 UserGuides = require '../../models/UserGuides'
-Layout = require '../../components/Layout/Layout.view'
-NavBar = require '../../components/NavBar/NavBar.view'
-DropdownComponent = require '../../components/Dropdown/Dropdown.view'
-YourProgress = require '../../components/YourProgress/YourProgress.view'
-ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
-UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
+Layout = React.createFactory(require '../../components/Layout/Layout.view')
+NavBar = React.createFactory(require '../../components/NavBar/NavBar.view')
+DropdownComponent = React.createFactory(require '../../components/Dropdown/Dropdown.view')
+YourProgress = React.createFactory(require '../../components/YourProgress/YourProgress.view')
+ImpactScore = React.createFactory(require '../../components/ImpactScore/ImpactScore.view')
+UserPhoto = React.createFactory(require '../../components/UserPhoto/UserPhoto.view')
 
-FootprintHeader = React.createClass
+FootprintHeader = React.createFactory React.createClass
   displayName: 'FootprintHeader'
   render: ->
     div {className: "footprint-header"},

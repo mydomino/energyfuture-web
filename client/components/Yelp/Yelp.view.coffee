@@ -1,7 +1,7 @@
 {div, p, img, span, h2, h3, a, ul, li} = React.DOM
 
 _ = require 'lodash'
-LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
+LoadingIcon = React.createFactory(require '../LoadingIcon/LoadingIcon.view')
 
 module.exports = React.createClass
   displayName: 'Yelp'

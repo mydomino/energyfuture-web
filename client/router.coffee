@@ -1,7 +1,7 @@
 auth = require './auth'
-AuthBar = require './components/AuthBar/AuthBar.view'
+AuthBar = React.createFactory(require './components/AuthBar/AuthBar.view')
 
-LoadingScreen = React.createClass
+LoadingScreen = React.createFactory React.createClass
   displayName: 'LoadingScreen'
   render: ->
     React.DOM.div({}, 'Loading')
@@ -32,7 +32,7 @@ addPage = (route) ->
 
   return
 
-Router = React.createClass
+Router = React.createFactory React.createClass
   displayName: 'Router'
   componentDidMount: ->
     @props.routes.middleware.forEach addMiddleware.bind(this)
@@ -73,19 +73,19 @@ routes =
     ["*", require('./middleware/categories')]
   ]
   pages:[
-    ["/", require('./pages/Splash/Splash.view'), 'splash']
-    ["/login", require('./pages/EmailLoginRegister/EmailLoginRegister.view'), 'login-register']
-    ["/about", require('./pages/AboutUs/AboutUs.view'), 'aboutus']
-    ["/contact", require('./pages/ContactUs/ContactUs.view'), 'contactus']
-    ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
-    ["/guides", require('./pages/Guides/Guides.view'), 'guides']
-    ["/guides/:id", require('./pages/Guide/Guide.view'), 'guide']
-    ["/guides/:guide_id/questionnaire", require('./pages/Questionnaire/Questionnaire.view'), 'guide']
-    ["*", require('./pages/NotFound/NotFound.view'), 'not-found']
+    ["/", React.createFactory(require('./pages/Splash/Splash.view')), 'splash']
+    ["/login", React.createFactory(require('./pages/EmailLoginRegister/EmailLoginRegister.view')), 'login-register']
+    ["/about", React.createFactory(require('./pages/AboutUs/AboutUs.view')), 'aboutus']
+    ["/contact", React.createFactory(require('./pages/ContactUs/ContactUs.view')), 'contactus']
+    ["/footprint", React.createFactory(require('./pages/Footprint/Footprint.view')), 'footprint']
+    ["/guides", React.createFactory(require('./pages/Guides/Guides.view')), 'guides']
+    ["/guides/:id", React.createFactory(require('./pages/Guide/Guide.view')), 'guide']
+    ["/guides/:guide_id/questionnaire", React.createFactory(require('./pages/Questionnaire/Questionnaire.view')), 'guide']
+    ["*", React.createFactory(require('./pages/NotFound/NotFound.view')), 'not-found']
   ]
 
 app =
   start: ->
-    React.renderComponent new Router(routes: routes), document.querySelector("body")
+    React.render new Router(routes: routes), document.querySelector("body")
 
 module.exports = app

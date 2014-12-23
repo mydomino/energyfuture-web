@@ -4,10 +4,10 @@ _ = require 'lodash'
 Guide = require '../../models/Guide'
 TipCollection = require '../../models/TipCollection'
 Mixpanel = require '../../models/Mixpanel'
-Layout = require '../../components/Layout/Layout.view'
-NavBar = require '../../components/NavBar/NavBar.view'
-LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
-ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
+Layout = React.createFactory(require '../../components/Layout/Layout.view')
+NavBar = React.createFactory(require '../../components/NavBar/NavBar.view')
+LoadingIcon = React.createFactory(require '../../components/LoadingIcon/LoadingIcon.view')
+ImpactSidebar = React.createFactory(require '../../components/ImpactSidebar/ImpactSidebar.view')
 GuideModules = require('../../components/GuideModules.coffee')()
 auth = require '../../auth'
 

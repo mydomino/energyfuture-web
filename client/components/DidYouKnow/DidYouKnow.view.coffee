@@ -1,7 +1,7 @@
 {div, h2} = React.DOM
 _ = require 'lodash'
 
-Carousel = require '../../components/Carousel/Carousel.view'
+Carousel = React.createFactory(require '../Carousel/Carousel.view')
 
 hasValidData = (content) ->
   not _.isEmpty(content)

@@ -1,7 +1,7 @@
 {div, p, a, span, br} = React.DOM
 
-NewsletterSignup = require '../NewsletterSignupForm/NewsletterSignupForm.view'
-Footer = require '../Footer/Footer.view'
+NewsletterSignup = React.createFactory(require '../NewsletterSignupForm/NewsletterSignupForm.view')
+Footer = React.createFactory(require '../Footer/Footer.view')
 
 module.exports = React.createClass
   displayName: 'Layout'

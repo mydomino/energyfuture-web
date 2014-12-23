@@ -3,11 +3,11 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 GuideCollection = require '../../models/GuideCollection'
-Layout = require '../../components/Layout/Layout.view'
-DropdownComponent = require '../../components/Dropdown/Dropdown.view'
-NavBar = require '../../components/NavBar/NavBar.view'
-GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
-LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+Layout = React.createFactory(require '../../components/Layout/Layout.view')
+DropdownComponent = React.createFactory(require '../../components/Dropdown/Dropdown.view')
+NavBar = React.createFactory(require '../../components/NavBar/NavBar.view')
+GuidePreview = React.createFactory(require '../../components/GuidePreview/GuidePreview.view')
+LoadingIcon = React.createFactory(require '../../components/LoadingIcon/LoadingIcon.view')
 
 posClass = (num) ->
   return 'guide-preview-third' if (num + 1) % 3 == 0

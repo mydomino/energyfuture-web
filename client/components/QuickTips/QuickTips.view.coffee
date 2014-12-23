@@ -1,7 +1,7 @@
 {div, h2} = React.DOM
 _ = require 'lodash'
 
-Carousel = require '../../components/Carousel/Carousel.view'
+Carousel = React.createFactory(require '../../components/Carousel/Carousel.view')
 
 module.exports = React.createClass
   displayName: 'QuickTips'

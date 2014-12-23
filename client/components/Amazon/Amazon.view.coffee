@@ -1,8 +1,8 @@
 {div, p, img, span, h2, a} = React.DOM
 
 _ = require 'lodash'
-LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
-Carousel = require '../Carousel/Carousel.view'
+LoadingIcon = React.createFactory(require '../LoadingIcon/LoadingIcon.view')
+Carousel = React.createFactory(require '../Carousel/Carousel.view')
 Autolinker = require 'autolinker'
 
 module.exports = React.createClass

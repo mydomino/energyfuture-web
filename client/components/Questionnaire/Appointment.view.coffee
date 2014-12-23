@@ -2,8 +2,8 @@
 
 _ = require 'lodash'
 moment = require 'moment'
-RadioButton = require './RadioButton.view'
-Action = require './Action.view'
+RadioButton = React.createFactory(require './RadioButton.view')
+Action = React.createFactory(require './Action.view')
 auth = require '../../auth'
 Mixpanel = require '../../models/Mixpanel'
 

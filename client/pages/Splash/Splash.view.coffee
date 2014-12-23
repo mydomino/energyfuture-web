@@ -1,7 +1,7 @@
 {div, h1, p, a, img} = React.DOM
 
 firebase = require '../../firebase'
-Guides = require '../Guides/Guides.view'
+Guides = React.createFactory(require '../Guides/Guides.view')
 
 module.exports = React.createClass
   displayName: 'Splash'

@@ -1,8 +1,8 @@
 {h2, div, label, input, textarea} = React.DOM
 _ = require 'lodash'
 
-RadioButton = require './RadioButton.view.coffee'
-PaginateActions = require './PaginateActions.view.coffee'
+RadioButton = React.createFactory(require './RadioButton.view.coffee')
+PaginateActions = React.createFactory(require './PaginateActions.view.coffee')
 
 module.exports = React.createClass
   displayName: 'Fieldset'

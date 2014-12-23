@@ -1,9 +1,9 @@
 {div, h2, h3, p, span} = React.DOM
 
 _ = require 'lodash'
-Dropdown = require '../Dropdown/Dropdown.view'
+Dropdown = React.createFactory(require '../Dropdown/Dropdown.view')
 
-SavingsGraphItem = React.createClass
+SavingsGraphItem = React.createFactory React.createClass
   displayName: 'SavingsGraphItem'
   getDefaultProps: ->
     width: 100
@@ -23,7 +23,7 @@ SavingsGraphItem = React.createClass
         else
           p {className: "progress-value"}, @props.value
 
-SavingsGraph = React.createClass
+SavingsGraph = React.createFactory React.createClass
   displayName: 'SavingsGraph'
   getDefaultProps: ->
     title: 'Savings Graph'
@@ -48,7 +48,7 @@ SavingsGraph = React.createClass
         width: @props.potential.value / @props.current.value * containerWidthPercent * 100
         unit: @props.unit
 
-SavingsCalculatorFilter = React.createClass
+SavingsCalculatorFilter = React.createFactory React.createClass
   displayName: 'SavingsCalculatorFilter'
   getDefaultProps: ->
     locations: [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]

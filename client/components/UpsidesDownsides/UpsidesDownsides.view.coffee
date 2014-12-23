@@ -2,7 +2,7 @@
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
-LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+LoadingIcon = React.createFactory(require '../../components/LoadingIcon/LoadingIcon.view')
 
 hasValidData = (content) ->
   return false unless content

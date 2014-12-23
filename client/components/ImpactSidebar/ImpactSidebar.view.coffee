@@ -3,7 +3,7 @@
 auth = require '../../auth'
 Categories = require '../../models/singletons/Categories'
 UserGuides = require '../../models/UserGuides'
-ImpactScore = require '../ImpactScore/ImpactScore.view'
+ImpactScore = React.createFactory(require '../ImpactScore/ImpactScore.view')
 
 positionSidebar = (element) ->
   anchor = element.parentElement

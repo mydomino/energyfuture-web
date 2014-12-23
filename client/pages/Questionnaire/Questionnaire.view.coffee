@@ -1,7 +1,7 @@
 {div, iframe} = React.DOM
 
-Layout = require '../../components/Layout/Layout.view'
-NavBar = require '../../components/NavBar/NavBar.view'
+Layout = React.createFactory(require '../../components/Layout/Layout.view')
+NavBar = React.createFactory(require '../../components/NavBar/NavBar.view')
 
 module.exports = React.createClass
   displayName: 'Questionnaire'

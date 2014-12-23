@@ -1,6 +1,6 @@
 {div, h2, p, span} = React.DOM
 Categories = require '../../models/singletons/Categories'
-ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
+ImpactScore = React.createFactory(require '../ImpactScore/ImpactScore.view')
 
 _ = require 'lodash'
 

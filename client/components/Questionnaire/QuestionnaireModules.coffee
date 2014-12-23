@@ -1,4 +1,4 @@
 module.exports =
-  Contact: require './Contact.view'
-  Fieldset: require './Fieldset.view'
-  Appointment: require './Appointment.view'
+  Contact: React.createFactory require './Contact.view'
+  Fieldset: React.createFactory require './Fieldset.view'
+  Appointment: React.createFactory require './Appointment.view'

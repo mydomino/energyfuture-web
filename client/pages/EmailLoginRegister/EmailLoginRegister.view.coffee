@@ -11,7 +11,7 @@ DOMValueMixin =
 
 actions = {}
 
-actions.login = React.createClass
+actions.login = React.createFactory React.createClass
   displayName: 'EmailLoginView'
   mixins: [DOMValueMixin]
   getInitialState: ->
@@ -76,7 +76,7 @@ actions.login = React.createClass
           p {},
             button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Logging in...' else 'Log in'
 
-actions.register = React.createClass
+actions.register = React.createFactory React.createClass
   displayName: 'EmailRegisterView'
   mixins: [DOMValueMixin]
   getInitialState: ->

@@ -1,8 +1,8 @@
 {div, h2, span, a} = React.DOM
 auth = require '../../auth'
-UserPhoto = require '../UserPhoto/UserPhoto.view'
+UserPhoto = React.createFactory(require '../UserPhoto/UserPhoto.view')
 
-NavBarItem = React.createClass
+NavBarItem = React.createFactory React.createClass
   displayName: 'NavBarItem'
   getDefaultProps: ->
     active: false

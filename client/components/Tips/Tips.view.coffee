@@ -5,7 +5,7 @@ Autolinker = require 'autolinker'
 UserCollection = require '../../models/UserCollection'
 TipCollection = require '../../models/TipCollection'
 
-TipProfile = React.createClass
+TipProfile = React.createFactory React.createClass
   displayName: 'TipProfile'
   getDefaultProps: ->
     user: null

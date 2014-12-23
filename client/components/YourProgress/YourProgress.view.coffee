@@ -1,7 +1,7 @@
 {div, h2, p, span, ul, li} = React.DOM
 
 _ = require 'lodash'
-LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+LoadingIcon = React.createFactory(require '../../components/LoadingIcon/LoadingIcon.view')
 
 module.exports = React.createClass
   displayName: 'YourProgress'
