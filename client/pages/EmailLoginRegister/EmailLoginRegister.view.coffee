@@ -32,16 +32,19 @@ actions.login = React.createClass
     @props.actionChangeCallback('register')
 
   handleLogin: (data) ->
+    errorMessage = null
+
     if data.user
       page('/guides')
     else if data.error.code == "USER_CANCELLED"
     else if data.error
-      @setState errorMessage: data.error.message
+      errorMessage = data.error.message if @isMounted()
     else
       console.log 'Something really went wrong', data
-      @setState errorMessage: "Hmm.. something went wrong. Please try again."
+      errorMessage = "Hmm.. something went wrong. Please try again."
 
-    @setState processing: false
+    if @isMounted()
+      @setState processing: false, errorMessage: errorMessage
 
   handleSubmit: (e) ->
     e.preventDefault()
@@ -97,6 +100,8 @@ actions.register = React.createClass
     @props.actionChangeCallback('login')
 
   handleLogin: (data) ->
+    errorMessage = null
+
     if data.user
       auth._userRef.update
         displayName: @getDOMValue('displayName') || 'Unknown'
@@ -104,13 +109,13 @@ actions.register = React.createClass
 
       page('/guides')
     else if data.error.code == "USER_CANCELLED"
-
     else if data.error
-      @setState errorMessage: data.error.message
+      errorMessage = data.error.message
     else
-      @setState errorMessage: "Hmm.. something went wrong. Please try again."
+      errorMessage = "Hmm.. something went wrong. Please try again."
 
-    @setState processing: false
+    if @isMounted()
+      @setState processing: false, errorMessage: errorMessage
 
   handleSubmit: (e) ->
     e.preventDefault()
