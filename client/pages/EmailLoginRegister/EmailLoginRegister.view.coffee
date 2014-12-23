@@ -38,7 +38,7 @@ actions.login = React.createClass
       page('/guides')
     else if data.error.code == "USER_CANCELLED"
     else if data.error
-      errorMessage = data.error.message if @isMounted()
+      errorMessage = data.error.message
     else
       console.log 'Something really went wrong', data
       errorMessage = "Hmm.. something went wrong. Please try again."
