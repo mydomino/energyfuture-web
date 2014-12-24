@@ -3,9 +3,11 @@
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 GuideModules = require('../GuideModules')()
+HideModuleMixin = require '../../mixins/HideModuleMixin'
 
 module.exports = React.createClass
   displayName: 'LeadingQuestion'
+  mixins: [HideModuleMixin]
 
   getInitialState: ->
     activeOption: @props.content?.options[0]
@@ -44,7 +46,9 @@ module.exports = React.createClass
               div {className: "leading-question-submodule"},
                 _.map @state.activeOption.submodules, (sm, i) =>
                   activeSubmodule = @props.guide.moduleByKey(sm)
-                  new GuideModules[activeSubmodule?.name]
-                    guide: @props.guide
-                    content: activeSubmodule?.content
-                    key: "submodule-#{sm}-#{i}"
+                  uniqName = "submodule-#{sm}-#{i}"
+                  div {key: uniqName, ref: uniqName},
+                    new GuideModules[activeSubmodule?.name]
+                      guide: @props.guide
+                      content: activeSubmodule?.content
+                      onError: @hideModule.bind(@, uniqName)
