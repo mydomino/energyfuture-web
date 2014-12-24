@@ -27,6 +27,8 @@ app.use (req, res, next) ->
   d = domain.create()
   d.on 'error', (e) ->
     console.error e.stack
+    res.status(500)
+    res.sendFile './public/500.html', { root: __dirname }
 
   d.run(next)
 
