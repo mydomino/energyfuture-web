@@ -21,12 +21,13 @@ module.exports = React.createClass
     @guide.on "sync", @setGuide
 
     @setGuide(@guide)
-    debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
-    auth.on 'authStateChange', debouncedMixpanelUpdate
-    debouncedMixpanelUpdate()
+    @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
+    auth.on 'authStateChange', @debouncedMixpanelUpdate
+    @debouncedMixpanelUpdate()
 
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide
+    auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
 
   updateMixpanel: ->
     Mixpanel.track("View Guide", {guide_id: @guide.id, distinct_id: auth.user?.id})
