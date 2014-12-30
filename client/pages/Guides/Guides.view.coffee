@@ -40,10 +40,6 @@ OnScrollMixin =
           y: window.pageYOffset
         isScrolling: true
 
-      # so that we know when the scrolling has stopped
-      window.clearTimeout(@pageScrollTimeout)
-      @pageScrollTimeout()
-
     @onScroll()
 
     # to prevent setting state too much
@@ -55,10 +51,6 @@ OnScrollMixin =
 
   pageScrollTimeout: ->
     window.setTimeout(@onPageScrollEnd, @props.scrollTimeout)
-
-  onPageScrollEnd: ->
-    window.clearTimeout(@pageScrollTimeout)
-    @setState(isScrolling: false)
 
 module.exports = React.createClass
   displayName: 'Guides'
@@ -83,7 +75,7 @@ module.exports = React.createClass
     window?.onresize = ->
       positionAnnotation(annotation, anchor)
 
-    window?.scrollTo(0, sescsionStorage.getItem('guidesScrollPosition'))
+    window?.scrollTo(0, sessionStorage.getItem('guidesScrollPosition'))
 
   componentWillUnmount: ->
     sessionStorage.setItem('guidesScrollPosition', @state.scroll.y)
