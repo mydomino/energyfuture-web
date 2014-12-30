@@ -25,6 +25,7 @@ guideStatus = (userGuides, guide) ->
 OnScrollMixin =
   getDefaultProps: ->
     setScrollPosEvery: 10
+    scrollAfter: 5
 
   getInitialState: ->
     scroll:
@@ -44,7 +45,12 @@ OnScrollMixin =
     @onScrollThrottled = _.throttle(@onScroll, @props.setScrollPosEvery)
     window.addEventListener("scroll", @onScrollThrottled)
 
+    window?.setTimeout (=>
+      window.scrollTo(0, sessionStorage.getItem(@props.scrollPositionKey))
+    ), @props.scrollAfter
+
   componentWillUnmount: ->
+    sessionStorage.setItem(@props.scrollPositionKey, @state.scroll.y)
     window.removeEventListener("scroll", @onScrollThrottled)
 
 module.exports = React.createClass
@@ -52,7 +58,7 @@ module.exports = React.createClass
   mixins: [OnScrollMixin]
 
   getDefaultProps: ->
-    scrollAfter: 5
+    scrollPositionKey: 'guidesLastScrollPosition'
 
   getInitialState: ->
     ownership: "own"
@@ -63,7 +69,6 @@ module.exports = React.createClass
 
   componentWillUnmount: ->
     @coll.removeListener 'sync', @rerenderComponent
-    sessionStorage.setItem('guidesLastScrollPosition', @state.scroll.y)
 
   componentDidMount: ->
     @loadLocalOwnership()
@@ -73,10 +78,6 @@ module.exports = React.createClass
     positionAnnotation(annotation, anchor)
     window?.onresize = ->
       positionAnnotation(annotation, anchor)
-
-    window?.setTimeout (->
-      window.scrollTo(0, sessionStorage.getItem('guidesLastScrollPosition'))
-    ), @props.scrollAfter
 
   componentWillReceiveProps: (props) ->
     @loadUserOwnership(props.user)
