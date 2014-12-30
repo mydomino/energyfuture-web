@@ -24,7 +24,6 @@ guideStatus = (userGuides, guide) ->
 
 OnScrollMixin =
   getDefaultProps: ->
-    scrollTimeout: 300
     setScrollPosEvery: 10
 
   getInitialState: ->
@@ -38,7 +37,6 @@ OnScrollMixin =
         scroll:
           x: window.pageXOffset
           y: window.pageYOffset
-        isScrolling: true
 
     @onScroll()
 
@@ -49,12 +47,12 @@ OnScrollMixin =
   componentWillUnmount: ->
     window.removeEventListener("scroll", @onScrollThrottled)
 
-  pageScrollTimeout: ->
-    window.setTimeout(@onPageScrollEnd, @props.scrollTimeout)
-
 module.exports = React.createClass
   displayName: 'Guides'
   mixins: [OnScrollMixin]
+
+  getDefaultProps: ->
+    scrollAfter: 5
 
   getInitialState: ->
     ownership: "own"
@@ -65,6 +63,7 @@ module.exports = React.createClass
 
   componentWillUnmount: ->
     @coll.removeListener 'sync', @rerenderComponent
+    sessionStorage.setItem('guidesLastScrollPosition', @state.scroll.y)
 
   componentDidMount: ->
     @loadLocalOwnership()
@@ -75,10 +74,9 @@ module.exports = React.createClass
     window?.onresize = ->
       positionAnnotation(annotation, anchor)
 
-    window?.scrollTo(0, sessionStorage.getItem('guidesScrollPosition'))
-
-  componentWillUnmount: ->
-    sessionStorage.setItem('guidesScrollPosition', @state.scroll.y)
+    window?.setTimeout (->
+      window.scrollTo(0, sessionStorage.getItem('guidesLastScrollPosition'))
+    ), @props.scrollAfter
 
   componentWillReceiveProps: (props) ->
     @loadUserOwnership(props.user)
