@@ -40,6 +40,3 @@ module.exports = React.createClass
       div {className: "guide-preview-content"},
         h2 {className: "guide-preview-title"}, guide.title
         p {className: "guide-preview-summary"}, summary
-        div {className: "guide-preview-impact-score"},
-          new ImpactScore score: @props.guide.score(), color: color
-          span {className: "impact-text"}, "impact"
