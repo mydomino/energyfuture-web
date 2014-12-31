@@ -35,11 +35,11 @@ module.exports = React.createClass
     return false if !@state.submitted && @state.user && @state.user.isNewsletterRecipient()
 
     div {className: 'newsletter-signup'},
-      h1 {className: 'newsletter-signup-title'}, 'Get tipped.'
+      # h1 {className: 'newsletter-signup-title'}, 'Get tipped.'
       p {className: 'newsletter-signup-subtext'}, 'Sign up for the freshest tips, news and incentives.'
       if !@state.submitted
         form {className: 'newsletter-signup-form', onSubmit: @submit},
           input {type: 'email', placeholder: 'enter your email', className: 'newsletter-signup-input', value: @state.email, onChange: @handleChange, required: 'required'}
-          button {className: 'newsletter-signup-button'}, 'Submit'
+          button {className: 'newsletter-signup-button'}, 'Sign Up'
       else
         p {className: 'newsletter-signup-notice'}, "Great, you're signed up!"

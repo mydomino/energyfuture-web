@@ -21,6 +21,6 @@ module.exports = React.createClass
         div {className: 'col col3'},
           p {},
             span {className: 'footer-logo'}
-            a {href: '/about'}, 'Learn More'
+            a {href: '/about'}, 'Learn about us'
             ' or '
-            a {href: '/contact', onClick: @goToContactPage}, 'Contact Us'
+            a {href: '/contact', onClick: @goToContactPage}, 'get in touch'
