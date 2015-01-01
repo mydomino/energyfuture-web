@@ -1,4 +1,4 @@
-{div, h2, h3, p, em} = React.DOM
+{div, h2, h3, p, strong} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 
@@ -7,7 +7,7 @@ module.exports = React.createClass
   render: ->
     new Layout {name: 'aboutus'},
       new NavBar user: @props.user, path: @props.context.pathname
-      div {},
+      div {className: "about-us-container"},
         h2 { id: "we-re-reinventing-zero-emissions-living"}, "We’re reinventing zero-emissions living"
         p {}, "Domino is your one-stop personal toolkit for cultivating clean, low-carbon living – while saving money. From changing your light bulbs to going solar and everything in between, Domino guides you through actions you can take to enhance your lifestyle. Your actions will also help clean our air and water, achieve energy independence, and vitalize our economy."
         p {}, "How does it work? At Domino, we provide you a menu of options you can choose from to take action. In collaboration with the Rocky Mountain Institute (RMI), we've crunched the numbers and researched products and services to develop easy-to-understand, no-BS guides for you."
@@ -28,14 +28,14 @@ module.exports = React.createClass
         h3 { id: "our-partners"}, "Our partners"
         p {}, "We collaborated with several amazing partners to develop Domino:"
         p {},
-          em {}, "Facilitators: "
+          strong {}, "Facilitators: "
           "National and local organizations with a similar mission of creating a planet worth preserving for our children. National facilitator organizations include The Sierra Club, the Boy Scouts and Girl Scouts, and the World Wildlife Fund. Local Facilitators include the Pouter School System."
         p {},
-          em {}, "Rocky Mountain Institute (RMI): "
+          strong {}, "Rocky Mountain Institute (RMI): "
           "A clean-energy Think-and-Do Tank that has spent the past 30 years defining and tracking the best and latest low-carbon actions and technologies. RMI is located in Aspen and Boulder, Colorado. "
         p {},
-          em {}, "The Factory: "
+          strong {}, "The Factory: "
           "A digital product incubator located in San Francisco – a bunch of really smart, nerdy, and creative folks who have fully redefined product development and the “cool workspace.” "
         p {},
-          em {}, "CoolClimate Network: "
+          strong {}, "CoolClimate Network: "
           "Domino is a member of the CoolClimate Network, established by the University of California, Berkeley. The network provides supporting tools for households, businesses, local governments, and non-governmental organizations in customizing low-carbon action plans."

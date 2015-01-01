@@ -13,9 +13,9 @@ module.exports = React.createClass
       div {className: 'footer'},
         div {className: 'col col1'},
           p {},
-            "Domino's mission is to reduce the world's carbon"
+            "You support our work by buying products and services"
             br {}
-            "emissions by 20% before 2020."
+            "recommended on this site."
         div {className: 'col col2'},
           div {className: 'footer-logo'}
         div {className: 'col col3'},
