@@ -1,3 +1,4 @@
+React = require 'react'
 {div, img} = React.DOM
 
 DEFAULT_PHOTO_URL = '/* @echo ASSET_HOST_URL *//img/default-user-photo.png'

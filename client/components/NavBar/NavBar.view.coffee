@@ -1,3 +1,4 @@
+React = require 'react/addons'
 {div, h2, span, a} = React.DOM
 auth = require '../../auth'
 UserPhoto = require '../UserPhoto/UserPhoto.view'

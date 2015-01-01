@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, p, span} = React.DOM
 Categories = require '../../models/singletons/Categories'
 ImpactScore = require '../../components/ImpactScore/ImpactScore.view'

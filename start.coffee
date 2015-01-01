@@ -5,6 +5,10 @@ http = require 'http'
 bodyParser = require('body-parser')
 json2csv = require 'nice-json2csv'
 domain = require 'domain'
+
+browserify = require 'browserify'
+React = require 'react/addons'
+
 {join} = require 'path'
 
 AmazonProducts = require './server/AmazonProducts'
@@ -22,6 +26,8 @@ app.use compress()
 app.use staticFiles './public'
 app.use bodyParser.json()
 app.use json2csv.expressDecorator
+
+app.set('view engine', 'jade')
 
 app.use (req, res, next) ->
   d = domain.create()
@@ -57,9 +63,13 @@ app.get "/signups.csv", (req, res) ->
   Signups (statusCode, data) ->
     res.status(statusCode).csv(data, "signups.csv")
 
-# page.js - client-side routing
-app.get '/*', (req, res) ->
-  res.sendFile idxFile, { root: __dirname }
+Guides = require('./client/pages/Guides/Guides.view')
+app.get "/guides", (req, res) ->
+  h = React.renderComponentToString(new Guides(context: {}))
+  res.render('index', { html: h})
+
+#app.get '/*', (req, res) ->
+#  res.sendFile idxFile, { root: __dirname }
 
 httpServer = http.createServer app
 idxFile = './public/index.html'

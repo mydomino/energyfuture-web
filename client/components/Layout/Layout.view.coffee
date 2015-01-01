@@ -1,3 +1,6 @@
+React = require 'react'
+jsdom = require("jsdom")
+$ = require("jquery")(jsdom.jsdom().parentWindow)
 {div, p, a, span, br} = React.DOM
 
 auth = require '../../auth'

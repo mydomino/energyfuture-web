@@ -1,3 +1,4 @@
+React = require 'react'
 {div, img} = React.DOM
 
 module.exports = React.createClass

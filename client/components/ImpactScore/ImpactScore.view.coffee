@@ -1,3 +1,4 @@
+React = require 'react'
 {span, i} = React.DOM
 
 Number::numberFormat = (decimals, dec_point, thousands_sep) ->

@@ -1,3 +1,4 @@
+React = require 'react'
 {span, select, option} = React.DOM
 _ = require 'lodash'
 

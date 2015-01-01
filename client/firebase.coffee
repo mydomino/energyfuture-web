@@ -1,4 +1,4 @@
-rootUrl = '/* @echo FIREBASE_URL */'
+rootUrl = "https://energyfuture-dev.firebaseio.com" || '/* @echo FIREBASE_URL */'
 
 Firebase = require 'firebase'
 
