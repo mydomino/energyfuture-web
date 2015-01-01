@@ -1,25 +1,41 @@
 .guide-module-sortable-table
   table
-    display: block
-    overflow: hidden
-  th
-    font-weight: 600
-    font-size: 17px
+    display block
+    overflow hidden
+  th,td
+    font-size .9em
+    line-height 1.4em
+    /* padding: 20px 30px */
+    padding 20px 20px
+  thead
+    th
+      background-color #eee
+      border-bottom 1px solid #d8d8d8
+      color #333
+      font-weight 600
   tbody
     tr
       td
-        line-height 1.5em
+        /* line-height 1.5em */
+    tr:nth-child(even)
+      background-color #f3f3f3
+    tr:hover, tr:nth-child(even):hover
+      background-color #fff
+/*
     td:not(:first-child)
-      border-bottom: 1px solid #979797
+      border-bottom 1px solid #fff
+*/
+    td:nth-child(1)
+      color #333
+      font-style italic
+      font-weight 100
     tr:last-child
       td
         border-bottom: none
-  th,td
-    padding: 20px 30px
-  td:nth-child(1)
-    font-size 18px
+/*
   th:nth-child(even), td:nth-child(even)
-    background-color: #D8D8D8
+    background-color: #eee
+*/
 
   .sortable-table-expand-collapse
     text-align: center
@@ -40,4 +56,3 @@
   .expand-collapse-button
     margin-top 40px
     transition: .5s ease-in-out
-
