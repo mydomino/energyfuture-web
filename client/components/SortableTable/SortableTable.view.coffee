@@ -55,7 +55,12 @@ module.exports = React.createClass
                 td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key].replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')}}
 
         if @state.collapsible
-          collapsedClass = if @state.collapsed then '' else 'expanded'
+          if @state.collapsed
+            collapsedClass = ''
+            collapsedIcon = 'show-more.svg'
+          else
+            collapsedClass = 'expanded'
+            collapsedIcon = 'show-less.svg'
           div {className: "sortable-table-expand-collapse #{collapsedClass}", ref: 'expandCollapse'},
             div {className: 'expand-collapse-mask'}
-            img {className : 'expand-collapse-button', src: '/img/show-more.svg', onClick: @toggleExpandCollapse}
+            img {className : 'expand-collapse-button', src: "/img/#{collapsedIcon}", onClick: @toggleExpandCollapse}
