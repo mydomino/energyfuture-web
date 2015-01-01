@@ -8,6 +8,7 @@ DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 posClass = (num) ->
   return 'guide-preview-third' if (num + 1) % 3 == 0
@@ -55,7 +56,7 @@ OnScrollMixin =
 
 module.exports = React.createClass
   displayName: 'Guides'
-  mixins: [OnScrollMixin]
+  mixins: [OnScrollMixin, ScrollTopMixin]
 
   getDefaultProps: ->
     scrollPositionKey: 'guidesLastScrollPosition'
