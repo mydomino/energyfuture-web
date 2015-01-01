@@ -66,7 +66,7 @@ module.exports = React.createClass
 
                   if GuideModules[moduleName]
                     uniqName = "#{moduleName}-#{idx}"
-                    div {key: uniqName, ref: uniqName},
+                    div {key: uniqName, ref: uniqName, id: module.id},
                       new GuideModules[moduleName]
                         guide: @state.guide
                         content: module.content

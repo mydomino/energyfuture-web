@@ -9,7 +9,11 @@ module.exports = class Guide extends DominoModel
     @attributes['category']
 
   sortedModules: ->
-    _.sortBy(_.values(@attributes['modules']), 'position')
+    modules = _.map @attributes['modules'], (m, idx) ->
+      m.id = idx
+      m
+
+    _.sortBy(modules, 'position')
 
   score: ->
     parseInt(@get('score'), 10)
