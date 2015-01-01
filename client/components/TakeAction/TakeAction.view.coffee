@@ -8,7 +8,7 @@ showMore = (event) ->
   $(event.target).parent('.action-read-more').hide()
 
 module.exports = React.createClass
-  displayName: 'CallToAction'
+  displayName: 'TakeAction'
 
   getDefaultProps: ->
     actions: {}
