@@ -4,6 +4,7 @@ staticFiles = require 'serve-static'
 http = require 'http'
 bodyParser = require('body-parser')
 json2csv = require 'nice-json2csv'
+domain = require 'domain'
 {join} = require 'path'
 
 AmazonProducts = require './server/AmazonProducts'
@@ -22,9 +23,14 @@ app.use staticFiles './public'
 app.use bodyParser.json()
 app.use json2csv.expressDecorator
 
-app.use (err, req, res, next) ->
-  console.error err.stack
-  res.send 500, 'Something broke!'
+app.use (req, res, next) ->
+  d = domain.create()
+  d.on 'error', (e) ->
+    console.error e.stack
+    res.status(500)
+    res.sendFile './public/500.html', { root: __dirname }
+
+  d.run(next)
 
 app.get "/amazon-products", (req, res) ->
   new AmazonProducts().itemLookup(req.query.products,
