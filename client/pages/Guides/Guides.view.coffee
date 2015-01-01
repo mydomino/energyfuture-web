@@ -22,8 +22,43 @@ guideStatus = (userGuides, guide) ->
   return null unless userGuides && userGuides.hasOwnProperty(guide.id)
   userGuides[guide.id].status
 
+OnScrollMixin =
+  getDefaultProps: ->
+    setScrollPosEvery: 10
+    scrollAfter: 5
+
+  getInitialState: ->
+    scroll:
+      x: 0
+      y: 0
+
+  componentDidMount: ->
+    @onScroll = =>
+      @setState
+        scroll:
+          x: window.pageXOffset
+          y: window.pageYOffset
+
+    @onScroll()
+
+    # to prevent setting state too much
+    @onScrollThrottled = _.throttle(@onScroll, @props.setScrollPosEvery)
+    window.addEventListener("scroll", @onScrollThrottled)
+
+    window?.setTimeout (=>
+      window.scrollTo(0, sessionStorage.getItem(@props.scrollPositionKey))
+    ), @props.scrollAfter
+
+  componentWillUnmount: ->
+    sessionStorage.setItem(@props.scrollPositionKey, @state.scroll.y)
+    window.removeEventListener("scroll", @onScrollThrottled)
+
 module.exports = React.createClass
   displayName: 'Guides'
+  mixins: [OnScrollMixin]
+
+  getDefaultProps: ->
+    scrollPositionKey: 'guidesLastScrollPosition'
 
   getInitialState: ->
     ownership: "own"
@@ -41,7 +76,6 @@ module.exports = React.createClass
     anchor = @refs.anchor.getDOMNode()
     annotation = @refs.annotation.getDOMNode()
     positionAnnotation(annotation, anchor)
-
     window?.onresize = ->
       positionAnnotation(annotation, anchor)
 
@@ -89,7 +123,7 @@ module.exports = React.createClass
             span {}, " in Fort Collins"
       if guides.length > 0
         div {className: "guides"},
-          _.shuffle(guides).map (guide, idx) =>
+          guides.map (guide, idx) =>
             new GuidePreview
               key: "guide#{guide.id}"
               guide: guide
