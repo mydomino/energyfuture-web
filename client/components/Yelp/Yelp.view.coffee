@@ -36,7 +36,7 @@ module.exports = React.createClass
     r[1] unless _.isEmpty r
 
   trackAffiliateLinkAction: (event) ->
-    Mixpanel.track 'View Affliate Link',
+    Mixpanel.track 'View Affiliate Link',
       affiliate: 'yelp'
       guide_id: @props.guide.id
       restaurant: @parseRestaurantInfo(event.currentTarget.href)
