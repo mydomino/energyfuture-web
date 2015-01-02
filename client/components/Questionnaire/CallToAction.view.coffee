@@ -23,11 +23,9 @@ module.exports = React.createClass
 
   render: ->
     return false unless hasValidData(@props.guide)
-    title = @props.guide.get('title')
     typeforms = @props.content.typeforms
 
     div {className: 'guide-module'},
-      h2 {className: 'guide-module-header'}, title
       div {className: 'guide-module-content guide-module-cta'},
         h2 {className: 'cta-header'}, "Ready for a free, no-obligation quote?"
         if typeforms
