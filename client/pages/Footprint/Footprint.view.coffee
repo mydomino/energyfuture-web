@@ -11,6 +11,7 @@ DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 YourProgress = require '../../components/YourProgress/YourProgress.view'
 ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
 UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
+ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 FootprintHeader = React.createClass
   displayName: 'FootprintHeader'
@@ -34,6 +35,7 @@ FootprintHeader = React.createClass
 
 module.exports = React.createClass
   displayName: 'Footprint'
+  mixins: [ScrollTopMixin]
 
   getInitialState: ->
     guides: []

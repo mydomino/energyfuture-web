@@ -10,11 +10,12 @@ LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
 GuideModules = require('../../components/GuideModules.coffee')()
 HideModuleMixin = require '../../mixins/HideModuleMixin'
+ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 auth = require '../../auth'
 
 module.exports = React.createClass
   displayName: 'Guide'
-  mixins: [HideModuleMixin]
+  mixins: [HideModuleMixin, ScrollTopMixin]
   getInitialState: ->
     guide: null
 
@@ -65,7 +66,7 @@ module.exports = React.createClass
 
                   if GuideModules[moduleName]
                     uniqName = "#{moduleName}-#{idx}"
-                    div {key: uniqName, ref: uniqName},
+                    div {key: uniqName, ref: uniqName, id: module.id},
                       new GuideModules[moduleName]
                         guide: @state.guide
                         content: module.content

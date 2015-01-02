@@ -1,9 +1,11 @@
 {div, h2, h3, p, strong} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
+ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 module.exports = React.createClass
   displayName: 'AboutUs'
+  mixins: [ScrollTopMixin]
   render: ->
     new Layout {name: 'aboutus'},
       new NavBar user: @props.user, path: @props.context.pathname

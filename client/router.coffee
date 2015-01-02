@@ -18,9 +18,6 @@ addPage = (route) ->
     document.querySelector('body').className = ['body', route[2]].filter(Boolean).join('-')
     document.title = "Domino - Change the world, one step at a time: #{route[2]}"
 
-    # Scroll the window to the top each time a page gets shown
-    window.scrollTo(0, 0)
-
     @setState
       component: Component
       params: ctx.params
