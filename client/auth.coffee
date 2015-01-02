@@ -8,6 +8,8 @@ collectProviderUserData = (provider, user) ->
     return collectTwitterUserData(user.twitter.cachedUserProfile)
   else if provider == 'facebook'
     return collectFacebookUserData(user.facebook.cachedUserProfile)
+  else if provider == 'password'
+    return collectPasswordUserData(user)
   else
     return collectGenericUserData(user)
 
@@ -28,6 +30,12 @@ collectGenericUserData = (user) ->
   provider_id: user.id
   provider: user.provider
   displayName: user.displayName
+
+collectPasswordUserData = (user) ->
+  provider_id: user.password.email
+  provider: user.provider
+  email: user.password.email
+  tempPassword: user.password.isTemporaryPassword
 
 class Auth extends emitter
   constructor: ->
@@ -104,6 +112,30 @@ class Auth extends emitter
     @_firebase.authWithOAuthPopup provider, (error, userData) =>
       @_onAuthStateChange(error, userData)
     , opts
+
+  loginWithEmail: (email, password, opts = {}) ->
+    Mixpanel.track 'Attempt Login with Email'
+    data =
+      email: email
+      password: password
+
+    @_firebase.authWithPassword data, (error, userData) =>
+      Mixpanel.track 'User Login', {user_id: userData.uid, distinct_id: userData.uid} if userData
+      @_onAuthStateChange(error, userData)
+    , opts
+
+  newUserFromEmail: (email, password, opts = {}) ->
+    Mixpanel.track 'Register with Email'
+    data =
+      email: email
+      password: password
+
+    @_firebase.createUser data, (error) =>
+      if error
+        @_onAuthStateChange(error, {})
+      else
+        Mixpanel.track 'User Registered', {email: email}
+        @loginWithEmail(email, password, opts)
 
   logout: ->
     @_firebase.unauth()

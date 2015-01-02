@@ -69,8 +69,11 @@ module.exports = React.createClass
       new LoadingIcon
     else
       div {className: 'guide-module guide-module-amazon-products'},
-        h2 {className: 'guide-module-header'}, amazon.heading if amazon.heading?
-        p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}} if amazon.subheading?
+        if amazon.heading?
+          h2 {className: 'guide-module-header'}, amazon.heading
+        if amazon.subheading?
+          p {className: "guide-module-subheader", dangerouslySetInnerHTML: {"__html": Autolinker.link(amazon.subheading)}}
+
         div {className: 'guide-module-content'},
           div {className: 'product-list'},
             if @state.products.length > 3

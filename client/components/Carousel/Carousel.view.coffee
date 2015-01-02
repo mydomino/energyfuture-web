@@ -12,10 +12,11 @@ module.exports = React.createClass
 
   attachSlider: ->
     $(@refs.slider.getDOMNode()).slick
-      infinite: true,
-      speed: 300,
-      slidesToShow: @props.count,
-      slidesToScroll: @props.count,
+      dots: true
+      infinite: true
+      speed: 300
+      slidesToShow: @props.count
+      slidesToScroll: @props.count
       adaptiveHeight: true
 
   componentDidMount: ->

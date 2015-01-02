@@ -3,12 +3,14 @@
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 GuideModules = require('../GuideModules')()
+HideModuleMixin = require '../../mixins/HideModuleMixin'
 
 module.exports = React.createClass
   displayName: 'LeadingQuestion'
+  mixins: [HideModuleMixin]
 
   getInitialState: ->
-    activeOption: null
+    activeOption: @props.content?.options[0]
 
   setActiveOption: (option) ->
     @setState activeOption: option unless _.isEqual(option, @state.activeOption)
@@ -33,8 +35,7 @@ module.exports = React.createClass
               options.map (opt, idx) =>
                 openClass = 'active' if _.isEqual(opt, @state.activeOption)
 
-                div {key: "option#{idx}", className: "option-button", onClick: @setActiveOption.bind(this, opt)},
-                  img {className: "option-button-image #{openClass}"}
+                div {key: "option#{idx}", className: "option-button #{openClass}", onClick: @setActiveOption.bind(this, opt)},
                   div {className: "option-button-text"},
                     p {className: "option-button-text-label"}, opt.label
                     p {className: "option-button-text-subtext"}, opt.subtext
@@ -45,7 +46,9 @@ module.exports = React.createClass
               div {className: "leading-question-submodule"},
                 _.map @state.activeOption.submodules, (sm, i) =>
                   activeSubmodule = @props.guide.moduleByKey(sm)
-                  new GuideModules[activeSubmodule?.name]
-                    guide: @props.guide
-                    content: activeSubmodule?.content
-                    key: "submodule-#{sm}-#{i}"
+                  uniqName = "submodule-#{sm}-#{i}"
+                  div {key: uniqName, ref: uniqName},
+                    new GuideModules[activeSubmodule?.name]
+                      guide: @props.guide
+                      content: activeSubmodule?.content
+                      onError: @hideModule.bind(@, uniqName)

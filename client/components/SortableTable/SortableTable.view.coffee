@@ -6,11 +6,14 @@ Autolinker = require 'autolinker'
 module.exports = React.createClass
   displayName: 'SortableTable'
 
+  getInitialState: ->
+    collapsible: false
+    collapsed: true
+
   componentDidMount: ->
     tableObject = $(@refs.tableContent.getDOMNode())
     if tableObject.height() >= 600
-      tableObject.css('max-height', 500)
-      $(@refs.readMore.getDOMNode()).show()
+      @setState collapsible: true
 
   sortedHeaders: (headers) ->
     _.sortBy(headers, 'position')
@@ -21,13 +24,19 @@ module.exports = React.createClass
   sortedHeaderKeys: (headers) ->
     _.pluck @sortedHeaders(headers), 'key'
 
-  showMore: (event) ->
-    $(@refs.tableContent.getDOMNode()).css('max-height', 'none')
-    $(@refs.readMore.getDOMNode()).hide()
+  toggleExpandCollapse: ->
+    unless @state.collapsed
+      tablePosition = $(@refs.tableContent.getDOMNode()).offset()
+      scrollTo(tablePosition.left, tablePosition.top)
+    @setState collapsed: !@state.collapsed
 
   render: ->
     sortableTable = @props.content
     return false if _.isEmpty sortableTable
+    if @state.collapsible && @state.collapsed
+     tableStyle = { maxHeight: 500 }
+    else
+     tableStyle = {}
 
     sortedHeaderTitles = @sortedHeaderTitles(sortableTable.headers)
     sortedHeaderKeys = @sortedHeaderKeys(sortableTable.headers)
@@ -35,7 +44,7 @@ module.exports = React.createClass
       h2 {className: 'guide-module-header'}, sortableTable.heading
       p {className: 'guide-module-subheader', dangerouslySetInnerHTML: {"__html": Autolinker.link(sortableTable.subheading)}}
       div {className: 'guide-module-content'},
-        table {ref: 'tableContent'},
+        table {style: tableStyle, ref: 'tableContent'},
           thead {},
             _.map sortedHeaderTitles, (title, i) ->
               th {key: "sorted-header-titles-#{i}"}, title
@@ -43,7 +52,10 @@ module.exports = React.createClass
             _.map sortableTable.content, (row, i) ->
               tr {key: "sorted-content-#{i}"},
               _.map sortedHeaderKeys, (key, i) ->
-                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key].replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')}},
-        div {className: 'sortable-table-read-more', ref: 'readMore'},
-          div {className: 'read-more-mask'}
-          img {className : 'read-more-button', src: '/img/show-more.svg', onClick: @showMore}
+                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key].replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')}}
+
+        if @state.collapsible
+          collapsedClass = if @state.collapsed then '' else 'expanded'
+          div {className: "sortable-table-expand-collapse #{collapsedClass}", ref: 'expandCollapse'},
+            div {className: 'expand-collapse-mask'}
+            img {className : 'expand-collapse-button', src: '/img/show-more.svg', onClick: @toggleExpandCollapse}

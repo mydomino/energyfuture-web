@@ -59,7 +59,8 @@ Router = React.createClass
 
   render: ->
     React.DOM.div {},
-      new AuthBar loggedIn: auth.loggedIn
+      unless @state.component.displayName == 'EmailLoginRegister'
+        new AuthBar loggedIn: auth.loggedIn
       new @state.component
         params: @state.params
         querystring: @state.querystring
@@ -68,11 +69,14 @@ Router = React.createClass
 
 routes =
   middleware: [
+    ["/", require('./middleware/redirect_from_splash')]
+    ["/guides", require('./middleware/redirect_to_splash')]
     ["*", require('./middleware/authentication')]
     ["*", require('./middleware/categories')]
   ]
   pages:[
     ["/", require('./pages/Splash/Splash.view'), 'splash']
+    ["/login", require('./pages/EmailLoginRegister/EmailLoginRegister.view'), 'login-register']
     ["/about", require('./pages/AboutUs/AboutUs.view'), 'aboutus']
     ["/contact", require('./pages/ContactUs/ContactUs.view'), 'contactus']
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']

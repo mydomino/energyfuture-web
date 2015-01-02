@@ -5,6 +5,7 @@ h = require "../../helpers"
 describe "AuthBar", ->
   it "renders the auth bar", () ->
     instance = ReactTestUtils.renderIntoDocument(AuthBar())
+    instance.setState({ closed: false })
 
     h.classOccurs instance, 'auth-bar', 1
 

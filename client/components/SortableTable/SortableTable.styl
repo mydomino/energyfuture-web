@@ -20,15 +20,24 @@
     font-size 18px
   th:nth-child(even), td:nth-child(even)
     background-color: #D8D8D8
-  .sortable-table-read-more
-    display: none
+
+  .sortable-table-expand-collapse
     text-align: center
     margin-top: -150px;
+    &.expanded
+      margin-top: 0px
+      .expand-collapse-mask
+        display: none
 
-  .read-more-mask
+      .expand-collapse-button
+        transform: rotate(45deg)
+
+  .expand-collapse-mask
     height: 150px
     opacity: 0.9
     background linear-gradient(to bottom, rgba(#f8f8f8, 0.1), #f8f8f8)
 
-  .read-more-button
+  .expand-collapse-button
     margin-top 40px
+    transition: .5s ease-in-out
+

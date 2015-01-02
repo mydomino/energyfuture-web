@@ -8,10 +8,12 @@ NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
 GuideModules = require('../../components/GuideModules.coffee')()
+HideModuleMixin = require '../../mixins/HideModuleMixin'
 auth = require '../../auth'
 
 module.exports = React.createClass
   displayName: 'Guide'
+  mixins: [HideModuleMixin]
   getInitialState: ->
     guide: null
 
@@ -20,23 +22,20 @@ module.exports = React.createClass
     @guide.on "sync", @setGuide
 
     @setGuide(@guide)
-    debouncedMixpanelUpdate = _.debounce =>
-      mixpanel.track 'View Guide', guide_id: @guide.id
-    , 2000
-    , {leading: false, trailing: true}
-    auth.on 'authStateChange', debouncedMixpanelUpdate
-    debouncedMixpanelUpdate()
+    @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
+    auth.on 'authStateChange', @debouncedMixpanelUpdate
+    @debouncedMixpanelUpdate()
+
+  updateMixpanel: ->
+    mixpanel.track 'View Guide', guide_id: @guide.id
 
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide
+    auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
 
   setGuide: (guide) ->
     if guide.exists() && @isMounted
       @setState guide: guide
-
-  hideModule: (name) ->
-    $(@refs[name].getDOMNode()).hide()
-    false
 
   render: ->
     if @state.guide
@@ -64,11 +63,12 @@ module.exports = React.createClass
                   return if module.submodule?
 
                   if GuideModules[moduleName]
-                    div {key: "#{moduleName}-#{idx}"},
+                    uniqName = "#{moduleName}-#{idx}"
+                    div {key: uniqName, ref: uniqName},
                       new GuideModules[moduleName]
                         guide: @state.guide
                         content: module.content
-                        onError: @hideModule.bind(@, moduleName)
+                        onError: @hideModule.bind(@, uniqName)
                       hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName

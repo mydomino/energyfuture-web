@@ -1,7 +1,7 @@
 {div, h2, p} = React.DOM
 
 _ = require 'lodash'
-CallToAction = require '../CallToAction/CallToAction.view'
+TakeAction = require '../TakeAction/TakeAction.view'
 
 module.exports = React.createClass
   displayName: 'whatYouCanDo'
@@ -17,4 +17,4 @@ module.exports = React.createClass
       h2 {className: "guide-module-header"}, (whatYouCanDo.heading or "What you can do")
       p {className: "guide-module-subheader"}, whatYouCanDo.subheading
       div {className: 'guide-module-content'},
-        new CallToAction(actions: whatYouCanDo.cta)
+        new TakeAction(actions: whatYouCanDo.cta)

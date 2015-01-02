@@ -15,19 +15,28 @@
     text-decoration none
 
     > span
+      border-bottom 1px solid #000000
       color grey
-      text-decoration underline
+      text-decoration none
+      -webkit-transition: all .5s ease;
+      -moz-transition: all .5s ease;
+      -o-transition: all .5s ease;
+      transition: all .5s ease;
+
+  a:hover > span
+    color rgb(123, 209, 192)
+    border-color rgb(123, 209, 192)
 
   .icon
     display block
     font-size 3.5em
-    margin-bottom .2em
+    margin-bottom .1em
 
   hr
     width 40%
-    margin 20px auto
+    margin 12px auto
     padding 0
-    border 1px solid #e0e0e0
+    border 1px solid #f8f8f8
 
   .impact-score
     margin-bottom -20px;
@@ -35,6 +44,13 @@
 
   .action-button
     color grey
+    -webkit-transition: color .5s ease;
+    -moz-transition: color .5s ease;
+    -o-transition: color .5s ease;
+    transition: color .5s ease;
+
+  .action-button:hover
+    color rgb(123, 209, 192)
 
   .action-button.active
     color inherit

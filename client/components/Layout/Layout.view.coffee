@@ -1,5 +1,6 @@
 {div, p, a, span, br} = React.DOM
 
+auth = require '../../auth'
 NewsletterSignup = require '../NewsletterSignupForm/NewsletterSignupForm.view'
 Footer = require '../Footer/Footer.view'
 BindExternalLinkMixin = require '../../mixins/BindExternalLinkMixin'
@@ -18,6 +19,16 @@ module.exports = React.createClass
 
   getDefaultProps: ->
     showNewsletterSignup: false
+
+  handleLinkClick: (e) ->
+    if e.target && e.target.target == '_blank'
+      auth.prompt()
+
+  componentWillMount: ->
+    $('body').on 'click', 'a', @handleLinkClick
+
+  componentWillUnmount: ->
+    $('body').off 'click', 'a', @handleLinkClick
 
   render: ->
     div {className: "page page-#{@props.name}"},

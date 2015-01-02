@@ -1,45 +1,55 @@
 .guide-module-leading-question
   .leading-question-submodule
+    background-color #f9fef9
+    padding 20px
+    border 1px solid #ccc
+    border-radius 0px 5px 5px 5px
+    margin-top -1px
+
+    .guide-module-content
+      margin-top 0
+
+      .text-content
+        margin 0
+
     h2.guide-module-header
       margin-bottom 5px
       text-transform uppercase
       font-weight bold
       letter-spacing 3px
-      font-size 12px
 
   .results
     .options
-      width 70%
-      margin 2em auto
-      text-align center
-
+      width 100%
+      margin 2em auto 0
+      text-align left
       .option-button
         display inline-block
         vertical-align top
         margin 0 0 0 0.5em
         cursor pointer
+        width auto
+        border 1px solid #ccc
+        margin 0 10px 0 0
+        padding 10px 20px
+        border-radius 3px 3px 0 0
+        &:hover
+          background-color #efefef
+        &.active
+          background-color #f9fef9
+          border-bottom-color #f9fef9
 
         .option-button-text
           font-size 14px
-          width 10em
           text-align center
 
           .option-button-text-label
-            margin-bottom 0
-
+            margin 0
           .option-button-text-subtext
             margin 0
             padding 0
             color rgba(39,43,44,0.4)
             font-size 13px
-
-        .option-button-image
-          width 12%
-          display block
-          margin 0 auto
-          content: url("../img/radio-option-empty.svg")
-          &.active
-            content: url("../img/radio-option-complete.svg")
 
   .leading-question-content, .leading-question-question
     margin-top 0
