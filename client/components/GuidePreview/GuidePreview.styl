@@ -1,8 +1,15 @@
+/*
 pageWidth = 1024px
 guideWidth = 300px
 guideBorder = guideWidth / 10
 spacingX = ((pageWidth - (3 * guideWidth)) / 2)
 spacingY = 43px
+*/
+pageWidth = 1024px
+guideWidth = 220px
+guideBorder = guideWidth / 10
+spacingX = ((pageWidth - (4 * guideWidth)) / 3)
+spacingY = 30px
 
 .page-guides .container-padding
   overflow auto
@@ -10,7 +17,7 @@ spacingY = 43px
 .guide-preview
   border 4px solid #000
   width guideWidth
-  height 478px
+  height 350px
   border-radius guideBorder
   position relative
   margin-right spacingX
@@ -35,7 +42,7 @@ spacingY = 43px
 
 .guide-preview-content
   position absolute
-  top 239px
+  top 175px
   left 0
   right 0
   bottom 0
@@ -61,12 +68,16 @@ spacingY = 43px
 .guide-preview-title
   font-weight 400
   color #fff
-  margin 0 0 10px 0
+  font-size 1.3em
+  line-height 1.3em
+  margin 5px 0 10px
 
 .guide-preview-summary
+  color rgba(255, 255, 255, .7)
+  font-size .9em
   margin 10px 0
 
-.guide-preview-third
+.guide-preview-row-end
   margin-right 0
 
 .guide-preview-status

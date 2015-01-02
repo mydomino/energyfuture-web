@@ -11,7 +11,7 @@ LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 posClass = (num) ->
-  return 'guide-preview-third' if (num + 1) % 3 == 0
+  return 'guide-preview-row-end' if (num + 1) % 4 == 0
 
 positionAnnotation = (element, anchor) ->
   element.style.display = 'block'
