@@ -100,6 +100,7 @@ module.exports = React.createClass
     @setState _.extend({ closed: true, failedLogin: false, expanded: false }, newState)
 
   _showPrompt: (expanded) ->
+    mixpanel.track 'View Login Modal'
     @resetState closed: false, expanded: expanded
 
   _hidePrompt: ->

@@ -108,24 +108,23 @@ class Auth extends emitter
       @_onAuthStateChange(false, auth)
 
   login: (provider, opts = {}) ->
-    mixpanel.track 'View Login Modal'
     @_firebase.authWithOAuthPopup provider, (error, userData) =>
       @_onAuthStateChange(error, userData)
     , opts
 
   loginWithEmail: (email, password, opts = {}) ->
-    Mixpanel.track 'Attempt Login with Email'
     data =
       email: email
       password: password
 
     @_firebase.authWithPassword data, (error, userData) =>
-      Mixpanel.track 'User Login', {user_id: userData.uid, distinct_id: userData.uid} if userData
+      if userData
+        mixpanel.identify(userData.uid)
+        mixpanel.track 'User Login'
       @_onAuthStateChange(error, userData)
     , opts
 
   newUserFromEmail: (email, password, opts = {}) ->
-    Mixpanel.track 'Register with Email'
     data =
       email: email
       password: password
@@ -134,7 +133,7 @@ class Auth extends emitter
       if error
         @_onAuthStateChange(error, {})
       else
-        Mixpanel.track 'User Registered', {email: email}
+        mixpanel.track 'User Registered', {email: email}
         @loginWithEmail(email, password, opts)
 
   logout: ->
