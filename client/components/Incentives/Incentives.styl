@@ -1,5 +1,7 @@
 .incentives
   .incentive
+    background #fff
+    border 1px solid #d7d7d7
     position relative
     float left
     display inline-block
@@ -7,14 +9,19 @@
     margin 25px 0 0 3%
     padding 20px
     border-radius 20px
+    /*
     background linear-gradient(#FFF, #D7D7D7)
     box-shadow 0 0 8px 3px #B0A7A7
+    */
+    transition: all .5s ease
     min-height 250px
     &:nth-child(3n+1)
       margin-left 0
     p
       margin 0
     .incentive-provider
+      color rgba(0, 0, 0, .65)
+      font-size .9em
       margin-top 5px
     .incentive-currency, .incentive-amount
       display inline-block
@@ -22,20 +29,32 @@
       margin-right 2px
     .incentive-amount
       font-size 1.5em
-      margin-top 10px
+      font-weight 600
+      margin-top .3em
     .incentive-type
       margin-top -3px
       text-transform uppercase
       letter-spacing 1px
-      font-size 0.8em
+      font-size 0.9em
       font-weight bold
-      color rgba(#272B2C, 0.4)
+      color rgba(0, 0, 0, .45)
     .incentive-description
-      margin-top 10px
-      color rgba(#272B2C, 0.5)
+      margin-top .8em
+      color rgba(0, 0, 0, 0.65)
+      font-weight 100
+      line-height 1.3em
     .incentive-reference
+      background rgba(0, 0, 0, .25)
+      border-radius 20px
+      color #fff
+      padding 8px 16px
       position absolute
       bottom 15px
       display block
-      color black
-      text-decoration underline
+      text-decoration none
+      transition: all .5s ease
+    .incentive-reference:hover
+      background rgba(0, 0, 0, .45)
+  .incentive:hover
+    background #7bd1c0
+    border-color #fff
