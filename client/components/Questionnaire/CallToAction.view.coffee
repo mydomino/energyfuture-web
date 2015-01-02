@@ -32,10 +32,11 @@ module.exports = React.createClass
         h2 {className: 'cta-header'}, "Ready for a free, no-obligation quote?"
         if typeforms
           div {className: 'cta-buttons'},
-            typeforms.map (typeform) ->
+            typeforms.map (typeform, idx) ->
               new TypeFormTrigger
                 className: 'cta-get-started',
                 href: typeform.href
                 clickText: typeform.clickText
+                key: "typeform-#{idx}"
         else
           a {className: 'cta-get-started', onClick: @viewQuestionnaire}, "Get started"
