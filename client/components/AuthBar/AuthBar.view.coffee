@@ -134,7 +134,7 @@ module.exports = React.createClass
           a {onClick: @loginTwitter}, 'Twitter'
           ', or '
           a {onClick: @loginEmail}, 'Email'
-          ' to save your impact and sync with mobile.'
+          ' to save your impact.'
 
   expandedView: (failed) ->
     if failed
@@ -142,11 +142,9 @@ module.exports = React.createClass
       subtitle = "Let's try that again"
     else
       title = 'Save Your Impact!'
-      subtitle = 'and sync with our mobile app'
 
     div {className: 'auth-bar-content-expanded'},
       h2 {}, title
-      p {}, subtitle
       a {className: 'btn', onClick: @loginFacebook}, 'Log in with Facebook'
       a {className: 'btn', onClick: @loginTwitter}, 'Log in with Twitter'
       a {className: 'btn', onClick: @loginEmail}, 'Log in with Email'
