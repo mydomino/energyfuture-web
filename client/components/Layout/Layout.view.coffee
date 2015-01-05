@@ -1,28 +1,34 @@
 {div, p, a, span, br} = React.DOM
 
+_ = require 'lodash'
 auth = require '../../auth'
 NewsletterSignup = require '../NewsletterSignupForm/NewsletterSignupForm.view'
 Footer = require '../Footer/Footer.view'
-BindExternalLinkMixin = require '../../mixins/BindExternalLinkMixin'
 auth = require '../../auth'
+url = require 'url'
 
 module.exports = React.createClass
   displayName: 'Layout'
 
-  mixins: [BindExternalLinkMixin]
-
   stripQueryString: (url) ->
     url.slice(0, url.indexOf '?')
-
-  trackExternalLinkAction: (event) ->
-    mixpanel.track 'View External Link', url: @stripQueryString(unescape(event.currentTarget.href))
 
   getDefaultProps: ->
     showNewsletterSignup: false
 
   handleLinkClick: (e) ->
-    if e.currentTarget && e.currentTarget.target == '_blank'
+    # track only external links that are not affiliate links
+    # track internal links
+    currentLoc = url.parse(document.location.href)
+    linkHref = url.parse(e.currentTarget.href)
+    isAffiliateLink = _.contains(e.currentTarget.classList, 'mixpanel-affiliate-link')
+    isInternalLink = _.contains(e.currentTarget.classList, 'mixpanel-internal-link')
+    if currentLoc.host != linkHref.host
       auth.prompt()
+      unless isAffiliateLink
+        mixpanel.track 'View External Link', url: @stripQueryString(unescape(event.currentTarget.href))
+    else if isInternalLink
+      mixpanel.track 'View Internal Link', url: @stripQueryString(unescape(event.currentTarget.href))
 
   componentWillMount: ->
     $('body').on 'click', 'a', @handleLinkClick
