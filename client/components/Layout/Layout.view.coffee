@@ -1,6 +1,4 @@
 React = require 'react'
-jsdom = require("jsdom")
-$ = require("jquery")(jsdom.jsdom().parentWindow)
 {div, p, a, span, br} = React.DOM
 
 auth = require '../../auth'
@@ -16,7 +14,7 @@ module.exports = React.createClass
     if e.target && e.target.target == '_blank'
       auth.prompt()
 
-  componentWillMount: ->
+  componentDidMount: ->
     $('body').on 'click', 'a', @handleLinkClick
 
   componentWillUnmount: ->
@@ -29,3 +27,4 @@ module.exports = React.createClass
           @props.children
         new NewsletterSignup guideId: @props.guideId if @props.showNewsletterSignup
       new Footer
+

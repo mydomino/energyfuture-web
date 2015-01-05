@@ -5,6 +5,6 @@ module.exports = class CategoryCollection extends DominoCollection
   url: -> "/categories"
 
   colorFor: (name) ->
-    @loaded && @models[name].color
+    "#7BD1C0"
 
   categories: -> @models

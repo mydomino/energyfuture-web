@@ -65,11 +65,12 @@ app.get "/signups.csv", (req, res) ->
 
 Guides = require('./client/pages/Guides/Guides.view')
 app.get "/guides", (req, res) ->
-  h = React.renderComponentToString(new Guides(context: {}))
-  res.render('index', { html: h})
+  h = React.renderComponentToString(new Guides({context: {pathname: '/'}}))
+  res.render('index', {html: h})
 
-#app.get '/*', (req, res) ->
-#  res.sendFile idxFile, { root: __dirname }
+app.get "/app.js", (req, res) ->
+  res.status(200)
+  res.sendFile './public/app.js', { root: __dirname }
 
 httpServer = http.createServer app
 idxFile = './public/index.html'

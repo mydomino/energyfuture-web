@@ -1,5 +1,8 @@
 auth = require './auth'
+React = require 'react'
 AuthBar = require './components/AuthBar/AuthBar.view'
+Routes = require './routes'
+Guides = require('./pages/Guides/Guides.view')
 
 LoadingScreen = React.createClass
   displayName: 'LoadingScreen'
@@ -34,6 +37,10 @@ addPage = (route) ->
 
 Router = React.createClass
   displayName: 'Router'
+
+  getDefaultProps: ->
+    initialComponent: LoadingScreen
+
   componentDidMount: ->
     @props.routes.middleware.forEach addMiddleware.bind(this)
     @props.routes.pages.forEach addPage.bind(this)
@@ -51,7 +58,7 @@ Router = React.createClass
       @setState user: auth.user
 
   getInitialState: ->
-    component: LoadingScreen
+    component: @props.initialComponent
     params: {}
     querystring: null
     user: null
@@ -62,32 +69,13 @@ Router = React.createClass
       unless @state.component.displayName == 'EmailLoginRegister'
         new AuthBar loggedIn: auth.loggedIn
       new @state.component
-        params: @state.params
-        querystring: @state.querystring
-        user: @state.user
-        context: @state.context
-
-routes =
-  middleware: [
-    ["/", require('./middleware/redirect_from_splash')]
-    ["/guides", require('./middleware/redirect_to_splash')]
-    ["*", require('./middleware/authentication')]
-    ["*", require('./middleware/categories')]
-  ]
-  pages:[
-    ["/", require('./pages/Splash/Splash.view'), 'splash']
-    ["/login", require('./pages/EmailLoginRegister/EmailLoginRegister.view'), 'login-register']
-    ["/about", require('./pages/AboutUs/AboutUs.view'), 'aboutus']
-    ["/contact", require('./pages/ContactUs/ContactUs.view'), 'contactus']
-    ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
-    ["/guides", require('./pages/Guides/Guides.view'), 'guides']
-    ["/guides/:id", require('./pages/Guide/Guide.view'), 'guide']
-    ["/guides/:guide_id/questionnaire", require('./pages/Questionnaire/Questionnaire.view'), 'guide']
-    ["*", require('./pages/NotFound/NotFound.view'), 'not-found']
-  ]
+          params: @state.params
+          querystring: @state.querystring
+          user: @state.user
+          context: @state.context
 
 app =
-  start: ->
-    React.renderComponent new Router(routes: routes), document.querySelector("body")
+  start: (component) ->
+    React.render new Router(routes: Routes, initialComponent: component), document.querySelector("body")
 
 module.exports = app

@@ -66,10 +66,13 @@ module.exports = React.createClass
 
   componentWillMount: ->
     @coll = new GuideCollection
-    @coll.on "sync", @rerenderComponent
 
   componentWillUnmount: ->
     @coll.removeListener 'sync', @rerenderComponent
+
+  componentDidMount: ->
+    console.log('got here')
+    @coll.on "sync", @rerenderComponent
 
   componentDidMount: ->
     @loadLocalOwnership()
