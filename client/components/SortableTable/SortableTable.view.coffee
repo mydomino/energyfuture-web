@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, table, thead, tbody, th, tr, td, img, p} = React.DOM
 
 _ = require 'lodash'

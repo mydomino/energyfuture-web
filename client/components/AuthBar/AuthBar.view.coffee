@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, span, p, a} = React.DOM
 auth = require '../../auth'
 _ = require 'lodash'

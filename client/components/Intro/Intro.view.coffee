@@ -1,3 +1,4 @@
+React = require 'react'
 {div, span, iframe} = React.DOM
 
 # Defines what is required for this module to render

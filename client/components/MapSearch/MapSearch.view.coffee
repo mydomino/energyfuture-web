@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2} = React.DOM
 _ = require 'lodash'
 locationSearch = require '../../vendor/location-search'

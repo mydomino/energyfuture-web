@@ -1,4 +1,4 @@
-React = require('react')
+React = require 'react'
 {div, form, h1, button, p, input} = React.DOM
 firebase = require '../../firebase'
 auth = require '../../auth'

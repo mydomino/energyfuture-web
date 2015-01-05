@@ -1,3 +1,4 @@
+React = require 'react'
 {h2, div, label, input, textarea} = React.DOM
 
 RadioButton = require './RadioButton.view.coffee'

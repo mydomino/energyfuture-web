@@ -1,3 +1,4 @@
+React = require 'react'
 {div, a, iframe} = React.DOM
 
 module.exports = React.createClass

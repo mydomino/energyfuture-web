@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, input, label, p} = React.DOM
 _ = require 'lodash'
 

@@ -67,6 +67,11 @@ Guides = require('./client/pages/Guides/Guides.view')
 app.get "/guides", (req, res) ->
   h = React.renderComponentToString(new Guides({context: {pathname: '/'}}))
   res.render('index', {html: h})
+  
+app.get '/guides/:id', (req, res) ->
+  console.log("This page hasn't been hooked up yet")
+  res.status(500)
+  res.sendFile './public/500.html', { root: __dirname }
 
 app.get "/app.js", (req, res) ->
   res.status(200)
