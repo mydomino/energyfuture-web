@@ -21,7 +21,7 @@ module.exports = React.createClass
     showNewsletterSignup: false
 
   handleLinkClick: (e) ->
-    if e.target && e.target.target == '_blank'
+    if e.currentTarget && e.currentTarget.target == '_blank'
       auth.prompt()
 
   componentWillMount: ->
