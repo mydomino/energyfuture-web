@@ -1,3 +1,5 @@
+auth = require '../auth'
+
 module.exports =
   trackLinks: (node) ->
     $(node).find('a.mixpanel-affiliate-link').each (_, l) =>
@@ -8,3 +10,7 @@ module.exports =
 
   componentDidUpdate: ->
     @trackLinks(@getDOMNode())
+
+  _trackAffiliateLinkAction: (event) ->
+    auth.prompt()
+    trackAffiliateLinkAction(event)
