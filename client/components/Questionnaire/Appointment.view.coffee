@@ -5,7 +5,6 @@ moment = require 'moment'
 RadioButton = require './RadioButton.view'
 Action = require './Action.view'
 auth = require '../../auth'
-Mixpanel = require '../../models/Mixpanel'
 
 module.exports = React.createClass
   displayName: 'Appointment'
@@ -46,9 +45,7 @@ module.exports = React.createClass
 
   confirmAction: ->
     return unless @props.isFormValid()
-    Mixpanel.track 'Confirm Appointment',
-      guide_id: @props.guideId
-      distinct_id: auth.user?.id
+    mixpanel.track 'Confirm Appointment', guide_id: @props.guideId
     @props.storeInSessionAndFirebaseAction()
     @setState confirmed: true
 

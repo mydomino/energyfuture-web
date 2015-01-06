@@ -1,8 +1,6 @@
 {div, h2, p, a} = React.DOM
-Mixpanel = require '../../models/Mixpanel'
 TypeFormTrigger = require '../../components/TypeFormTrigger/TypeFormTrigger.view'
 auth = require '../../auth'
-
 _ = require 'lodash'
 
 hasValidData = (guide) ->
@@ -16,9 +14,7 @@ module.exports = React.createClass
     content: {}
 
   viewQuestionnaire: ->
-    Mixpanel.track 'View Questionnaire',
-      guide_id: @props.guideId,
-      distinct_id: auth.user?.id
+    mixpanel.track 'View Questionnaire', guide_id: @props.guideId
     page "/guides/#{@props.guide.id}/questionnaire"
 
   render: ->

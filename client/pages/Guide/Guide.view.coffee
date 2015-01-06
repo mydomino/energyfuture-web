@@ -3,7 +3,6 @@
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 TipCollection = require '../../models/TipCollection'
-Mixpanel = require '../../models/Mixpanel'
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
@@ -28,12 +27,12 @@ module.exports = React.createClass
     auth.on 'authStateChange', @debouncedMixpanelUpdate
     @debouncedMixpanelUpdate()
 
+  updateMixpanel: ->
+    mixpanel.track 'View Guide', guide_id: @guide.id
+
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide
     auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
-
-  updateMixpanel: ->
-    Mixpanel.track("View Guide", {guide_id: @guide.id, distinct_id: auth.user?.id})
 
   setGuide: (guide) ->
     if guide.exists() && @isMounted

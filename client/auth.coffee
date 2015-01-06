@@ -1,7 +1,6 @@
 firebase = require './firebase'
 emitter = require('events').EventEmitter
 User = require './models/User'
-Mixpanel = require './models/Mixpanel'
 _ = require 'lodash'
 
 collectProviderUserData = (provider, user) ->
@@ -71,7 +70,16 @@ class Auth extends emitter
         # save new user's profile into Firebase so we can
         # list users, use them in security rules, and show profiles
         @_userRef.set userData
-        Mixpanel.signup(id: user.uid, name: userData.displayName)
+        registrationAttribs =
+          if user.provider == 'password'
+            provider: userData.provider, email: userData.email
+          else
+            provider: userData.provider
+        mixpanel.track 'User Registration', registrationAttribs
+        mixpanel.alias(user.uid)
+
+      mixpanel.people.set $name: userData.displayName if userData.displayName
+      mixpanel.identify(user.uid)
 
       @_userData = userData
       @_userId = user.uid
@@ -105,25 +113,26 @@ class Auth extends emitter
       @_onAuthStateChange(false, auth)
 
   login: (provider, opts = {}) ->
-    Mixpanel.track 'View Login Modal'
     @_firebase.authWithOAuthPopup provider, (error, userData) =>
-      Mixpanel.track 'User Login', {user_id: userData.uid, distinct_id: userData.uid} if userData
+      if userData
+        mixpanel.identify(userData.uid)
+        mixpanel.track 'User Login', provider: provider, user_id: userData.uid
       @_onAuthStateChange(error, userData)
     , opts
 
   loginWithEmail: (email, password, opts = {}) ->
-    Mixpanel.track 'Attempt Login with Email'
     data =
       email: email
       password: password
 
     @_firebase.authWithPassword data, (error, userData) =>
-      Mixpanel.track 'User Login', {user_id: userData.uid, distinct_id: userData.uid} if userData
+      if userData
+        mixpanel.identify(userData.uid)
+        mixpanel.track 'User Login', provider: 'password', user_id: userData.uid
       @_onAuthStateChange(error, userData)
     , opts
 
   newUserFromEmail: (email, password, opts = {}) ->
-    Mixpanel.track 'Register with Email'
     data =
       email: email
       password: password
@@ -132,7 +141,6 @@ class Auth extends emitter
       if error
         @_onAuthStateChange(error, {})
       else
-        Mixpanel.track 'User Registered', {email: email}
         @loginWithEmail(email, password, opts)
 
   logout: ->
