@@ -9,7 +9,7 @@ module.exports = React.createClass
     $('body').append('<script src="https://s3-eu-west-1.amazonaws.com/share.typeform.com/widget.js"></script>')
   render: ->
     style =
-      'margin-top': 40
+      'marginTop': 40
       'height': 500
 
     new Layout {name: 'contactus'},

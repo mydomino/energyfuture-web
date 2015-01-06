@@ -31,12 +31,15 @@ app.use json2csv.expressDecorator
 
 app.set('view engine', 'jade')
 
+showErrorPage: (res) ->
+  res.status(500)
+  res.sendFile './public/500.html', { root: __dirname }
+
 app.use (req, res, next) ->
   d = domain.create()
   d.on 'error', (e) ->
     console.error e.stack
-    res.status(500)
-    res.sendFile './public/500.html', { root: __dirname }
+    showErrorPage(res)
 
   d.run(next)
 
@@ -75,8 +78,12 @@ renderReactComponent = (page) ->
         pathname: url
       params:
         id: req.params.id
+
     ReactAsync.renderToStringAsync React.createFactory(ReactComponent)(props), (err, markup) ->
-      res.render('index', {content: markup}) unless err
+      if !err
+        res.render('index', {content: markup})
+      else
+        showErrorPage(res)
 
 for page in Routes.pages
   renderReactComponent(page)
