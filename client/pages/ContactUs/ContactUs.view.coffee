@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, h3, p, em} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'

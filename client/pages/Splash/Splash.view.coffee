@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h1, p, a, img} = React.DOM
 
 firebase = require '../../firebase'
@@ -13,7 +14,7 @@ module.exports = React.createClass
     ref.on 'value', (snap) =>
       @setState userCount: snap.numChildren()
 
-  continue: ->
+  next: ->
     page '/guides'
 
   render: ->
@@ -24,7 +25,7 @@ module.exports = React.createClass
           h1 {className: 'splash-header'}, "domino"
           p {className: 'splash-subheader'}, "Your guides to low-carbon living (and easy savings)"
           div {className: 'splash-cta'},
-            a {className: 'btn splash-button', onClick: @continue}, "Click any guide to get started"
+            a {className: 'btn splash-button', onClick: @next}, "Click any guide to get started"
             p {}, "#{@state.userCount} people in fort collins already have"
 
       new Guides @props

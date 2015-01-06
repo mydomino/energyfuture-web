@@ -1,5 +1,6 @@
 React = require 'react'
 {div, h2, p, a} = React.DOM
+
 Mixpanel = require '../../models/Mixpanel'
 TypeFormTrigger = require '../../components/TypeFormTrigger/TypeFormTrigger.view'
 auth = require '../../auth'

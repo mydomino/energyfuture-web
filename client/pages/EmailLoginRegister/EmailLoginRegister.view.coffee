@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, form, fieldset, legend, label, input, p, a, button} = React.DOM
 
 auth = require '../../auth'

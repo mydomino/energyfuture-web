@@ -1,8 +1,7 @@
 auth = require './auth'
 React = require 'react'
 AuthBar = require './components/AuthBar/AuthBar.view'
-Routes = require './routes'
-Guides = require('./pages/Guides/Guides.view')
+Routes = require './client-routes'
 
 LoadingScreen = React.createClass
   displayName: 'LoadingScreen'
@@ -38,9 +37,6 @@ addPage = (route) ->
 Router = React.createClass
   displayName: 'Router'
 
-  getDefaultProps: ->
-    initialComponent: LoadingScreen
-
   componentDidMount: ->
     @props.routes.middleware.forEach addMiddleware.bind(this)
     @props.routes.pages.forEach addPage.bind(this)
@@ -58,7 +54,7 @@ Router = React.createClass
       @setState user: auth.user
 
   getInitialState: ->
-    component: @props.initialComponent
+    component: LoadingScreen
     params: {}
     querystring: null
     user: null
@@ -75,7 +71,7 @@ Router = React.createClass
           context: @state.context
 
 app =
-  start: (component) ->
-    React.render new Router(routes: Routes, initialComponent: component), document.querySelector("body")
+  start: () ->
+    React.render new Router(routes: Routes), document.querySelector("body")
 
 module.exports = app

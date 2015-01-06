@@ -14,7 +14,7 @@ module.exports = React.createClass
   introStyle: (imageUrl, videoUrl) ->
     style = {}
     if imageUrl && !videoUrl
-      style['background-image'] = "url(#{imageUrl})"
+      style['backgroundImage'] = "url(#{imageUrl})"
     style
 
   videoProps: (url) ->
