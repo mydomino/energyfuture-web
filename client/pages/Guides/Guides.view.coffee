@@ -1,4 +1,5 @@
-React = require('react')
+React = require 'react'
+ReactAsync = require 'react-async'
 {div, h1, h2, button, br, span, img, p} = React.DOM
 
 _ = require 'lodash'
@@ -56,23 +57,22 @@ OnScrollMixin =
 
 module.exports = React.createClass
   displayName: 'Guides'
-  mixins: [OnScrollMixin]
+
+  mixins: [OnScrollMixin, ReactAsync.Mixin]
 
   getDefaultProps: ->
     scrollPositionKey: 'guidesLastScrollPosition'
 
-  getInitialState: ->
-    ownership: "own"
+  getInitialStateAsync: (cb) ->
+    @coll = new GuideCollection
+    @coll.on "sync", => cb null, {ownership: 'own'}
 
   componentWillMount: ->
     @coll = new GuideCollection
+    @coll.on "sync", => @rerenderComponent
 
   componentWillUnmount: ->
     @coll.removeListener 'sync', @rerenderComponent
-
-  componentDidMount: ->
-    console.log('got here')
-    @coll.on "sync", @rerenderComponent
 
   componentDidMount: ->
     @loadLocalOwnership()

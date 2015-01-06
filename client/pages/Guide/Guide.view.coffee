@@ -1,4 +1,5 @@
 React = require 'react'
+ReactAsync = require 'react-async'
 {div, h2, p, hr} = React.DOM
 
 _ = require 'lodash'
@@ -15,9 +16,8 @@ auth = require '../../auth'
 
 module.exports = React.createClass
   displayName: 'Guide'
-  mixins: [HideModuleMixin]
-  getInitialState: ->
-    guide: null
+
+  mixins: [HideModuleMixin, ReactAsync.Mixin]
 
   componentWillMount: ->
     @guide = new Guide(id: @props.params.id)
@@ -27,6 +27,10 @@ module.exports = React.createClass
     @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
     auth.on 'authStateChange', @debouncedMixpanelUpdate
     @debouncedMixpanelUpdate()
+
+  getInitialStateAsync: (cb) ->
+    @guide = new Guide(id: @props.params.id)
+    @guide.on "sync", => cb null, {guide: @guide}
 
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide

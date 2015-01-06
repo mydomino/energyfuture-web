@@ -7,6 +7,7 @@ json2csv = require 'nice-json2csv'
 domain = require 'domain'
 
 React = require 'react/addons'
+ReactAsync = require 'react-async'
 
 {join} = require 'path'
 
@@ -73,10 +74,9 @@ renderReactComponent = (page) ->
       context:
         pathname: url
       params:
-        [url, id: req.params.id]
-    content = React.renderToString(React.createFactory(ReactComponent)(props))
-    console.log(content)
-    res.render('index', {content: content})
+        id: req.params.id
+    ReactAsync.renderToStringAsync React.createFactory(ReactComponent)(props), (err, markup) ->
+      res.render('index', {content: markup}) unless err
 
 for page in Routes.pages
   renderReactComponent(page)
