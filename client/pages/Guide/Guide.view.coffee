@@ -10,6 +10,7 @@ ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
 GuideModules = require('../../components/GuideModules.coffee')()
 HideModuleMixin = require '../../mixins/HideModuleMixin'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
+Autolinker = require 'autolinker'
 auth = require '../../auth'
 
 module.exports = React.createClass
@@ -56,7 +57,7 @@ module.exports = React.createClass
               category: category
             div {className: "guide-header"},
               h2 {}, title
-              p {}, summary
+              p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}} if summary
             div {className: "guide-modules"},
               if modules
                 modules.map (module, idx) =>
