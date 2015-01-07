@@ -3,11 +3,6 @@ TypeFormTrigger = require '../../components/TypeFormTrigger/TypeFormTrigger.view
 auth = require '../../auth'
 _ = require 'lodash'
 
-hasValidData = (guide) ->
-  return false unless guide
-  return false if _.isEmpty guide.get('questionnaire')
-  true
-
 module.exports = React.createClass
   displayName: 'CallToAction'
   getDefaultProps: ->
@@ -18,8 +13,8 @@ module.exports = React.createClass
     page "/guides/#{@props.guide.id}/questionnaire"
 
   render: ->
-    return false unless hasValidData(@props.guide)
     typeforms = @props.content.typeforms
+    return false if _.isEmpty(typeforms)
 
     div {className: 'guide-module'},
       div {className: 'guide-module-content guide-module-cta'},
