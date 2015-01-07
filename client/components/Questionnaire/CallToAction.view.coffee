@@ -13,12 +13,12 @@ module.exports = React.createClass
     page "/guides/#{@props.guide.id}/questionnaire"
 
   render: ->
-    typeforms = @props.content.typeforms
+    {heading, typeforms} = @props.content
     return false if _.isEmpty(typeforms)
 
     div {className: 'guide-module'},
       div {className: 'guide-module-content guide-module-cta'},
-        h2 {className: 'cta-header'}, "Ready for a free, no-obligation quote?"
+        h2 {className: 'cta-header'}, heading if heading
         if typeforms
           div {className: 'cta-buttons'},
             typeforms.map (typeform, idx) ->
