@@ -8,6 +8,8 @@ LoadingScreen = React.createClass
   render: ->
     React.DOM.div({}, 'Loading')
 
+LoadingScreen = React.createFactory LoadingScreen
+
 addMiddleware = (route) ->
   page route[0], route[1]
   return
@@ -69,6 +71,8 @@ Router = React.createClass
           querystring: @state.querystring
           user: @state.user
           context: @state.context
+
+Router = React.createFactory Router
 
 app =
   start: () ->

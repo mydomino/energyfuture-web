@@ -79,7 +79,7 @@ renderReactComponent = (page) ->
       params:
         id: req.params.id
 
-    ReactAsync.renderToStringAsync React.createFactory(ReactComponent)(props), (err, markup, data) ->
+    ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
       if !err
         res.render('index', {content: ReactAsync.injectIntoMarkup(markup, data)})
       else

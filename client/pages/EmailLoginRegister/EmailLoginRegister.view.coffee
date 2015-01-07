@@ -152,7 +152,7 @@ actions.register = React.createClass
           p {},
             button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Registering...' else 'Register'
 
-module.exports = React.createClass
+EmailLoginRegister = React.createClass
   displayName: 'EmailLoginRegister'
   getInitialState: ->
     action: 'login'
@@ -166,3 +166,5 @@ module.exports = React.createClass
       p {},
         'Changed your mind? Head '
         a {href: '/guides'}, 'back to the guides'
+
+module.exports = React.createFactory EmailLoginRegister

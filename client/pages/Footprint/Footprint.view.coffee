@@ -33,7 +33,7 @@ FootprintHeader = React.createClass
     else
       "Here's your footprint, progress, and completed actions."
 
-module.exports = React.createClass
+Footprint = React.createClass
   displayName: 'Footprint'
 
   getInitialState: ->
@@ -116,3 +116,5 @@ module.exports = React.createClass
 
           hr {className: "h-divider"}
           new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides, categorizedScores: @state.categorizedScores, totalScore: @state.totalScore)
+
+module.exports = React.createFactory Footprint

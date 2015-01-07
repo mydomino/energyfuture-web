@@ -4,7 +4,7 @@ React = require 'react'
 _ = require 'lodash'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 
-module.exports = React.createClass
+YourProgress = React.createClass
   displayName: 'YourProgress'
 
   getDefaultProps: ->
@@ -60,3 +60,5 @@ module.exports = React.createClass
           div {style: {clear: "both"}}
       else
         new LoadingIcon
+
+module.exports = React.createFactory YourProgress

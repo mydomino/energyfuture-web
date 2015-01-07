@@ -55,7 +55,7 @@ OnScrollMixin =
     sessionStorage.setItem(@props.scrollPositionKey, @state.scroll.y)
     window.removeEventListener("scroll", @onScrollThrottled)
 
-module.exports = React.createClass
+Guides = React.createClass
   displayName: 'Guides'
   mixins: [OnScrollMixin, ReactAsync.Mixin]
 
@@ -135,3 +135,5 @@ module.exports = React.createClass
       else
         new LoadingIcon
       div {className: "guides-intro-annotation", ref: "annotation"}
+
+module.exports = React.createFactory Guides

@@ -4,7 +4,7 @@ React = require 'react'
 RadioButton = require './RadioButton.view.coffee'
 PaginateActions = require './PaginateActions.view.coffee'
 
-module.exports = React.createClass
+Contact = React.createClass
   displayName: 'Contact'
 
   render: ->
@@ -44,3 +44,5 @@ module.exports = React.createClass
       textarea {name: 'contact-address', defaultValue: @props.answers['contact-address']}
       new RadioButton(radio: radioData, answers: @props.answers)
       new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction, page: @props.page, totalPageCount: @props.totalPageCount)
+
+module.exports = React.createFactory Contact

@@ -6,7 +6,7 @@ LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
 
-module.exports = React.createClass
+Amazon = React.createClass
   displayName: 'Amazon'
 
   getInitialState: ->
@@ -68,3 +68,5 @@ module.exports = React.createClass
               new Carousel count: 3, items: @productItems()
             else
               @productItems()
+
+module.exports = React.createFactory Amazon

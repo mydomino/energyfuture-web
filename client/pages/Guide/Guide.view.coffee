@@ -14,7 +14,7 @@ GuideModules = require('../../components/GuideModules.coffee')()
 HideModuleMixin = require '../../mixins/HideModuleMixin'
 auth = require '../../auth'
 
-module.exports = React.createClass
+Guide = React.createClass
   displayName: 'Guide'
 
   mixins: [HideModuleMixin, ReactAsync.Mixin]
@@ -79,3 +79,5 @@ module.exports = React.createClass
                       hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName
+
+module.exports = React.createFactory Guide

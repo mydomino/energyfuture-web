@@ -6,7 +6,7 @@ IncentiveModal = require '../IncentiveModal/IncentiveModal.view'
 
 CutLength = 90
 
-module.exports = React.createClass
+Incentives = React.createClass
   displayName: 'Incentives'
 
   getInitialState: ->
@@ -64,3 +64,5 @@ module.exports = React.createClass
                   a {className: "incentive-reference", onClick: @showModal.bind(@, i)}, "more"
 
       div {className: 'clear-both'}
+
+module.exports = React.createFactory Incentives

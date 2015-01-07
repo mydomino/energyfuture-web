@@ -8,7 +8,7 @@ showMore = (event) ->
   $(event.target).parents('.action').css('max-height', 'none')
   $(event.target).parent('.action-read-more').hide()
 
-module.exports = React.createClass
+TakeAction = React.createClass
   displayName: 'TakeAction'
 
   getDefaultProps: ->
@@ -32,3 +32,5 @@ module.exports = React.createClass
             img {className : 'action-read-more-button', src: '/img/show-more.svg', onClick: showMore}
             div {className: 'action-read-more-mask'}
       div {className: "clear-both"}
+
+module.exports = React.createFactory TakeAction

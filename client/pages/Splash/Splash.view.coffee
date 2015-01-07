@@ -4,7 +4,7 @@ React = require 'react'
 firebase = require '../../firebase'
 Guides = require '../Guides/Guides.view'
 
-module.exports = React.createClass
+Splash = React.createClass
   displayName: 'Splash'
   getInitialState: ->
     userCount: 'Many'
@@ -29,3 +29,5 @@ module.exports = React.createClass
             p {}, "#{@state.userCount} people in fort collins already have"
 
       new Guides @props
+
+module.exports = React.createFactory Splash

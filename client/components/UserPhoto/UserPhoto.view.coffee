@@ -3,7 +3,7 @@ React = require 'react'
 
 DEFAULT_PHOTO_URL = '/* @echo ASSET_HOST_URL *//img/default-user-photo.png'
 
-module.exports = React.createClass
+UserPhoto = React.createClass
   displayName: 'UserPhoto'
   propTypes:
     user: React.PropTypes.object
@@ -14,3 +14,5 @@ module.exports = React.createClass
 
   _photoUrl: ->
     (@props.user && @props.user.attributes.profile_image_url) || DEFAULT_PHOTO_URL
+
+module.exports = React.createFactory UserPhoto

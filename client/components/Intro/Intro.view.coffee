@@ -8,7 +8,7 @@ hasValidData = (content) ->
   return false unless imageUrl || videoUrl
   true
 
-module.exports = React.createClass
+Intro = React.createClass
   displayName: 'Intro'
 
   introStyle: (imageUrl, videoUrl) ->
@@ -47,3 +47,5 @@ module.exports = React.createClass
           div {className: "intro-overlay"},
             span {className: "intro-duration"}, duration
             span {className: "intro-title"}, caption
+
+module.exports = React.createFactory Intro

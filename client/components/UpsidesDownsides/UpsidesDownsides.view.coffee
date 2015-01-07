@@ -11,7 +11,7 @@ hasValidData = (content) ->
   return false if _.isEmpty content.downsides
   true
 
-module.exports = React.createClass
+UpsidesDownsides = React.createClass
   displayName: 'UpsidesDownsides'
 
   getDefaultProps: ->
@@ -33,3 +33,5 @@ module.exports = React.createClass
           downsides.map (downside, idx) ->
             li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(downside)}}
       div {className: "clear-both"}
+
+UpsidesDownsides = React.createFactory React.createClass

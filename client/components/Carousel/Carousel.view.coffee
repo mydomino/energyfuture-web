@@ -4,7 +4,7 @@ React = require 'react'
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-module.exports = React.createClass
+Carousel = React.createClass
   displayName: 'Carousel'
 
   getDefaultProps: ->
@@ -36,3 +36,5 @@ module.exports = React.createClass
             div {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(item)}}
           else
             div {key: "item#{idx}"}, item
+
+module.exports = React.createFactory Carousel

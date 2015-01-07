@@ -24,7 +24,9 @@ TipProfile = React.createClass
     else
       div {className: "tip-location-without-profile"}, @props.location
 
-module.exports = React.createClass
+TipProfile = React.createFactory TipProfile
+
+Tips = React.createClass
   displayName: 'Tips'
   getDefaultProps: ->
     guide: null
@@ -60,3 +62,5 @@ module.exports = React.createClass
             p {className: "tip-content", dangerouslySetInnerHTML: {"__html": Autolinker.link(content)}}
             new TipProfile user: user, location: location
         div {className: "clear-both"}
+
+module.exports = React.createFactory Tips

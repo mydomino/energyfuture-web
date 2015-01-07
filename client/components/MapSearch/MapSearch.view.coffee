@@ -7,7 +7,7 @@ locationSearch = require '../../vendor/location-search'
 _locationCache = null
 _searchResultsCache = {}
 
-module.exports = React.createClass
+MapSearch = React.createClass
   displayName: 'MapSearch'
 
   handleMarkers: (markers) ->
@@ -118,3 +118,5 @@ module.exports = React.createClass
       h2 {className: 'guide-module-header'}, map.heading
       div {className: 'guide-module-content'},
         div {className: 'map', ref: 'map', onClick: @handleMapClick}
+
+module.exports = React.createFactory MapSearch

@@ -5,7 +5,7 @@ auth = require '../../auth'
 NewsletterSignup = require '../NewsletterSignupForm/NewsletterSignupForm.view'
 Footer = require '../Footer/Footer.view'
 
-module.exports = React.createClass
+Layout = React.createClass
   displayName: 'Layout'
   getDefaultProps: ->
     showNewsletterSignup: false
@@ -28,3 +28,4 @@ module.exports = React.createClass
         new NewsletterSignup guideId: @props.guideId if @props.showNewsletterSignup
       new Footer
 
+module.exports = React.createFactory Layout

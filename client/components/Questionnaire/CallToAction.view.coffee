@@ -12,7 +12,7 @@ hasValidData = (guide) ->
   return false if _.isEmpty guide.get('questionnaire')
   true
 
-module.exports = React.createClass
+CallToAction = React.createClass
   displayName: 'CallToAction'
   getDefaultProps: ->
     content: {}
@@ -41,3 +41,5 @@ module.exports = React.createClass
                 clickText: typeform.clickText
         else
           a {className: 'cta-get-started', onClick: @viewQuestionnaire}, "Get started"
+
+module.exports = React.createFactory CallToAction

@@ -13,7 +13,7 @@ formatScore = (score) ->
   return 0 unless num > 0
   num.numberFormat()
 
-module.exports = React.createClass
+ImpactScore = React.createClass
   displayName: 'ImpactScore'
   getDefaultProps: ->
     score: 0
@@ -29,3 +29,5 @@ module.exports = React.createClass
 
     span {className: 'impact-score', style: style},
       formatScore(@props.score) + "%"
+
+module.exports = React.createFactory ImpactScore

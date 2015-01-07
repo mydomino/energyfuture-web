@@ -8,7 +8,7 @@ Action = require './Action.view'
 auth = require '../../auth'
 Mixpanel = require '../../models/Mixpanel'
 
-module.exports = React.createClass
+Appointment = React.createClass
   displayName: 'Appointment'
 
   componentDidMount: ->
@@ -129,3 +129,5 @@ module.exports = React.createClass
         div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @setCallDetails)
         div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers, changeAction: @setCallDetails)
         new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")
+
+module.exports = React.createFactory Appointment

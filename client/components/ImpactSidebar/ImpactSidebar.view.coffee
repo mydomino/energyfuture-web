@@ -41,7 +41,7 @@ FloatingSidebar =
   componentDidMount: ->
     @setupSidebarPositioning()
 
-module.exports = React.createClass
+ImpactSidebar = React.createClass
   displayName: 'ImpactSidebar'
   mixins: [FloatingSidebar]
   componentWillMount: ->
@@ -140,3 +140,4 @@ module.exports = React.createClass
             i {className: "icon pu-icon pu-icon-remindme"}
             span {}, "Save for later"
 
+module.exports = React.createFactory ImpactSidebar

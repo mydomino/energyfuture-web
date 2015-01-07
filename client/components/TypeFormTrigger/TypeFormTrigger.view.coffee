@@ -1,7 +1,7 @@
 React = require 'react'
 {div, a, iframe} = React.DOM
 
-module.exports = React.createClass
+TypeFormTrigger = React.createClass
   displayName: 'TypeFormTrigger'
   propTypes:
     href: React.PropTypes.string.isRequired
@@ -17,3 +17,5 @@ module.exports = React.createClass
 
   render: ->
     a {className: "#{@props.className} typeform-share link", href: @props.href, 'data-mode': @props.dataMode, target: '_blank'}, @props.clickText
+
+module.exports = React.createFactory TypeFormTrigger

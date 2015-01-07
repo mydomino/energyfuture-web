@@ -1,7 +1,7 @@
 React = require 'react'
 {div, p, a, span, br} = React.DOM
 
-module.exports = React.createClass
+Footer = React.createClass
   displayName: 'Footer'
   goToContactPage: (e) ->
     # We're forcing a page reload here because the contact
@@ -25,3 +25,5 @@ module.exports = React.createClass
             a {href: '/about'}, 'Learn about us'
             ' or '
             a {href: '/contact', onClick: @goToContactPage}, 'get in touch'
+
+module.exports = React.createFactory Footer

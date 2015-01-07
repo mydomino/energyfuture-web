@@ -4,7 +4,7 @@ firebase = require '../../firebase'
 auth = require '../../auth'
 Mixpanel = require '../../models/Mixpanel'
 
-module.exports = React.createClass
+NewsletterSignupForm = React.createClass
   displayName: 'NewsletterSignupForm'
   getInitialState: ->
     email: ''
@@ -44,3 +44,5 @@ module.exports = React.createClass
           button {className: 'newsletter-signup-button'}, 'Sign Up'
       else
         p {className: 'newsletter-signup-notice'}, "Great, you're signed up!"
+
+module.exports = React.createFactory NewsletterSignupForm

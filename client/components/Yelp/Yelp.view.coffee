@@ -4,7 +4,7 @@ React = require 'react'
 _ = require 'lodash'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 
-module.exports = React.createClass
+Yelp = React.createClass
   displayName: 'Yelp'
 
   getInitialState: ->
@@ -73,3 +73,5 @@ module.exports = React.createClass
                         img {src: i.snippet_image_url}
                       div {className: "yelp-review-snippet-story"},
                         p {}, i.snippet_text
+
+module.exports = React.createFactory Yelp

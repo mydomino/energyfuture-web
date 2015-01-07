@@ -4,7 +4,7 @@ React = require 'react'
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-module.exports = React.createClass
+SortableTable = React.createClass
   displayName: 'SortableTable'
 
   getInitialState: ->
@@ -60,3 +60,5 @@ module.exports = React.createClass
           div {className: "sortable-table-expand-collapse #{collapsedClass}", ref: 'expandCollapse'},
             div {className: 'expand-collapse-mask'}
             img {className : 'expand-collapse-button', src: '/img/show-more.svg', onClick: @toggleExpandCollapse}
+
+module.exports = React.createFactory SortableTable
