@@ -18,14 +18,12 @@ module.exports = React.createClass
 
     div {className: 'guide-module'},
       div {className: 'guide-module-content guide-module-cta'},
-        h2 {className: 'cta-header'}, heading if heading
-        if typeforms
-          div {className: 'cta-buttons'},
-            typeforms.map (typeform, idx) ->
-              new TypeFormTrigger
-                className: 'cta-get-started',
-                href: typeform.href
-                clickText: typeform.clickText
-                key: "typeform-#{idx}"
-        else
-          a {className: 'cta-get-started', onClick: @viewQuestionnaire}, "Get started"
+        if heading
+          h2 {className: 'cta-header'}, heading
+        div {className: 'cta-buttons'},
+          typeforms.map (typeform, idx) ->
+            new TypeFormTrigger
+              className: 'cta-get-started',
+              href: typeform.href
+              clickText: typeform.clickText
+              key: "typeform-#{idx}"
