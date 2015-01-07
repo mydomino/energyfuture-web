@@ -57,15 +57,14 @@ OnScrollMixin =
 
 module.exports = React.createClass
   displayName: 'Guides'
-
   mixins: [OnScrollMixin, ReactAsync.Mixin]
 
   getDefaultProps: ->
     scrollPositionKey: 'guidesLastScrollPosition'
 
   getInitialStateAsync: (cb) ->
-    @coll = new GuideCollection
-    @coll.on "sync", => cb null, {ownership: 'own'}
+    coll = new GuideCollection
+    coll.on "sync", => cb null, {ownership: 'own'}
 
   componentWillMount: ->
     @coll = new GuideCollection

@@ -31,7 +31,7 @@ app.use json2csv.expressDecorator
 
 app.set('view engine', 'jade')
 
-showErrorPage: (res) ->
+showErrorPage = (res) ->
   res.status(500)
   res.sendFile './public/500.html', { root: __dirname }
 
@@ -79,9 +79,9 @@ renderReactComponent = (page) ->
       params:
         id: req.params.id
 
-    ReactAsync.renderToStringAsync React.createFactory(ReactComponent)(props), (err, markup) ->
+    ReactAsync.renderToStringAsync React.createFactory(ReactComponent)(props), (err, markup, data) ->
       if !err
-        res.render('index', {content: markup})
+        res.render('index', {content: ReactAsync.injectIntoMarkup(markup, data)})
       else
         showErrorPage(res)
 
