@@ -1,4 +1,4 @@
-{div, h2, p, span, ul, li, hr} = React.DOM
+{div, h2, h3, p, span, ul, li, hr} = React.DOM
 
 _ = require 'lodash'
 auth = require '../../auth'
@@ -12,26 +12,30 @@ YourProgress = require '../../components/YourProgress/YourProgress.view'
 ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
 UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
+LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
+
+posClass = (num) ->
+  if (num + 1) % 4 == 0 then 'guide-preview-row-end' else ''
+
+guideStatus = (userGuides, guide) ->
+  return null unless userGuides && userGuides.hasOwnProperty(guide.id)
+  userGuides[guide.id].status
 
 FootprintHeader = React.createClass
   displayName: 'FootprintHeader'
   render: ->
     div {className: "footprint-header"},
-      new UserPhoto user: @props.user
       h2 {}, @_headline()
       p {className: "sub-heading"}, @_tagline()
 
   _headline: ->
-    if @props.user
-      "Welcome back, #{@props.user.firstName()}"
-    else
-      "Your small choices have a big impact."
+    "You decide your carbon impact"
 
   _tagline: ->
-    if @props.user
-      "You're making great progress!"
-    else
-      "Here's your footprint, progress, and completed actions."
+    "Use our guides to see how you can make a difference"
+
+selectedGuides = []
 
 module.exports = React.createClass
   displayName: 'Footprint'
@@ -39,6 +43,7 @@ module.exports = React.createClass
 
   getInitialState: ->
     guides: []
+    selectedGuides: []
 
   componentWillMount: ->
     mixpanel.track 'View Impact Screen'
@@ -67,54 +72,48 @@ module.exports = React.createClass
     unless @props.user
       auth.prompt(true)
 
+  toggleGuideSelection: (guide) ->
+    selectedGuides = @state.selectedGuides
+    index = selectedGuides.indexOf(guide)
+    if index > -1
+      selectedGuides.splice(index, 1)
+    else
+      selectedGuides.push(guide)
+
+    @setState selectedGuides: selectedGuides
+
+  selectedClass: (guide) ->
+    if @state.selectedGuides.indexOf(guide) > -1 then 'selected' else ''
+
   render: ->
-    locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
-    houseData = [{name: "apartment", value: 1}, {name: "house", value: 2}]
-    ownershipData = [{name: "own", value: 1}, {name: "rent", value: 2}]
-    energyData = [{name: "$190/mo", value: 1}, {name: "$300/mo", value: 2}]
-    carData = [{name: "Dodge Challenger", value: 1}, {name: "Carrera", value: 2}]
-    carMilesData = [{name: "50 miles", value: 1}, {name: "100 miles", value: 2}]
-    cycleFreqData = [{name: "rarely", value: 1}, {name: "daily", value: 2}]
-    foodFreqData = [{name: "6", value: 1}, {name: "4", value: 2}]
+    userGuides = @props.user && @props.user.get('guides')
+    guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
+
+    console.log @state.selectedGuides
 
     new Layout {name: 'footprint'},
       new NavBar user: @props.user, path: @props.context.pathname
       div {className: "footprint"},
         new FootprintHeader user: @props.user
-        div {className: "footprint-content"},
-          h2 {}, "your impact"
-          new ImpactScore score: @claimedGuides.getPoints()
-          h2 {}, "did you know?"
-          p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"
-          hr {className: "h-divider"}
-          h2 {}, "about you"
-          p {className: "sub-heading"}, "These choices help us predict your footprint and offer customized recommendations."
-          div {className: "about-you-row"},
-            span {className: "about-you-label"}, "Home:"
-            span {className: "about-you-description"}, "You live in"
-            new DropdownComponent(data: locationData)
-            span {}, "in a"
-            new DropdownComponent(data: houseData)
-            span {}, "you"
-            new DropdownComponent(data: ownershipData)
-            span {}, "spending"
-            new DropdownComponent(data: energyData)
-            span {}, "on energy."
-          div {className: "about-you-row"},
-            span {className: "about-you-label"}, "Mobility:"
-            span {className: "about-you-description"}, "You drive a"
-            new DropdownComponent(data: carData)
-            span {}, "around"
-            new DropdownComponent(data: carMilesData)
-            span {}, "per week, and bicycle"
-            new DropdownComponent(data: cycleFreqData)
-          div {className: "about-you-row"},
-            span {className: "about-you-label"}, "Food:"
-            span {className: "about-you-description"}, "You eat red meat"
-            new DropdownComponent(data: foodFreqData)
-            span {}, "times/week and dairy"
-            new DropdownComponent(data: foodFreqData)
-            span {}, "times/week"
+        div {className: 'footprint-sidebar'},
+          div {className: "impact-calculation"},
+            if @state.selectedGuides.length == 0
+              "Choose some guides to get started"
+            else
+              "#{@state.selectedGuides.length} guides selected"
 
-          hr {className: "h-divider"}
-          new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides, categorizedScores: @state.categorizedScores, totalScore: @state.totalScore)
+        div {className: "footprint-content"},
+          h3 {}, "Your Actions"
+          p {className: "sub-heading"}, "Choose one or more actions to see their impact"
+          if guides.length > 0
+            div {className: "guides"},
+              guides.map (guide, idx) =>
+                new GuidePreview
+                  key: "guide#{guide.id}"
+                  guide: guide
+                  customClass: [posClass(idx), "small", @selectedClass(guide.id)].join(' ')
+                  status: guideStatus(userGuides, guide)
+                  clickAction: @toggleGuideSelection
+
+          else
+            new LoadingIcon

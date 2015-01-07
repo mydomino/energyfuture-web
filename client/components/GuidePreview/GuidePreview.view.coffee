@@ -10,15 +10,18 @@ module.exports = React.createClass
   getDefaultProps: ->
     customClass: ''
 
-  viewGuide: ->
-    page "/guides/#{@props.guide.id}"
-
   statusIcon: ->
     icon = switch @props.status
       when 'claimed' then 'check'
       when 'saved' then 'remindme'
 
     span {className: "guide-preview-status pu-icon-#{icon}"} if icon
+
+  handleClick: ->
+    if @props.clickAction
+      @props.clickAction(@props.guide.id)
+    else
+      page "/guides/#{@props.guide.id}"
 
   render: ->
     guide = @props.guide.attributes
@@ -33,7 +36,7 @@ module.exports = React.createClass
     if preview_bg
       style.backgroundImage = "url(#{preview_bg})"
 
-    div {className: "guide-preview #{@props.customClass}", onClick: @viewGuide, style: style},
+    div {className: "guide-preview #{@props.customClass}", onClick: @handleClick, style: style},
       if recommended
         span {className: "guide-preview-recommended", style: { backgroundColor: color }}, "Recommended"
       @statusIcon()
