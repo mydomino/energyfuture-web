@@ -41,6 +41,7 @@ module.exports = React.createClass
     guides: []
 
   componentWillMount: ->
+    mixpanel.track 'View Impact'
     @coll = new GuideCollection
     @claimedGuides = new UserGuides(@props.user, 'claimed')
     @coll.on "sync", @handleSync
