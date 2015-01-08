@@ -33,7 +33,7 @@ app.set('view engine', 'jade')
 
 showErrorPage = (res) ->
   res.status(500)
-  res.sendFile './public/500.html', { root: __dirname }
+  res.sendFile './500.html', { root: __dirname }
 
 app.use (req, res, next) ->
   d = domain.create()
@@ -80,11 +80,15 @@ renderReactComponent = (page) ->
         pathname: url
       user: null
 
-    ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
-      if !err
-        res.render('index', {content: ReactAsync.injectIntoMarkup(markup, data)})
-      else
-        showErrorPage(res)
+    res.render 'index', {content: React.renderToString((ReactComponent(props)), data)}, (e, h) ->
+      res.status(200).send(h) unless e
+
+#    ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
+#      if err
+#        return next(err)
+#
+#      res.render 'index', {content: markup, data}, (e, h) ->
+#        res.status(200).send(h) unless e
 
 for page in Routes.pages
   renderReactComponent(page)

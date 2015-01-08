@@ -52,7 +52,7 @@ Router = React.createClass
   getInitialState: ->
     component: LoadingScreen
     params: {}
-    user: null
+    user: {}
     context: {}
 
   render: ->

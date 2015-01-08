@@ -33,6 +33,8 @@ FootprintHeader = React.createClass
     else
       "Here's your footprint, progress, and completed actions."
 
+FootprintHeader = React.createFactory FootprintHeader
+
 Footprint = React.createClass
   displayName: 'Footprint'
 

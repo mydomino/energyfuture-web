@@ -63,8 +63,8 @@ Guides = React.createClass
     scrollPositionKey: 'guidesLastScrollPosition'
 
   getInitialStateAsync: (cb) ->
-    coll = new GuideCollection
-    coll.on "sync", => cb null, {ownership: 'own'}
+    @coll = new GuideCollection
+    @coll.on "sync", => cb null, {ownership: 'own'}
 
   componentWillMount: ->
     @coll = new GuideCollection
