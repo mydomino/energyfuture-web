@@ -28,13 +28,8 @@ addPage = (route) ->
     @setState
       component: Component
       params: ctx.params
-      querystring: ctx.querystring
       user: ctx.user
       context: ctx
-
-    return
-
-  return
 
 Router = React.createClass
   displayName: 'Router'
@@ -46,7 +41,6 @@ Router = React.createClass
     auth.on 'authStateChange', @setUserState
 
     page.start()
-    return
 
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @setUserState
@@ -58,7 +52,6 @@ Router = React.createClass
   getInitialState: ->
     component: LoadingScreen
     params: {}
-    querystring: null
     user: null
     context: {}
 
@@ -68,9 +61,9 @@ Router = React.createClass
         new AuthBar loggedIn: auth.loggedIn
       new @state.component
           params: @state.params
-          querystring: @state.querystring
           user: @state.user
-          context: @state.context
+          context:
+            pathname: @state.context.pathname
 
 Router = React.createFactory Router
 

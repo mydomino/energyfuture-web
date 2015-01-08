@@ -74,10 +74,11 @@ renderReactComponent = (page) ->
 
   app.get url, (req, res) ->
     props =
-      context:
-        pathname: url
       params:
         id: req.params.id
+      context:
+        pathname: url
+      user: null
 
     ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
       if !err
