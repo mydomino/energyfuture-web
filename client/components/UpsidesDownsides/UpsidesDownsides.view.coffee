@@ -34,4 +34,4 @@ UpsidesDownsides = React.createClass
             li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(downside)}}
       div {className: "clear-both"}
 
-UpsidesDownsides = React.createFactory React.createClass
+module.exports = React.createFactory UpsidesDownsides

@@ -14,7 +14,7 @@ GuideModules = require('../../components/GuideModules.coffee')()
 HideModuleMixin = require '../../mixins/HideModuleMixin'
 auth = require '../../auth'
 
-Guide = React.createClass
+GuideView = React.createClass
   displayName: 'Guide'
 
   mixins: [HideModuleMixin, ReactAsync.Mixin]
@@ -80,4 +80,4 @@ Guide = React.createClass
                   else
                     console.warn 'Missing module for', moduleName
 
-module.exports = React.createFactory Guide
+module.exports = React.createFactory GuideView
