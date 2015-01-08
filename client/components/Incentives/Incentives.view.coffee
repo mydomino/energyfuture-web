@@ -28,7 +28,11 @@ module.exports = React.createClass
     "#{d.slice(0, wordBoundary)} #{String.fromCharCode(8230)}"
 
   render: ->
-    {subheading, incentives} = @props.content
+    if _.isArray(@props.content)
+      incentives = @props.content
+    else
+      {subheading, incentives} = @props.content
+
     return false if _.isEmpty incentives
 
     div {},
