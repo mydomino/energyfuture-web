@@ -17,6 +17,7 @@
     "chai": "^1.9.1",
     "cheerio": "^0.18.0",
     "coffee-script": "^1.7.0",
+    "coffeeify": "^1.0.0",
     "compression": "^1.0.1",
     "errorhandler": "^1.0.0",
     "express": "^4.0.0",
