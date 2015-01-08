@@ -22,11 +22,18 @@ positionSidebar = (element) ->
   return
 
 FloatingSidebar =
+  # Only float the sidebar for modern browsers (IE9+)
+  shouldFloatSidebar: ->
+    ver = document.getElementsByTagName('HTML')[0].className
+    ie = if ver == "" then false else parseInt(ver.replace('ie', ''), 10)
+    return !(ie && ie < 9)
+
   onScrollEventHandler: ->
-    if @refs.sidebar
+    if @refs.sidebar && @sidebarIsFloating
       positionSidebar(@refs.sidebar.getDOMNode())
 
   setupSidebarPositioning: ->
+    @sidebarIsFloating = true
     window.addEventListener('scroll', @onScrollEventHandler, false);
     window.addEventListener('resize', @onScrollEventHandler, false);
 
@@ -35,10 +42,12 @@ FloatingSidebar =
     window.removeEventListener('resize', @onScrollEventHandler, false);
 
   componentWillUnmount: ->
-    @removeSidebarPositioning()
+    if @sidebarIsFloating
+      @removeSidebarPositioning()
 
   componentDidMount: ->
-    @setupSidebarPositioning()
+    if @shouldFloatSidebar()
+      @setupSidebarPositioning()
 
 module.exports = React.createClass
   displayName: 'ImpactSidebar'
