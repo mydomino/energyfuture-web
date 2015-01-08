@@ -51,8 +51,8 @@ gutil.env.production = (process.env.NODE_ENV == "production")
 
 # im going to break this out into a module
 # so this will become about two lines
-gulp.task 'server', (cb) ->
-  reloader = reload()
+gulp.task 'server', ->
+  reload()
   require('./start')
   return
 
