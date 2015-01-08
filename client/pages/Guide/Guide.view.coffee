@@ -21,9 +21,7 @@ GuideView = React.createClass
 
   componentWillMount: ->
     @guide = new Guide(id: @props.params.id)
-    @guide.on "sync", @setGuide
-
-    @setGuide(@guide)
+    @guide.sync().then => @rerenderComponent()
 
     @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
     auth.on 'authStateChange', @debouncedMixpanelUpdate
@@ -31,18 +29,16 @@ GuideView = React.createClass
 
   getInitialStateAsync: (cb) ->
     @guide = new Guide(id: @props.params.id)
-    @guide.on "sync", => cb null, {guide: @guide}
+    @guide.sync().then => cb null, {guide: @guide}
 
   componentWillUnmount: ->
-    @guide.removeListener 'sync', @setGuide
     auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
 
   updateMixpanel: ->
     Mixpanel.track("View Guide", {guide_id: @guide.id, distinct_id: auth.user?.id})
 
-  setGuide: (guide) ->
-    if guide.exists() && @isMounted
-      @setState guide: guide
+  rerenderComponent: ->
+    @forceUpdate() if @isMounted()
 
   render: ->
     if @state.guide

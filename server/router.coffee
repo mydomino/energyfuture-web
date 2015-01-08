@@ -80,15 +80,13 @@ renderReactComponent = (page) ->
         pathname: url
       user: null
 
-    res.render 'index', {content: React.renderToString((ReactComponent(props)), data)}, (e, h) ->
-      res.status(200).send(h) unless e
+    ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
+      if err
+        console.log(err)
+        return showErrorPage(res)
 
-#    ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
-#      if err
-#        return next(err)
-#
-#      res.render 'index', {content: markup, data}, (e, h) ->
-#        res.status(200).send(h) unless e
+      res.render 'index', {content: ReactAsync.injectIntoMarkup(markup, data), data}, (e, h) ->
+        res.status(200).send(h) unless e
 
 for page in Routes.pages
   renderReactComponent(page)

@@ -64,14 +64,11 @@ Guides = React.createClass
 
   getInitialStateAsync: (cb) ->
     @coll = new GuideCollection
-    @coll.on "sync", => cb null, {ownership: 'own'}
+    @coll.sync().then -> cb null, {ownership: 'own'}
 
   componentWillMount: ->
     @coll = new GuideCollection
-    @coll.on "sync", => @rerenderComponent
-
-  componentWillUnmount: ->
-    @coll.removeListener 'sync', @rerenderComponent
+    @coll.sync().then -> @rerenderComponent()
 
   componentDidMount: ->
     @loadLocalOwnership()
@@ -109,6 +106,7 @@ Guides = React.createClass
   render: ->
     ownershipData = [{name: "home owners", value: "own"}, {name: "home renters", value: "rent"}]
     userGuides = @props.user && @props.user.get('guides')
+
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
     new Layout {name: 'guides'},
       new NavBar user: @props.user, path: @props.context.pathname
