@@ -1,6 +1,7 @@
 {div, h2, form, fieldset, legend, label, input, p, a, button} = React.DOM
 
 auth = require '../../auth'
+_ = require 'lodash'
 
 DOMValueMixin =
   getDOMValue: (name) ->
@@ -87,18 +88,39 @@ actions.login = React.createClass
 
 actions.forgotPassword = React.createClass
   displayName: 'EmailForgotPasswordView'
+  mixins: [DOMValueMixin]
+
+  getInitialState: ->
+    errorMessage: null
 
   switchToLogin: (e) ->
     e.preventDefault()
     @props.actionChangeCallback('login')
 
+  setProcessingState: ->
+    @setState errorMessage: null, processing: true
+
+  handleSubmit: (e) ->
+    e.preventDefault()
+    email = @getDOMValue('email')
+    if _.isEmpty email
+      @setState errorMessage: 'Please enter a valid email.'
+      return
+    @setProcessingState()
+    auth.resetPassword email, (error) =>
+      @setState processing: false
+      if error
+        @setState errorMessage: error.message
+
   render: ->
     div {},
+      if @state.errorMessage
+        p {className: 'alert alert-error'}, @state.errorMessage
       div {className: 'row user'},
         label {htmlFor: 'email', tabIndex: '-1'}, 'Email '
-        input {type: 'text', className: 'text', id: 'email', ariaRequired: true, autoCapitalize: 'off', autoCorrect: 'off', autofocus: 'autofocus', ref: 'email'}
+        input {type: 'text', className: 'text', id: 'email', ariaRequired: true, autoCapitalize: 'off', autoCorrect: 'off', autofocus: 'autofocus', ref: 'email', required: true}
       p {},
-        button {className: 'btn'}, 'Reset your password'
+        button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Resetting...' else 'Reset your password'
 
 actions.register = React.createClass
   displayName: 'EmailRegisterView'

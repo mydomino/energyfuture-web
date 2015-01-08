@@ -143,6 +143,10 @@ class Auth extends emitter
       else
         @loginWithEmail(email, password, opts)
 
+  resetPassword: (email, callback) ->
+    @_firebase.resetPassword email: email, (err) =>
+      callback(err)
+
   logout: ->
     @_firebase.unauth()
     window.location.reload()
