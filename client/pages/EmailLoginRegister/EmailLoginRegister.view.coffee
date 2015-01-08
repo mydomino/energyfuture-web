@@ -66,6 +66,8 @@ actions.login = React.createClass
 
       if @state.errorMessage
         p {className: 'alert alert-error'}, @state.errorMessage
+      if @props.notificationMessage
+        p {className: 'alert alert-info'}, @props.notificationMessage
 
       form {id: 'login', onSubmit: @handleSubmit},
         fieldset {className: 'sign-in'},
@@ -93,10 +95,6 @@ actions.forgotPassword = React.createClass
   getInitialState: ->
     errorMessage: null
 
-  switchToLogin: (e) ->
-    e.preventDefault()
-    @props.actionChangeCallback('login')
-
   setProcessingState: ->
     @setState errorMessage: null, processing: true
 
@@ -111,6 +109,8 @@ actions.forgotPassword = React.createClass
       @setState processing: false
       if error
         @setState errorMessage: error.message
+      else
+        @props.actionChangeCallback('login', notificationMessage: 'Please check your email for your new password')
 
   render: ->
     div {},
@@ -125,6 +125,7 @@ actions.forgotPassword = React.createClass
 actions.register = React.createClass
   displayName: 'EmailRegisterView'
   mixins: [DOMValueMixin]
+
   getInitialState: ->
     errorMessage: null
     processing: false
@@ -198,13 +199,16 @@ module.exports = React.createClass
   displayName: 'EmailLoginRegister'
   getInitialState: ->
     action: 'login'
+    notificationMessage: null
 
-  switchAction: (action) ->
-    @setState action: action
+  switchAction: (action, opts = {}) ->
+    @setState
+      action: action
+      notificationMessage: opts.notificationMessage
 
   render: ->
     div {className: 'auth'},
-      new actions[@state.action] actionChangeCallback: @switchAction
+      new actions[@state.action] actionChangeCallback: @switchAction, notificationMessage: @state.notificationMessage
       p {},
         'Changed your mind? Head '
         a {href: '/guides'}, 'back to the guides'
