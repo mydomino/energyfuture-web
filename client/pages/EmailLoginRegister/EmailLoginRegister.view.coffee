@@ -31,6 +31,10 @@ actions.login = React.createClass
     e.preventDefault()
     @props.actionChangeCallback('register')
 
+  switchToForgotPassword: (e) ->
+    e.preventDefault()
+    @props.actionChangeCallback('forgotPassword')
+
   handleLogin: (data) ->
     errorMessage = null
 
@@ -77,7 +81,24 @@ actions.login = React.createClass
           #     ' · '
           #     a {className: 'alternate-context', target: '_blank'}, ' Forgot password?'
           p {},
+            a {onClick: @switchToForgotPassword, href: '#'}, "Forgot your password?"
+          p {},
             button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Logging in...' else 'Log in'
+
+actions.forgotPassword = React.createClass
+  displayName: 'EmailForgotPasswordView'
+
+  switchToLogin: (e) ->
+    e.preventDefault()
+    @props.actionChangeCallback('login')
+
+  render: ->
+    div {},
+      div {className: 'row user'},
+        label {htmlFor: 'email', tabIndex: '-1'}, 'Email '
+        input {type: 'text', className: 'text', id: 'email', ariaRequired: true, autoCapitalize: 'off', autoCorrect: 'off', autofocus: 'autofocus', ref: 'email'}
+      p {},
+        button {className: 'btn'}, 'Reset your password'
 
 actions.register = React.createClass
   displayName: 'EmailRegisterView'
