@@ -49,12 +49,9 @@ paths =
 gutil.env.development = (process.env.NODE_ENV != "production")
 gutil.env.production = (process.env.NODE_ENV == "production")
 
-# im going to break this out into a module
-# so this will become about two lines
 gulp.task 'server', ->
   reload()
   require('./start')
-  return
 
 # javascript
 gulp.task 'coffee', ->

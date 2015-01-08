@@ -1,4 +1,4 @@
-mixpanelToken = '/* @echo MIXPANEL_TOKEN */'
+mixpanelToken = process.env.MIXPANEL_TOKEN || '/* @echo MIXPANEL_TOKEN */'
 mixpanelFactory = require 'mixpanel'
 moment = require 'moment'
 

@@ -1,7 +1,7 @@
 React = require 'react'
 {div, img} = React.DOM
 
-DEFAULT_PHOTO_URL = '/* @echo ASSET_HOST_URL *//img/default-user-photo.png'
+DEFAULT_PHOTO_URL = (process.env.ASSET_HOST_URL || '/* @echo ASSET_HOST_URL */') +  "/img/default-user-photo.png"
 
 UserPhoto = React.createClass
   displayName: 'UserPhoto'

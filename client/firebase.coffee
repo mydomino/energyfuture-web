@@ -1,4 +1,4 @@
-rootUrl = "https://energyfuture-dev.firebaseio.com"
+rootUrl = process.env.FIREBASE_URL || '/* @echo FIREBASE_URL */'
 
 Firebase = require 'firebase'
 
