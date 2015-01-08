@@ -11,13 +11,13 @@ ReactAsync = require 'react-async'
 
 {join} = require 'path'
 
-AmazonProducts = require './server/AmazonProducts'
-QuestionnaireEmail = require './server/QuestionnaireEmail'
-YelpListings = require './server/YelpListings'
-Appointments = require './server/Appointments'
-Signups = require './server/Signups'
+AmazonProducts = require './models/AmazonProducts'
+QuestionnaireEmail = require './models/QuestionnaireEmail'
+YelpListings = require './models/YelpListings'
+Appointments = require './models/Appointments'
+Signups = require './models/Signups'
 
-Routes = require './client/server-routes'
+Routes = require './routes'
 
 PORT = Number(process.env.PORT || 8080);
 

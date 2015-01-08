@@ -1,7 +1,7 @@
 auth = require './auth'
 React = require 'react'
 AuthBar = require './components/AuthBar/AuthBar.view'
-Routes = require './client-routes'
+Routes = require './routes'
 
 LoadingScreen = React.createClass
   displayName: 'LoadingScreen'
