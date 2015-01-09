@@ -1,4 +1,4 @@
-{div, h2, p, hr} = React.DOM
+{div, h1, p, hr, section, article, header} = React.DOM
 
 _ = require 'lodash'
 Guide = require '../../models/Guide'
@@ -55,10 +55,10 @@ module.exports = React.createClass
               user: @props.user
               guide: @state.guide
               category: category
-            div {className: "guide-header"},
-              h2 {}, title
+            header {className: "guide-header"},
+              h1 {}, title
               p {}, summary
-            div {className: "guide-modules"},
+            article {className: "guide-modules"},
               if modules
                 modules.map (module, idx) =>
                   moduleName = module.name
@@ -66,7 +66,7 @@ module.exports = React.createClass
 
                   if GuideModules[moduleName]
                     uniqName = "#{moduleName}-#{idx}"
-                    div {key: uniqName, ref: uniqName, id: module.id},
+                    section {key: uniqName, ref: uniqName, id: module.id},
                       new GuideModules[moduleName]
                         guide: @state.guide
                         content: module.content
