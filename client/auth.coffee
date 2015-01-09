@@ -70,7 +70,7 @@ class Auth extends emitter
         userData = collectProviderUserData user.provider, user
         # save new user's profile into Firebase so we can
         # list users, use them in security rules, and show profiles
-        @_userRef.set userData
+        @_userRef.set _.merge(userData, id: user.uid)
         registrationAttribs =
           if user.provider == 'password'
             provider: userData.provider, email: userData.email
