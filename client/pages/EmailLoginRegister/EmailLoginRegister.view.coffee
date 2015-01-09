@@ -12,6 +12,30 @@ DOMValueMixin =
 
 actions = {}
 
+actions.changePassword = React.createClass
+  displayName: 'ChangePasswordView'
+
+  getInitialState: ->
+    processing: false
+
+  handleSubmit: ->
+    @setState processing: true
+
+  render: ->
+    div {},
+      h2 {className: 'auth-header'}, 'Change your password'
+      form {onSubmit: @handleSubmit},
+        fieldset {},
+          legend {}, 'Change password'
+          div {className: 'row password'},
+            label {htmlFor: 'password', tabIndex: '-1'}, 'Old password '
+            input {type: 'password', className: 'password text', id: 'email', ariaRequired: true, defaultValue: '', ref: 'oldPassword'}
+          div {className: 'row password'},
+            label {htmlFor: 'password', tabIndex: '-1'}, 'New password '
+            input {type: 'password', className: 'password text', id: 'email', ariaRequired: true, defaultValue: '', ref: 'newPassword'}
+          p {},
+            button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Changing password...' else 'Change password'
+
 actions.login = React.createClass
   displayName: 'EmailLoginView'
   mixins: [DOMValueMixin]
@@ -81,8 +105,6 @@ actions.login = React.createClass
           # p {},
           #   input {id: 'remember', type: 'checkbox', value: '1', ref: 'remember'},
           #     label {htmlFor: 'remember'}, ' Remember me'
-          #     ' · '
-          #     a {className: 'alternate-context', target: '_blank'}, ' Forgot password?'
           p {},
             a {onClick: @switchToForgotPassword, href: '#'}, "Forgot your password?"
           p {},
