@@ -28,9 +28,6 @@ actions.changePassword = React.createClass
         fieldset {},
           legend {}, 'Change password'
           div {className: 'row password'},
-            label {htmlFor: 'password', tabIndex: '-1'}, 'Old password '
-            input {type: 'password', className: 'password text', id: 'email', ariaRequired: true, defaultValue: '', ref: 'oldPassword'}
-          div {className: 'row password'},
             label {htmlFor: 'password', tabIndex: '-1'}, 'New password '
             input {type: 'password', className: 'password text', id: 'email', ariaRequired: true, defaultValue: '', ref: 'newPassword'}
           p {},
@@ -60,11 +57,17 @@ actions.login = React.createClass
     e.preventDefault()
     @props.actionChangeCallback('forgotPassword')
 
+  switchToChangePassword: ->
+    @props.actionChangeCallback('changePassword')
+
   handleLogin: (data) ->
     errorMessage = null
 
     if data.user
-      page('/guides')
+      if data.user.attributes.tempPassword
+        @switchToChangePassword()
+      else
+        page('/guides')
     else if data.error.code == "USER_CANCELLED"
     else if data.error
       errorMessage = data.error.message

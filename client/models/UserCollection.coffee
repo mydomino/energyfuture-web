@@ -8,3 +8,8 @@ module.exports = class UserCollection extends DominoCollection
     return null unless @models
     _.find @models, (_,id) ->
       id == uId
+
+  getUserByEmail: (email) ->
+    return null unless @models
+    _.find @models, (attrs, _) ->
+      attrs.email == email

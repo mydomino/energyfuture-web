@@ -1,6 +1,7 @@
 firebase = require './firebase'
 emitter = require('events').EventEmitter
 User = require './models/User'
+UserCollection = require './models/UserCollection'
 _ = require 'lodash'
 
 collectProviderUserData = (provider, user) ->
@@ -144,7 +145,10 @@ class Auth extends emitter
         @loginWithEmail(email, password, opts)
 
   resetPassword: (email, callback) ->
+    userCollection = new UserCollection()
     @_firebase.resetPassword email: email, (err) =>
+      user = userCollection.getUserByEmail(email)
+      new User(user)._firebase().update(tempPassword: true)
       callback(err)
 
   logout: ->
