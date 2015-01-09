@@ -13,22 +13,37 @@ DOMValueMixin =
 actions = {}
 
 actions.changePassword = React.createClass
+  mixins: [DOMValueMixin]
   displayName: 'ChangePasswordView'
 
   getInitialState: ->
     processing: false
+    errorMessage: null
 
-  handleSubmit: ->
+  handleSubmit: (e) ->
+    e.preventDefault()
     @setState processing: true
+    auth.changePassword @props.email, @getDOMValue('oldPassword'), @getDOMValue('newPassword'), (err) =>
+      if err
+        @setState
+          errorMessage: err.message
+          processing: false
+      else
+        page '/guides'
 
   render: ->
     div {},
       h2 {className: 'auth-header'}, 'Change your password'
-      form {onSubmit: @handleSubmit},
+      if @state.errorMessage
+        p {className: 'alert alert-error'}, @state.errorMessage
+      form {},
         fieldset {},
           legend {}, 'Change password'
           div {className: 'row password'},
-            label {htmlFor: 'password', tabIndex: '-1'}, 'New password '
+            label {htmlFor: 'password', tabIndex: '-1'}, 'Old password'
+            input {type: 'password', className: 'password text', id: 'email', ariaRequired: true, defaultValue: '', ref: 'oldPassword'}
+          div {className: 'row password'},
+            label {htmlFor: 'password', tabIndex: '-1'}, 'New password'
             input {type: 'password', className: 'password text', id: 'email', ariaRequired: true, defaultValue: '', ref: 'newPassword'}
           p {},
             button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Changing password...' else 'Change password'
@@ -57,15 +72,15 @@ actions.login = React.createClass
     e.preventDefault()
     @props.actionChangeCallback('forgotPassword')
 
-  switchToChangePassword: ->
-    @props.actionChangeCallback('changePassword')
+  switchToChangePassword: (params) ->
+    @props.actionChangeCallback('changePassword', params)
 
   handleLogin: (data) ->
     errorMessage = null
-
     if data.user
-      if data.user.attributes.tempPassword
-        @switchToChangePassword()
+      {email, tempPassword} = data.user.attributes
+      if tempPassword
+        @switchToChangePassword(email: email)
       else
         page('/guides')
     else if data.error.code == "USER_CANCELLED"
@@ -224,16 +239,16 @@ module.exports = React.createClass
   displayName: 'EmailLoginRegister'
   getInitialState: ->
     action: 'login'
-    notificationMessage: null
+    params: {}
 
   switchAction: (action, opts = {}) ->
     @setState
       action: action
-      notificationMessage: opts.notificationMessage
+      params: opts
 
   render: ->
     div {className: 'auth'},
-      new actions[@state.action] actionChangeCallback: @switchAction, notificationMessage: @state.notificationMessage
+      new actions[@state.action] _.merge(actionChangeCallback: @switchAction, @state.params)
       p {},
         'Changed your mind? Head '
         a {href: '/guides'}, 'back to the guides'

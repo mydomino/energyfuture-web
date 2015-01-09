@@ -151,6 +151,20 @@ class Auth extends emitter
       new User(user)._firebase().update(tempPassword: true)
       callback(err)
 
+  changePassword: (email, oldPassword, newPassword, callback) ->
+    userCollection = new UserCollection
+    @_firebase.changePassword
+      email: email
+      oldPassword: oldPassword
+      newPassword: newPassword
+    , (err) =>
+      if _.isEmpty(err)
+        user = userCollection.getUserByEmail(email)
+        new User(user)._firebase().update tempPassword: false, (error) =>
+          callback(error)
+      else
+        callback(err)
+
   logout: ->
     @_firebase.unauth()
     window.location.reload()
