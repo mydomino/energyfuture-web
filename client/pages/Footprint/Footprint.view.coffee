@@ -92,41 +92,49 @@ module.exports = React.createClass
     userGuides = @props.user && @props.user.get('guides')
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
 
-    console.log @state.selectedGuides
-
     new Layout {name: 'footprint'},
       new NavBar user: @props.user, path: @props.context.pathname
       div {className: "footprint"},
         new FootprintHeader user: @props.user
-        div {className: 'footprint-sidebar', ref: 'sidebar'},
-          div {className: "impact-calculation"},
-            if @state.selectedGuides.length == 0
-              div {},
-                h3 {}, "Nice Work, Jeremy."
-                "You're making a real impact! "
-                strong {}, 345
-                " people in "
-                strong {}, "Fort Collins"
-                " are at "
-                strong {}, "17%"
-                " or higher. The dominos are falling!"
-                div {className: 'location'},
-                  p {},
-                    "Based on "
-                    span {className: 'location-point'}, "94123 (Fort Collins) "
-                    a {}, "Change Location?"
-                p {className: 'explaination'},
-                  a {}, "What do these numbers mean?"
+        if @props.user
+          div {className: 'footprint-sidebar', ref: 'sidebar'},
+            div {className: "impact-calculation"},
+              if @state.selectedGuides.length == 0
+                div {},
+                  h3 {}, "Nice Work, #{@props.user.firstName()}."
+                  "You're making a real impact! "
+                  strong {}, 345
+                  " people in "
+                  strong {}, "Fort Collins"
+                  " are at "
+                  strong {}, "17%"
+                  " or higher. The dominos are falling!"
+                  div {className: 'location'},
+                    p {},
+                      "Based on "
+                      span {className: 'location-point'}, "94123 (Fort Collins) "
+                      a {}, "Change Location?"
+                  p {className: 'explaination'},
+                    a {}, "What do these numbers mean?"
 
-            else
-              div {},
-                "#{@state.selectedGuides.length} guides selected"
-                h3 {}, "Great choice Jeremy."
-                "Choosing clean power can make a huge difference in the environment and your energy bills."
-                p {},
-                  a {className: 'btn btn-green'}, "Read This Guide"
-                p {className: 'explaination'},
-                  a {}, "What do these numbers mean?"
+              else if @state.selectedGuides.length == 1
+                div {},
+                  "#{@state.selectedGuides.length} guides selected"
+                  h3 {}, "Great choice #{@props.user.firstName()}."
+                  "Choosing clean power can make a huge difference in the environment and your energy bills."
+                  p {},
+                    a {className: 'btn btn-green'}, "Read This Guide"
+                  p {className: 'explaination'},
+                    a {}, "What do these numbers mean?"
+              else
+                div {},
+                  "#{@state.selectedGuides.length} guides selected"
+                  h3 {}, "Nice Combination!"
+                  "Great selections #{@props.user.firstName()}. Did you know the average american saves "
+                  strong {}, "$10,000 a year"
+                  " with public transit?"
+                  p {className: 'explaination'},
+                    a {}, "What do these numbers mean?"
 
         div {className: "footprint-content"},
           if guides.length > 0
