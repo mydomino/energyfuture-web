@@ -1,3 +1,5 @@
+_ = require 'lodash'
+
 express = require 'express'
 compress = require 'compression'
 staticFiles = require 'serve-static'
@@ -73,12 +75,13 @@ renderReactComponent = (page) ->
   ReactComponent = page[1]
 
   app.get url, (req, res) ->
+    params = [url]
+    params.id = req.params.id
     props =
-      params:
-        id: req.params.id
+      params: params
       context:
         pathname: url
-      user: null
+      user: undefined
 
     ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
       if err
