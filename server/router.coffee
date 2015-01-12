@@ -76,7 +76,7 @@ renderReactComponent = (page) ->
 
   app.get url, (req, res) ->
     params = [url]
-    params.id = req.params.id
+    params.id = req.params.id if req.params.id
     props =
       params: params
       context:
