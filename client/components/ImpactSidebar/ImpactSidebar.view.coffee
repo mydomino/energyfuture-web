@@ -4,45 +4,11 @@ auth = require '../../auth'
 Categories = require '../../models/singletons/Categories'
 UserGuides = require '../../models/UserGuides'
 ImpactScore = require '../ImpactScore/ImpactScore.view'
-
-positionSidebar = (element) ->
-  anchor = element.parentElement
-  style = { position: null, top: null, left: null }
-
-  if window.scrollY + element.offsetHeight > anchor.offsetTop + anchor.offsetHeight - 40
-    style.top = (anchor.offsetHeight - element.offsetHeight) + 'px'
-  else if window.scrollY > anchor.offsetTop
-    style.position = 'fixed'
-    style.top = '40px'
-    style.left = (anchor.offsetLeft - 100) + 'px'
-
-  for property, value of style
-    element.style[property] = value
-
-  return
-
-FloatingSidebar =
-  onScrollEventHandler: ->
-    if @refs.sidebar
-      positionSidebar(@refs.sidebar.getDOMNode())
-
-  setupSidebarPositioning: ->
-    window.addEventListener('scroll', @onScrollEventHandler, false);
-    window.addEventListener('resize', @onScrollEventHandler, false);
-
-  removeSidebarPositioning: ->
-    window.removeEventListener('scroll', @onScrollEventHandler, false);
-    window.removeEventListener('resize', @onScrollEventHandler, false);
-
-  componentWillUnmount: ->
-    @removeSidebarPositioning()
-
-  componentDidMount: ->
-    @setupSidebarPositioning()
+FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
 
 module.exports = React.createClass
   displayName: 'ImpactSidebar'
-  mixins: [FloatingSidebar]
+  mixins: [FloatingSidebarMixin]
   componentWillMount: ->
     @initUser()
 

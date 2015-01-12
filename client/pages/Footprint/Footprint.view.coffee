@@ -14,6 +14,7 @@ UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
+FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
 
 posClass = (num) ->
   if (num + 1) % 4 == 0 then 'guide-preview-row-end' else ''
@@ -39,7 +40,10 @@ selectedGuides = []
 
 module.exports = React.createClass
   displayName: 'Footprint'
-  mixins: [ScrollTopMixin]
+  mixins: [ScrollTopMixin, FloatingSidebarMixin]
+
+  calculateLeftOffset: (anchor, element) ->
+    element.offsetLeft
 
   getInitialState: ->
     guides: []
