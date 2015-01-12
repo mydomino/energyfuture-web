@@ -11,15 +11,15 @@ module.exports = React.createClass
     href: null
     clickText: 'Launch me!'
     className: ''
+    mixpanelProperty: 'mixpanel-property-placeholder'
 
   clickAction: (event) ->
-    mixpanel.track 'View Typeform', action: event.currentTarget.dataset.mixpanelProperty
+    mixpanelProperties = _.merge(guide_id: @props.guide_id, action: @props.mixpanelProperty)
+    mixpanel.track 'View Typeform', mixpanelProperties
 
   componentDidMount: ->
     $(@refs.typeformLink.getDOMNode()).click @clickAction
     $('body').append('<script src="https://s3-eu-west-1.amazonaws.com/share.typeform.com/share.js"></script>')
 
-
   render: ->
-    property = if _.contains(@props.clickText, 'quote') then 'request-quote' else 'call-someone'
-    a {className: "#{@props.className} typeform-share link", href: @props.href, ref: 'typeformLink', 'data-mode': @props.dataMode, 'data-mixpanel-property': property, onClick: @clickAction}, @props.clickText
+    a {className: "#{@props.className} typeform-share link", href: @props.href, ref: 'typeformLink', 'data-mode': @props.dataMode, 'data-mixpanel-property': @props.mixpanelProperty}, @props.clickText

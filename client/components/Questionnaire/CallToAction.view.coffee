@@ -21,9 +21,11 @@ module.exports = React.createClass
         if heading
           h2 {className: 'cta-header'}, heading
         div {className: 'cta-buttons'},
-          typeforms.map (typeform, idx) ->
+          typeforms.map (typeform, idx) =>
             new TypeFormTrigger
               className: 'cta-get-started',
               href: typeform.href
               clickText: typeform.clickText
+              mixpanelProperty: typeform.mixpanelProperty
+              guide_id: @props.guide.id
               key: "typeform-#{idx}"

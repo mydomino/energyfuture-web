@@ -88,9 +88,12 @@ module.exports = React.createClass
     else
       auth.prompt(true)
 
+  trackMixpanelAction: (action) ->
+    mixpanel.track 'Impact Actions in Guides', action: action, guide: @props.guide.id
+
   claimGuide: ->
     action = =>
-      mixpanel.track 'Guide Impact', action: 'claimed'
+      @trackMixpanelAction('claimed')
       @claimedImpact.add(@props.guide)
 
     if @props.user
@@ -100,7 +103,7 @@ module.exports = React.createClass
 
   saveGuide: ->
     action = =>
-      mixpanel.track 'Guide Impact', action: 'saved'
+      @trackMixpanelAction('saved')
       @savedForLater.add(@props.guide)
 
     if @props.user
