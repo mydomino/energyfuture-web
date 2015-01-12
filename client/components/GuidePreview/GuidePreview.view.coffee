@@ -13,9 +13,11 @@ module.exports = React.createClass
   statusIcon: ->
     icon = switch @props.status
       when 'claimed' then 'check'
-      when 'saved' then 'remindme'
+      when 'saved' then 'star'
 
-    span {className: "guide-preview-status pu-icon-#{icon}"} if icon
+    if icon
+      div {className: "guide-preview-status guide-preview-status-#{icon}"},
+        span {className: "fa fa-#{icon}"}
 
   handleClick: ->
     if @props.clickAction
