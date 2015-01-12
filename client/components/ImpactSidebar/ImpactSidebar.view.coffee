@@ -103,7 +103,7 @@ module.exports = React.createClass
 
   saveGuide: ->
     action = =>
-      trackMixpanelAction('saved')
+      @trackMixpanelAction('saved')
       @savedForLater.add(@props.guide)
 
     if @props.user
