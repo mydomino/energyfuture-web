@@ -118,3 +118,31 @@ spacingY = 30px
     &.pu-icon-check
       &:before
         color #50E3C2
+
+.guide-preview
+  &.small
+    overflow hidden
+    width 125px
+    height 185px
+    &.selected
+      .guide-preview-content
+        top 0
+        background none
+        background-color rgba(0,255,0,0.2)
+    .guide-preview-status
+      background-color #6cb69e
+      width 90px
+      height 40px
+      padding-top 13px
+      -webkit-transform rotate(45deg)
+      top -2px
+      right -30px
+      left auto
+      text-align center
+      .fa
+        -webkit-transform rotate(-45deg)
+        display block
+        color #fff
+        font-size 1.5em
+    .guide-preview-status-star
+      background-color rgba(235,235,0,0.8)

@@ -1,4 +1,4 @@
-{div, h2, h3, p, span, ul, li, hr} = React.DOM
+{div, h2, h3, p, span, strong, a, ul, li, hr} = React.DOM
 
 _ = require 'lodash'
 auth = require '../../auth'
@@ -33,7 +33,7 @@ FootprintHeader = React.createClass
     "You decide your carbon impact"
 
   _tagline: ->
-    "Use our guides to see how you can make a difference"
+    "Choose one or more actions to see their impact"
 
 selectedGuides = []
 
@@ -94,16 +94,37 @@ module.exports = React.createClass
       new NavBar user: @props.user, path: @props.context.pathname
       div {className: "footprint"},
         new FootprintHeader user: @props.user
-        div {className: 'footprint-sidebar'},
+        div {className: 'footprint-sidebar', ref: 'sidebar'},
           div {className: "impact-calculation"},
             if @state.selectedGuides.length == 0
-              "Choose some guides to get started"
+              div {},
+                h3 {}, "Nice Work, Jeremy."
+                "You're making a real impact! "
+                strong {}, 345
+                " people in "
+                strong {}, "Fort Collins"
+                " are at "
+                strong {}, "17%"
+                " or higher. The dominos are falling!"
+                div {className: 'location'},
+                  p {},
+                    "Based on "
+                    span {className: 'location-point'}, "94123 (Fort Collins) "
+                    a {}, "Change Location?"
+                p {className: 'explaination'},
+                  a {}, "What do these numbers mean?"
+
             else
-              "#{@state.selectedGuides.length} guides selected"
+              div {},
+                "#{@state.selectedGuides.length} guides selected"
+                h3 {}, "Great choice Jeremy."
+                "Choosing clean power can make a huge difference in the environment and your energy bills."
+                p {},
+                  a {className: 'btn btn-green'}, "Read This Guide"
+                p {className: 'explaination'},
+                  a {}, "What do these numbers mean?"
 
         div {className: "footprint-content"},
-          h3 {}, "Your Actions"
-          p {className: "sub-heading"}, "Choose one or more actions to see their impact"
           if guides.length > 0
             div {className: "guides"},
               guides.map (guide, idx) =>
