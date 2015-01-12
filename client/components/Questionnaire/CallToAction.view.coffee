@@ -31,6 +31,7 @@ module.exports = React.createClass
                 className: 'cta-get-started',
                 href: typeform.href
                 clickText: typeform.clickText
+                mixpanelProperty: typeform.mixpanelProperty
                 key: "typeform-#{idx}"
         else
           a {className: 'cta-get-started', onClick: @viewQuestionnaire}, "Get started"
