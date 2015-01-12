@@ -18,7 +18,8 @@ module.exports = React.createClass
     mixpanel.track 'View Typeform', mixpanelProperties
 
   componentDidMount: ->
+    $(@refs.typeformLink.getDOMNode()).click @clickAction
     $('body').append('<script src="https://s3-eu-west-1.amazonaws.com/share.typeform.com/share.js"></script>')
 
   render: ->
-    a {className: "#{@props.className} typeform-share link", href: @props.href, ref: 'typeformLink', 'data-mode': @props.dataMode, 'data-mixpanel-property': @props.mixpanelProperty, onClick: @clickAction}, @props.clickText
+    a {className: "#{@props.className} typeform-share link", href: @props.href, ref: 'typeformLink', 'data-mode': @props.dataMode, 'data-mixpanel-property': @props.mixpanelProperty}, @props.clickText
