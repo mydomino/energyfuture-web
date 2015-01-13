@@ -14,6 +14,7 @@ UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
+ImpactSpiral = require '../../components/ImpactSpiral/ImpactSpiral.view'
 FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
 
 posClass = (num) ->
@@ -91,6 +92,7 @@ module.exports = React.createClass
   render: ->
     userGuides = @props.user && @props.user.get('guides')
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
+    percent = @state.selectedGuides.length * 10
 
     new Layout {name: 'footprint'},
       new NavBar user: @props.user, path: @props.context.pathname
@@ -98,6 +100,7 @@ module.exports = React.createClass
         new FootprintHeader user: @props.user
         if @props.user
           div {className: 'footprint-sidebar', ref: 'sidebar'},
+            new ImpactSpiral percent: percent
             div {className: "impact-calculation"},
               if @state.selectedGuides.length == 0
                 div {},
@@ -116,23 +119,38 @@ module.exports = React.createClass
                       a {}, "Change Location?"
                   p {className: 'explaination'},
                     a {}, "What do these numbers mean?"
-
               else if @state.selectedGuides.length == 1
+                guide = @coll.models[@state.selectedGuides[0]]
+                motivationalMessage = guide.motivationalMessage || "Doing this would be great for your impact score!"
+                motivationalMessage = motivationalMessage .replace('%NAME%', @props.user.firstName())
                 div {},
                   "#{@state.selectedGuides.length} guides selected"
                   h3 {}, "Great choice #{@props.user.firstName()}."
-                  "Choosing clean power can make a huge difference in the environment and your energy bills."
+                  p {dangerouslySetInnerHTML: {"__html": motivationalMessage}}
+                  div {className: 'location'},
+                    p {},
+                      "Based on "
+                      span {className: 'location-point'}, "94123 (Fort Collins) "
+                      a {}, "Change Location?"
                   p {},
-                    a {className: 'btn btn-green'}, "Read This Guide"
+                    a {className: "btn btn-#{if percent >= 100 then 'purple' else 'green'}"}, "Read This Guide"
                   p {className: 'explaination'},
                     a {}, "What do these numbers mean?"
               else
+                guide = @coll.models[@state.selectedGuides[@state.selectedGuides.length - 1]]
+                motivationalMessage = guide.motivationalMessage || "Doing this would be great for your impact score!"
+                motivationalMessage = motivationalMessage .replace('%NAME%', @props.user.firstName())
                 div {},
                   "#{@state.selectedGuides.length} guides selected"
                   h3 {}, "Nice Combination!"
-                  "Great selections #{@props.user.firstName()}. Did you know the average american saves "
-                  strong {}, "$10,000 a year"
-                  " with public transit?"
+                  p {dangerouslySetInnerHTML: {"__html": motivationalMessage}}
+                  div {className: 'location'},
+                    p {},
+                      "Based on "
+                      span {className: 'location-point'}, "94123 (Fort Collins) "
+                      a {}, "Change Location?"
+                  p {},
+                    a {className: "btn btn-#{if percent >= 100 then 'purple' else 'green'}"}, "Talk to a Domino Concierge"
                   p {className: 'explaination'},
                     a {}, "What do these numbers mean?"
 
