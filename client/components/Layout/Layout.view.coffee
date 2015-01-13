@@ -11,7 +11,7 @@ module.exports = React.createClass
   displayName: 'Layout'
 
   stripQueryString: (url) ->
-    url.slice(0, url.indexOf '?')
+    if _.contains(url, '?') then url.slice(0, url.indexOf '?') else url
 
   getDefaultProps: ->
     showNewsletterSignup: false
