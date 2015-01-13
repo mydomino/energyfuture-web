@@ -15,6 +15,7 @@ ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 ImpactSpiral = require '../../components/ImpactSpiral/ImpactSpiral.view'
+TypeFormTrigger = require '../../components/TypeFormTrigger/TypeFormTrigger.view'
 FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
 
 posClass = (num) ->
@@ -57,7 +58,13 @@ ActionButton = React.createClass
     guideId = _.last(@props.selectedGuides).id
 
     p {},
-      a {className: "btn btn-#{color}", onClick: @viewGuide.bind(this, guideId)}, label
+      if @props.percent > 100
+        new TypeFormTrigger
+          className: "btn btn-#{color}",
+          href: "https://mydomino.typeform.com/to/mlJ4gK"
+          clickText: label
+      else
+        a {className: "btn btn-#{color}", onClick: @viewGuide.bind(this, guideId)}, label
 
 NumberExplanation = p({className: 'explaination'}, a({}, "What do these numbers mean?"))
 
