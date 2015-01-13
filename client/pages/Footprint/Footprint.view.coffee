@@ -29,13 +29,37 @@ FootprintHeader = React.createClass
   render: ->
     div {className: "footprint-header"},
       h2 {}, @_headline()
-      p {className: "sub-heading"}, @_tagline()
+      p {className: "sub-heading"},
+        @_tagline()
+        a {className: 'location-point'}, "94123 (Fort Collins)"
+        "?"
 
   _headline: ->
     "You decide your carbon impact"
 
   _tagline: ->
-    "Choose one or more actions to see their impact"
+    "Can you get to 100% carbon-free in "
+
+ActionButton = React.createClass
+  displayName: 'FootprintSidebarActionButton'
+
+  getDefaultProps: ->
+    selectedGuides: []
+    percent: 0
+
+  viewGuide: (guideId, event) ->
+    event.preventDefault()
+    page('/guides/' + guideId)
+
+  render: ->
+    label = if @props.percent > 100 then "Talk to a Domino Concierge" else "Read This Guide"
+    color = if @props.percent >= 100 then 'purple' else 'green'
+    guideId = _.last(@props.selectedGuides).id
+
+    p {},
+      a {className: "btn btn-#{color}", onClick: @viewGuide.bind(this, guideId)}, label
+
+NumberExplanation = p({className: 'explaination'}, a({}, "What do these numbers mean?"))
 
 selectedGuides = []
 
@@ -49,6 +73,7 @@ module.exports = React.createClass
   getInitialState: ->
     guides: []
     selectedGuides: []
+    ownership: 'own'
 
   componentWillMount: ->
     @coll = new GuideCollection
@@ -89,10 +114,18 @@ module.exports = React.createClass
   selectedClass: (guide) ->
     if @state.selectedGuides.indexOf(guide) > -1 then 'selected' else ''
 
+  calculatePercent: (selectedGuides, claimedGuides) ->
+    func = (sum, guide) ->
+      return sum if claimedGuides.includesGuide(guide)
+      sum + parseInt(guide.get('score'), 10)
+
+    _.reduce(selectedGuides, func, claimedGuides.getPoints())
+
   render: ->
     userGuides = @props.user && @props.user.get('guides')
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
-    percent = @state.selectedGuides.length * 10
+    selectedGuides = @coll.guidesByIds(@state.selectedGuides)
+    percent = @calculatePercent(selectedGuides, @claimedGuides)
 
     new Layout {name: 'footprint'},
       new NavBar user: @props.user, path: @props.context.pathname
@@ -102,7 +135,7 @@ module.exports = React.createClass
           div {className: 'footprint-sidebar', ref: 'sidebar'},
             new ImpactSpiral percent: percent
             div {className: "impact-calculation"},
-              if @state.selectedGuides.length == 0
+              if selectedGuides.length == 0
                 div {},
                   h3 {}, "Nice Work, #{@props.user.firstName()}."
                   "You're making a real impact! "
@@ -110,49 +143,27 @@ module.exports = React.createClass
                   " people in "
                   strong {}, "Fort Collins"
                   " are at "
-                  strong {}, "17%"
+                  strong {}, "#{percent}%"
                   " or higher. The dominos are falling!"
-                  div {className: 'location'},
-                    p {},
-                      "Based on "
-                      span {className: 'location-point'}, "94123 (Fort Collins) "
-                      a {}, "Change Location?"
-                  p {className: 'explaination'},
-                    a {}, "What do these numbers mean?"
-              else if @state.selectedGuides.length == 1
-                guide = @coll.models[@state.selectedGuides[0]]
+                  NumberExplanation
+              else if selectedGuides.length == 1
+                guide = selectedGuides[0]
                 motivationalMessage = guide.motivationalMessage || "Doing this would be great for your impact score!"
                 motivationalMessage = motivationalMessage .replace('%NAME%', @props.user.firstName())
                 div {},
-                  "#{@state.selectedGuides.length} guides selected"
                   h3 {}, "Great choice #{@props.user.firstName()}."
                   p {dangerouslySetInnerHTML: {"__html": motivationalMessage}}
-                  div {className: 'location'},
-                    p {},
-                      "Based on "
-                      span {className: 'location-point'}, "94123 (Fort Collins) "
-                      a {}, "Change Location?"
-                  p {},
-                    a {className: "btn btn-#{if percent >= 100 then 'purple' else 'green'}"}, "Read This Guide"
-                  p {className: 'explaination'},
-                    a {}, "What do these numbers mean?"
+                  new ActionButton selectedGuides: selectedGuides, percent: percent
+                  NumberExplanation
               else
-                guide = @coll.models[@state.selectedGuides[@state.selectedGuides.length - 1]]
+                guide = _.last selectedGuides
                 motivationalMessage = guide.motivationalMessage || "Doing this would be great for your impact score!"
                 motivationalMessage = motivationalMessage .replace('%NAME%', @props.user.firstName())
                 div {},
-                  "#{@state.selectedGuides.length} guides selected"
                   h3 {}, "Nice Combination!"
                   p {dangerouslySetInnerHTML: {"__html": motivationalMessage}}
-                  div {className: 'location'},
-                    p {},
-                      "Based on "
-                      span {className: 'location-point'}, "94123 (Fort Collins) "
-                      a {}, "Change Location?"
-                  p {},
-                    a {className: "btn btn-#{if percent >= 100 then 'purple' else 'green'}"}, "Talk to a Domino Concierge"
-                  p {className: 'explaination'},
-                    a {}, "What do these numbers mean?"
+                  new ActionButton selectedGuides: selectedGuides, percent: percent
+                  NumberExplanation
 
         div {className: "footprint-content"},
           if guides.length > 0
