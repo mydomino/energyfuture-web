@@ -6,15 +6,22 @@ NewsletterSignup = require '../NewsletterSignupForm/NewsletterSignupForm.view'
 Footer = require '../Footer/Footer.view'
 auth = require '../../auth'
 url = require 'url'
+ga = require('../GoogleAnalytics')
+googleAnalyticsId = '/* @echo GOOGLE_ANALYTICS_ID */'
 
 module.exports = React.createClass
   displayName: 'Layout'
+  getDefaultProps: ->
+    context:
+      pathname: ''
+    showNewsletterSignup: false
+
+  componentDidMount: ->
+    ga('create', googleAnalyticsId, 'auto')
+    ga('send', 'pageview', @props.context.pathname || window.location.pathname)
 
   stripQueryString: (url) ->
     if _.contains(url, '?') then url.slice(0, url.indexOf '?') else url
-
-  getDefaultProps: ->
-    showNewsletterSignup: false
 
   handleLinkClick: (e) ->
     # track only external links that are not affiliate links
@@ -42,3 +49,4 @@ module.exports = React.createClass
           @props.children
         new NewsletterSignup guideId: @props.guideId if @props.showNewsletterSignup
       new Footer
+      new ga.Initializer
