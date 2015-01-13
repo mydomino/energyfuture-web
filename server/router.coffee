@@ -98,6 +98,10 @@ app.get "/app.js", (req, res) ->
   res.status(200)
   res.sendFile './public/app.js', { root: __dirname }
 
+app.get "*", (req, res) ->
+  res.render 'index', {}, (e, h) ->
+    res.status(200).send(h) unless e
+
 httpServer = http.createServer app
 
 httpServer.listen PORT, ->

@@ -44,14 +44,11 @@ Footprint = React.createClass
   componentWillMount: ->
     @coll = new GuideCollection
     @claimedGuides = new UserGuides(@props.user, 'claimed')
-    @coll.on "sync", @handleSync
+    @coll.sync().then => @handleSync()
     @setupState(@coll)
 
   componentWillReceiveProps: (props) ->
     @claimedGuides = new UserGuides(props.user, 'claimed')
-
-  componentWillUnmount: ->
-    @coll.removeListener 'sync', @handleSync
 
   handleSync: (coll) ->
     if @isMounted()
