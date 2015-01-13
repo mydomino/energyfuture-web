@@ -128,6 +128,11 @@ module.exports = React.createClass
 
     _.reduce(selectedGuides, func, claimedGuides.getPoints())
 
+  motivationalMessage: (guide) ->
+    motivationalMessage = guide.get('motivationalMessage') || "Doing this would be great for your impact score!"
+    motivationalMessage = motivationalMessage.replace('%NAME%', @props.user.firstName())
+    motivationalMessage
+
   render: ->
     userGuides = @props.user && @props.user.get('guides')
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
@@ -155,20 +160,16 @@ module.exports = React.createClass
                   NumberExplanation
               else if selectedGuides.length == 1
                 guide = selectedGuides[0]
-                motivationalMessage = guide.motivationalMessage || "Doing this would be great for your impact score!"
-                motivationalMessage = motivationalMessage .replace('%NAME%', @props.user.firstName())
                 div {},
                   h3 {}, "Great choice #{@props.user.firstName()}."
-                  p {dangerouslySetInnerHTML: {"__html": motivationalMessage}}
+                  p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide)}}
                   new ActionButton selectedGuides: selectedGuides, percent: percent
                   NumberExplanation
               else
                 guide = _.last selectedGuides
-                motivationalMessage = guide.motivationalMessage || "Doing this would be great for your impact score!"
-                motivationalMessage = motivationalMessage .replace('%NAME%', @props.user.firstName())
                 div {},
                   h3 {}, "Nice Combination!"
-                  p {dangerouslySetInnerHTML: {"__html": motivationalMessage}}
+                  p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide)}}
                   new ActionButton selectedGuides: selectedGuides, percent: percent
                   NumberExplanation
 
