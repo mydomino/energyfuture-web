@@ -51,6 +51,9 @@ actions.changePassword = React.createClass
 actions.login = React.createClass
   displayName: 'EmailLoginView'
   mixins: [DOMValueMixin]
+  propTypes:
+    actionChangeCallback: React.PropTypes.func.isRequired
+
   getInitialState: ->
     errorMessage: null
     processing: false
@@ -131,6 +134,8 @@ actions.login = React.createClass
 actions.forgotPassword = React.createClass
   displayName: 'EmailForgotPasswordView'
   mixins: [DOMValueMixin]
+  propTypes:
+    actionChangeCallback: React.PropTypes.func.isRequired
 
   getInitialState: ->
     errorMessage: null
@@ -165,6 +170,8 @@ actions.forgotPassword = React.createClass
 actions.register = React.createClass
   displayName: 'EmailRegisterView'
   mixins: [DOMValueMixin]
+  propTypes:
+    actionChangeCallback: React.PropTypes.func.isRequired
 
   getInitialState: ->
     errorMessage: null
