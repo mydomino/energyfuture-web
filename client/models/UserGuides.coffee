@@ -30,6 +30,6 @@ module.exports = class UserGuides
 
   getPoints: ->
     _.reduce @filteredGuides(), ((total, guide) ->
-      total += parseInt(guide.get('score'), 10)
+      total += parseInt(guide.get('score') || 0, 10)
       total
     ), 0
