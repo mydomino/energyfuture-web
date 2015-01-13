@@ -29,7 +29,12 @@ GuideView = React.createClass
 
   getInitialStateAsync: (cb) ->
     @guide = new Guide(id: @props.params.id)
-    @guide.sync().then => cb null, {guide: @guide}
+    @guide.sync().then =>
+      cb null,
+        guide: @guide
+        # this is a bit of a bad practice to put data that isn't used for rendering
+        # we use this to dynamically populate the meta tags description
+        metaDescription: @guide.get('title')
 
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @debouncedMixpanelUpdate

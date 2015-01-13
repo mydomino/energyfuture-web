@@ -64,7 +64,7 @@ Guides = React.createClass
 
   getInitialStateAsync: (cb) ->
     @coll = new GuideCollection
-    @coll.sync().then -> cb null, {ownership: 'own'}
+    @coll.sync().then -> cb null, ownership: 'own'
 
   componentWillMount: ->
     @coll = new GuideCollection
