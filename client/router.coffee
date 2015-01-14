@@ -77,6 +77,8 @@ routes =
     ["/login", require('./pages/EmailLoginRegister/EmailLoginRegister.view'), 'login-register']
     ["/about", require('./pages/AboutUs/AboutUs.view'), 'aboutus']
     ["/contact", require('./pages/ContactUs/ContactUs.view'), 'contactus']
+    ["/terms", require('./pages/TermsOfService/TermsOfService.view'), 'termsofservice']
+    ["/privacy", require('./pages/PrivacyPolicy/PrivacyPolicy.view'), 'privacypolicy']
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
     ["/guides", require('./pages/Guides/Guides.view'), 'guides']
     ["/guides/:id", require('./pages/Guide/Guide.view'), 'guide']
