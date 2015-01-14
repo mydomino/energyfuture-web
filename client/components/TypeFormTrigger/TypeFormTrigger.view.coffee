@@ -11,9 +11,10 @@ module.exports = React.createClass
     href: null
     clickText: 'Launch me!'
     className: ''
+    mixpanelProperty: 'mixpanel-property-placeholder'
 
   clickAction: (event) ->
-    mixpanel.track 'View Typeform', action: event.currentTarget.dataset.mixpanelProperty
+    mixpanel.track 'View Typeform', action: @props.mixpanelProperty
 
   componentDidMount: ->
     $(@refs.typeformLink.getDOMNode()).click @clickAction
