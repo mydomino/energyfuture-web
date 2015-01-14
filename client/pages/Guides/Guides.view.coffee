@@ -34,6 +34,7 @@ OnScrollMixin =
       y: 0
 
   componentDidMount: ->
+    mixpanel.track 'View Guide Grid'
     @onScroll = =>
       @setState
         scroll:

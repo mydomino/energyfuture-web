@@ -1,5 +1,6 @@
 auth = require './auth'
 AuthBar = require './components/AuthBar/AuthBar.view'
+History = require 'html5-history-api'
 
 LoadingScreen = React.createClass
   displayName: 'LoadingScreen'

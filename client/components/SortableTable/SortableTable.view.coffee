@@ -1,5 +1,10 @@
 {div, h2, table, thead, tbody, th, tr, td, img, p} = React.DOM
 
+'/* @ifdef AWS_ASSOCIATE_TAG */'
+awsAssociateTag = '/* @echo AWS_ASSOCIATE_TAG */'
+'/* @endif */'
+awsAssociateTag = awsAssociateTag || 'dummyTag'
+
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
@@ -30,6 +35,11 @@ module.exports = React.createClass
       scrollTo(tablePosition.left, tablePosition.top)
     @setState collapsed: !@state.collapsed
 
+  replaceAmazonPlaceholders: (htmlStr) ->
+    htmlStr
+      .replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')
+      .replace('%AWS_ASSOCIATE_TAG%', awsAssociateTag)
+
   render: ->
     sortableTable = @props.content
     return false if _.isEmpty sortableTable
@@ -49,10 +59,10 @@ module.exports = React.createClass
             _.map sortedHeaderTitles, (title, i) ->
               th {key: "sorted-header-titles-#{i}"}, title
           tbody {},
-            _.map sortableTable.content, (row, i) ->
+            _.map sortableTable.content, (row, i) =>
               tr {key: "sorted-content-#{i}"},
-              _.map sortedHeaderKeys, (key, i) ->
-                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key].replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')}}
+              _.map sortedHeaderKeys, (key, i) =>
+                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": @replaceAmazonPlaceholders(row[key])}}
 
         if @state.collapsible
           if @state.collapsed
