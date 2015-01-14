@@ -1,4 +1,4 @@
-{div, h1, h2, button, br, span, img, p} = React.DOM
+{div, h1, h2, button, br, span, img, p, header} = React.DOM
 
 _ = require 'lodash'
 Guide = require '../../models/Guide'
@@ -112,7 +112,7 @@ module.exports = React.createClass
     new Layout {name: 'guides'},
       new NavBar user: @props.user, path: @props.context.pathname
 
-      div {className: "guides-intro"},
+      header {className: "guides-intro"},
         h1 {className: "guides-intro-header"},
           "Your guides to "
           span {className: "intro-annotation-anchor", ref: "anchor"}, "low-carbon living"

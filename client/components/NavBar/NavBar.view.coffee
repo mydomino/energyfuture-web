@@ -1,4 +1,4 @@
-{div, h2, span, a} = React.DOM
+{div, h2, span, a, nav} = React.DOM
 auth = require '../../auth'
 UserPhoto = require '../UserPhoto/UserPhoto.view'
 
@@ -39,7 +39,7 @@ module.exports = React.createClass
     path: null
 
   render: ->
-    div {className: 'nav-bar'},
+    nav {className: 'nav-bar'},
       div {className: 'nav-bar-logo float-left'},
         a {className: 'site-logo', href: '/guides'}, "Domino"
       if @props.user

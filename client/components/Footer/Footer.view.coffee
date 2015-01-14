@@ -1,4 +1,4 @@
-{div, p, a, span, br} = React.DOM
+{div, p, a, span, br, footer} = React.DOM
 
 module.exports = React.createClass
   displayName: 'Footer'
@@ -10,7 +10,7 @@ module.exports = React.createClass
     document.location = '/contact'
 
   render: ->
-      div {className: 'footer'},
+      footer {className: 'footer'},
         div {className: 'col col1'},
           p {},
             "You support our work by buying products and services"
