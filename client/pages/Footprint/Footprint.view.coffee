@@ -50,6 +50,7 @@ ActionButton = React.createClass
 
   viewGuide: (guideId, event) ->
     event.preventDefault()
+    mixpanel.track 'Actions in Impact Screen', {action: 'View Guide', guide_id: guideId}
     page('/guides/' + guideId)
 
   render: ->
@@ -63,6 +64,7 @@ ActionButton = React.createClass
           className: "btn btn-#{color}",
           href: "https://mydomino.typeform.com/to/mlJ4gK"
           clickText: label
+          mixpanelProperty: "Talk to Concierge from Impact Screen"
       else
         a {className: "btn btn-#{color}", onClick: @viewGuide.bind(this, guideId)}, label
 
@@ -115,6 +117,7 @@ module.exports = React.createClass
     if index > -1
       selectedGuides.splice(index, 1)
     else
+      mixpanel.track 'Actions in Impact Screen', {action: 'Select Guide', guide_id: guide.id}
       selectedGuides.push(guide)
 
     @setState selectedGuides: selectedGuides
