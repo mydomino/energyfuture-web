@@ -15,6 +15,7 @@ module.exports = React.createClass
     context:
       pathname: ''
     showNewsletterSignup: false
+    showFooter: true
 
   componentDidMount: ->
     ga('create', googleAnalyticsId, 'auto')
@@ -48,5 +49,6 @@ module.exports = React.createClass
         div {className: "container-padding"},
           @props.children
         new NewsletterSignup guideId: @props.guideId if @props.showNewsletterSignup
-      new Footer
+      if @props.showFooter
+        new Footer
       new ga.Initializer
