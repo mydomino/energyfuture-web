@@ -30,16 +30,13 @@ FootprintHeader = React.createClass
   render: ->
     div {className: "footprint-header"},
       h2 {}, @_headline()
-      p {className: "sub-heading"},
-        @_tagline()
-        a {className: 'location-point'}, "94123 (Fort Collins)"
-        "?"
+      p {className: "sub-heading"}, @_tagline()
 
   _headline: ->
-    "You decide your carbon impact"
+    "Select one or more guides and see how they add up"
 
   _tagline: ->
-    "Can you get to 100% carbon-free in "
+    "Can you get to 100% carbon-free in Fort Collins?"
 
 ActionButton = React.createClass
   displayName: 'FootprintSidebarActionButton'
