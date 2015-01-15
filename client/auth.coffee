@@ -1,6 +1,7 @@
 firebase = require './firebase'
 emitter = require('events').EventEmitter
 User = require './models/User'
+UserCollection = require './models/UserCollection'
 _ = require 'lodash'
 
 collectProviderUserData = (provider, user) ->
@@ -69,7 +70,7 @@ class Auth extends emitter
         userData = collectProviderUserData user.provider, user
         # save new user's profile into Firebase so we can
         # list users, use them in security rules, and show profiles
-        @_userRef.set userData
+        @_userRef.set _.merge(userData, id: user.uid)
         registrationAttribs =
           if user.provider == 'password'
             provider: userData.provider, email: userData.email
@@ -142,6 +143,27 @@ class Auth extends emitter
         @_onAuthStateChange(error, {})
       else
         @loginWithEmail(email, password, opts)
+
+  resetPassword: (email, callback) ->
+    userCollection = new UserCollection()
+    @_firebase.resetPassword email: email, (err) =>
+      user = userCollection.getUserByEmail(email)
+      new User(user)._firebase().update(tempPassword: true)
+      callback(err)
+
+  changePassword: (email, oldPassword, newPassword, callback) ->
+    userCollection = new UserCollection
+    @_firebase.changePassword
+      email: email
+      oldPassword: oldPassword
+      newPassword: newPassword
+    , (err) =>
+      if _.isEmpty(err)
+        user = userCollection.getUserByEmail(email)
+        new User(user)._firebase().update tempPassword: false, (error) =>
+          callback(error)
+      else
+        callback(err)
 
   logout: ->
     @_firebase.unauth()

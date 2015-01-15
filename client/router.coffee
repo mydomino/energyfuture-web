@@ -19,6 +19,8 @@ addPage = (route) ->
     document.querySelector('body').className = ['body', route[2]].filter(Boolean).join('-')
     document.title = "Domino - Change the world, one step at a time: #{route[2]}"
 
+    sessionStorage.setItem('lastPageVisited', ctx.pathname) unless url is '/login'
+
     @setState
       component: Component
       params: ctx.params

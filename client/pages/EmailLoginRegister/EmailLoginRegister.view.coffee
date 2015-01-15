@@ -1,6 +1,7 @@
 {div, h2, form, fieldset, legend, label, input, p, a, button} = React.DOM
 
 auth = require '../../auth'
+_ = require 'lodash'
 
 DOMValueMixin =
   getDOMValue: (name) ->
@@ -11,9 +12,48 @@ DOMValueMixin =
 
 actions = {}
 
+actions.changePassword = React.createClass
+  mixins: [DOMValueMixin]
+  displayName: 'ChangePasswordView'
+
+  getInitialState: ->
+    processing: false
+    errorMessage: null
+
+  handleSubmit: (e) ->
+    e.preventDefault()
+    @setState processing: true
+    auth.changePassword @props.email, @getDOMValue('oldPassword'), @getDOMValue('newPassword'), (err) =>
+      if err
+        @setState
+          errorMessage: err.message
+          processing: false
+      else
+        page '/guides'
+
+  render: ->
+    div {},
+      h2 {className: 'auth-header'}, 'Change your password'
+      if @state.errorMessage
+        p {className: 'alert alert-error'}, @state.errorMessage
+      form {},
+        fieldset {},
+          legend {}, 'Change password'
+          div {className: 'row password'},
+            label {htmlFor: 'password', tabIndex: '-1'}, 'Old password'
+            input {type: 'password', className: 'password text', id: 'email', ariaRequired: true, defaultValue: '', ref: 'oldPassword'}
+          div {className: 'row password'},
+            label {htmlFor: 'password', tabIndex: '-1'}, 'New password'
+            input {type: 'password', className: 'password text', id: 'email', ariaRequired: true, defaultValue: '', ref: 'newPassword'}
+          p {},
+            button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Changing password...' else 'Change password'
+
 actions.login = React.createClass
   displayName: 'EmailLoginView'
   mixins: [DOMValueMixin]
+  propTypes:
+    actionChangeCallback: React.PropTypes.func.isRequired
+
   getInitialState: ->
     errorMessage: null
     processing: false
@@ -31,11 +71,21 @@ actions.login = React.createClass
     e.preventDefault()
     @props.actionChangeCallback('register')
 
+  switchToForgotPassword: (e) ->
+    e.preventDefault()
+    @props.actionChangeCallback('forgotPassword')
+
+  switchToChangePassword: (params) ->
+    @props.actionChangeCallback('changePassword', params)
+
   handleLogin: (data) ->
     errorMessage = null
-
     if data.user
-      page('/guides')
+      {email, tempPassword} = data.user.attributes
+      if tempPassword
+        @switchToChangePassword(email: email)
+      else
+        page('/guides')
     else if data.error.code == "USER_CANCELLED"
     else if data.error
       errorMessage = data.error.message
@@ -61,6 +111,8 @@ actions.login = React.createClass
 
       if @state.errorMessage
         p {className: 'alert alert-error'}, @state.errorMessage
+      if @props.notificationMessage
+        p {className: 'alert alert-info'}, @props.notificationMessage
 
       form {id: 'login', onSubmit: @handleSubmit},
         fieldset {className: 'sign-in'},
@@ -74,14 +126,58 @@ actions.login = React.createClass
           # p {},
           #   input {id: 'remember', type: 'checkbox', value: '1', ref: 'remember'},
           #     label {htmlFor: 'remember'}, ' Remember me'
-          #     ' · '
-          #     a {className: 'alternate-context', target: '_blank'}, ' Forgot password?'
+          p {},
+            a {onClick: @switchToForgotPassword, href: '#'}, "Forgot your password?"
           p {},
             button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Logging in...' else 'Log in'
+
+actions.forgotPassword = React.createClass
+  displayName: 'EmailForgotPasswordView'
+  mixins: [DOMValueMixin]
+  propTypes:
+    actionChangeCallback: React.PropTypes.func.isRequired
+
+  getInitialState: ->
+    errorMessage: null
+
+  switchToLogin: (e) ->
+    e.preventDefault()
+    @props.actionChangeCallback('login')
+
+  setProcessingState: ->
+    @setState errorMessage: null, processing: true
+
+  handleSubmit: (e) ->
+    e.preventDefault()
+    email = @getDOMValue('email')
+    if _.isEmpty email
+      @setState errorMessage: 'Please enter a valid email.'
+      return
+    @setProcessingState()
+    auth.resetPassword email, (error) =>
+      @setState processing: false
+      if error
+        @setState errorMessage: error.message
+      else
+        @props.actionChangeCallback('login', notificationMessage: 'Please check your email for your new password')
+
+  render: ->
+    div {},
+      if @state.errorMessage
+        p {className: 'alert alert-error'}, @state.errorMessage
+      div {className: 'row user'},
+        label {htmlFor: 'email', tabIndex: '-1'}, 'Email '
+        input {type: 'text', className: 'text', id: 'email', ariaRequired: true, autoCapitalize: 'off', autoCorrect: 'off', autofocus: 'autofocus', ref: 'email', required: true}
+      p {},
+        button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Resetting...' else 'Reset your password'
+        button {className: "btn #{if @state.processing then 'btn-disable' else ''}", onClick: @switchToLogin}, 'Cancel'
 
 actions.register = React.createClass
   displayName: 'EmailRegisterView'
   mixins: [DOMValueMixin]
+  propTypes:
+    actionChangeCallback: React.PropTypes.func.isRequired
+
   getInitialState: ->
     errorMessage: null
     processing: false
@@ -155,13 +251,19 @@ module.exports = React.createClass
   displayName: 'EmailLoginRegister'
   getInitialState: ->
     action: 'login'
+    params: {}
 
-  switchAction: (action) ->
-    @setState action: action
+  goBackPath: ->
+    sessionStorage.getItem('lastPageVisited') || '/guides'
+
+  switchAction: (action, opts = {}) ->
+    @setState
+      action: action
+      params: opts
 
   render: ->
     div {className: 'auth'},
-      new actions[@state.action] actionChangeCallback: @switchAction
+      new actions[@state.action] _.merge(actionChangeCallback: @switchAction, @state.params)
       p {},
-        'Changed your mind? Head '
-        a {href: '/guides'}, 'back to the guides'
+        'Changed your mind? '
+        a {href: @goBackPath()}, 'Head back.'

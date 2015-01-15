@@ -141,7 +141,6 @@ module.exports = React.createClass
   expandedView: (failed) ->
     if failed
       title = 'Hmm.. Something went wrong'
-      subtitle = "Let's try that again"
     else
       title = 'Save Your Impact!'
 
