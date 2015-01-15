@@ -117,7 +117,7 @@ module.exports = React.createClass
           "Your guides to "
           span {className: "intro-annotation-anchor", ref: "anchor"}, "low-carbon living"
         p {className: "guides-intro-subtext"},
-          "In partnership with Rocky Mountain Institute and UC Berkeley"
+          "In partnership with Rocky Mountain Institute"
         div {className: "guides-user-context"},
           p {},
             span {}, "All guides for"
