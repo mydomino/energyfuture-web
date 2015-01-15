@@ -253,6 +253,9 @@ module.exports = React.createClass
     action: 'login'
     params: {}
 
+  goBackPath: ->
+    sessionStorage.getItem('lastPageVisited') || '/guides'
+
   switchAction: (action, opts = {}) ->
     @setState
       action: action
@@ -262,5 +265,5 @@ module.exports = React.createClass
     div {className: 'auth'},
       new actions[@state.action] _.merge(actionChangeCallback: @switchAction, @state.params)
       p {},
-        'Changed your mind? Head '
-        a {href: '/guides'}, 'back to the guides'
+        'Changed your mind? '
+        a {href: @goBackPath()}, 'Head back.'
