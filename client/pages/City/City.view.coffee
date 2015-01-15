@@ -16,7 +16,8 @@ module.exports = React.createClass
             p {className: "city-stats"}, "1% Carbon-free"
             h2 {}, "Domino is a low-carbon movement"
             p {}, "From switching lightbulbs to going solar and everything in between, every action has a domino effect."
-            a {className: "city-get-started"}, "Get Started"
+            p {className: "city-page-button"},
+              a {className: "city-get-started"}, "Get Started"
         div {className: "city-container-map"},
           div {className: "city-map"},
             h2 {}, "Fort Collins has 2,461 dominoes in motion"
@@ -25,7 +26,8 @@ module.exports = React.createClass
           div {className: "city-action"},
             h2 {}, "It's your turn now"
             p {}, "Lorem ipsum dolor sit amet, cu his falli placerat mnesarchum, unum fabellas est ea, sed ad elit noluisse."
-            a {className: "city-get-started"}, "Get Started"
+            p {className: "city-page-button"},
+              a {className: "city-get-started"}, "Get Started"
         div {className: "city-container-partners"},
           div {className: "city-partners"},
             h2 {}, "Domino partners in Fort Collins"
