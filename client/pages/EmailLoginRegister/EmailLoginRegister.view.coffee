@@ -170,7 +170,7 @@ actions.forgotPassword = React.createClass
         input {type: 'text', className: 'text', id: 'email', ariaRequired: true, autoCapitalize: 'off', autoCorrect: 'off', autofocus: 'autofocus', ref: 'email', required: true}
       p {},
         button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Resetting...' else 'Reset your password'
-        button {className: "btn #{if @state.processing then 'btn-disable' else ''}", onClick: @switchToLogin}, 'Back'
+        button {className: "btn #{if @state.processing then 'btn-disable' else ''}", onClick: @switchToLogin}, 'Cancel'
 
 actions.register = React.createClass
   displayName: 'EmailRegisterView'
