@@ -77,6 +77,7 @@ routes =
     ["/login", require('./pages/EmailLoginRegister/EmailLoginRegister.view'), 'login-register']
     ["/about", require('./pages/AboutUs/AboutUs.view'), 'aboutus']
     ["/contact", require('./pages/ContactUs/ContactUs.view'), 'contactus']
+    ["/fortcollins", require('./pages/City/City.view'), 'city']
     ["/footprint", require('./pages/Footprint/Footprint.view'), 'footprint']
     ["/guides", require('./pages/Guides/Guides.view'), 'guides']
     ["/guides/:id", require('./pages/Guide/Guide.view'), 'guide']
