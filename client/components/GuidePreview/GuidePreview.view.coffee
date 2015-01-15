@@ -19,7 +19,9 @@ module.exports = React.createClass
       div {className: "guide-preview-status guide-preview-status-#{icon}"},
         span {className: "fa fa-#{icon}"}
 
-  handleClick: ->
+  handleClick: (event) ->
+    event.preventDefault()
+
     if @props.clickAction
       @props.clickAction(@props.guide.id)
     else

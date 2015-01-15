@@ -51,9 +51,9 @@ ActionButton = React.createClass
     page('/guides/' + guideId)
 
   render: ->
-    label = if @props.percent > 100 then "Talk to a Domino Concierge" else "Read This Guide"
+    guide = _.last(@props.selectedGuides)
+    label = if @props.percent >= 100 then "Talk to a Domino Concierge" else "Read #{guide.get('title')} Guide"
     color = if @props.percent >= 100 then 'purple' else 'green'
-    guideId = _.last(@props.selectedGuides).id
 
     p {},
       if @props.percent > 100
@@ -63,9 +63,7 @@ ActionButton = React.createClass
           clickText: label
           mixpanelProperty: "Talk to Concierge from Impact Screen"
       else
-        a {className: "btn btn-#{color}", onClick: @viewGuide.bind(this, guideId)}, label
-
-NumberExplanation = p({className: 'explaination'}, a({}, "What do these numbers mean?"))
+        a {className: "btn btn-#{color}", onClick: @viewGuide.bind(this, guide.id)}, label
 
 selectedGuides = []
 
@@ -99,10 +97,16 @@ module.exports = React.createClass
       @setupState(coll)
 
   setupState: (coll) ->
+    if @claimedGuides
+      selectedGuides = _.map(@claimedGuides.filteredGuides(), ((guide) -> guide.id ))
+    else
+      selectedGuides = []
+
     @setState
       categorizedGuides: coll.guidesByCategory()
       categorizedScores: coll.scoreByCategory()
       totalScore: coll.totalScore()
+      selectedGuides: selectedGuides
 
   componentDidMount: ->
     unless @props.user
@@ -111,6 +115,8 @@ module.exports = React.createClass
   toggleGuideSelection: (guide) ->
     selectedGuides = @state.selectedGuides
     index = selectedGuides.indexOf(guide)
+    return false if @claimedGuides.includesGuide(guide)
+
     if index > -1
       selectedGuides.splice(index, 1)
     else
@@ -129,9 +135,9 @@ module.exports = React.createClass
 
     _.reduce(selectedGuides, func, claimedGuides.getPoints())
 
-  motivationalMessage: (guide) ->
-    motivationalMessage = guide.get('motivationalMessage') || "Doing this would be great for your impact score!"
-    motivationalMessage = motivationalMessage.replace('%NAME%', @props.user.firstName())
+  motivationalMessage: (guide, firstName) ->
+    motivationalMessage = guide.get('motivationalMessage') || ""
+    motivationalMessage = motivationalMessage.replace('%NAME%', firstName)
     motivationalMessage
 
   render: ->
@@ -139,40 +145,42 @@ module.exports = React.createClass
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
     selectedGuides = @coll.guidesByIds(@state.selectedGuides)
     percent = @calculatePercent(selectedGuides, @claimedGuides)
+    firstName = @props.user?.firstName() || "Friend"
 
     new Layout {name: 'footprint'},
       new NavBar user: @props.user, path: @props.context.pathname
+
       div {className: "footprint"},
         new FootprintHeader user: @props.user
-        if @props.user
-          div {className: 'footprint-sidebar', ref: 'sidebar'},
-            new ImpactSpiral percent: percent
-            div {className: "impact-calculation"},
-              if selectedGuides.length == 0
+        div {className: 'footprint-sidebar', ref: 'sidebar'},
+          new ImpactSpiral percent: percent
+          div {className: "impact-calculation"},
+            if selectedGuides.length == 0
+              if percent > 0
                 div {},
-                  h3 {}, "Nice Work, #{@props.user.firstName()}."
-                  "You're making a real impact! "
-                  strong {}, 345
-                  " people in "
-                  strong {}, "Fort Collins"
-                  " are at "
-                  strong {}, "#{percent}%"
-                  " or higher. The dominos are falling!"
-                  NumberExplanation
-              else if selectedGuides.length == 1
-                guide = selectedGuides[0]
-                div {},
-                  h3 {}, "Great choice #{@props.user.firstName()}."
-                  p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide)}}
-                  new ActionButton selectedGuides: selectedGuides, percent: percent
-                  NumberExplanation
+                  h3 {}, "Nice Work."
+                  "You're making a real impact and the dominos are falling!"
               else
-                guide = _.last selectedGuides
                 div {},
-                  h3 {}, "Nice Combination!"
-                  p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide)}}
-                  new ActionButton selectedGuides: selectedGuides, percent: percent
-                  NumberExplanation
+                  h3 {}, "Let's get started."
+                  "Select one or more guides and see how they add up."
+            else if selectedGuides.length > 0 && percent >= 100
+              div {},
+                h3 {}, "Now we're talking!"
+                p {}, "Going all-in means even greater savings, health, and freedom. Questions?"
+                new ActionButton selectedGuides: selectedGuides, percent: percent
+            else if selectedGuides.length == 1
+              guide = selectedGuides[0]
+              div {},
+                h3 {}, "Great choice."
+                p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide, firstName)}}
+                new ActionButton selectedGuides: selectedGuides, percent: percent
+            else
+              guide = _.last selectedGuides
+              div {},
+                h3 {}, "Nice Combination!"
+                p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide, firstName)}}
+                new ActionButton selectedGuides: selectedGuides, percent: percent
 
         div {className: "footprint-content"},
           if guides.length > 0
