@@ -78,7 +78,11 @@ module.exports = React.createClass
         h3 {}, "Digital Millenium Copyright Act"
         h4 {}, "DMCA Notice"
         p {}, "We comply with the provisions of the Digital Millennium Copyright Act applicable to internet service providers (17 U.S.C.  S512, as amended).  If you have any complaints with respect to material posted on the Service, you may contact our Designated Agent at the following address:"
-        p {}, "Domino 2030, Inc 327 19th Street Oakland, CA 94612"
+        p {}, "Domino 2030, Inc."
+          br {}
+          "327 19th Street"
+          br {}
+          "Oakland, CA 94612"
         p {}, "E-mail: copyright@mydomino.com"
         p {}, "Any notice alleging that materials hosted by or distributed through the Service infringe intellectual property rights must include the following information:"
         ol {className: "list-letters"},
