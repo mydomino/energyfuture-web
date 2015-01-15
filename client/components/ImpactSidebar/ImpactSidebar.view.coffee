@@ -86,24 +86,24 @@ module.exports = React.createClass
       div {className: "action-button #{claimedClass}"},
         if @state.isClaimed
           a {onClick: @removeGuide},
-            i {className: "icon pu-icon pu-icon-impact-o"}
+            i {className: "icon fa fa-check"}
             span {}, "Done"
         else
           a {onClick: @claimGuide},
-            i {className: "icon pu-icon pu-icon-impact-o"}
+            i {className: "icon fa fa-check"}
             span {}, "I did this"
       hr {}
       div {className: "action-button #{savedClass}"},
         if @state.isClaimed
           span {},
-            i {className: "icon pu-icon pu-icon-remindme"}
+            i {className: "icon fa fa-star"}
             span {}, "Save for later"
         else if @state.isSaved
           a {onClick: @removeGuide},
-            i {className: "icon pu-icon pu-icon-remindme"}
+            i {className: "icon fa fa-star"}
             span {}, "Saved for later"
         else
           a {onClick: @saveGuide},
-            i {className: "icon pu-icon pu-icon-remindme"}
+            i {className: "icon fa fa-star"}
             span {}, "Save for later"
 
