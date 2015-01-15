@@ -13,6 +13,6 @@ module.exports = React.createClass
       'margin-top': 40
       'height': 500
 
-    new Layout {name: 'contactus'},
+    new Layout {name: 'contactus', context: @props.context},
       new NavBar user: @props.user, path: @props.context.pathname
       div {style: style, className: 'typeform-widget', 'data-url': 'https://mydomino.typeform.com/to/peDQ9b', 'data-text': 'Contact the team at Domino'}

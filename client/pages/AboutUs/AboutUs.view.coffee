@@ -7,7 +7,7 @@ module.exports = React.createClass
   displayName: 'AboutUs'
   mixins: [ScrollTopMixin]
   render: ->
-    new Layout {name: 'aboutus'},
+    new Layout {name: 'aboutus', context: @props.context},
       new NavBar user: @props.user, path: @props.context.pathname
       div {className: "about-us-container"},
         h2 { id: "we-re-reinventing-zero-emissions-living"}, "We’re reinventing zero-emissions living"
