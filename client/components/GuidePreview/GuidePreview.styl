@@ -34,6 +34,9 @@ spacingY = 30px
   &.selected
     border-color teal
 
+  .guide-preview-hover
+    display none
+
 .guide-preview-impact-score
   position absolute
   bottom 0
@@ -102,6 +105,7 @@ spacingY = 30px
   font-size 1.3em
   line-height 1.3em
   margin 5px 0 10px
+  text-shadow 1px 1px 2px rgba(0,0,0,.6)
 
 .guide-preview-summary
   color rgba(255, 255, 255, .7)
@@ -121,11 +125,59 @@ spacingY = 30px
   width 115px
   height 175px
   margin 0 25px 25px 0
+  transition all .5s ease
+
+  &:hover
+    border-color #38ba99
+
+    .guide-preview-hover
+      display block
+
+    .guide-preview-content
+      background linear-gradient(rgba(56,186,153,.3), rgba(56,186,153,.9))
+      top 0
+
+  .guide-preview-hover
+    height 100%
+    left 0
+    position absolute
+    top 0
+    width 100%
+
+    .guide-preview-info
+      color #fff
+      display none
+      font-size .7em
+      left 10px
+      position absolute
+      text-shadow 1px 1px 2px rgba(0,0,0,.6)
+      text-transform uppercase
+      top 10px
+      z-index 100
+
+    .guide-preview-select
+      position absolute
+      top 45%
+      width 100%
+      z-index 100
+
+      p
+        border 2px solid #fff
+        border-radius 20px
+        color #fff
+        font-size .8em
+        font-weight 600
+        margin 0 auto
+        padding 5px 25px
+        text-align center
+        text-transform uppercase
+        width 70%
 
   .guide-preview-content
     top 70px
     font-size 0.7em
     background linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1))
+    transition all .25s ease
 
   .guide-preview-title
     position absolute

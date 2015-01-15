@@ -36,7 +36,7 @@ module.exports = React.createClass
     color = Categories.colorFor(guide.category)
 
     style = {}
-    style.borderColor = color
+    # style.borderColor = color
     if preview_bg
       style.backgroundImage = "url(#{preview_bg})"
 
@@ -44,6 +44,10 @@ module.exports = React.createClass
       if recommended
         span {className: "guide-preview-recommended", style: { backgroundColor: color }}, "Recommended"
       @statusIcon()
+      div {className: "guide-preview-hover"},
+        div {className: "guide-preview-select"},
+          p {className: "guide-preview-button"}, "Select"
+        div {className: "guide-preview-info"}, "Guide Info"
       div {className: "guide-preview-content"},
         h2 {className: "guide-preview-title"}, guide.title
         p {className: "guide-preview-summary"}, summary
