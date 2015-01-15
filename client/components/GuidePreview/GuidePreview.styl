@@ -29,6 +29,7 @@ spacingY = 30px
   background-position top center
   background-size cover
   cursor pointer
+  overflow hidden
 
   &.selected
     border-color teal
@@ -43,6 +44,32 @@ spacingY = 30px
     text-transform capitalize
     color teal
     display inline-block
+
+.guide-preview-status
+  background-color rgba(108,182,158,0.9)
+  width 145px
+  height 60px
+  padding-top 20px
+  position absolute
+  transform rotate(45deg)
+  top -2px
+  right -48px
+  left auto
+  text-align center
+
+  &:before
+    color #fff
+    color rgba(255,255,255,0.9)
+    font-size 120px
+
+  .fa
+    transform rotate(-45deg)
+    display block
+    color #fff
+    font-size 2em
+
+.guide-preview-status-star
+  background-color rgba(235,235,0,0.8)
 
 .guide-preview-content
   position absolute
@@ -84,33 +111,45 @@ spacingY = 30px
 .guide-preview-row-end
   margin-right 0
 
+/*
 .guide-preview-status
   position absolute
   top 60px
   left 80px
-  &:before
-    color #fff
-    color rgba(255,255,255,0.9)
-    font-size 120px
+*/
 
 .guide-preview.small
   width 115px
   height 175px
   margin 0 25px 25px 0
+
   .guide-preview-content
-    top 100px
+    top 70px
     font-size 0.7em
     background linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1))
-    h2
-      line-height 1
-      position absolute
-      bottom 5px
-      left 10px
+
+  .guide-preview-title
+    position absolute
+    bottom 10px
+    left 0
+    margin 0
+    padding 0 10px
 
   .guide-preview-summary
     display none
 
   .guide-preview-status
+    width 90px
+    height 40px
+    padding-top 13px
+    right -30px
+
+    &:before
+      font-size 18px
+
+    .fa
+      font-size 1.5em
+/*
     top 10px
     left 10px
     &:before
@@ -118,32 +157,14 @@ spacingY = 30px
     &.pu-icon-check
       &:before
         color #50E3C2
-
+*/
 .guide-preview
   &.small
-    overflow hidden
-    width 125px
-    height 185px
+    width 150px
+    height 222px
     &.selected
       .guide-preview-content
         top 0
         background none
         background-color #6ba38b
         background-color rgba(107,163,139,0.9)
-    .guide-preview-status
-      background-color #6cb69e
-      width 90px
-      height 40px
-      padding-top 13px
-      transform rotate(45deg)
-      top -2px
-      right -30px
-      left auto
-      text-align center
-      .fa
-        transform rotate(-45deg)
-        display block
-        color #fff
-        font-size 1.5em
-    .guide-preview-status-star
-      background-color rgba(235,235,0,0.8)
