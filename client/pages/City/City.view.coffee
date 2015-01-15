@@ -6,6 +6,14 @@ ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 module.exports = React.createClass
   displayName: 'City'
   mixins: [ScrollTopMixin]
+
+  componentWillMount: ->
+    mixpanel.track 'View City Page'
+
+  viewGuides: (event) ->
+    event.preventDefault()
+    page '/guides'
+
   render: ->
     new Layout {name: 'city'},
       #new NavBar user: @props.user, path: @props.context.pathname
@@ -17,7 +25,7 @@ module.exports = React.createClass
             h2 {}, "Domino is a low-carbon movement"
             p {}, "From switching lightbulbs to going solar and everything in between, every action has a domino effect."
             p {className: "city-page-button"},
-              a {className: "city-get-started"}, "Get Started"
+              a {className: "city-get-started", onClick: @viewGuides}, "Get Started"
         div {className: "city-container-map"},
           div {className: "city-map"},
             h2 {}, "Fort Collins has 2,461 dominoes in motion"
@@ -27,7 +35,7 @@ module.exports = React.createClass
             h2 {}, "It's your turn now"
             p {}, "Lorem ipsum dolor sit amet, cu his falli placerat mnesarchum, unum fabellas est ea, sed ad elit noluisse."
             p {className: "city-page-button"},
-              a {className: "city-get-started"}, "Get Started"
+              a {className: "city-get-started", onClick: @viewGuides}, "Get Started"
         div {className: "city-container-partners"},
           div {className: "city-partners"},
             h2 {}, "Domino partners in Fort Collins"
