@@ -33,7 +33,7 @@ FootprintHeader = React.createClass
       p {className: "sub-heading"}, @_tagline()
 
   _headline: ->
-    "Select one or more guides and see how they add up"
+    "Select one guide or more and see how they add up"
 
   _tagline: ->
     "Can you get to 100% carbon-free in Fort Collins?"

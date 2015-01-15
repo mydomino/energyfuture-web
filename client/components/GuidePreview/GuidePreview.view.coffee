@@ -53,7 +53,7 @@ module.exports = React.createClass
         div {className: "guide-preview-hover"},
           div {className: "guide-preview-select"},
             p {className: "guide-preview-button"}, "Select"
-          div {className: "guide-preview-info", onClick: @viewGuide}, "Guide Info"
+          div {className: "guide-preview-info", onClick: @viewGuide}, "Read Guide"
       div {className: "guide-preview-content"},
         h2 {className: "guide-preview-title"}, guide.title
         p {className: "guide-preview-summary"}, summary
