@@ -1,4 +1,4 @@
-{div, h2, table, thead, tbody, th, tr, td, img, p} = React.DOM
+{div, h2, table, thead, tbody, th, tr, td, img, p, i} = React.DOM
 
 '/* @ifdef AWS_ASSOCIATE_TAG */'
 awsAssociateTag = '/* @echo AWS_ASSOCIATE_TAG */'
@@ -67,10 +67,10 @@ module.exports = React.createClass
         if @state.collapsible
           if @state.collapsed
             collapsedClass = ''
-            collapsedIcon = 'show-more.svg'
+            collapsedIcon = 'plus'
           else
             collapsedClass = 'expanded'
-            collapsedIcon = 'show-less.svg'
+            collapsedIcon = 'minus'
           div {className: "sortable-table-expand-collapse #{collapsedClass}", ref: 'expandCollapse'},
             div {className: 'expand-collapse-mask'}
-            img {className : 'expand-collapse-button', src: "/img/#{collapsedIcon}", onClick: @toggleExpandCollapse}
+            i {className: "expand-collapse-button icon pu pu-icon-#{collapsedIcon}", onClick: @toggleExpandCollapse}
