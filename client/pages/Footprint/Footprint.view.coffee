@@ -16,6 +16,7 @@ LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 ImpactSpiral = require '../../components/ImpactSpiral/ImpactSpiral.view'
 TypeFormTrigger = require '../../components/TypeFormTrigger/TypeFormTrigger.view'
+Modal = require '../../components/Modal/Modal.view'
 FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
 
 posClass = (num) ->
@@ -79,6 +80,7 @@ module.exports = React.createClass
     guides: []
     selectedGuides: []
     ownership: 'own'
+    expanded: false
 
   componentWillMount: ->
     mixpanel.track 'View Impact Screen'
@@ -141,6 +143,18 @@ module.exports = React.createClass
     motivationalMessage = motivationalMessage.replace('%NAME%', firstName)
     motivationalMessage
 
+  modalContent: ->
+    new Modal {onModalClose: => @setState expanded: false},
+      div {className: 'footprint-modal-content'},
+        h2 {}, "What is % carbon-free?"
+        p {}, "From changing light bulbs to powering your home with solar and everything in between, taking one action eliminates many tons of CO2."
+        p {}, "0% = no actions, 100% = the maximum impact you can have in Fort Collins. As a rule of thumb, a higher % carbon-free also means greater savings."
+        h2 {}, "The Domino effect"
+        p {}, "If the average home in Fort Collins got to just 50% carbon-free, that would be as good as eliminating 2,825 gallons of oil (wowza!). More important, each action you take can inspire others to follow."
+
+        h2 {}, "Can I trust these numbers?"
+        p {}, "All data is based on your zip code and crunched by our energy nerd friends at the Rocky Mountain Institute. We put a lot of work into making sure these numbers guide us in the right direction."
+
   render: ->
     userGuides = @props.user && @props.user.get('guides')
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
@@ -150,8 +164,11 @@ module.exports = React.createClass
 
     new Layout {name: 'footprint'},
       new NavBar user: @props.user, path: @props.context.pathname
-
       div {className: "footprint"},
+
+        if @state.expanded
+          @modalContent()
+
         new FootprintHeader user: @props.user
         div {className: 'footprint-sidebar', ref: 'sidebar'},
           new ImpactSpiral percent: percent
@@ -177,7 +194,7 @@ module.exports = React.createClass
               div {},
                 p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide, firstName)}}
                 new ActionButton selectedGuides: selectedGuides, percent: percent
-          div {className: "footprint-question", onClick: @this},
+          div {className: "footprint-question", onClick: => @setState expanded: true},
             i {className: "footprint-question-icon fa fa-question-circle"}
             span {className: "footprint-question-text"}, "What do these numbers mean?"
 
