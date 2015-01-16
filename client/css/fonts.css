@@ -113,3 +113,9 @@
 .pu-icon-toilet:before {
     content: "\e610";
 }
+.pu-icon-plus:before {
+    content: "\e61e"
+}
+.pu-icon-minus:before {
+    content: "\e61f"
+}
