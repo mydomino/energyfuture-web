@@ -33,7 +33,7 @@ module.exports = React.createClass
         div {className: "city-container-action"},
           div {className: "city-action"},
             h2 {}, "It's your turn now"
-            p {}, "Lorem ipsum dolor sit amet, cu his falli placerat mnesarchum, unum fabellas est ea, sed ad elit noluisse."
+            p {}, "Every one of our recommended actions helps you save money and crash your carbon footprint. There is no downside (well, unless you’re a coal plant)."
             p {className: "city-page-button"},
               a {className: "city-get-started", onClick: @viewGuides}, "Get Started"
         div {className: "city-container-partners"},
@@ -42,5 +42,4 @@ module.exports = React.createClass
             div {className: "city-partner-logos"}, "Logo 1, Logo 2, Logo 3"
         div {className: "city-container-disclaimer"},
           div {className: "city-disclaimer"},
-            p {}, "Bacon ipsum dolor amet bacon pork chop chuck tenderloin pork fatback rump bresaola jowl cow. Turkey kielbasa chicken, pork venison tenderloin pig frankfurter filet mignon doner hamburger andouille fatback. Porchetta pork loin pork biltong spare ribs turducken. Ground round andouille pastrami drumstick cupim beef t-bone porchetta tri-tip rump ribeye bresaola kielbasa chuck. Cupim prosciutto leberkas turkey, corned beef drumstick alcatra short ribs porchetta. Biltong sausage pig beef pancetta. Frankfurter alcatra ham hock pancetta short loin, prosciutto capicola tongue biltong hamburger tail swine bacon brisket jerky. Prosciutto pastrami andouille bresaola, tri-tip kielbasa beef ribs chuck picanha. Meatloaf tongue salami pork, boudin turducken venison. Ball tip flank ham picanha bresaola turducken brisket shank meatball meatloaf bacon porchetta.Ball tip turducken t-bone, pastrami kielbasa salami chicken tail beef ribs. Andouille beef ribs pork loin leberkas. Andouille turducken beef, ball tip t-bone sirloin cupim salami brisket. Flank ham hock chuck fatback brisket filet mignon rump, pork loin strip steak beef ribs spare ribs pork chop jowl. Brisket picanha porchetta, pork loin shankle beef venison biltong pancetta. Cow ham hock shoulder kielbasa short loin cupim turducken chicken pancetta meatball. Beef brisket porchetta ham capicola, tongue shankle venison.
-"
+            p {}, "The Fort Collins carbon-free metric is based on the cumulative carbon impact of households that have undertaken one or more of Domino’s recommended actions.<br>Data sources - Electric cars (implied from http://blog.aee.net/driving-electric-vehicle-adoption-in-northern-colorado), Solar homes (Larimer County residential solar permits), Thermostats and Green Energy Program (Fort Collins Utilties). For privacy purposes, while map markers indicate accurate number of actions they do not indicate exact location of households that have undertaken the actions."
