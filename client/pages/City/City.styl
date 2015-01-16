@@ -73,11 +73,17 @@
       .city-map-tabs
         display inline-block
         width 260px
+        &:hover
+          cursor pointer
 
       .city-map-tab
         margin-bottom 2px
         padding 32px 10px 25px
         background-color #F8F8F8
+        &:hover
+          background-color #f0f8ff
+        &.active
+          background-color #4ec7dc
 
       .city-map-tab-image
         display block
@@ -93,10 +99,21 @@
       .city-map-image
         display inline-block
         vertical-align top
-        background url("../img/clean-power-option.png")
         height 600px
         text-indent -9999px
         width 764px
+
+      .electric-car-map
+        background url("../img/evs-map.png")
+
+      .solar-map
+        background url("../img/solar-map.png")
+
+      .clean-power-map
+        background url("../img/clean-power-option-map.png")
+
+      .thermostats-map
+        background url("../img/thermostats-map.png")
 
   .city-container-action
     background #4EC7DC
