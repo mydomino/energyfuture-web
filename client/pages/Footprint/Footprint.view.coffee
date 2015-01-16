@@ -158,27 +158,22 @@ module.exports = React.createClass
             if selectedGuides.length == 0
               if percent > 0
                 div {},
-                  h3 {}, "Nice Work."
-                  "You're making a real impact and the dominos are falling!"
+                  p {}, "You're making a real impact and the dominos are falling!"
               else
                 div {},
-                  h3 {}, "Let's get started."
-                  "Select one or more guides and see how they add up."
+                  p {}, "Select one or more guides and see how they add up."
             else if selectedGuides.length > 0 && percent >= 100
               div {},
-                h3 {}, "Now we're talking!"
                 p {}, "Going all-in means even greater savings, health, and freedom. Questions?"
                 new ActionButton selectedGuides: selectedGuides, percent: percent
             else if selectedGuides.length == 1
               guide = selectedGuides[0]
               div {},
-                h3 {}, "Great choice."
                 p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide, firstName)}}
                 new ActionButton selectedGuides: selectedGuides, percent: percent
             else
               guide = _.last selectedGuides
               div {},
-                h3 {}, "Nice Combination!"
                 p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide, firstName)}}
                 new ActionButton selectedGuides: selectedGuides, percent: percent
 
