@@ -15,7 +15,12 @@ module.exports = React.createClass
           p {},
             "You support our work by buying products and services"
             br {}
-            "recommended on this site."
+            "recommended on this site. Read our "
+            a {className: "mixpanel-internal-link", href: "/terms"}, "Terms of Service"
+            br {}
+            " and "
+            a {className: "mixpanel-internal-link", href: "/privacy"}, "Privacy Policy"
+            " for more."
         div {className: 'col col2'},
           div {className: 'footer-logo'}
         div {className: 'col col3'},
