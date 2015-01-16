@@ -29,7 +29,6 @@ module.exports = React.createClass
     expanded: true
 
   resetState: (newState = {expanded: false}) ->
-    console.log "new state: #{newState}"
     @setState newState
     @props.onModalClose() if @props.onModalClose
 
