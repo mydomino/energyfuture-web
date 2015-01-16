@@ -1,4 +1,4 @@
-{div, h1, h2, p, em, a, img} = React.DOM
+{div, h1, h2, p, em, a, img, button} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
@@ -27,6 +27,22 @@ module.exports = React.createClass
       'solar-map': @state.activeTab == 'solar'
       'clean-power-map': @state.activeTab == 'clean-power'
       'thermostats-map': @state.activeTab == 'thermostats'
+    if @state.activeTab == 'electric-cars'
+      imageText = "Electric cars are cleen, green money machines. Buyers have saved up to $13,500 with rebates and up to 70% on gas."
+      buttonText = "Read the Electric Car guide"
+      guideUrl = "/guides/1-0"
+    else if @state.activeTab == 'solar'
+      imageText = "There’s a new solar home every 4  minutes in the U.S., and the average Colorado home saves $1,068 a year going solar."
+      buttonText = "Read the Solar guide"
+      guideUrl = "/guides/5-0"
+    else if @state.activeTab == 'clean-power'
+      imageText = "Even if you can’t put solar panels on your roof, you can switch to 100% clean electricity with the Fort Collins Green Energy program."
+      buttonText = "Read the Clean Power guide"
+      guideUrl = "/guides/8-0"
+    else if @state.activeTab == 'thermostats'
+      imageText = "A thermostats controls half your home’s energy, so make sure you have a smart one!"
+      buttonText = "Read the Smart Thermostats guide"
+      guideUrl = "/guides/3-4"
     new Layout {name: 'city', showFooter: false},
       #new NavBar user: @props.user, path: @props.context.pathname
       div {className: "city-container"},
@@ -57,12 +73,9 @@ module.exports = React.createClass
                   p {className: "city-map-tab-text"}, "Smart thermostats"
               div {className: "city-map-image #{mapPreviewClass}"},
                 div {className: "city-map-image-mask"},
-                  p {className: "city-map-image-text"},
-                    switch @state.activeTab
-                      when 'electric-cars' then "Electric cars are cleen, green money machines. Buyers have saved up to $13,500 with rebates and up to 70% on gas."
-                      when 'solar' then "There’s a new solar home every 4  minutes in the U.S., and the average Colorado home saves $1,068 a year going solar."
-                      when 'clean-power' then "Even if you can’t put solar panels on your roof, you can switch to 100% clean electricity with the Fort Collins Green Energy program."
-                      when 'thermostats' then "A thermostats controls half your home’s energy, so make sure you have a smart one!"
+                  p {className: "city-map-image-text"}, imageText
+                  button {className: "city-map-image-button", onClick: => page(guideUrl)}, buttonText
+
         div {className: "city-container-action"},
           div {className: "city-action"},
             h2 {}, "It's your turn now"
