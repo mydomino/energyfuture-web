@@ -33,10 +33,13 @@ module.exports = React.createClass
         div {className: "city-container-action"},
           div {className: "city-action"},
             h2 {}, "It's your turn now"
-            p {}, "Lorem ipsum dolor sit amet, cu his falli placerat mnesarchum, unum fabellas est ea, sed ad elit noluisse."
+            p {}, "Every one of our recommended actions helps you save money and crash your carbon footprint. There is no downside (well, unless you’re a coal plant)."
             p {className: "city-page-button"},
               a {className: "city-get-started", onClick: @viewGuides}, "Get Started"
         div {className: "city-container-partners"},
           div {className: "city-partners"},
             h2 {}, "Domino partners in Fort Collins"
             div {className: "city-partner-logos"}, "Logo 1, Logo 2, Logo 3"
+        div {className: "city-container-disclaimer"},
+          div {className: "city-disclaimer"},
+            p {}, "The Fort Collins carbon-free metric is based on the cumulative carbon impact of households that have undertaken one or more of Domino’s recommended actions.<br>Data sources - Electric cars (implied from http://blog.aee.net/driving-electric-vehicle-adoption-in-northern-colorado), Solar homes (Larimer County residential solar permits), Thermostats and Green Energy Program (Fort Collins Utilties). For privacy purposes, while map markers indicate accurate number of actions they do not indicate exact location of households that have undertaken the actions."
