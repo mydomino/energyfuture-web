@@ -19,7 +19,9 @@ module.exports = class UserGuides
     @user.addGuide(id: guide.id, status: @status)
 
   includesGuide: (guide) ->
-    _.some @filteredGuides(), (_guide) => _guide.id == guide.id
+    guide = guide.id if typeof guide == 'object'
+
+    _.some @filteredGuides(), (_guide) => _guide.id == guide
 
   includesGuides: (groupGuideIds) ->
     ids = _.map @filteredGuides(), (guide) -> guide.id
@@ -30,6 +32,6 @@ module.exports = class UserGuides
 
   getPoints: ->
     _.reduce @filteredGuides(), ((total, guide) ->
-      total += parseInt(guide.get('score'), 10)
+      total += parseInt(guide.get('score') || 0, 10)
       total
     ), 0

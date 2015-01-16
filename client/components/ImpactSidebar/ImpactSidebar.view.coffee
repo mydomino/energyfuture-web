@@ -4,54 +4,11 @@ auth = require '../../auth'
 Categories = require '../../models/singletons/Categories'
 UserGuides = require '../../models/UserGuides'
 ImpactScore = require '../ImpactScore/ImpactScore.view'
-
-positionSidebar = (element) ->
-  anchor = element.parentElement
-  style = { position: null, top: null, left: null }
-
-  if window.scrollY + element.offsetHeight > anchor.offsetTop + anchor.offsetHeight - 40
-    style.top = (anchor.offsetHeight - element.offsetHeight) + 'px'
-  else if window.scrollY > anchor.offsetTop
-    style.position = 'fixed'
-    style.top = '40px'
-    style.left = (anchor.offsetLeft - 100) + 'px'
-
-  for property, value of style
-    element.style[property] = value
-
-  return
-
-FloatingSidebar =
-  # Only float the sidebar for modern browsers (IE9+)
-  shouldFloatSidebar: ->
-    ver = document.getElementsByTagName('HTML')[0].className
-    ie = if ver == "" then false else parseInt(ver.replace('ie', ''), 10)
-    return !(ie && ie < 9)
-
-  onScrollEventHandler: ->
-    if @refs.sidebar && @sidebarIsFloating
-      positionSidebar(@refs.sidebar.getDOMNode())
-
-  setupSidebarPositioning: ->
-    @sidebarIsFloating = true
-    window.addEventListener('scroll', @onScrollEventHandler, false);
-    window.addEventListener('resize', @onScrollEventHandler, false);
-
-  removeSidebarPositioning: ->
-    window.removeEventListener('scroll', @onScrollEventHandler, false);
-    window.removeEventListener('resize', @onScrollEventHandler, false);
-
-  componentWillUnmount: ->
-    if @sidebarIsFloating
-      @removeSidebarPositioning()
-
-  componentDidMount: ->
-    if @shouldFloatSidebar()
-      @setupSidebarPositioning()
+FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
 
 module.exports = React.createClass
   displayName: 'ImpactSidebar'
-  mixins: [FloatingSidebar]
+  mixins: [FloatingSidebarMixin]
   componentWillMount: ->
     @initUser()
 
@@ -127,29 +84,29 @@ module.exports = React.createClass
 
     div {className: "impact-sidebar category-#{@props.category}", style: { color: color }, ref: 'sidebar'},
       new ImpactScore score: @props.guide.score(), color: color
-      div {className: "impact-text"}, "Impact"
+      div {className: "impact-text"}, "Carbon-Free"
       hr {}
       div {className: "action-button #{claimedClass}"},
         if @state.isClaimed
           a {onClick: @removeGuide},
-            i {className: "icon pu-icon pu-icon-impact-o"}
+            i {className: "icon fa fa-check"}
             span {}, "Done"
         else
           a {onClick: @claimGuide},
-            i {className: "icon pu-icon pu-icon-impact-o"}
+            i {className: "icon fa fa-check"}
             span {}, "I did this"
       hr {}
       div {className: "action-button #{savedClass}"},
         if @state.isClaimed
           span {},
-            i {className: "icon pu-icon pu-icon-remindme"}
+            i {className: "icon fa fa-star"}
             span {}, "Save for later"
         else if @state.isSaved
           a {onClick: @removeGuide},
-            i {className: "icon pu-icon pu-icon-remindme"}
+            i {className: "icon fa fa-star"}
             span {}, "Saved for later"
         else
           a {onClick: @saveGuide},
-            i {className: "icon pu-icon pu-icon-remindme"}
+            i {className: "icon fa fa-star"}
             span {}, "Save for later"
 

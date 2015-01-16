@@ -1,4 +1,4 @@
-{div, h2, p, span, ul, li, hr} = React.DOM
+{div, h2, h3, p, span, strong, a, ul, li, hr} = React.DOM
 
 _ = require 'lodash'
 auth = require '../../auth'
@@ -12,33 +12,72 @@ YourProgress = require '../../components/YourProgress/YourProgress.view'
 ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
 UserPhoto = require '../../components/UserPhoto/UserPhoto.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
+LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
+ImpactSpiral = require '../../components/ImpactSpiral/ImpactSpiral.view'
+TypeFormTrigger = require '../../components/TypeFormTrigger/TypeFormTrigger.view'
+FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
+
+posClass = (num) ->
+  if (num + 1) % 4 == 0 then 'guide-preview-row-end' else ''
+
+guideStatus = (userGuides, guide) ->
+  return null unless userGuides && userGuides.hasOwnProperty(guide.id)
+  userGuides[guide.id].status
 
 FootprintHeader = React.createClass
   displayName: 'FootprintHeader'
   render: ->
     div {className: "footprint-header"},
-      new UserPhoto user: @props.user
       h2 {}, @_headline()
       p {className: "sub-heading"}, @_tagline()
 
   _headline: ->
-    if @props.user
-      "Welcome back, #{@props.user.firstName()}"
-    else
-      "Your small choices have a big impact."
+    "Select one guide or more and see how they add up"
 
   _tagline: ->
-    if @props.user
-      "You're making great progress!"
-    else
-      "Here's your footprint, progress, and completed actions."
+    "Can you get to 100% carbon-free in Fort Collins?"
+
+ActionButton = React.createClass
+  displayName: 'FootprintSidebarActionButton'
+
+  getDefaultProps: ->
+    selectedGuides: []
+    percent: 0
+
+  viewGuide: (guideId, event) ->
+    event.preventDefault()
+    mixpanel.track 'Actions in Impact Screen', {action: 'View Guide', guide_id: guideId}
+    page('/guides/' + guideId)
+
+  render: ->
+    guide = _.last(@props.selectedGuides)
+    label = if @props.percent >= 100 then "Schedule a Call" else "Read #{guide.get('title')} Guide"
+    color = if @props.percent >= 100 then 'purple' else 'green'
+
+    p {},
+      if @props.percent > 100
+        new TypeFormTrigger
+          className: "btn btn-#{color}",
+          href: "https://mydomino.typeform.com/to/mlJ4gK"
+          clickText: label
+          mixpanelProperty: "Talk to Concierge from Impact Screen"
+      else
+        a {className: "btn btn-#{color}", onClick: @viewGuide.bind(this, guide.id)}, label
+
+selectedGuides = []
 
 module.exports = React.createClass
   displayName: 'Footprint'
-  mixins: [ScrollTopMixin]
+  mixins: [ScrollTopMixin, FloatingSidebarMixin]
+
+  calculateLeftOffset: (anchor, element) ->
+    element.offsetLeft
 
   getInitialState: ->
     guides: []
+    selectedGuides: []
+    ownership: 'own'
 
   componentWillMount: ->
     mixpanel.track 'View Impact Screen'
@@ -58,63 +97,101 @@ module.exports = React.createClass
       @setupState(coll)
 
   setupState: (coll) ->
+    if @claimedGuides
+      selectedGuides = _.map(@claimedGuides.filteredGuides(), ((guide) -> guide.id ))
+    else
+      selectedGuides = []
+
     @setState
       categorizedGuides: coll.guidesByCategory()
       categorizedScores: coll.scoreByCategory()
       totalScore: coll.totalScore()
+      selectedGuides: selectedGuides
 
   componentDidMount: ->
     unless @props.user
       auth.prompt(true)
 
+  toggleGuideSelection: (guide) ->
+    selectedGuides = @state.selectedGuides
+    index = selectedGuides.indexOf(guide)
+    return false if @claimedGuides.includesGuide(guide)
+
+    if index > -1
+      selectedGuides.splice(index, 1)
+    else
+      mixpanel.track 'Actions in Impact Screen', {action: 'Select Guide', guide_id: guide.id}
+      selectedGuides.push(guide)
+
+    @setState selectedGuides: selectedGuides
+
+  selectedClass: (guide) ->
+    if @state.selectedGuides.indexOf(guide) > -1 then 'selected' else ''
+
+  calculatePercent: (selectedGuides, claimedGuides) ->
+    func = (sum, guide) ->
+      return sum if claimedGuides.includesGuide(guide)
+      sum + parseInt(guide.get('score'), 10)
+
+    _.reduce(selectedGuides, func, claimedGuides.getPoints())
+
+  motivationalMessage: (guide, firstName) ->
+    motivationalMessage = guide.get('motivationalMessage') || ""
+    motivationalMessage = motivationalMessage.replace('%NAME%', firstName)
+    motivationalMessage
+
   render: ->
-    locationData = [{name: "San Francisco", value: 1}, {name: "New York", value: 2}]
-    houseData = [{name: "apartment", value: 1}, {name: "house", value: 2}]
-    ownershipData = [{name: "own", value: 1}, {name: "rent", value: 2}]
-    energyData = [{name: "$190/mo", value: 1}, {name: "$300/mo", value: 2}]
-    carData = [{name: "Dodge Challenger", value: 1}, {name: "Carrera", value: 2}]
-    carMilesData = [{name: "50 miles", value: 1}, {name: "100 miles", value: 2}]
-    cycleFreqData = [{name: "rarely", value: 1}, {name: "daily", value: 2}]
-    foodFreqData = [{name: "6", value: 1}, {name: "4", value: 2}]
+    userGuides = @props.user && @props.user.get('guides')
+    guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
+    selectedGuides = @coll.guidesByIds(@state.selectedGuides)
+    percent = @calculatePercent(selectedGuides, @claimedGuides)
+    firstName = @props.user?.firstName() || "Friend"
 
     new Layout {name: 'footprint'},
       new NavBar user: @props.user, path: @props.context.pathname
+
       div {className: "footprint"},
         new FootprintHeader user: @props.user
-        div {className: "footprint-content"},
-          h2 {}, "your impact"
-          new ImpactScore score: @claimedGuides.getPoints()
-          h2 {}, "did you know?"
-          p {className: "did-you-know-content"}, "Between our homes, cars, and food, over 50% of all greenhouse gases are the result of individual consumer choices"
-          hr {className: "h-divider"}
-          h2 {}, "about you"
-          p {className: "sub-heading"}, "These choices help us predict your footprint and offer customized recommendations."
-          div {className: "about-you-row"},
-            span {className: "about-you-label"}, "Home:"
-            span {className: "about-you-description"}, "You live in"
-            new DropdownComponent(data: locationData)
-            span {}, "in a"
-            new DropdownComponent(data: houseData)
-            span {}, "you"
-            new DropdownComponent(data: ownershipData)
-            span {}, "spending"
-            new DropdownComponent(data: energyData)
-            span {}, "on energy."
-          div {className: "about-you-row"},
-            span {className: "about-you-label"}, "Mobility:"
-            span {className: "about-you-description"}, "You drive a"
-            new DropdownComponent(data: carData)
-            span {}, "around"
-            new DropdownComponent(data: carMilesData)
-            span {}, "per week, and bicycle"
-            new DropdownComponent(data: cycleFreqData)
-          div {className: "about-you-row"},
-            span {className: "about-you-label"}, "Food:"
-            span {className: "about-you-description"}, "You eat red meat"
-            new DropdownComponent(data: foodFreqData)
-            span {}, "times/week and dairy"
-            new DropdownComponent(data: foodFreqData)
-            span {}, "times/week"
+        div {className: 'footprint-sidebar', ref: 'sidebar'},
+          new ImpactSpiral percent: percent
+          div {className: "impact-calculation"},
+            if selectedGuides.length == 0
+              if percent > 0
+                div {},
+                  h3 {}, "Nice Work."
+                  "You're making a real impact and the dominos are falling!"
+              else
+                div {},
+                  h3 {}, "Let's get started."
+                  "Select one or more guides and see how they add up."
+            else if selectedGuides.length > 0 && percent >= 100
+              div {},
+                h3 {}, "Now we're talking!"
+                p {}, "Going all-in means even greater savings, health, and freedom. Questions?"
+                new ActionButton selectedGuides: selectedGuides, percent: percent
+            else if selectedGuides.length == 1
+              guide = selectedGuides[0]
+              div {},
+                h3 {}, "Great choice."
+                p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide, firstName)}}
+                new ActionButton selectedGuides: selectedGuides, percent: percent
+            else
+              guide = _.last selectedGuides
+              div {},
+                h3 {}, "Nice Combination!"
+                p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide, firstName)}}
+                new ActionButton selectedGuides: selectedGuides, percent: percent
 
-          hr {className: "h-divider"}
-          new YourProgress(goalReduction: 25, categorizedGuides: @state.categorizedGuides, categorizedScores: @state.categorizedScores, totalScore: @state.totalScore)
+        div {className: "footprint-content"},
+          if guides.length > 0
+            div {className: "guides"},
+              guides.map (guide, idx) =>
+                new GuidePreview
+                  key: "guide#{guide.id}"
+                  guide: guide
+                  customClass: [posClass(idx), "small", @selectedClass(guide.id)].join(' ')
+                  status: guideStatus(userGuides, guide)
+                  clickAction: @toggleGuideSelection
+
+          else
+            new LoadingIcon
