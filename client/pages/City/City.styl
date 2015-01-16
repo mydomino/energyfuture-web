@@ -97,11 +97,25 @@
         color #656B6F
 
       .city-map-image
+        position relative
         display inline-block
         vertical-align top
         height 600px
-        text-indent -9999px
         width 764px
+
+      .city-map-image-mask
+        position absolute
+        bottom 0px
+        width 100%
+        height 161px
+        background-color rgba(0, 0, 0, 0.4)
+
+      .city-map-image-text
+        padding 0 30px
+        text-align center
+        color white
+        font-size 1.2em
+        font-weight bold
 
       .electric-car-map
         background url("../img/evs-map.png")

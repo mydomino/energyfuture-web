@@ -55,7 +55,14 @@ module.exports = React.createClass
                 div {className: "city-map-tab #{thermostatsClass}", onClick: => @setState activeTab: 'thermostats'},
                   img {src: "/img/thermostats-counter.png", className: "city-map-tab-image"}
                   p {className: "city-map-tab-text"}, "Smart thermostats"
-              div {className: "city-map-image #{mapPreviewClass}"}, "Map goes here"
+              div {className: "city-map-image #{mapPreviewClass}"},
+                div {className: "city-map-image-mask"},
+                  p {className: "city-map-image-text"},
+                    switch @state.activeTab
+                      when 'electric-cars' then "Electric cars are cleen, green money machines. Buyers have saved up to $13,500 with rebates and up to 70% on gas."
+                      when 'solar' then "There’s a new solar home every 4  minutes in the U.S., and the average Colorado home saves $1,068 a year going solar."
+                      when 'clean-power' then "Even if you can’t put solar panels on your roof, you can switch to 100% clean electricity with the Fort Collins Green Energy program."
+                      when 'thermostats' then "A thermostats controls half your home’s energy, so make sure you have a smart one!"
         div {className: "city-container-action"},
           div {className: "city-action"},
             h2 {}, "It's your turn now"
