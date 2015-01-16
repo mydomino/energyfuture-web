@@ -1,4 +1,4 @@
-{div, h2, h3, h4, p, em, ol, li} = React.DOM
+{div, h2, h3, h4, p, em, ol, li, br} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
