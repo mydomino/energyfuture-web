@@ -9,6 +9,10 @@ module.exports = React.createClass
     e.preventDefault()
     document.location = '/contact'
 
+  goToAboutPage: (e) ->
+    e.preventDefault()
+    page('/about')
+
   render: ->
       footer {className: 'footer'},
         div {className: 'col col1'},
@@ -26,6 +30,6 @@ module.exports = React.createClass
         div {className: 'col col3'},
           p {},
             span {className: 'footer-logo'}
-            a {className: 'mixpanel-internal-link', href: '/about'}, 'Learn about us'
+            a {className: 'mixpanel-internal-link', onClick: @goToAboutPage}, 'Learn about us'
             ' or '
-            a {className: 'mixpanel-internal-link', href: '/contact', onClick: @goToContactPage}, 'get in touch'
+            a {className: 'mixpanel-internal-link', onClick: @goToContactPage}, 'get in touch'
