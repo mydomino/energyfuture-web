@@ -52,7 +52,8 @@ ActionButton = React.createClass
 
   render: ->
     guide = _.last(@props.selectedGuides)
-    label = if @props.percent >= 100 then "Schedule a Call" else "Read #{guide.get('title')} Guide"
+    title = guide.get('shortTitle') || guide.get('title')
+    label = if @props.percent >= 100 then "Schedule a Call" else "Read #{title} Guide"
     color = if @props.percent >= 100 then 'purple' else 'green'
 
     p {},
@@ -187,6 +188,5 @@ module.exports = React.createClass
                   customClass: [posClass(idx), "small", @selectedClass(guide.id)].join(' ')
                   status: guideStatus(userGuides, guide)
                   clickAction: @toggleGuideSelection
-
           else
             new LoadingIcon
