@@ -73,4 +73,5 @@ module.exports = React.createClass
             collapsedIcon = 'minus'
           div {className: "sortable-table-expand-collapse #{collapsedClass}", ref: 'expandCollapse'},
             div {className: 'expand-collapse-mask'}
-            i {className: "expand-collapse-button icon pu pu-icon-#{collapsedIcon}", onClick: @toggleExpandCollapse}
+            div {className: "expand-collapse-button"},
+              i {className: "icon pu pu-icon-#{collapsedIcon}", onClick: @toggleExpandCollapse}
