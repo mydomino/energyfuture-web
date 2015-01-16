@@ -160,6 +160,6 @@ module.exports = React.createClass
       'auth-bar-collapsed': !this.state.expanded
 
     div {className: classes},
-      span {className: 'auth-bar-close', onClick: @_hidePrompt}, 'x'
+      span {className: 'auth-bar-close', onClick: @_hidePrompt}, 'CLOSE X'
       @expandedView(@state.failedLogin)
       @collapsedView(@state.failedLogin)
