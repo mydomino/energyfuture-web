@@ -42,6 +42,6 @@ module.exports = React.createClass
       'modal-expanded': this.state.expanded
 
     div {className: classes},
-      span {className: 'modal-close', onClick: @_hidePrompt}, 'x'
+      span {className: 'modal-close', onClick: @_hidePrompt}, 'close x'
       div {className: 'modal-content-expanded'},
         @props.children
