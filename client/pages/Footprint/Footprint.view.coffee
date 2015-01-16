@@ -1,4 +1,4 @@
-{div, h2, h3, p, span, strong, a, ul, li, hr} = React.DOM
+{div, h2, h3, p, span, strong, a, ul, li, hr, i} = React.DOM
 
 _ = require 'lodash'
 auth = require '../../auth'
@@ -53,7 +53,7 @@ ActionButton = React.createClass
   render: ->
     guide = _.last(@props.selectedGuides)
     title = guide.get('shortTitle') || guide.get('title')
-    label = if @props.percent >= 100 then "Schedule a Call" else "Read #{title} Guide"
+    label = if @props.percent >= 100 then "Schedule a Call" else "Read #{title} guide"
     color = if @props.percent >= 100 then 'purple' else 'green'
 
     p {},
@@ -177,6 +177,9 @@ module.exports = React.createClass
               div {},
                 p {dangerouslySetInnerHTML: {"__html": @motivationalMessage(guide, firstName)}}
                 new ActionButton selectedGuides: selectedGuides, percent: percent
+          div {className: "footprint-question", onClick: @this},
+            i {className: "footprint-question-icon fa fa-question-circle"}
+            span {className: "footprint-question-text"}, "What do these numbers mean?"
 
         div {className: "footprint-content"},
           if guides.length > 0
