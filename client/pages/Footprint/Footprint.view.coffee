@@ -52,6 +52,7 @@ ActionButton = React.createClass
 
   render: ->
     guide = _.last(@props.selectedGuides)
+    return false unless guide
     title = guide.get('shortTitle') || guide.get('title')
     label = if @props.percent >= 100 then "Schedule a Call" else "Read #{title} guide"
     color = if @props.percent >= 100 then 'purple' else 'green'
@@ -98,10 +99,11 @@ module.exports = React.createClass
       @setupState(coll)
 
   setupState: (coll) ->
+    selectedGuides = []
+    if sessionStorage.hasOwnProperty('selectedGuides')
+      selectedGuides = _.merge(selectedGuides, JSON.parse(sessionStorage.selectedGuides))
     if @claimedGuides
-      selectedGuides = _.map(@claimedGuides.filteredGuides(), ((guide) -> guide.id ))
-    else
-      selectedGuides = []
+      selectedGuides = _.merge(selectedGuides, _.map(@claimedGuides.filteredGuides(), ((guide) -> guide.id )))
 
     @setState
       categorizedGuides: coll.guidesByCategory()
@@ -124,6 +126,7 @@ module.exports = React.createClass
       mixpanel.track 'Actions in Impact Screen', {action: 'Select Guide', guide_id: guide.id}
       selectedGuides.push(guide)
 
+    sessionStorage.selectedGuides = JSON.stringify(selectedGuides)
     @setState selectedGuides: selectedGuides
 
   selectedClass: (guide) ->
@@ -131,12 +134,14 @@ module.exports = React.createClass
 
   calculatePercent: (selectedGuides, claimedGuides) ->
     func = (sum, guide) ->
+      return unless guide
       return sum if claimedGuides.includesGuide(guide)
       sum + parseInt(guide.get('score'), 10)
 
     _.reduce(selectedGuides, func, claimedGuides.getPoints())
 
   motivationalMessage: (guide, firstName) ->
+    return '' unless guide
     motivationalMessage = guide.get('motivationalMessage') || ""
     motivationalMessage = motivationalMessage.replace('%NAME%', firstName)
     motivationalMessage
