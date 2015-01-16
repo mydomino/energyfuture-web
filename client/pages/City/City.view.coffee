@@ -1,4 +1,4 @@
-{div, h1, h2, p, em, a} = React.DOM
+{div, h1, h2, p, em, a, img} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
@@ -29,7 +29,21 @@ module.exports = React.createClass
         div {className: "city-container-map"},
           div {className: "city-map"},
             h2 {}, "Fort Collins has 2,461 dominoes in motion"
-            div {className: "city-map-selector"}, "Map goes here"
+            div {className: "city-map-panes"},
+              div {className: "city-map-tabs"},
+                div {className: "city-map-tab"},
+                  img {src: "/img/ev-counter.png", className: "city-map-tab-image"}
+                  p {className: "city-map-tab-text"}, "Electric cars"
+                div {className: "city-map-tab"},
+                  img {src: "/img/solar-counter.png", className: "city-map-tab-image"}
+                  p {className: "city-map-tab-text"}, "Solar powered homes"
+                div {className: "city-map-tab"},
+                  img {src: "/img/clean-energy-counter.png", className: "city-map-tab-image"}
+                  p {className: "city-map-tab-text"}, "Enrolled in Ft. Collins Clean Energy Program"
+                div {className: "city-map-tab"},
+                  img {src: "/img/thermostats-counter.png", className: "city-map-tab-image"}
+                  p {className: "city-map-tab-text"}, "Smart thermostats"
+              div {className: "city-map-image"}, "Map goes here"
         div {className: "city-container-action"},
           div {className: "city-action"},
             h2 {}, "It's your turn now"
