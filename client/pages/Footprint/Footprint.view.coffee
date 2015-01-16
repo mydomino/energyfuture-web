@@ -52,7 +52,7 @@ ActionButton = React.createClass
 
   render: ->
     guide = _.last(@props.selectedGuides)
-    label = if @props.percent >= 100 then "Talk to us" else "Read #{guide.get('title')} Guide"
+    label = if @props.percent >= 100 then "Schedule a Call" else "Read #{guide.get('title')} Guide"
     color = if @props.percent >= 100 then 'purple' else 'green'
 
     p {},
