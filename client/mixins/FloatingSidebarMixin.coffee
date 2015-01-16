@@ -35,4 +35,7 @@ module.exports =
     @removeSidebarPositioning()
 
   componentDidMount: ->
+    setTimeout =>
+      @onScrollEventHandler()
+    , 1000
     @setupSidebarPositioning()
