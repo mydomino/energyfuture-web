@@ -28,7 +28,7 @@ module.exports = React.createClass
       'clean-power-map': @state.activeTab == 'clean-power'
       'thermostats-map': @state.activeTab == 'thermostats'
     if @state.activeTab == 'electric-cars'
-      imageText = "Electric cars are cleen, green money machines. Buyers have saved up to $13,500 with rebates and up to 70% on gas."
+      imageText = "Electric cars are clean, green money machines. Buyers have saved up to $13,500 with rebates and up to 70% on gas."
       buttonText = "Read the Electric Car guide"
       guideUrl = "/guides/1-0"
     else if @state.activeTab == 'solar'
@@ -40,7 +40,7 @@ module.exports = React.createClass
       buttonText = "Read the Clean Power guide"
       guideUrl = "/guides/8-0"
     else if @state.activeTab == 'thermostats'
-      imageText = "A thermostats controls half your home’s energy, so make sure you have a smart one!"
+      imageText = "A thermostat controls half your home’s energy, so make sure you have a smart one!"
       buttonText = "Read the Smart Thermostats guide"
       guideUrl = "/guides/3-4"
     new Layout {name: 'city', showFooter: false},
