@@ -14,6 +14,7 @@ module.exports = React.createClass
     mixpanelProperty: 'mixpanel-property-placeholder'
 
   clickAction: (event) ->
+    event.preventDefault()
     mixpanelProperties = _.merge(guide_id: @props.guide_id, action: @props.mixpanelProperty)
     mixpanel.track 'View Typeform', mixpanelProperties
 

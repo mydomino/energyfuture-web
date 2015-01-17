@@ -59,7 +59,7 @@ ActionButton = React.createClass
     color = if @props.percent >= 100 then 'purple' else 'green'
 
     p {},
-      if @props.percent > 100
+      if @props.percent >= 100
         new TypeFormTrigger
           className: "btn btn-#{color}",
           href: "https://mydomino.typeform.com/to/mlJ4gK"
