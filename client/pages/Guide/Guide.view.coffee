@@ -20,27 +20,19 @@ GuideView = React.createClass
   mixins: [HideModuleMixin, ReactAsync.Mixin]
 
   componentWillMount: ->
-    @guide = new Guide(id: @props.params.id)
-    @guide.sync().then => @rerenderComponent()
-
     @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
     auth.on 'authStateChange', @debouncedMixpanelUpdate
     @debouncedMixpanelUpdate()
 
   getInitialStateAsync: (cb) ->
-    @guide = new Guide(id: @props.params.id)
-    @guide.sync().then =>
-      cb null,
-        guide: @guide
-        # this is a bit of a bad practice to put data that isn't used for rendering
-        # we use this to dynamically populate the meta tags description
-        metaDescription: @guide.get('title')
+    guide = new Guide(id: @props.params.id)
+    guide.sync().then => cb null, { guide: guide }
 
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
 
   updateMixpanel: ->
-    Mixpanel.track("View Guide", {guide_id: @guide.id, distinct_id: auth.user?.id})
+    Mixpanel.track("View Guide", {guide_id: @state.guide.id, distinct_id: auth.user?.id})
 
   rerenderComponent: ->
     @forceUpdate() if @isMounted()

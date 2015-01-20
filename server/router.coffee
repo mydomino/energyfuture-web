@@ -86,6 +86,7 @@ renderReactComponent = (page) ->
     ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
       if err
         console.log(err)
+        console.log(err.stack)
         return showErrorPage(res)
 
       params =
