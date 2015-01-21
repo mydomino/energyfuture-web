@@ -42,4 +42,4 @@ ga.Initializer = React.createClass
     (script null)
 
 
-module.exports = React.createFactory ga
+module.exports = ga

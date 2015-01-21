@@ -1,6 +1,6 @@
+_ = require 'lodash'
 auth = require './auth'
 React = require 'react'
-ReactAsync = require 'react-async'
 AuthBar = require './components/AuthBar/AuthBar.view'
 Routes = require './routes'
 History = require 'html5-history-api'
@@ -17,13 +17,12 @@ addPage = (route) ->
 
     sessionStorage.setItem('lastPageVisited', ctx.pathname) unless url is '/login'
 
-    props =
-      component: Component
+    componentProps =
       params: ctx.params
       context:
         pathname: ctx.pathname
 
-    ReactAsync.prefetchAsyncState Component(props), (e, c) => React.render c, document.getElementById('app')
+    React.render Component(componentProps), document.getElementById('app')
 
 Router = React.createClass
   displayName: 'Router'
@@ -42,10 +41,7 @@ Router = React.createClass
     user: undefined
 
   render: ->
-    new @props.component
-      params: @props.params
-      user: @state.user
-      context: @props.context
+    new @props.component(_.merge(@props.componentProps, user: @state.user))
 
 Router = React.createFactory Router
 

@@ -19,10 +19,13 @@ GuideView = React.createClass
   displayName: 'Guide'
   mixins: [HideModuleMixin, ReactAsync.Mixin, ScrollTopMixin]
 
-  componentDidmount: ->
+  componentDidMount: ->
     @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
     auth.on 'authStateChange', @debouncedMixpanelUpdate
     @debouncedMixpanelUpdate()
+
+  stateFromJSON: (state) ->
+    guide: new Guide(state.guide.attributes)
 
   getInitialStateAsync: (cb) ->
     guide = new Guide(id: @props.params.id)
@@ -42,20 +45,22 @@ GuideView = React.createClass
       @setState guide: guide
 
   render: ->
-    if @state.guide
-      {title, summary, category} = @state.guide.attributes
-      modules = @state.guide.sortedModules()
+    guide = @state.guide
+
+    if guide
+      {title, summary, category} = guide.attributes
+      modules = guide.sortedModules()
 
     new Layout {name: 'guide', guideId: @props.params.id, showNewsletterSignup: true},
       new NavBar user: @props.user, path: @props.context.pathname
-      if !@state.guide
+      if !guide
         new LoadingIcon
       else
         div {},
           div {className: "guide"},
             new ImpactSidebar
               user: @props.user
-              guide: @state.guide
+              guide: guide
               category: category
 
             header {className: "guide-header"},
@@ -72,7 +77,7 @@ GuideView = React.createClass
                     uniqName = "#{moduleName}-#{idx}"
                     section {key: uniqName, ref: uniqName, id: module.id},
                       new GuideModules[moduleName]
-                        guide: @state.guide
+                        guide: guide
                         content: module.content
                         onError: @hideModule.bind(@, uniqName)
                       hr {className: "h-divider"}

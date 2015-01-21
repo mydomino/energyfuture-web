@@ -52,6 +52,6 @@ Layout = React.createClass
         new NewsletterSignup guideId: @props.guideId if @props.showNewsletterSignup
       if @props.showFooter
         new Footer
-      new ga.Initializer
+      new React.createFactory(ga.Initializer)
 
 module.exports = React.createFactory Layout
