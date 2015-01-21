@@ -1,23 +1,23 @@
 React = require 'react'
 ReactAsync = require 'react-async'
-{div, h2, p, hr} = React.DOM
+{div, h1, p, hr, section, article, header} = React.DOM
 
 _ = require 'lodash'
 Guide = require '../../models/Guide'
 TipCollection = require '../../models/TipCollection'
-Mixpanel = require '../../models/Mixpanel'
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
 GuideModules = require('../../components/GuideModules.coffee')()
 HideModuleMixin = require '../../mixins/HideModuleMixin'
+ScrollTopMixin = require '../../mixins/ScrollTopMixin'
+Autolinker = require 'autolinker'
 auth = require '../../auth'
 
 GuideView = React.createClass
   displayName: 'Guide'
-
-  mixins: [HideModuleMixin, ReactAsync.Mixin]
+  mixins: [HideModuleMixin, ReactAsync.Mixin, ScrollTopMixin]
 
   componentWillMount: ->
     @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
@@ -37,6 +37,10 @@ GuideView = React.createClass
   rerenderComponent: ->
     @forceUpdate() if @isMounted()
 
+  setGuide: (guide) ->
+    if guide.exists() && @isMounted
+      @setState guide: guide
+
   render: ->
     if @state.guide
       {title, summary, category} = @state.guide.attributes
@@ -53,10 +57,12 @@ GuideView = React.createClass
               user: @props.user
               guide: @state.guide
               category: category
-            div {className: "guide-header"},
-              h2 {}, title
-              p {}, summary
-            div {className: "guide-modules"},
+
+            header {className: "guide-header"},
+              h1 {}, title
+              if summary
+                p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}}
+            article {className: "guide-modules"},
               if modules
                 modules.map (module, idx) =>
                   moduleName = module.name
@@ -64,7 +70,7 @@ GuideView = React.createClass
 
                   if GuideModules[moduleName]
                     uniqName = "#{moduleName}-#{idx}"
-                    div {key: uniqName, ref: uniqName},
+                    section {key: uniqName, ref: uniqName, id: module.id},
                       new GuideModules[moduleName]
                         guide: @state.guide
                         content: module.content

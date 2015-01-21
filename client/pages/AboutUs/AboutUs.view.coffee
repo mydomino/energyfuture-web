@@ -2,11 +2,13 @@ React = require 'react'
 {div, h2, h3, p, strong} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
+ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 AboutUs = React.createClass
   displayName: 'AboutUs'
+  mixins: [ScrollTopMixin]
   render: ->
-    new Layout {name: 'aboutus'},
+    new Layout {name: 'aboutus', context: @props.context},
       new NavBar user: @props.user, path: @props.context.pathname
       div {className: "about-us-container"},
         h2 { id: "we-re-reinventing-zero-emissions-living"}, "We’re reinventing zero-emissions living"

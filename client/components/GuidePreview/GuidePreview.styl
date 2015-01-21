@@ -1,16 +1,24 @@
+@require '../../css/mixins/colors'
+/*
 pageWidth = 1024px
 guideWidth = 300px
 guideBorder = guideWidth / 10
 spacingX = ((pageWidth - (3 * guideWidth)) / 2)
 spacingY = 43px
+*/
+pageWidth = 1024px
+guideWidth = 220px
+guideBorder = guideWidth / 10
+spacingX = ((pageWidth - (4 * guideWidth)) / 3)
+spacingY = 30px
 
 .page-guides .container-padding
   overflow auto
 
 .guide-preview
-  border 4px solid #000
+  border 4px solid #ccc
   width guideWidth
-  height 478px
+  height 350px
   border-radius guideBorder
   position relative
   margin-right spacingX
@@ -21,6 +29,13 @@ spacingY = 43px
   background-position top center
   background-size cover
   cursor pointer
+  overflow hidden
+
+  &.selected
+    border-color teal
+
+  .guide-preview-hover
+    display none
 
 .guide-preview-impact-score
   position absolute
@@ -30,16 +45,44 @@ spacingY = 43px
   .impact-text
     margin-left 10px
     text-transform capitalize
-    color #7BD1C0
+    color teal
     display inline-block
+
+.guide-preview-status
+  background-color rgba(108,182,158,0.9)
+  width 145px
+  height 60px
+  padding-top 20px
+  position absolute
+  transform rotate(45deg)
+  top -2px
+  right -48px
+  left auto
+  text-align center
+  z-index: 100
+
+  &:before
+    color #fff
+    color rgba(255,255,255,0.9)
+    font-size 120px
+
+  .fa
+    transform rotate(-45deg)
+    display block
+    color #fff
+    font-size 2em
+
+.guide-preview-status-star
+  background-color rgba(235,235,0,0.8)
 
 .guide-preview-content
   position absolute
-  top 239px
+  top 175px
   left 0
   right 0
   bottom 0
   border-radius 0 0 guideBorder - 3 guideBorder - 3
+  background-color #242424
   background-color rgba(0,0,0,0.6)
   text-align left
   padding 10px
@@ -61,19 +104,124 @@ spacingY = 43px
 .guide-preview-title
   font-weight 400
   color #fff
-  margin 0 0 10px 0
+  font-size 1.3em
+  line-height 1.3em
+  margin 5px 0 10px
+  text-shadow 1px 1px 2px rgba(0,0,0,.6)
 
 .guide-preview-summary
+  color #fff
+  color rgba(255, 255, 255, .7)
+  font-size .9em
   margin 10px 0
 
-.guide-preview-third
+.guide-preview-row-end
   margin-right 0
 
 .guide-preview-status
   position absolute
-  top 60px
-  left 80px
-  &:before
-    color #fff
-    color rgba(255,255,255,0.9)
-    font-size 120px
+  top -10px
+  right -50px
+
+
+.guide-preview.small
+  width 115px
+  height 175px
+  margin 0 25px 25px 0
+  transition all .5s ease
+
+  &:hover
+    border-color #38ba99
+
+    .guide-preview-hover
+      display block
+
+    .guide-preview-content
+      background linear-gradient(rgba(56,186,153,.3), rgba(56,186,153,.9))
+      top 0
+
+  .guide-preview-hover
+    height 100%
+    left 0
+    position absolute
+    top 0
+    width 100%
+
+    .guide-preview-info
+      color #fff
+      font-size .7em
+      left 10px
+      position absolute
+      text-shadow 1px 1px 2px rgba(0,0,0,.6)
+      text-transform uppercase
+      top 10px
+      z-index 100
+
+      &:hover
+        border-bottom 1px solid #fff
+
+    .guide-preview-select
+      display none
+      position absolute
+      top 45%
+      width 100%
+      z-index 100
+
+      p
+        border 2px solid #fff
+        border-radius 20px
+        color #fff
+        font-size .8em
+        font-weight 600
+        margin 0 auto
+        padding 5px 25px
+        text-align center
+        text-transform uppercase
+        width 70%
+
+  .guide-preview-content
+    top 70px
+    font-size 0.7em
+    background linear-gradient(rgba(0,0,0,0), rgba(0,0,0,1))
+    transition all .25s ease
+
+  .guide-preview-title
+    position absolute
+    bottom 10px
+    left 0
+    margin 0
+    padding 0 10px
+
+  .guide-preview-summary
+    display none
+
+  .guide-preview-status
+    width 90px
+    height 40px
+    padding-top 13px
+    right -30px
+
+    &:before
+      font-size 18px
+
+    .fa
+      font-size 1.5em
+/*
+    top 10px
+    left 10px
+    &:before
+      font-size 18px
+    &.pu-icon-check
+      &:before
+        color #50E3C2
+*/
+.guide-preview
+  &.small
+    width 150px
+    height 222px
+    &.selected
+      .guide-preview-content
+        top 0
+        background none
+        background-color #6ba38b
+        background-color rgba(107,163,139,0.9)

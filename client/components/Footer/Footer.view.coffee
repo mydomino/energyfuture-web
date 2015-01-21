@@ -1,5 +1,5 @@
 React = require 'react'
-{div, p, a, span, br} = React.DOM
+{div, p, a, span, br, footer} = React.DOM
 
 Footer = React.createClass
   displayName: 'Footer'
@@ -10,20 +10,29 @@ Footer = React.createClass
     e.preventDefault()
     document.location = '/contact'
 
+  goToAboutPage: (e) ->
+    e.preventDefault()
+    page('/about')
+
   render: ->
-      div {className: 'footer'},
+      footer {className: 'footer'},
         div {className: 'col col1'},
           p {},
             "You support our work by buying products and services"
             br {}
-            "recommended on this site."
+            "recommended on this site. Read our "
+            a {className: "mixpanel-internal-link", href: "/terms"}, "Terms of Service"
+            br {}
+            " and "
+            a {className: "mixpanel-internal-link", href: "/privacy"}, "Privacy Policy"
+            " for more."
         div {className: 'col col2'},
           div {className: 'footer-logo'}
         div {className: 'col col3'},
           p {},
             span {className: 'footer-logo'}
-            a {href: '/about'}, 'Learn about us'
+            a {className: 'mixpanel-internal-link', onClick: @goToAboutPage}, 'Learn about us'
             ' or '
-            a {href: '/contact', onClick: @goToContactPage}, 'get in touch'
+            a {className: 'mixpanel-internal-link', onClick: @goToContactPage}, 'get in touch'
 
 module.exports = React.createFactory Footer

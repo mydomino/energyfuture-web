@@ -10,6 +10,7 @@ Splash = React.createClass
     userCount: 'Many'
 
   componentWillMount: ->
+    mixpanel.track 'View Splash'
     ref = firebase.inst('/users')
     ref.on 'value', (snap) =>
       @setState userCount: snap.numChildren()

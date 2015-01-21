@@ -3,6 +3,7 @@ React = require 'react'
 ReactAsync = require 'react-async'
 AuthBar = require './components/AuthBar/AuthBar.view'
 Routes = require './routes'
+History = require 'html5-history-api'
 
 addMiddleware = (route) ->
   page route[0], route[1]
@@ -14,8 +15,7 @@ addPage = (route) ->
     # Set the body class based on the current page
     document.querySelector('body').className = ['body', route[2]].filter(Boolean).join('-')
 
-    # Scroll the window to the top each time a page gets shown
-    window.scrollTo(0, 0)
+    sessionStorage.setItem('lastPageVisited', ctx.pathname) unless url is '/login'
 
     props =
       component: Component

@@ -1,15 +1,27 @@
 .footer
-  background #ffffff
-  padding 5em
+  background #fff
+  color #999
+  line-height 1.4em
+  padding 4em
   font-size 0.9em
   text-align center
 
   .col
-    margin-bottom 20px
+    /* margin-bottom 20px */
 
   a
     color #999
     text-decoration underline
+    -webkit-transition all .5s ease;
+    -moz-transition all .5s ease;
+    -o-transition all .5s ease;
+    transition all .5s ease;
+
+  p
+    margin 0
+
+  a:hover
+    color #111
 
   .col2
     .footer-logo
@@ -25,7 +37,6 @@
       background-position center right
       margin-bottom 0.3em
     p
-      margin 0
       display inline-block
 
 .footer:after

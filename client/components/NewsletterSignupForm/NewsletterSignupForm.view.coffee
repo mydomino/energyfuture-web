@@ -2,7 +2,6 @@ React = require 'react'
 {div, form, h1, button, p, input} = React.DOM
 firebase = require '../../firebase'
 auth = require '../../auth'
-Mixpanel = require '../../models/Mixpanel'
 
 NewsletterSignupForm = React.createClass
   displayName: 'NewsletterSignupForm'
@@ -19,7 +18,7 @@ NewsletterSignupForm = React.createClass
   handleChange: (event) ->
     @setState email: event.target.value
   submit: ->
-    Mixpanel.track 'Tips Signup', {guide_id: @props.guideId}
+    mixpanel.track 'Tips Signup', guide_id: @props.guideId
     firebaseRef = firebase.inst('/newsletter-signups')
     firebaseRef.push
       email: @state.email

@@ -51,3 +51,9 @@ module.exports = class GuideCollection extends DominoCollection
         g.score()
       .reverse()
     allGuides.value()
+
+  guidesById: (id) ->
+    new Guide(@models[id]) if @models[id]
+
+  guidesByIds: (ids) ->
+    _.map(ids, @guidesById, this)

@@ -1,5 +1,5 @@
 React = require 'react/addons'
-{div, h2, span, a} = React.DOM
+{div, h2, span, a, nav} = React.DOM
 auth = require '../../auth'
 UserPhoto = require '../UserPhoto/UserPhoto.view'
 
@@ -41,10 +41,14 @@ NavBar = React.createClass
     user: null
     path: null
 
+  goHome: (event) ->
+    event.preventDefault()
+    page('/guides')
+
   render: ->
-    div {className: 'nav-bar'},
+    nav {className: 'nav-bar'},
       div {className: 'nav-bar-logo float-left'},
-        a {className: 'site-logo', href: '/guides'}, "Domino"
+        a {className: 'site-logo', onClick: @goHome }, "Domino"
       if @props.user
         new NavBarItem {name: 'user', label: @_userLinkText(), onClick: @_logout},
           new UserPhoto user: @props.user

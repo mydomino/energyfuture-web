@@ -1,6 +1,6 @@
 React = require 'react'
 ReactAsync = require 'react-async'
-{div, h1, h2, button, br, span, img, p} = React.DOM
+{div, h1, h2, button, br, span, img, p, header} = React.DOM
 
 _ = require 'lodash'
 Guide = require '../../models/Guide'
@@ -10,9 +10,10 @@ DropdownComponent = require '../../components/Dropdown/Dropdown.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
+ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 posClass = (num) ->
-  return 'guide-preview-third' if (num + 1) % 3 == 0
+  return 'guide-preview-row-end' if (num + 1) % 4 == 0
 
 positionAnnotation = (element, anchor) ->
   element.style.display = 'block'
@@ -35,6 +36,7 @@ OnScrollMixin =
       y: 0
 
   componentDidMount: ->
+    mixpanel.track 'View Guide Grid'
     @onScroll = =>
       @setState
         scroll:
@@ -57,7 +59,7 @@ OnScrollMixin =
 
 Guides = React.createClass
   displayName: 'Guides'
-  mixins: [OnScrollMixin, ReactAsync.Mixin]
+  mixins: [OnScrollMixin, ReactAsync.Mixin, ScrollTopMixin]
 
   getDefaultProps: ->
     scrollPositionKey: 'guidesLastScrollPosition'
@@ -108,15 +110,15 @@ Guides = React.createClass
     userGuides = @props.user && @props.user.get('guides')
 
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
-    new Layout {name: 'guides'},
+    new Layout {name: 'guides', context: @props.context},
       new NavBar user: @props.user, path: @props.context.pathname
 
-      div {className: "guides-intro"},
+      header {className: "guides-intro"},
         h1 {className: "guides-intro-header"},
           "Your guides to "
           span {className: "intro-annotation-anchor", ref: "anchor"}, "low-carbon living"
         p {className: "guides-intro-subtext"},
-          "In partnership with Rocky Mountain Institute and UC Berkeley"
+          "In partnership with Rocky Mountain Institute"
         div {className: "guides-user-context"},
           p {},
             span {}, "All guides for"

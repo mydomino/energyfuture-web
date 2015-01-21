@@ -101,6 +101,8 @@ AuthBar = React.createClass
     @setState _.extend({ closed: true, failedLogin: false, expanded: false }, newState)
 
   _showPrompt: (expanded) ->
+    mixpanelEvent = if expanded then 'View Login Modal' else 'View Login Bar'
+    mixpanel.track mixpanelEvent
     @resetState closed: false, expanded: expanded
 
   _hidePrompt: ->
@@ -135,19 +137,16 @@ AuthBar = React.createClass
           a {onClick: @loginTwitter}, 'Twitter'
           ', or '
           a {onClick: @loginEmail}, 'Email'
-          ' to save your impact and sync with mobile.'
+          ' to save your impact.'
 
   expandedView: (failed) ->
     if failed
       title = 'Hmm.. Something went wrong'
-      subtitle = "Let's try that again"
     else
       title = 'Save Your Impact!'
-      subtitle = 'and sync with our mobile app'
 
     div {className: 'auth-bar-content-expanded'},
       h2 {}, title
-      p {}, subtitle
       a {className: 'btn', onClick: @loginFacebook}, 'Log in with Facebook'
       a {className: 'btn', onClick: @loginTwitter}, 'Log in with Twitter'
       a {className: 'btn', onClick: @loginEmail}, 'Log in with Email'
@@ -162,7 +161,7 @@ AuthBar = React.createClass
       'auth-bar-collapsed': !this.state.expanded
 
     div {className: classes},
-      span {className: 'auth-bar-close', onClick: @_hidePrompt}, 'x'
+      span {className: 'auth-bar-close', onClick: @_hidePrompt}, 'CLOSE X'
       @expandedView(@state.failedLogin)
       @collapsedView(@state.failedLogin)
 

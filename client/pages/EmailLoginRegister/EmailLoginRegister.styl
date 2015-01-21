@@ -12,7 +12,7 @@
   h2.auth-header
     margin 0
   p.auth-subheader
-    margin-top 0
+    margin 0
     font-size 0.9em
     color #999
   .btn
@@ -21,8 +21,14 @@
     border-width 0
     padding 10px 30px
     border-radius 30px
+    margin-right 5px
+    &.btn-disable
+      pointer-events: none
+      cursor: default
   .btn:focus
     outline none
+  form
+    margin-top 15px
 
   fieldset
     border-width 0
@@ -39,6 +45,9 @@
 
 .alert
   padding 10px
+  background-color #c4c4c4
   background-color rgba(0,0,0,0.1)
   &.alert-error
     background-color #fcc
+  &.alert-info
+    background-color #d9edf7

@@ -2,12 +2,15 @@ React = require 'react'
 {div, p, img, span, h2, a} = React.DOM
 
 _ = require 'lodash'
+auth = require '../../auth'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
+BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
 Amazon = React.createClass
   displayName: 'Amazon'
+  mixins: [BindAffiliateLinkMixin]
 
   getInitialState: ->
     products: []
@@ -25,19 +28,29 @@ Amazon = React.createClass
   productImportanceCategory: (id) ->
     _.find(@products(), 'id': id).category
 
+  parseProductName: (url) ->
+    r = url.match(/amazon\.com\/(.*)\/dp|gp/)
+    r[1] unless _.isEmpty r
+
   componentDidMount: ->
     $.ajax(type: 'GET', url: "/amazon-products", data: { products: @productIds() }, timeout: 15000)
-    .done((res) =>
-      @setState products: res if @isMounted())
-    .fail((res) =>
-        console.error(res)
-        @setState dataError: true if @isMounted())
+    .done (res) =>
+      @setState products: res if @isMounted()
+    .fail (res) =>
+      console.error(res)
+      @setState dataError: true if @isMounted()
+
+  trackAffiliateLinkAction: (event) ->
+    mixpanel.track 'View Affiliate Link',
+      affiliate: 'amazon'
+      guide_id: @props.guide.id
+      product: @parseProductName(event.currentTarget.href)
 
   productItems: ->
     _.map @state.products, (product) =>
       cat = @productImportanceCategory(product.id)
       div {className: 'product-item', key: "product-item-#{product.id}"},
-        a {href: product.itemLink, className: "product-link", target: '_blank'},
+        a {href: unescape(product.itemLink), className: "product-link mixpanel-affiliate-link", target: '_blank'},
           span {className: 'product-image-wrapper'},
             img {src: product.imageUrl, className: 'product-image'}
           p {className: "product-creator-section"},

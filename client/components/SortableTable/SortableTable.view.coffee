@@ -1,5 +1,10 @@
 React = require 'react'
-{div, h2, table, thead, tbody, th, tr, td, img, p} = React.DOM
+{div, h2, table, thead, tbody, th, tr, td, img, p, i} = React.DOM
+
+'/* @ifdef AWS_ASSOCIATE_TAG */'
+awsAssociateTag = '/* @echo AWS_ASSOCIATE_TAG */'
+'/* @endif */'
+awsAssociateTag = awsAssociateTag || 'dummyTag'
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
@@ -31,6 +36,11 @@ SortableTable = React.createClass
       scrollTo(tablePosition.left, tablePosition.top)
     @setState collapsed: !@state.collapsed
 
+  replaceAmazonPlaceholders: (htmlStr) ->
+    htmlStr
+      .replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')
+      .replace('%AWS_ASSOCIATE_TAG%', awsAssociateTag)
+
   render: ->
     sortableTable = @props.content
     return false if _.isEmpty sortableTable
@@ -50,15 +60,21 @@ SortableTable = React.createClass
             _.map sortedHeaderTitles, (title, i) ->
               th {key: "sorted-header-titles-#{i}"}, title
           tbody {},
-            _.map sortableTable.content, (row, i) ->
+            _.map sortableTable.content, (row, i) =>
               tr {key: "sorted-content-#{i}"},
-              _.map sortedHeaderKeys, (key, i) ->
-                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": row[key].replace('%AMAZON_BUY_BUTTON%', '/img/amazon-buy-button.gif')}}
+              _.map sortedHeaderKeys, (key, i) =>
+                td {key: "sorted-header-keys-#{i}", dangerouslySetInnerHTML: {"__html": @replaceAmazonPlaceholders(row[key])}}
 
         if @state.collapsible
-          collapsedClass = if @state.collapsed then '' else 'expanded'
+          if @state.collapsed
+            collapsedClass = ''
+            collapsedIcon = 'plus'
+          else
+            collapsedClass = 'expanded'
+            collapsedIcon = 'minus'
           div {className: "sortable-table-expand-collapse #{collapsedClass}", ref: 'expandCollapse'},
             div {className: 'expand-collapse-mask'}
-            img {className : 'expand-collapse-button', src: '/img/show-more.svg', onClick: @toggleExpandCollapse}
+            div {className: "expand-collapse-button"},
+              i {className: "icon pu pu-icon-#{collapsedIcon}", onClick: @toggleExpandCollapse}
 
 module.exports = React.createFactory SortableTable

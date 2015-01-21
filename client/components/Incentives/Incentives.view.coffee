@@ -29,11 +29,17 @@ Incentives = React.createClass
     "#{d.slice(0, wordBoundary)} #{String.fromCharCode(8230)}"
 
   render: ->
-    incentives = @props.content
+    if _.isArray(@props.content)
+      incentives = @props.content
+    else
+      {subheading, incentives} = @props.content
+
     return false if _.isEmpty incentives
 
     div {},
       h2 {className: "guide-module-header"}, "incentives"
+      if subheading
+        p {className: "guide-module-subheader"}, subheading
 
       if @state.modalIncentive?
         div {},
