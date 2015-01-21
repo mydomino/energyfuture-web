@@ -19,7 +19,7 @@ GuideView = React.createClass
   displayName: 'Guide'
   mixins: [HideModuleMixin, ReactAsync.Mixin, ScrollTopMixin]
 
-  componentWillMount: ->
+  componentDidmount: ->
     @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
     auth.on 'authStateChange', @debouncedMixpanelUpdate
     @debouncedMixpanelUpdate()
@@ -32,7 +32,7 @@ GuideView = React.createClass
     auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
 
   updateMixpanel: ->
-    Mixpanel.track("View Guide", {guide_id: @state.guide.id, distinct_id: auth.user?.id})
+    mixpanel.track("View Guide", {guide_id: @state.guide.id, distinct_id: auth.user?.id})
 
   rerenderComponent: ->
     @forceUpdate() if @isMounted()

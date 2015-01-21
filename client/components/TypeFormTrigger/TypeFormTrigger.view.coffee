@@ -1,7 +1,8 @@
+React = require 'react'
 {div, a, iframe} = React.DOM
 _ = require 'lodash'
 
-module.exports = React.createClass
+TypeFormTrigger = React.createClass
   displayName: 'TypeFormTrigger'
   propTypes:
     href: React.PropTypes.string.isRequired
@@ -24,3 +25,5 @@ module.exports = React.createClass
 
   render: ->
     a {className: "#{@props.className} typeform-share link", href: @props.href, ref: 'typeformLink', 'data-mode': @props.dataMode, 'data-mixpanel-property': @props.mixpanelProperty}, @props.clickText
+
+module.exports = React.createFactory TypeFormTrigger

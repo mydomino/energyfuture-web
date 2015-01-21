@@ -14,6 +14,13 @@ html(lang="en")
         link(href='/css/app.css', rel='stylesheet')
     body
         div#app !{content}
+
+        <!--[if lt IE 9 ]>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.0.5/es5-shim.min.js'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.0.5/es5-sham.min.js'></script>
+        <script src='https://raw.githubusercontent.com/jonathantneal/EventListener/master/EventListener.js'></script>
+        <![endif]-->
+
         script(src='/vendor/jquery.js')
         script(src='/vendor/react-addons.js')
         script(src='/vendor/page.js')
@@ -21,9 +28,17 @@ html(lang="en")
         script(src='//api.tiles.mapbox.com/mapbox.js/v1.6.4/mapbox.js')
         script(src='/app.js')
         script(type='text/javascript').
+          // start Mouseflow
           var _mfq = _mfq || [];
           (function() {
           var mf = document.createElement("script"); mf.type = "text/javascript"; mf.async = true;
           mf.src = "//cdn.mouseflow.com/projects/f3aee4be-b017-4eae-bfbf-4617467eb817.js";
           document.getElementsByTagName("head")[0].appendChild(mf);
           })();
+          // end Mouseflow
+
+          // start Mixpanel
+          (function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+          for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+          mixpanel.init('<!-- @echo MIXPANEL_TOKEN -->');
+          // end Mixpanel

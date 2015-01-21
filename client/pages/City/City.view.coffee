@@ -3,7 +3,7 @@ Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
-module.exports = React.createClass
+City = React.createClass
   displayName: 'City'
   mixins: [ScrollTopMixin]
 
@@ -98,3 +98,5 @@ module.exports = React.createClass
               "The Fort Collins carbon-free metric is based on the cumulative carbon impact of households that have undertaken one or more of Domino’s recommended actions. Data sources: Electric cars ("
               a {href: "http://blog.aee.net/driving-electric-vehicle-adoption-in-northern-colorado"}, "Advanced Energy Economy"
               "), Solar homes (Larimer County residential solar permits), Thermostats and Green Energy Program (Fort Collins Utilties). For privacy purposes, while map markers indicate accurate number of actions they do not indicate exact location of households that have undertaken the actions."
+
+module.exports = React.createFactory City

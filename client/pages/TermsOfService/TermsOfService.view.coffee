@@ -3,7 +3,7 @@ Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
-module.exports = React.createClass
+TermsOfService = React.createClass
   displayName: 'TermsOfService'
   mixins: [ScrollTopMixin]
   render: ->
@@ -177,3 +177,5 @@ a description of the copyrighted work or other intellectual property that you cl
         p {}, "The services hereunder are offered by Domino 2030, Inc., located at 327 19th Street, Oakland, CA 94612.  You may contact us by sending correspondence to the foregoing address or by emailing us at info@mydomino.com.  If you are a California resident, you may have these Terms mailed to you electronically by sending a letter to the foregoing address with your electronic mail address and a request for these Terms."
         h3 {}, "Terms of Third Party Software"
         p {}, "NOTICE REGARDING APPLE. You acknowledge that the EULA is between you and Domino only, not with Apple, and Apple is not responsible for the App or the content thereof. Apple has no obligation whatsoever to furnish any maintenance and support services with respect to the App. In the event of any failure of the App to conform to any applicable warranty, then you may notify Apple and Apple will refund the purchase price for the relevant App to you; and, to the maximum extent permitted by applicable law, Apple has no other warranty obligation whatsoever with respect to the App.  Apple is not responsible for addressing any claims by you or any third party relating to the App or your possession and/or use of the App, including, but not limited to:  (i) product liability claims; (ii) any claim that the App fails to conform to any applicable legal or regulatory requirement; and (iii) claims arising under consumer protection or similar legislation.  Apple is not responsible for the investigation, defense, settlement and discharge of any third party claim that the App or your possession and use of the App infringes that third party’s intellectual property rights.  You agree to comply with any applicable third party terms, when using the App.  Apple, and Apple’s subsidiaries, are third party beneficiaries of the EULA, and upon your acceptance of the EULA, Apple will have the right (and will be deemed to have accepted the right) to enforce the EULA against you as a third party beneficiary of the EULA.  You hereby represent and warrant that (i) you are not located in a country that is subject to a U.S.  Government embargo, or that has been designated by the U.S. Government as a “terrorist supporting” country; and (ii) you are not listed on any U.S. Government list of prohibited or restricted parties.   If Domino provides a translation of the English language version of these Terms, then the translation is provided solely for convenience, and the English version shall prevail."
+
+module.exports = React.createFactory TermsOfService
