@@ -70,6 +70,18 @@ app.get "/signups.csv", (req, res) ->
   Signups (statusCode, data) ->
     res.status(statusCode).csv(data, "signups.csv")
 
+AuthBar = require '../client/components/AuthBar/AuthBar.view'
+Router = React.createClass
+  displayName: 'Router'
+
+  getInitialState: ->
+    user: undefined
+
+  render: ->
+    React.DOM.div {},
+      new AuthBar loggedIn: false
+      @props.component(_.merge(@props.componentProps, user: @state.user))
+
 renderReactComponent = (page) ->
   url = page[0]
   ReactComponent = page[1]
@@ -78,12 +90,13 @@ renderReactComponent = (page) ->
     params = [url]
     params.id = req.params.id if req.params.id
     props =
-      params: params
-      context:
-        pathname: url
-      user: undefined
+      component: ReactComponent
+      componentProps:
+        params: params
+        context:
+          pathname: url
 
-    ReactAsync.renderToStringAsync ReactComponent(props), (err, markup, data) ->
+    ReactAsync.renderToStringAsync Router(props), (err, markup, data) ->
       if err
         console.log(err)
         console.log(err.stack)

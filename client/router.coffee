@@ -17,12 +17,14 @@ addPage = (route) ->
 
     sessionStorage.setItem('lastPageVisited', ctx.pathname) unless url is '/login'
 
-    componentProps =
-      params: ctx.params
-      context:
-        pathname: ctx.pathname
+    props =
+      component: Component
+      componentProps:
+        params: ctx.params
+        context:
+          pathname: ctx.pathname
 
-    React.render Component(componentProps), document.getElementById('app')
+    React.render Router(props), document.getElementById('app')
 
 Router = React.createClass
   displayName: 'Router'
@@ -41,7 +43,9 @@ Router = React.createClass
     user: undefined
 
   render: ->
-    new @props.component(_.merge(@props.componentProps, user: @state.user))
+    React.DOM.div {},
+      new AuthBar loggedIn: auth.loggedIn
+      @props.component(_.merge(@props.componentProps, user: @state.user))
 
 Router = React.createFactory Router
 
