@@ -19,17 +19,17 @@ GuideView = React.createClass
   displayName: 'Guide'
   mixins: [HideModuleMixin, ReactAsync.Mixin, ScrollTopMixin]
 
-  componentDidMount: ->
-    @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
-    auth.on 'authStateChange', @debouncedMixpanelUpdate
-    @debouncedMixpanelUpdate()
+  getInitialStateAsync: (cb) ->
+    guide = new Guide(id: @props.params.id)
+    guide.sync().then => cb null, { guide: guide }
 
   stateFromJSON: (state) ->
     guide: new Guide(state.guide.attributes)
 
-  getInitialStateAsync: (cb) ->
-    guide = new Guide(id: @props.params.id)
-    guide.sync().then => cb null, { guide: guide }
+  componentDidMount: ->
+    @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
+    auth.on 'authStateChange', @debouncedMixpanelUpdate
+    @debouncedMixpanelUpdate()
 
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @debouncedMixpanelUpdate

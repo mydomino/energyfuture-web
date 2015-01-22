@@ -36,7 +36,6 @@ OnScrollMixin =
       y: 0
 
   componentDidMount: ->
-    mixpanel.track 'View Guide Grid'
     @onScroll = =>
       @setState
         scroll:
@@ -65,12 +64,12 @@ Guides = React.createClass
     scrollPositionKey: 'guidesLastScrollPosition'
 
   getInitialStateAsync: (cb) ->
-    @coll = new GuideCollection
-    @coll.sync().then -> cb null, ownership: 'own'
+    coll = new GuideCollection
+    coll.sync().then -> cb null, {ownership: 'own', guideColl: coll}
 
-  componentWillMount: ->
-    @coll = new GuideCollection
-    @coll.sync().then -> @rerenderComponent()
+  stateFromJSON: (state) ->
+    ownership: state.ownership
+    guideColl: new GuideCollection(models: state.guideColl.models)
 
   componentDidMount: ->
     @loadLocalOwnership()
@@ -99,8 +98,9 @@ Guides = React.createClass
       @setState ownership: ownership
 
   loadLocalOwnership: ->
+    ownership = sessionStorage.getItem('ownership') || 'own'
     if @isMounted
-      @setState ownership: (sessionStorage.getItem('ownership') || 'own')
+      @setState ownership: ownership
 
   setLocalOwnership: (ownership) ->
     sessionStorage.setItem 'ownership', ownership
@@ -109,7 +109,8 @@ Guides = React.createClass
     ownershipData = [{name: "home owners", value: "own"}, {name: "home renters", value: "rent"}]
     userGuides = @props.user && @props.user.get('guides')
 
-    guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
+    ownership = @state.ownership
+    guides = @state.guideColl.guides(ownership: ownership, sortByImpactScore: true)
     new Layout {name: 'guides', context: @props.context},
       new NavBar user: @props.user, path: @props.context.pathname
 
@@ -122,7 +123,7 @@ Guides = React.createClass
         div {className: "guides-user-context"},
           p {},
             span {}, "All guides for"
-            new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
+            new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: ownership)
             span {}, " in Fort Collins"
       if guides.length > 0
         div {className: "guides"},

@@ -42,7 +42,6 @@ GuidePreview = React.createClass
     color = Categories.colorFor(guide.category)
 
     style = {}
-    # style.borderColor = color
     if preview_bg
       style.backgroundImage = "url(#{preview_bg})"
 
