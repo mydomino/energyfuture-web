@@ -82,6 +82,8 @@ Router = React.createClass
       new AuthBar loggedIn: false
       @props.component(_.merge(@props.componentProps, user: @state.user))
 
+Router = React.createFactory Router
+
 renderReactComponent = (page) ->
   url = page[0]
   ReactComponent = page[1]

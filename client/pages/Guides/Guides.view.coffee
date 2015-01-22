@@ -72,6 +72,8 @@ Guides = React.createClass
     guideColl: new GuideCollection(models: state.guideColl.models)
 
   componentDidMount: ->
+    # FIXME
+    # mixpanel.track 'View Guide Grid'
     @loadLocalOwnership()
     @loadUserOwnership(@props.user)
     anchor = @refs.anchor.getDOMNode()
@@ -110,7 +112,7 @@ Guides = React.createClass
     userGuides = @props.user && @props.user.get('guides')
 
     ownership = @state.ownership
-    guides = @state.guideColl.guides(ownership: ownership, sortByImpactScore: true)
+    guides = @state.guideColl?.guides(ownership: ownership, sortByImpactScore: true)
     new Layout {name: 'guides', context: @props.context},
       new NavBar user: @props.user, path: @props.context.pathname
 
@@ -125,7 +127,8 @@ Guides = React.createClass
             span {}, "All guides for"
             new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: ownership)
             span {}, " in Fort Collins"
-      if guides.length > 0
+
+      if guides? and guides.length > 0
         div {className: "guides"},
           guides.map (guide, idx) =>
             new GuidePreview
