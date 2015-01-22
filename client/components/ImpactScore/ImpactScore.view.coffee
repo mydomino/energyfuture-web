@@ -16,15 +16,10 @@ module.exports = React.createClass
   displayName: 'ImpactScore'
   getDefaultProps: ->
     score: 0
-    color: 'inherit'
 
   propTypes:
     score: React.PropTypes.number.isRequired
-    color: React.PropTypes.string
 
   render: ->
-    style =
-      color: @props.color
-
-    span {className: 'impact-score', style: style},
+    span {className: 'impact-score'},
       formatScore(@props.score) + "%"

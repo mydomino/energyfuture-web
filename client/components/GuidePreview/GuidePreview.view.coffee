@@ -1,5 +1,4 @@
 {div, h2, p, span} = React.DOM
-Categories = require '../../models/singletons/Categories'
 ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
 
 _ = require 'lodash'
@@ -38,7 +37,6 @@ module.exports = React.createClass
     summary = guide.summary_short || guide.summary
     preview_bg = guide.photos?[0]
     recommended = guide.recommended
-    color = Categories.colorFor(guide.category)
 
     style = {}
     # style.borderColor = color
@@ -47,7 +45,7 @@ module.exports = React.createClass
 
     div {className: "guide-preview #{@props.customClass}", onClick: @handleClick, style: style},
       if recommended
-        span {className: "guide-preview-recommended", style: { backgroundColor: color }}, "Recommended"
+        span {className: "guide-preview-recommended"}, "Recommended"
       @statusIcon()
       unless @props.status == 'claimed'
         div {className: "guide-preview-hover"},
