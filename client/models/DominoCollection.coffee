@@ -13,7 +13,7 @@ module.exports = class DominoCollection extends Emitter
     @loaded = false
 
     @_firebase().on 'value', (snap) =>
-      if snap
+      if snap && snap.val()
         @models = snap.val()
         @loaded = true
         @emit('sync', this)

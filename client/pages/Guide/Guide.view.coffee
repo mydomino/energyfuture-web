@@ -7,6 +7,7 @@ Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
+FriendlyGuides = require '../../models/singletons/FriendlyGuides'
 GuideModules = require('../../components/GuideModules.coffee')()
 HideModuleMixin = require '../../mixins/HideModuleMixin'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
@@ -29,7 +30,7 @@ module.exports = React.createClass
     @debouncedMixpanelUpdate()
 
   updateMixpanel: ->
-    mixpanel.track 'View Guide', guide_id: @guide.id
+    mixpanel.track 'View Guide', guide_id: FriendlyGuides.nameFor(@guide.id)
 
   componentWillUnmount: ->
     @guide.removeListener 'sync', @setGuide
@@ -58,7 +59,8 @@ module.exports = React.createClass
 
             header {className: "guide-header"},
               h1 {}, title
-              p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}} if summary
+              if summary
+                p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}}
             article {className: "guide-modules"},
               if modules
                 modules.map (module, idx) =>
