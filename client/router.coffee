@@ -73,6 +73,7 @@ routes =
     ["/guides", require('./middleware/redirect_to_splash')]
     ["*", require('./middleware/authentication')]
     ["*", require('./middleware/categories')]
+    ["*", require('./middleware/friendly_guides')]
   ]
   pages:[
     ["/", require('./pages/Splash/Splash.view'), 'splash']
