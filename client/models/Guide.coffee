@@ -5,7 +5,7 @@ FriendlyGuides = require './singletons/FriendlyGuides'
 
 module.exports = class Guide extends DominoModel
   url: ->
-    "/guides/#{FriendlyGuides.guideIdFor(@id)}"
+    "/guides/#{FriendlyGuides.idFor(@id)}"
 
   category: ->
     @attributes['category']

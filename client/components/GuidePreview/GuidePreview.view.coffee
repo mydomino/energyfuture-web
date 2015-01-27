@@ -32,7 +32,7 @@ module.exports = React.createClass
 
     event && event.preventDefault()
     mixpanel.track 'Actions in Impact Screen', {action: 'View Guide', guide_id: @props.guide.id}
-    page "/guides/#{FriendlyGuides.urlFor(@props.guide.id)}"
+    page "/guides/#{FriendlyGuides.nameFor(@props.guide.id)}"
 
   render: ->
     guide = @props.guide.attributes

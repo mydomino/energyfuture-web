@@ -4,8 +4,8 @@ DominoCollection = require './DominoCollection'
 module.exports = class FriendlyGuideCollection extends DominoCollection
   url: -> "/friendly-guides"
 
-  guideIdFor: (friendlyGuideId) ->
+  idFor: (friendlyGuideId) ->
     @models[friendlyGuideId] || friendlyGuideId
 
-  urlFor: (id) ->
+  nameFor: (id) ->
     _.invert(@models)[id] || id
