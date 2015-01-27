@@ -1,7 +1,6 @@
 {div, span, a, hr, i} = React.DOM
 
 auth = require '../../auth'
-Categories = require '../../models/singletons/Categories'
 UserGuides = require '../../models/UserGuides'
 ImpactScore = require '../ImpactScore/ImpactScore.view'
 FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
@@ -80,10 +79,9 @@ module.exports = React.createClass
   render: ->
     claimedClass = if @state.isClaimed then 'active' else ''
     savedClass = if @state.isSaved then 'active' else if @state.isClaimed then 'disabled' else ''
-    color = Categories.colorFor(@props.category) || 'inherit'
 
-    div {className: "impact-sidebar category-#{@props.category}", style: { color: color }, ref: 'sidebar'},
-      new ImpactScore score: @props.guide.score(), color: color
+    div {className: "impact-sidebar category-#{@props.category}", ref: 'sidebar'},
+      new ImpactScore score: @props.guide.score()
       div {className: "impact-text"}, "Carbon-Free"
       hr {}
       div {className: "action-button #{claimedClass}"},
