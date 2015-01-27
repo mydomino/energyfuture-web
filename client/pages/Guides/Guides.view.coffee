@@ -72,8 +72,7 @@ Guides = React.createClass
     guideColl: new GuideCollection(models: state.guideColl.models)
 
   componentDidMount: ->
-    # FIXME
-    # mixpanel.track 'View Guide Grid'
+    mixpanel.track 'View Guide Grid'
     @loadLocalOwnership()
     @loadUserOwnership(@props.user)
     anchor = @refs.anchor.getDOMNode()

@@ -105,6 +105,7 @@ renderReactComponent = (page) ->
         return showErrorPage(res)
 
       params =
+        env: process.env
         content: ReactAsync.injectIntoMarkup(markup, data)
         meta:
           title: page[2]
