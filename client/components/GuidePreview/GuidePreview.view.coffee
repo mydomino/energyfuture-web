@@ -1,5 +1,6 @@
 {div, h2, p, span} = React.DOM
 Categories = require '../../models/singletons/Categories'
+FriendlyGuides = require '../../models/singletons/FriendlyGuides'
 ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
 
 _ = require 'lodash'
@@ -28,9 +29,10 @@ module.exports = React.createClass
       @viewGuide()
 
   viewGuide: (event) ->
+
     event && event.preventDefault()
     mixpanel.track 'Actions in Impact Screen', {action: 'View Guide', guide_id: @props.guide.id}
-    page "/guides/#{@props.guide.id}"
+    page "/guides/#{FriendlyGuides.urlFor(@props.guide.id)}"
 
   render: ->
     guide = @props.guide.attributes
@@ -41,7 +43,6 @@ module.exports = React.createClass
     color = Categories.colorFor(guide.category)
 
     style = {}
-    # style.borderColor = color
     if preview_bg
       style.backgroundImage = "url(#{preview_bg})"
 

@@ -1,3 +1,4 @@
+_ = require 'lodash'
 DominoCollection = require './DominoCollection'
 
 module.exports = class FriendlyGuideCollection extends DominoCollection
@@ -5,3 +6,6 @@ module.exports = class FriendlyGuideCollection extends DominoCollection
 
   guideIdFor: (friendlyGuideId) ->
     @models[friendlyGuideId] || friendlyGuideId
+
+  urlFor: (id) ->
+    _.invert(@models)[id] || id

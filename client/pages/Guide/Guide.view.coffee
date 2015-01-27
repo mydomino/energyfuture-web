@@ -58,7 +58,8 @@ module.exports = React.createClass
 
             header {className: "guide-header"},
               h1 {}, title
-              p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}} if summary
+              if summary
+                p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}}
             article {className: "guide-modules"},
               if modules
                 modules.map (module, idx) =>
