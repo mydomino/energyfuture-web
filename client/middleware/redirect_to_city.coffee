@@ -2,7 +2,7 @@ store = require 'store'
 request = require 'superagent'
 
 getCity = (callback) ->
-  request.get 'http://ipinfo.io/199.133.10.140/city', (r) ->
+  request.get 'http://ipinfo.io/city', (r) ->
     if r.text
       callback(r.text.trim().toLowerCase())
     else
