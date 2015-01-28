@@ -1,3 +1,5 @@
+React = require 'react'
+ReactAsync = require 'react-async'
 {div, h2, h3, h4, p, ul, li, em} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
@@ -5,7 +7,11 @@ ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 PrivacyPolicy = React.createClass
   displayName: 'PrivacyPolicy'
-  mixins: [ScrollTopMixin]
+  mixins: [ReactAsync.Mixin, ScrollTopMixin]
+
+  getInitialStateAsync: (cb) ->
+    cb null, {}
+
   render: ->
     new Layout {name: 'privacypolicy'},
       new NavBar user: @props.user, path: @props.context.pathname
