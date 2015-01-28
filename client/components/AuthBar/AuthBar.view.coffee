@@ -89,7 +89,7 @@ CloseFromKeyboardMixin =
 
 module.exports = React.createClass
   displayName: 'AuthBar'
-  mixins: [AuthMixin, RePromptMixin, CloseFromKeyboardMixin]
+  mixins: [AuthMixin, CloseFromKeyboardMixin]
 
   getInitialState: ->
     closed: true

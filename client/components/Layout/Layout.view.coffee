@@ -32,7 +32,6 @@ module.exports = React.createClass
     isAffiliateLink = _.contains(e.currentTarget.classList, 'mixpanel-affiliate-link')
     isInternalLink = _.contains(e.currentTarget.classList, 'mixpanel-internal-link')
     if e.currentTarget.target == '_blank' && (currentLoc.host != linkHref.host) && !isAffiliateLink
-      auth.prompt()
       mixpanel.track 'View External Link', url: @stripQueryString(unescape(e.currentTarget.href))
     if isInternalLink
       mixpanel.track 'View Internal Link', url: @stripQueryString(unescape(e.currentTarget.href))
