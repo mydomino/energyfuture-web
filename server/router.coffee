@@ -109,7 +109,6 @@ renderReactComponent = (page) ->
         content: ReactAsync.injectIntoMarkup(markup, data)
         meta:
           title: page[2]
-          description: if page[3] then page[3] else _.values(data)[0].metaDescription
       res.render 'index', params, (e, h) -> res.status(200).send(h) unless e
 
 for page in Routes.pages
