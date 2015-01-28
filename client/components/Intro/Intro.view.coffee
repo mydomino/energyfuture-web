@@ -1,3 +1,4 @@
+React = require 'react'
 {div, span, iframe} = React.DOM
 
 # Defines what is required for this module to render
@@ -7,13 +8,13 @@ hasValidData = (content) ->
   return false unless imageUrl || videoUrl
   true
 
-module.exports = React.createClass
+Intro = React.createClass
   displayName: 'Intro'
 
   introStyle: (imageUrl, videoUrl) ->
     style = {}
     if imageUrl && !videoUrl
-      style['background-image'] = "url(#{imageUrl})"
+      style['backgroundImage'] = "url(#{imageUrl})"
     style
 
   videoProps: (url) ->
@@ -46,3 +47,5 @@ module.exports = React.createClass
           div {className: "intro-overlay"},
             span {className: "intro-duration"}, duration
             span {className: "intro-title"}, caption
+
+module.exports = React.createFactory Intro

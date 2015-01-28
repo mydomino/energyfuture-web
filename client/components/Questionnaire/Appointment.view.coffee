@@ -1,3 +1,4 @@
+React = require 'react'
 {h2, div, p, input} = React.DOM
 
 _ = require 'lodash'
@@ -6,7 +7,7 @@ RadioButton = require './RadioButton.view'
 Action = require './Action.view'
 auth = require '../../auth'
 
-module.exports = React.createClass
+Appointment = React.createClass
   displayName: 'Appointment'
 
   componentDidMount: ->
@@ -125,3 +126,5 @@ module.exports = React.createClass
         div {className: 'appointment-item'}, new RadioButton(radio: appointmentDateData, answers: @props.answers, changeAction: @setCallDetails)
         div {className: 'appointment-item'}, new RadioButton(radio: appointmentTimeData, answers: @props.answers, changeAction: @setCallDetails)
         new Action(moreAction: @confirmAction, actionName: "Confirm Appointment")
+
+module.exports = React.createFactory Appointment

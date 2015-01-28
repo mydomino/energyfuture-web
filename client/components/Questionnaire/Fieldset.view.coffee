@@ -1,10 +1,11 @@
+React = require 'react'
 {h2, div, label, input, textarea} = React.DOM
 _ = require 'lodash'
 
 RadioButton = require './RadioButton.view.coffee'
 PaginateActions = require './PaginateActions.view.coffee'
 
-module.exports = React.createClass
+Fieldset = React.createClass
   displayName: 'Fieldset'
 
   sortedInputs: (inputs) ->
@@ -20,3 +21,5 @@ module.exports = React.createClass
           if input.type == 'radio'
             new RadioButton(radio: input, answers: @props.answers)
       new PaginateActions(nextAction: @props.nextAction, prevAction: @props.prevAction, page: @props.page, totalPageCount: @props.totalPageCount)
+
+module.exports = React.createFactory Fieldset

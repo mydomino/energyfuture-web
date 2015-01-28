@@ -1,3 +1,5 @@
+React = require 'react'
+ReactAsync = require 'react-async'
 {div, h1, h2, button, br, span, img, p, header} = React.DOM
 
 _ = require 'lodash'
@@ -34,7 +36,6 @@ OnScrollMixin =
       y: 0
 
   componentDidMount: ->
-    mixpanel.track 'View Guide Grid'
     @onScroll = =>
       @setState
         scroll:
@@ -55,24 +56,23 @@ OnScrollMixin =
     sessionStorage.setItem(@props.scrollPositionKey, @state.scroll.y)
     window.removeEventListener("scroll", @onScrollThrottled)
 
-module.exports = React.createClass
+Guides = React.createClass
   displayName: 'Guides'
-  mixins: [OnScrollMixin, ScrollTopMixin]
+  mixins: [OnScrollMixin, ReactAsync.Mixin, ScrollTopMixin]
 
   getDefaultProps: ->
     scrollPositionKey: 'guidesLastScrollPosition'
 
-  getInitialState: ->
-    ownership: "own"
+  getInitialStateAsync: (cb) ->
+    coll = new GuideCollection
+    coll.sync().then -> cb null, {ownership: 'own', guideColl: coll}
 
-  componentWillMount: ->
-    @coll = new GuideCollection
-    @coll.on "sync", @rerenderComponent
-
-  componentWillUnmount: ->
-    @coll.removeListener 'sync', @rerenderComponent
+  stateFromJSON: (state) ->
+    ownership: state.ownership
+    guideColl: new GuideCollection(models: state.guideColl.models)
 
   componentDidMount: ->
+    mixpanel.track 'View Guide Grid'
     @loadLocalOwnership()
     @loadUserOwnership(@props.user)
     anchor = @refs.anchor.getDOMNode()
@@ -99,8 +99,9 @@ module.exports = React.createClass
       @setState ownership: ownership
 
   loadLocalOwnership: ->
+    ownership = sessionStorage.getItem('ownership') || 'own'
     if @isMounted
-      @setState ownership: (sessionStorage.getItem('ownership') || 'own')
+      @setState ownership: ownership
 
   setLocalOwnership: (ownership) ->
     sessionStorage.setItem 'ownership', ownership
@@ -108,7 +109,9 @@ module.exports = React.createClass
   render: ->
     ownershipData = [{name: "home owners", value: "own"}, {name: "home renters", value: "rent"}]
     userGuides = @props.user && @props.user.get('guides')
-    guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
+
+    ownership = @state.ownership
+    guides = @state.guideColl?.guides(ownership: ownership, sortByImpactScore: true)
     new Layout {name: 'guides', context: @props.context},
       new NavBar user: @props.user, path: @props.context.pathname
 
@@ -121,9 +124,10 @@ module.exports = React.createClass
         div {className: "guides-user-context"},
           p {},
             span {}, "All guides for"
-            new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
+            new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: ownership)
             span {}, " in Fort Collins"
-      if guides.length > 0
+
+      if guides? and guides.length > 0
         div {className: "guides"},
           guides.map (guide, idx) =>
             new GuidePreview
@@ -134,3 +138,5 @@ module.exports = React.createClass
       else
         new LoadingIcon
       div {className: "guides-intro-annotation", ref: "annotation"}
+
+module.exports = React.createFactory Guides

@@ -1,2 +1,2 @@
 require('coffee-script/register');
-module.exports = require('./start.coffee');
+module.exports = require('./server/router.coffee');

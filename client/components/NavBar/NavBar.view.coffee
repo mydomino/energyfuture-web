@@ -1,3 +1,4 @@
+React = require 'react/addons'
 {div, h2, span, a, nav} = React.DOM
 auth = require '../../auth'
 UserPhoto = require '../UserPhoto/UserPhoto.view'
@@ -30,7 +31,9 @@ NavBarItem = React.createClass
     else
       @props.onClick()
 
-module.exports = React.createClass
+NavBarItem = React.createFactory NavBarItem
+
+NavBar = React.createClass
   displayName: 'NavBar'
   getDefaultProps: ->
     guides: true
@@ -60,3 +63,5 @@ module.exports = React.createClass
 
   _logout: ->
     auth.logout() if @props.user
+
+module.exports = React.createFactory NavBar

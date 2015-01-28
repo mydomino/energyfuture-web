@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, p, form, input, span, a} = React.DOM
 
 _ = require 'lodash'
@@ -13,7 +14,7 @@ hasValidData = (guide) ->
   return false if _.isEmpty guide.get('questionnaire')
   true
 
-module.exports = React.createClass
+Questionnaire = React.createClass
   displayName: 'Questionnaire'
 
   getInitialState: ->
@@ -159,3 +160,5 @@ module.exports = React.createClass
               a {className: 'questionnaire-cancel', onClick: @cancelAction}, "Cancel"
           else
             new LoadingIcon
+
+module.exports = React.createFactory Questionnaire

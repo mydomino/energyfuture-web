@@ -1,9 +1,10 @@
+React = require 'react'
 {div, h2, p, span} = React.DOM
 ImpactScore = require '../../components/ImpactScore/ImpactScore.view'
 
 _ = require 'lodash'
 
-module.exports = React.createClass
+GuidePreview = React.createClass
   displayName: 'GuidePreview'
 
   getDefaultProps: ->
@@ -39,7 +40,6 @@ module.exports = React.createClass
     recommended = guide.recommended
 
     style = {}
-    # style.borderColor = color
     if preview_bg
       style.backgroundImage = "url(#{preview_bg})"
 
@@ -55,3 +55,5 @@ module.exports = React.createClass
       div {className: "guide-preview-content"},
         h2 {className: "guide-preview-title"}, guide.title
         p {className: "guide-preview-summary"}, summary
+
+module.exports = React.createFactory GuidePreview

@@ -1,9 +1,10 @@
+React = require 'react'
 {div, h2, h3, p, strong} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
-module.exports = React.createClass
+AboutUs = React.createClass
   displayName: 'AboutUs'
   mixins: [ScrollTopMixin]
   render: ->
@@ -41,3 +42,5 @@ module.exports = React.createClass
         p {},
           strong {}, "CoolClimate Network: "
           "Domino is a member of the CoolClimate Network, established by the University of California, Berkeley. The network provides supporting tools for households, businesses, local governments, and non-governmental organizations in customizing low-carbon action plans."
+
+module.exports = React.createFactory AboutUs

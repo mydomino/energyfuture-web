@@ -1,8 +1,9 @@
+React = require 'react'
 {div, form, h1, button, p, input} = React.DOM
 firebase = require '../../firebase'
 auth = require '../../auth'
 
-module.exports = React.createClass
+NewsletterSignupForm = React.createClass
   displayName: 'NewsletterSignupForm'
   getInitialState: ->
     email: ''
@@ -42,3 +43,5 @@ module.exports = React.createClass
           button {className: 'newsletter-signup-button'}, 'Sign Up'
       else
         p {className: 'newsletter-signup-notice'}, "Great, you're signed up!"
+
+module.exports = React.createFactory NewsletterSignupForm

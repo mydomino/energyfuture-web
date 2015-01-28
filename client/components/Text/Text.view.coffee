@@ -1,8 +1,9 @@
+React = require 'react'
 {div, h2, p} = React.DOM
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-module.exports = React.createClass
+Text = React.createClass
   displayName: 'Text'
 
   render: ->
@@ -18,3 +19,5 @@ module.exports = React.createClass
         h2 {className: 'guide-module-header'}, heading
       div {className: 'guide-module-content'},
         p {className: 'text-content', dangerouslySetInnerHTML: {"__html": Autolinker.link(text)}}
+
+module.exports = React.createFactory Text

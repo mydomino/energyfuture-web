@@ -1,14 +1,13 @@
+React = require 'react'
 {div, h2} = React.DOM
+
 _ = require 'lodash'
 locationSearch = require '../../vendor/location-search'
 
 _locationCache = null
 _searchResultsCache = {}
 
-$.fn.ratingStars = ->
-  $(@).html $("<span/>").width($(@).text() * 16)
-
-module.exports = React.createClass
+MapSearch = React.createClass
   displayName: 'MapSearch'
 
   handleMarkers: (markers) ->
@@ -81,6 +80,9 @@ module.exports = React.createClass
     console.log "Position could not be found"
 
   componentDidMount: ->
+    $.fn.ratingStars = ->
+      $(@).html $("<span/>").width($(@).text() * 16)
+
     @mapObj = L.mapbox.map(@refs.map.getDOMNode(), 'illanti.in9ig8o9', { zoomControl: false })
     @toolTipLayer = L.mapbox.featureLayer().addTo(@mapObj)
     new L.Control.Zoom(position: 'bottomright').addTo(@mapObj)
@@ -116,3 +118,5 @@ module.exports = React.createClass
       h2 {className: 'guide-module-header'}, map.heading
       div {className: 'guide-module-content'},
         div {className: 'map', ref: 'map', onClick: @handleMapClick}
+
+module.exports = React.createFactory MapSearch

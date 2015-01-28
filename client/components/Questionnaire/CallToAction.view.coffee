@@ -1,9 +1,10 @@
+React = require 'react'
 {div, h2, p, a} = React.DOM
 TypeFormTrigger = require '../../components/TypeFormTrigger/TypeFormTrigger.view'
 auth = require '../../auth'
 _ = require 'lodash'
 
-module.exports = React.createClass
+CallToAction = React.createClass
   displayName: 'CallToAction'
   getDefaultProps: ->
     content: {}
@@ -29,3 +30,5 @@ module.exports = React.createClass
               mixpanelProperty: typeform.mixpanelProperty
               guide_id: @props.guide.id
               key: "typeform-#{idx}"
+
+module.exports = React.createFactory CallToAction

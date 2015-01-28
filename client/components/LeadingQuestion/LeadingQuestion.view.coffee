@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, h4, p, dl, dt, dd, img, span} = React.DOM
 
 _ = require 'lodash'
@@ -5,7 +6,7 @@ Autolinker = require 'autolinker'
 GuideModules = require('../GuideModules')()
 HideModuleMixin = require '../../mixins/HideModuleMixin'
 
-module.exports = React.createClass
+LeadingQuestion = React.createClass
   displayName: 'LeadingQuestion'
   mixins: [HideModuleMixin]
 
@@ -52,3 +53,5 @@ module.exports = React.createClass
                       guide: @props.guide
                       content: activeSubmodule?.content
                       onError: @hideModule.bind(@, uniqName)
+
+module.exports = React.createFactory LeadingQuestion

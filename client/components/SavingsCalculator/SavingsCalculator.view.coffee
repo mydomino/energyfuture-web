@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, h3, p, span} = React.DOM
 
 _ = require 'lodash'
@@ -22,6 +23,8 @@ SavingsGraphItem = React.createClass
             span {className: "unit"}, @props.unit
         else
           p {className: "progress-value"}, @props.value
+
+SavingsGraphItem = React.createFactory SavingsGraphItem
 
 SavingsGraph = React.createClass
   displayName: 'SavingsGraph'
@@ -48,6 +51,8 @@ SavingsGraph = React.createClass
         width: @props.potential.value / @props.current.value * containerWidthPercent * 100
         unit: @props.unit
 
+SavingsGraph = React.createFactory SavingsGraph
+
 SavingsCalculatorFilter = React.createClass
   displayName: 'SavingsCalculatorFilter'
   getDefaultProps: ->
@@ -66,7 +71,9 @@ SavingsCalculatorFilter = React.createClass
         new Dropdown(data: @props.distancesPerWeek, changeAction: @props.changeAction)
           span {}, "per week"
 
-module.exports = React.createClass
+SavingsCalculatorFilter = React.createFactory SavingsCalculatorFilter
+
+SavingsCalculator = React.createClass
   displayName: 'SavingsCalculator'
 
   getDefaultProps: ->
@@ -104,3 +111,5 @@ module.exports = React.createClass
           current: @state.yourCarbonImpact
           potential: @state.carbonImpact
           unit: 'tons / year'
+
+module.exports = React.createFactory SavingsCalculator

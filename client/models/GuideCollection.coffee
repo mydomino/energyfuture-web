@@ -35,6 +35,9 @@ module.exports = class GuideCollection extends DominoCollection
       memo
     ), 0
 
+  isEmpty: ->
+    _.isEmpty(@models)
+
   guides: (opts) ->
     allGuides = _.chain(@models)
       .map (m) ->

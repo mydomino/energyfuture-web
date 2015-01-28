@@ -1,3 +1,4 @@
+React = require 'react'
 {div, h2, span, p, a} = React.DOM
 auth = require '../../auth'
 _ = require 'lodash'
@@ -87,7 +88,7 @@ CloseFromKeyboardMixin =
   componentWillUnmount: ->
     document.removeEventListener 'keyup', @_closeOnEsc
 
-module.exports = React.createClass
+AuthBar = React.createClass
   displayName: 'AuthBar'
   mixins: [AuthMixin, RePromptMixin, CloseFromKeyboardMixin]
 
@@ -163,3 +164,5 @@ module.exports = React.createClass
       span {className: 'auth-bar-close', onClick: @_hidePrompt}, 'CLOSE X'
       @expandedView(@state.failedLogin)
       @collapsedView(@state.failedLogin)
+
+module.exports = React.createFactory AuthBar

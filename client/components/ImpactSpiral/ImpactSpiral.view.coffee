@@ -1,8 +1,9 @@
+React = require 'react'
 {div, strong, svg, title, desc, defs, g, path} = React.DOM
 
 NUMBER_OF_CIRCLES = 14
 
-module.exports = React.createClass
+ImpactSpiral = React.createClass
   displayName: 'ImpactSpiral'
   getDefaultProps: ->
     width: 224
@@ -43,3 +44,5 @@ module.exports = React.createClass
       div {className: 'impact-spiral-percent'},
         strong {}, "#{@props.percent}%"
         "Carbon-Free"
+
+module.exports = React.createFactory ImpactSpiral

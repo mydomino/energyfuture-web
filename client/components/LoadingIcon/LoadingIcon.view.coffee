@@ -1,7 +1,10 @@
+React = require 'react'
 {div, img} = React.DOM
 
-module.exports = React.createClass
+LoadingIcon = React.createClass
   displayName: 'LoadingIcon'
   render: ->
     div {className: 'loading-icon'},
       img {className: 'loading-icon-image', src: '/img/loading-icon.gif'}
+
+module.exports = React.createFactory LoadingIcon

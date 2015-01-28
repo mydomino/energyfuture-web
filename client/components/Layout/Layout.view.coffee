@@ -1,3 +1,4 @@
+React = require 'react'
 {div, p, a, span, br} = React.DOM
 
 _ = require 'lodash'
@@ -9,7 +10,7 @@ url = require 'url'
 ga = require('../GoogleAnalytics')
 googleAnalyticsId = '/* @echo GOOGLE_ANALYTICS_ID */'
 
-module.exports = React.createClass
+Layout = React.createClass
   displayName: 'Layout'
   getDefaultProps: ->
     context:
@@ -37,7 +38,7 @@ module.exports = React.createClass
     if isInternalLink
       mixpanel.track 'View Internal Link', url: @stripQueryString(unescape(e.currentTarget.href))
 
-  componentWillMount: ->
+  componentDidMount: ->
     $('body').on 'click', 'a', @handleLinkClick
 
   componentWillUnmount: ->
@@ -51,4 +52,6 @@ module.exports = React.createClass
         new NewsletterSignup guideId: @props.guideId if @props.showNewsletterSignup
       if @props.showFooter
         new Footer
-      new ga.Initializer
+      new React.createFactory(ga.Initializer)
+
+module.exports = React.createFactory Layout

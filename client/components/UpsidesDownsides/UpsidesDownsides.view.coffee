@@ -1,3 +1,4 @@
+React = require 'react'
 {div, ul, li, h2} = React.DOM
 
 _ = require 'lodash'
@@ -10,7 +11,7 @@ hasValidData = (content) ->
   return false if _.isEmpty content.downsides
   true
 
-module.exports = React.createClass
+UpsidesDownsides = React.createClass
   displayName: 'UpsidesDownsides'
 
   getDefaultProps: ->
@@ -32,3 +33,5 @@ module.exports = React.createClass
           downsides.map (downside, idx) ->
             li {key: "item#{idx}", dangerouslySetInnerHTML: {"__html": Autolinker.link(downside)}}
       div {className: "clear-both"}
+
+module.exports = React.createFactory UpsidesDownsides
