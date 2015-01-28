@@ -12,6 +12,7 @@ QuestionnaireEmail = require './server/QuestionnaireEmail'
 YelpListings = require './server/YelpListings'
 Appointments = require './server/Appointments'
 Signups = require './server/Signups'
+DeployFirebase = require './server/DeployFirebase'
 
 PORT = Number(process.env.PORT || 8080);
 
@@ -56,6 +57,10 @@ app.get "/appointments.csv", (req, res) ->
 app.get "/signups.csv", (req, res) ->
   Signups (statusCode, data) ->
     res.status(statusCode).csv(data, "signups.csv")
+
+app.get "/deploy", (req, res) ->
+  DeployFirebase "staging", "production", (statusCode, data) ->
+    res.status(statusCode).send(JSON.stringify({ "message" : data }))
 
 # page.js - client-side routing
 app.get '/*', (req, res) ->
