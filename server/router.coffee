@@ -112,6 +112,9 @@ renderReactComponent = (page) ->
           description: if page[3] then page[3] else _.values(data)[0].metaDescription
       res.render 'index', params, (e, h) -> res.status(200).send(h) unless e
 
+for mw in Routes.middleware
+  app.use (req, res, next) -> mw(null, next)
+
 for page in Routes.pages
   renderReactComponent(page)
 

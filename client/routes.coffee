@@ -3,6 +3,7 @@ module.exports =
     ["/", require('./middleware/redirect_from_splash')]
     ["/guides", require('./middleware/redirect_to_splash')]
     ["*", require('./middleware/authentication')]
+    ["*", require('./middleware/friendly_guides')]
   ]
 
   pages: [

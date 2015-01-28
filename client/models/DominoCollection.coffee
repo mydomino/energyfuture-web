@@ -11,12 +11,17 @@ module.exports = class DominoCollection
     @loaded = false
     @deferred = Q.defer()
 
-  sync: ->
-    @_firebase().on 'value', (snap) =>
-      if snap
-        data = snap.val()
-        @loaded = true
-        @models = data
-        @deferred.resolve(data)
+  loadData: (snap) ->
+    if snap && snap.val()
+      data = snap.val()
+      @loaded = true
+      @models = data
+      @deferred.resolve(data)
 
+  sync: ->
+    @_firebase().on 'value', (snap) => @loadData(snap)
+    @deferred.promise
+
+  syncOnce: ->
+    @_firebase().once 'value', (snap) => @loadData(snap)
     @deferred.promise
