@@ -14,8 +14,6 @@ ImpactSidebar = React.createClass
     @initUser()
 
   componentWillUnmount: ->
-    if @props.user
-      @props.user.removeListener 'sync', @setupState
     auth.removeListener 'authStateChange', @setupState
 
   getDefaultProps: ->
@@ -30,7 +28,7 @@ ImpactSidebar = React.createClass
   initUser: ->
     if @props.user
       @setupState()
-      @props.user.on 'sync', @setupState
+      @props.user.sync().then => @setupState
     else
       auth.on 'authStateChange', @initUser
 

@@ -40,6 +40,8 @@ FootprintHeader = React.createClass
   _tagline: ->
     "Can you get to 100% carbon-free in Fort Collins?"
 
+FootprintHeader = React.createFactory FootprintHeader
+
 ActionButton = React.createClass
   displayName: 'FootprintSidebarActionButton'
 
@@ -69,9 +71,9 @@ ActionButton = React.createClass
       else
         a {className: "btn btn-#{color}", onClick: @viewGuide.bind(this, guide.id)}, label
 
-selectedGuides = []
+ActionButton = React.createFactory ActionButton
 
-FootprintHeader = React.createFactory FootprintHeader
+selectedGuides = []
 
 Footprint = React.createClass
   displayName: 'Footprint'
