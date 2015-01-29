@@ -9,7 +9,7 @@ Splash = React.createClass
   getInitialState: ->
     userCount: 'Many'
 
-  componentWillMount: ->
+  componentDidMount: ->
     mixpanel.track 'View Splash'
     ref = firebase.inst('/users')
     ref.on 'value', (snap) =>

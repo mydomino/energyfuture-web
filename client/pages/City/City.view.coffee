@@ -1,5 +1,4 @@
 React = require 'react/addons'
-ReactAsync = require 'react-async'
 {div, h1, h2, p, em, a, img, button} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
@@ -7,10 +6,10 @@ ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 City = React.createClass
   displayName: 'City'
-  mixins: [ReactAsync.Mixin, ScrollTopMixin]
+  mixins: [ScrollTopMixin]
 
-  getInitialStateAsync: (cb) ->
-    cb null, { activeTab: 'electric-cars' }
+  getInitialState: ->
+    activeTab: 'electric-cars'
 
   componentDidMount: ->
     mixpanel.track 'View City Page'

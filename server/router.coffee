@@ -37,14 +37,6 @@ showErrorPage = (res) ->
   res.status(500)
   res.sendFile './500.html', { root: __dirname }
 
-app.use (req, res, next) ->
-  d = domain.create()
-  d.on 'error', (e) ->
-    console.error e.stack
-    showErrorPage(res)
-
-  d.run(next)
-
 app.get "/amazon-products", (req, res) ->
   new AmazonProducts().itemLookup(req.query.products,
     ((data) => res.status(200).send(data)),
@@ -70,6 +62,8 @@ app.get "/signups.csv", (req, res) ->
   Signups (statusCode, data) ->
     res.status(statusCode).csv(data, "signups.csv")
 
+# FIXME
+# Pull just the router and renderComponent bits out separately
 AuthBar = require '../client/components/AuthBar/AuthBar.view'
 Router = React.createClass
   displayName: 'Router'
@@ -118,9 +112,22 @@ app.get "/app.js", (req, res) ->
   res.status(200)
   res.sendFile './public/app.js', { root: __dirname }
 
-app.get "*", (req, res) ->
-  res.render 'index', {}, (e, h) ->
-    res.status(200).send(h) unless e
+for mw in Routes.middleware
+  app.use (req, res, next) -> mw(null, next)
+
+app.get "/*", (req, res) ->
+  defaultParams =
+    env: process.env
+    content: ''
+    meta: {}
+  res.render 'index', defaultParams
+
+app.use (req, res, next) ->
+  d = domain.create()
+  d.on 'error', (e) ->
+    console.error e.stack
+    showErrorPage(res)
+  d.run(next)
 
 httpServer = http.createServer app
 
