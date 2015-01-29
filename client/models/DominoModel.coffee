@@ -1,25 +1,22 @@
 firebase = require '../firebase'
-Q = require 'q'
+Emitter = require('events').EventEmitter
 
-module.exports = class DominoModel
+module.exports = class DominoModel extends Emitter
   _firebase: () ->
     @firebase || firebase.inst(@url())
 
   constructor: (opts = {}) ->
+    super
+
     {@id, @firebase} = opts
     @attributes = opts || {}
-    @deferred = Q.defer()
-    @_firebaseBinding = opts.firebaseBinding || true
 
-  sync: ->
-    if @_firebaseBinding
+    firebaseBinding = opts.firebaseBinding || true
+    if firebaseBinding
       @_firebase().on 'value', (snap) =>
         if snap
-          data = snap.val()
-          @attributes = data
-          @deferred.resolve(data)
-
-    @deferred.promise
+          @attributes = snap.val()
+          @emit('sync', this)
 
   get: (attr) ->
     @attributes[attr]

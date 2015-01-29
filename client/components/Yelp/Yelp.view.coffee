@@ -1,4 +1,3 @@
-React = require 'react'
 {div, p, img, span, h2, h3, a, ul, li} = React.DOM
 
 _ = require 'lodash'
@@ -6,7 +5,7 @@ auth = require '../../auth'
 LoadingIcon = require '../LoadingIcon/LoadingIcon.view'
 BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
-Yelp = React.createClass
+module.exports = React.createClass
   displayName: 'Yelp'
   mixins: [BindAffiliateLinkMixin]
 
@@ -86,5 +85,3 @@ Yelp = React.createClass
                         img {src: i.snippet_image_url}
                       div {className: "yelp-review-snippet-story"},
                         p {}, i.snippet_text
-
-module.exports = React.createFactory Yelp

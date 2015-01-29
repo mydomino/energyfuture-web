@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="../../node_modules/gulp-mocha-phantomjs/node_modules/mocha-phantomjs/node_modules/mocha/mocha.css"/>
-    </head>
-    <body>
-        <div id="mocha"></div>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../../node_modules/gulp-mocha-phantomjs/node_modules/mocha-phantomjs/node_modules/mocha/mocha.css"/>
+</head>
+<body>
+    <div id="mocha"></div>
 
-        <!-- for react.js to run on phantomjs, phantomjs runs on some old webkit version -->
-        <script src='../vendor/es5-shim.js'></script>
 
-        <script src='../vendor/page.js'></script>
-        <script src="../../node_modules/gulp-mocha-phantomjs/node_modules/mocha-phantomjs/node_modules/mocha/mocha.js"></script>
-        <script src="../vendor/sinon-1.10.2.js"></script>
+    <!-- for react.js to run on phantomjs, phantomjs runs on some old webkit version -->
+    <script src='../vendor/es5-shim.js'></script>
 
-        <script>
-            mocha.ui('bdd');
-            mocha.reporter('html');
-        </script>
+    <script src='../vendor/react-addons.js'></script>
+    <script src='../vendor/page.js'></script>
+    <script src="../../node_modules/gulp-mocha-phantomjs/node_modules/mocha-phantomjs/node_modules/mocha/mocha.js"></script>
+    <script src="../vendor/sinon-1.10.2.js"></script>
 
-        <script src="../../build/tests.js"></script>
+    <script>
+        mocha.ui('bdd');
+        mocha.reporter('html');
+    </script>
 
-        <script>
-            if (window.mochaPhantomJS) {
-                mochaPhantomJS.run();
-            } else {
-                mocha.run();
-            }
-        </script>
-    </body>
+    <script src="../../build/tests.js"></script>
+
+    <script>
+        if (window.mochaPhantomJS) {
+            mochaPhantomJS.run();
+        } else {
+            mocha.run();
+        }
+    </script>
+</body>
 </html>

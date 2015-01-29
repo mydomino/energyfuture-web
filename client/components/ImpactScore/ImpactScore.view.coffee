@@ -1,4 +1,3 @@
-React = require 'react'
 {span, i} = React.DOM
 
 Number::numberFormat = (decimals, dec_point, thousands_sep) ->
@@ -13,7 +12,7 @@ formatScore = (score) ->
   return 0 unless num > 0
   num.numberFormat()
 
-ImpactScore = React.createClass
+module.exports = React.createClass
   displayName: 'ImpactScore'
   getDefaultProps: ->
     score: 0
@@ -24,5 +23,3 @@ ImpactScore = React.createClass
   render: ->
     span {className: 'impact-score'},
       formatScore(@props.score) + "%"
-
-module.exports = React.createFactory ImpactScore

@@ -1,10 +1,9 @@
-React = require 'react'
 {div, h2, p, img} = React.DOM
 
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-Images = React.createClass
+module.exports = React.createClass
   displayName: 'Images'
 
   isExternal: (url) ->
@@ -23,5 +22,3 @@ Images = React.createClass
           div {key: "images-module-#{i}"},
             img {className: "images-module-image", src: @imageSrc(i.link)}
             p {className: 'image-module-caption', dangerouslySetInnerHTML: {"__html": Autolinker.link(i.caption)}}
-
-module.exports = React.createFactory Images

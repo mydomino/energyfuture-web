@@ -1,7 +1,6 @@
-React = require 'react'
 {div, input} = React.DOM
 
-PaginateActions = React.createClass
+module.exports = React.createClass
   displayName: 'PaginateActions'
 
   getDefaultProps: ->
@@ -29,5 +28,3 @@ PaginateActions = React.createClass
       input {type: 'button', className: "previous #{previousClass}", onClick: @prevAction, defaultValue: "Previous"}
       input {type: 'submit', className: "next #{nextClass}", onClick: @nextAction, defaultValue: "Next"}
       div {className: 'clear-both'}
-
-module.exports = React.createFactory PaginateActions

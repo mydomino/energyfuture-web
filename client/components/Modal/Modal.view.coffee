@@ -1,7 +1,7 @@
-React = require 'react'
 {div, h2, span, p, a} = React.DOM
 
 CloseFromKeyboardMixin =
+
   _closeOnEsc: (e) ->
     if e.keyCode == 27
       @resetState()
@@ -21,7 +21,7 @@ CloseFromKeyboardMixin =
   componentWillUnmount: ->
     document.removeEventListener 'keyup', @_closeOnEsc
 
-Modal = React.createClass
+module.exports = React.createClass
   displayName: 'Modal'
   mixins: [CloseFromKeyboardMixin]
 
@@ -44,5 +44,3 @@ Modal = React.createClass
       span {className: 'modal-close', onClick: @_hidePrompt}, 'CLOSE X'
       div {className: 'modal-content-expanded'},
         @props.children
-
-module.exports = React.createFactory Modal

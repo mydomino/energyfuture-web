@@ -1,4 +1,3 @@
-React = require 'react'
 {div, p, img, span, h2, a} = React.DOM
 
 _ = require 'lodash'
@@ -8,7 +7,7 @@ Carousel = require '../Carousel/Carousel.view'
 Autolinker = require 'autolinker'
 BindAffiliateLinkMixin = require '../../mixins/BindAffiliateLinkMixin'
 
-Amazon = React.createClass
+module.exports = React.createClass
   displayName: 'Amazon'
   mixins: [BindAffiliateLinkMixin]
 
@@ -81,5 +80,3 @@ Amazon = React.createClass
               new Carousel count: 3, items: @productItems()
             else
               @productItems()
-
-module.exports = React.createFactory Amazon

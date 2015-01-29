@@ -1,6 +1,6 @@
 # Adding react-google-analytics package caused random client side errors. Copied it over, and it works fine.
 # Code from: https://github.com/hzdg/react-google-analytics
-React = require 'react'
+
 {script} = React.DOM
 
 window?.GoogleAnalyticsObject ?= 'ga'

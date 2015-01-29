@@ -1,22 +1,19 @@
 firebase = require '../firebase'
-Q = require 'q'
+Emitter = require('events').EventEmitter
 
-module.exports = class DominoCollection
+module.exports = class DominoCollection extends Emitter
   _firebase: () ->
     @firebase || firebase.inst(@url())
 
   constructor: (opts = {}) ->
+    super
+
     @firebase = opts.firebase
     @models = opts.models || {}
     @loaded = false
-    @deferred = Q.defer()
 
-  sync: ->
     @_firebase().on 'value', (snap) =>
       if snap
-        data = snap.val()
+        @models = snap.val()
         @loaded = true
-        @models = data
-        @deferred.resolve(data)
-
-    @deferred.promise
+        @emit('sync', this)

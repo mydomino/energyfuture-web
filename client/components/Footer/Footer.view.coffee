@@ -1,7 +1,6 @@
-React = require 'react'
 {div, p, a, span, br, footer} = React.DOM
 
-Footer = React.createClass
+module.exports = React.createClass
   displayName: 'Footer'
   goToContactPage: (e) ->
     # We're forcing a page reload here because the contact
@@ -34,5 +33,3 @@ Footer = React.createClass
             a {className: 'mixpanel-internal-link', onClick: @goToAboutPage}, 'Learn about us'
             ' or '
             a {className: 'mixpanel-internal-link', onClick: @goToContactPage}, 'get in touch'
-
-module.exports = React.createFactory Footer

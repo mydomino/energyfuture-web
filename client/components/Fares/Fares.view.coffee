@@ -1,7 +1,6 @@
-React = require 'react'
 {div, h2, p, img} = React.DOM
 
-Fares = React.createClass
+module.exports = React.createClass
   displayName: 'Fares'
 
   render: ->
@@ -10,5 +9,3 @@ Fares = React.createClass
       p {className: 'guide-module-subheader'}, 'Powered by SMFTA'
       div {className: 'guide-module-content'},
         img {src: '/img/fares.png'}
-
-module.exports = React.createFactory Fares

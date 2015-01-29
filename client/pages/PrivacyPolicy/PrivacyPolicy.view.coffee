@@ -3,7 +3,7 @@ Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
-PrivacyPolicy = React.createClass
+module.exports = React.createClass
   displayName: 'PrivacyPolicy'
   mixins: [ScrollTopMixin]
   render: ->
@@ -68,5 +68,3 @@ PrivacyPolicy = React.createClass
         h3 {}, "Our Contact Information"
         p {}, "Please contact us with any questions or comments about this Policy, your personal information, our use and disclosure practices, or your consent choices by email at info@Domino.com."
         p {}, "EFFECTIVE AS OF: January 1, 2015"
-
-module.exports = React.createFactory PrivacyPolicy

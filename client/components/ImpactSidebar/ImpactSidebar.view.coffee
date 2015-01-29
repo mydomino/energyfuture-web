@@ -1,4 +1,3 @@
-React = require 'react'
 {div, span, a, hr, i} = React.DOM
 
 auth = require '../../auth'
@@ -6,7 +5,7 @@ UserGuides = require '../../models/UserGuides'
 ImpactScore = require '../ImpactScore/ImpactScore.view'
 FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
 
-ImpactSidebar = React.createClass
+module.exports = React.createClass
   displayName: 'ImpactSidebar'
   mixins: [FloatingSidebarMixin]
   componentWillMount: ->
@@ -109,4 +108,3 @@ ImpactSidebar = React.createClass
             i {className: "icon fa fa-star"}
             span {}, "Save for later"
 
-module.exports = React.createFactory ImpactSidebar

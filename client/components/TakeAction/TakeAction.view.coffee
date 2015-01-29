@@ -1,4 +1,3 @@
-React = require 'react'
 {div, h2, p, a, img} = React.DOM
 
 _ = require 'lodash'
@@ -8,7 +7,7 @@ showMore = (event) ->
   $(event.target).parents('.action').css('max-height', 'none')
   $(event.target).parent('.action-read-more').hide()
 
-TakeAction = React.createClass
+module.exports = React.createClass
   displayName: 'TakeAction'
 
   getDefaultProps: ->
@@ -32,5 +31,3 @@ TakeAction = React.createClass
             img {className : 'action-read-more-button', src: '/img/show-more.svg', onClick: showMore}
             div {className: 'action-read-more-mask'}
       div {className: "clear-both"}
-
-module.exports = React.createFactory TakeAction

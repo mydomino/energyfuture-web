@@ -1,4 +1,3 @@
-React = require 'react'
 {div, h2, p, a, span} = React.DOM
 
 _ = require 'lodash'
@@ -6,7 +5,7 @@ IncentiveModal = require '../IncentiveModal/IncentiveModal.view'
 
 CutLength = 90
 
-Incentives = React.createClass
+module.exports = React.createClass
   displayName: 'Incentives'
 
   getInitialState: ->
@@ -70,5 +69,3 @@ Incentives = React.createClass
                   a {className: "incentive-reference", onClick: @showModal.bind(@, i)}, "more"
 
       div {className: 'clear-both'}
-
-module.exports = React.createFactory Incentives

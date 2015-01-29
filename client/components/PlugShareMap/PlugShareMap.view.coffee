@@ -1,7 +1,6 @@
-React = require 'react'
 {div, h2, p, iframe, a} = React.DOM
 
-PlugShareMap = React.createClass
+module.exports = React.createClass
   displayName: 'PlugShareMap'
 
   render: ->
@@ -13,5 +12,3 @@ PlugShareMap = React.createClass
           'PlugShare'
       div {className: 'guide-module-content'},
         iframe {src:"https://www.plugshare.com/widget.html?latitude=&longitude=&spanLat=&spanLng="}
-
-module.exports = React.createFactory PlugShareMap

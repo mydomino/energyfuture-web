@@ -1,4 +1,3 @@
-React = require 'react'
 {div, h2, h3, p, span, strong, a, ul, li, hr, i} = React.DOM
 
 _ = require 'lodash'
@@ -71,9 +70,7 @@ ActionButton = React.createClass
 
 selectedGuides = []
 
-FootprintHeader = React.createFactory FootprintHeader
-
-Footprint = React.createClass
+module.exports = React.createClass
   displayName: 'Footprint'
   mixins: [ScrollTopMixin, FloatingSidebarMixin]
 
@@ -90,11 +87,14 @@ Footprint = React.createClass
     mixpanel.track 'View Impact Screen'
     @coll = new GuideCollection
     @claimedGuides = new UserGuides(@props.user, 'claimed')
-    @coll.sync().then => @handleSync()
+    @coll.on "sync", @handleSync
     @setupState(@coll)
 
   componentWillReceiveProps: (props) ->
     @claimedGuides = new UserGuides(props.user, 'claimed')
+
+  componentWillUnmount: ->
+    @coll.removeListener 'sync', @handleSync
 
   handleSync: (coll) ->
     if @isMounted()
@@ -215,5 +215,3 @@ Footprint = React.createClass
                   clickAction: @toggleGuideSelection
           else
             new LoadingIcon
-
-module.exports = React.createFactory Footprint

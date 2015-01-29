@@ -1,4 +1,3 @@
-React = require 'react'
 {div, h2, table, thead, tbody, th, tr, td, img, p, i} = React.DOM
 
 '/* @ifdef AWS_ASSOCIATE_TAG */'
@@ -9,7 +8,7 @@ awsAssociateTag = awsAssociateTag || 'dummyTag'
 _ = require 'lodash'
 Autolinker = require 'autolinker'
 
-SortableTable = React.createClass
+module.exports = React.createClass
   displayName: 'SortableTable'
 
   getInitialState: ->
@@ -76,5 +75,3 @@ SortableTable = React.createClass
             div {className: 'expand-collapse-mask'}
             div {className: "expand-collapse-button"},
               i {className: "icon pu pu-icon-#{collapsedIcon}", onClick: @toggleExpandCollapse}
-
-module.exports = React.createFactory SortableTable

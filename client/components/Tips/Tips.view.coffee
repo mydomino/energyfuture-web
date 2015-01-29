@@ -1,4 +1,3 @@
-React = require 'react'
 {div, h2, p, img} = React.DOM
 
 _ = require 'lodash'
@@ -24,9 +23,7 @@ TipProfile = React.createClass
     else
       div {className: "tip-location-without-profile"}, @props.location
 
-TipProfile = React.createFactory TipProfile
-
-Tips = React.createClass
+module.exports = React.createClass
   displayName: 'Tips'
   getDefaultProps: ->
     guide: null
@@ -62,5 +59,3 @@ Tips = React.createClass
             p {className: "tip-content", dangerouslySetInnerHTML: {"__html": Autolinker.link(content)}}
             new TipProfile user: user, location: location
         div {className: "clear-both"}
-
-module.exports = React.createFactory Tips

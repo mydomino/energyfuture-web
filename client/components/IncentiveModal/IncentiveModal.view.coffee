@@ -1,7 +1,6 @@
-React = require 'react'
 {div, p, a} = React.DOM
 
-IncentiveModal = React.createClass
+module.exports = React.createClass
   displayName: 'IncentiveModal'
 
   getDefaultProps: ->
@@ -42,5 +41,3 @@ IncentiveModal = React.createClass
 
           p {className: "incentive-description"}, i.description
           a {href: i.reference, className: "incentive-reference"}, "learn more" if i.reference
-
-module.exports = React.createFactory IncentiveModal

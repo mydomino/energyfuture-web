@@ -1,10 +1,9 @@
-React = require 'react'
 {div, h2} = React.DOM
 _ = require 'lodash'
 
 Carousel = require '../../components/Carousel/Carousel.view'
 
-QuickTips = React.createClass
+module.exports = React.createClass
   displayName: 'QuickTips'
 
   getDefaultProps: ->
@@ -18,5 +17,3 @@ QuickTips = React.createClass
       h2 {className: 'guide-module-header'}, "Quick tips"
       div {className: 'guide-module-content'},
         new Carousel items: items
-
-module.exports = React.createFactory QuickTips

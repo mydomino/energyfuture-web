@@ -1,5 +1,3 @@
-React = require 'react'
-ReactAsync = require 'react-async'
 {div, h1, p, hr, section, article, header} = React.DOM
 
 _ = require 'lodash'
@@ -15,58 +13,52 @@ ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 Autolinker = require 'autolinker'
 auth = require '../../auth'
 
-GuideView = React.createClass
+module.exports = React.createClass
   displayName: 'Guide'
-  mixins: [HideModuleMixin, ReactAsync.Mixin, ScrollTopMixin]
+  mixins: [HideModuleMixin, ScrollTopMixin]
+  getInitialState: ->
+    guide: null
 
-  getInitialStateAsync: (cb) ->
-    guide = new Guide(id: @props.params.id)
-    guide.sync().then => cb null, { guide: guide }
+  componentWillMount: ->
+    @guide = new Guide(id: @props.params.id)
+    @guide.on "sync", @setGuide
 
-  stateFromJSON: (state) ->
-    guide: new Guide(state.guide.attributes)
-
-  componentDidMount: ->
+    @setGuide(@guide)
     @debouncedMixpanelUpdate = _.debounce(@updateMixpanel, 2000, {leading: false, trailing: true})
     auth.on 'authStateChange', @debouncedMixpanelUpdate
     @debouncedMixpanelUpdate()
 
-  componentWillUnmount: ->
-    auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
-
   updateMixpanel: ->
-    mixpanel.track("View Guide", {guide_id: @state.guide.id, distinct_id: auth.user?.id})
+    mixpanel.track 'View Guide', guide_id: @guide.id
 
-  rerenderComponent: ->
-    @forceUpdate() if @isMounted()
+  componentWillUnmount: ->
+    @guide.removeListener 'sync', @setGuide
+    auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
 
   setGuide: (guide) ->
     if guide.exists() && @isMounted
       @setState guide: guide
 
   render: ->
-    guide = @state.guide
-
-    if guide
-      {title, summary, category} = guide.attributes
-      modules = guide.sortedModules()
+    if @state.guide
+      {title, summary, category} = @state.guide.attributes
+      modules = @state.guide.sortedModules()
 
     new Layout {name: 'guide', guideId: @props.params.id, showNewsletterSignup: true},
       new NavBar user: @props.user, path: @props.context.pathname
-      if !guide
+      if !@state.guide
         new LoadingIcon
       else
         div {},
           div {className: "guide"},
             new ImpactSidebar
               user: @props.user
-              guide: guide
+              guide: @state.guide
               category: category
 
             header {className: "guide-header"},
               h1 {}, title
-              if summary
-                p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}}
+              p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}} if summary
             article {className: "guide-modules"},
               if modules
                 modules.map (module, idx) =>
@@ -77,11 +69,9 @@ GuideView = React.createClass
                     uniqName = "#{moduleName}-#{idx}"
                     section {key: uniqName, ref: uniqName, id: module.id},
                       new GuideModules[moduleName]
-                        guide: guide
+                        guide: @state.guide
                         content: module.content
                         onError: @hideModule.bind(@, uniqName)
                       hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName
-
-module.exports = React.createFactory GuideView

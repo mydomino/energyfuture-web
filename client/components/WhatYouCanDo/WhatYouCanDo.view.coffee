@@ -1,10 +1,9 @@
-React = require 'react'
 {div, h2, p} = React.DOM
 
 _ = require 'lodash'
 TakeAction = require '../TakeAction/TakeAction.view'
 
-whatYouCanDo = React.createClass
+module.exports = React.createClass
   displayName: 'whatYouCanDo'
 
   getDefaultProps: ->
@@ -19,5 +18,3 @@ whatYouCanDo = React.createClass
       p {className: "guide-module-subheader"}, whatYouCanDo.subheading
       div {className: 'guide-module-content'},
         new TakeAction(actions: whatYouCanDo.cta)
-
-module.exports = React.createFactory whatYouCanDo

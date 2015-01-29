@@ -1,4 +1,3 @@
-React = require 'react'
 {div, h2, form, fieldset, legend, label, input, p, a, button} = React.DOM
 
 auth = require '../../auth'
@@ -248,7 +247,7 @@ actions.register = React.createClass
           p {},
             button {className: 'btn', onClick: @handleSubmit}, if @state.processing then 'Registering...' else 'Register'
 
-EmailLoginRegister = React.createClass
+module.exports = React.createClass
   displayName: 'EmailLoginRegister'
   getInitialState: ->
     action: 'login'
@@ -268,5 +267,3 @@ EmailLoginRegister = React.createClass
       p {},
         'Changed your mind? '
         a {href: @goBackPath()}, 'Head back.'
-
-module.exports = React.createFactory EmailLoginRegister

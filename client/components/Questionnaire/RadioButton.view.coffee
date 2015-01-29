@@ -1,8 +1,7 @@
-React = require 'react'
 {div, h2, input, label, p} = React.DOM
 _ = require 'lodash'
 
-RadioButton = React.createClass
+module.exports = React.createClass
   displayName: 'RadioButton'
 
   getDefaultProps: ->
@@ -23,5 +22,3 @@ RadioButton = React.createClass
             input {id: optionId, type: 'radio', name: radio.name, value: option.value, required: required, defaultChecked: checked, onChange: @props.changeAction}
             label {htmlFor: optionId}, option.label
             p {className: 'input-description'}, option.description if option.description
-
-module.exports = React.createFactory RadioButton

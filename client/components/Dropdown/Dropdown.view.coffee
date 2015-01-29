@@ -1,8 +1,7 @@
-React = require 'react'
 {span, select, option} = React.DOM
 _ = require 'lodash'
 
-Dropdown = React.createClass
+module.exports = React.createClass
   displayName: 'Dropdown'
 
   changeAction: (event) ->
@@ -15,5 +14,3 @@ Dropdown = React.createClass
       select {onChange: @changeAction, value: @props.selectedOption},
         _.map @props.data, (entry, index) ->
           option {key: "#{entry.value}-#{index}", value: entry.value}, entry.name
-
-module.exports = React.createFactory Dropdown
