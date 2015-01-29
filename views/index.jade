@@ -27,7 +27,12 @@ html(lang="en")
           mixpanel.init("#{env.MIXPANEL_TOKEN}");
           // end Mixpanel
     body
-        div#app !{content}
+        div#app
+          if content
+            != content
+          else
+              div(class="loading-icon")
+                img(class="loading-icon-image" src="/img/loading-icon.gif")
 
         <!--[if lt IE 9 ]>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.0.5/es5-shim.min.js'></script>

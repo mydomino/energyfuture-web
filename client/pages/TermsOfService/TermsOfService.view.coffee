@@ -1,5 +1,4 @@
 React = require 'react'
-ReactAsync = require 'react-async'
 {div, h2, h3, h4, p, em, ol, li, br} = React.DOM
 Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
@@ -7,10 +6,7 @@ ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
 TermsOfService = React.createClass
   displayName: 'TermsOfService'
-  mixins: [ReactAsync.Mixin, ScrollTopMixin]
-
-  getInitialStateAsync: (cb) ->
-    cb null, {}
+  mixins: [ScrollTopMixin]
 
   render: ->
     new Layout {name: 'termsofservice'},

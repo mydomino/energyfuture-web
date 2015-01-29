@@ -95,9 +95,9 @@ Footprint = React.createClass
   componentWillReceiveProps: (props) ->
     @claimedGuides = new UserGuides(props.user, 'claimed')
 
-  handleSync: (coll) ->
+  handleSync: ->
     if @isMounted()
-      @setupState(coll)
+      @setupState(@coll)
 
   setupState: (coll) ->
     selectedGuides = []
