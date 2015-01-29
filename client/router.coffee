@@ -1,11 +1,13 @@
 auth = require './auth'
 AuthBar = require './components/AuthBar/AuthBar.view'
 History = require 'html5-history-api'
+LoadingIcon = require './components/LoadingIcon/LoadingIcon.view'
 
 LoadingScreen = React.createClass
   displayName: 'LoadingScreen'
   render: ->
-    React.DOM.div({}, 'Loading')
+    React.DOM.div {className: 'loading-screen-container'},
+      new LoadingIcon
 
 addMiddleware = (route) ->
   page route[0], route[1]
