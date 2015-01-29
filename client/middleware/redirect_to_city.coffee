@@ -14,6 +14,7 @@ module.exports = (ctx, next) ->
   else
     getCity (city) ->
       if city == 'fort collins'
+        store.set('firstVisit', new Date)
         page.redirect('/fortcollins')
       else
         next()

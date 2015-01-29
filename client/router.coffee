@@ -69,8 +69,8 @@ Router = React.createClass
 
 routes =
   middleware: [
-    ["/", require('./middleware/redirect_from_splash')]
     ["/", require('./middleware/redirect_to_city')]
+    ["/", require('./middleware/redirect_from_splash')]
     ["/guides", require('./middleware/redirect_to_splash')]
     ["*", require('./middleware/authentication')]
     ["*", require('./middleware/categories')]
