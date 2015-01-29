@@ -4,7 +4,7 @@ positionSidebar = (element, leftOffset) ->
 
   if !leftOffset
     leftOffset = (anchor) ->
-      anchor.offsetLeft - 100
+      anchor.offsetLeft - 150
 
   if window.scrollY + element.offsetHeight > anchor.offsetTop + anchor.offsetHeight - 40
     style.top = (anchor.offsetHeight - element.offsetHeight) + 'px'
