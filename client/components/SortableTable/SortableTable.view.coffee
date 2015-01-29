@@ -57,7 +57,7 @@ module.exports = React.createClass
         table {style: tableStyle, ref: 'tableContent'},
           thead {},
             _.map sortedHeaderTitles, (title, i) ->
-              th {key: "sorted-header-titles-#{i}"}, title
+              th {key: "sorted-header-titles-#{i}", dangerouslySetInnerHTML: {"__html": title}}
           tbody {},
             _.map sortableTable.content, (row, i) =>
               tr {key: "sorted-content-#{i}"},
