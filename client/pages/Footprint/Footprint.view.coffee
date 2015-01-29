@@ -112,10 +112,6 @@ module.exports = React.createClass
       totalScore: coll.totalScore()
       selectedGuides: selectedGuides
 
-  componentDidMount: ->
-    unless @props.user
-      auth.prompt(true)
-
   toggleGuideSelection: (guide) ->
     selectedGuides = @state.selectedGuides
     index = selectedGuides.indexOf(guide)

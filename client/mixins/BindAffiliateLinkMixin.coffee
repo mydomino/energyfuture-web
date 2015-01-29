@@ -12,5 +12,4 @@ module.exports =
     @trackLinks(@getDOMNode())
 
   _trackAffiliateLinkAction: (event) ->
-    auth.prompt()
     trackAffiliateLinkAction(event)
