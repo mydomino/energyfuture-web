@@ -1,11 +1,9 @@
 _ = require 'lodash'
 firebase = require '../firebase'
 DominoModel = require './DominoModel'
-FriendlyGuides = require './singletons/FriendlyGuides'
 
 module.exports = class Guide extends DominoModel
-  url: ->
-    "/guides/#{FriendlyGuides.idFor(@id)}"
+  url: -> "/guides/#{@id}"
 
   category: ->
     @attributes['category']
@@ -26,3 +24,4 @@ module.exports = class Guide extends DominoModel
   moduleByKey: (moduleKey) ->
     _.find @attributes['modules'], (_, k) ->
       k == moduleKey
+

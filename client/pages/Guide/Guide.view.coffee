@@ -9,7 +9,6 @@ Layout = require '../../components/Layout/Layout.view'
 NavBar = require '../../components/NavBar/NavBar.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ImpactSidebar = require '../../components/ImpactSidebar/ImpactSidebar.view'
-FriendlyGuides = require '../../models/singletons/FriendlyGuides'
 GuideModules = require('../../components/GuideModules.coffee')()
 HideModuleMixin = require '../../mixins/HideModuleMixin'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
@@ -32,9 +31,6 @@ GuideView = React.createClass
     auth.on 'authStateChange', @debouncedMixpanelUpdate
     @debouncedMixpanelUpdate()
 
-  updateMixpanel: ->
-    mixpanel.track 'View Guide', guide_id: FriendlyGuides.nameFor(@guide.id)
-    
   componentWillUnmount: ->
     auth.removeListener 'authStateChange', @debouncedMixpanelUpdate
 
