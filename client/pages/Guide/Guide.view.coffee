@@ -70,7 +70,7 @@ GuideView = React.createClass
             header {className: "guide-header"},
               h1 {}, title
               if summary
-                div {className: "guide-header-description", dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}}
+                p {dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}}
             article {className: "guide-modules"},
               if modules
                 modules.map (module, idx) =>
