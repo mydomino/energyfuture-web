@@ -108,10 +108,6 @@ renderReactComponent = (page) ->
 for page in Routes.pages
   renderReactComponent(page)
 
-app.get "/app.js", (req, res) ->
-  res.status(200)
-  res.sendFile './public/app.js', { root: __dirname }
-
 for mw in Routes.middleware
   app.use (req, res, next) -> mw(null, next)
 

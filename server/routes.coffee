@@ -2,7 +2,6 @@ module.exports =
   middleware: []
 
   pages: [
-    ["/", require('../client/pages/Splash/Splash.view'), 'splash']
     ["/about", require('../client/pages/AboutUs/AboutUs.view'), 'aboutus', 'We’re reinventing zero-emissions living']
     ["/contact", require('../client/pages/ContactUs/ContactUs.view'), 'contactus', 'Contact the team at Domino']
     ["/fortcollins", require('../client/pages/City/City.view'), 'city', 'Domino – Fort Collins']
