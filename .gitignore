@@ -2,3 +2,5 @@ node_modules/
 public/
 .env
 build/
+
+client/img/logo-header-small.png

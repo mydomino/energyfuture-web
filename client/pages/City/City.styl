@@ -1,188 +1,273 @@
 .body-city
-  margin 0
+    font-family "Open Sans", "Helvetica Neue", Helvetica, sans-serif
+    margin 0
 
-  .container
-    background #fff
+    .container
+        background rgb( 248, 248, 248 )
 
 .page-city .container-padding
-  margin 0
-  padding 0
-  width 100%
+    margin 0
+    padding 0
+    width 100%
 
 .city-container
 
-  h1
-    font-size 5em
-    font-weight 300
-    margin 0
-    text-align center
+    h2
+        color #222
+        font-size 2em
+        font-weight 300
+        line-height 1.3em
+        margin .5em 0
+        text-align left
 
-  h2
-    color rgba(247,104,121,1)
-    font-size 3em
-    font-weight 600
-    margin .5em 0
-    text-align left
+    em
+        color rgba(247,104,121,1)
+        font-style normal
+        font-weight 600
 
-  em
-    color rgba(247,104,121,1)
-    font-style normal
-    font-weight 600
+    p
+        color #7a7d7d
+        font-size 1.2em
+        font-weight 400
+        line-height 1.5em
+        margin 1em 0
 
-  p
-    font-size 1.8em
-    font-weight 400
-    margin 1em 0
+    p.city-page-button
+        margin 1.5em 0
 
-  p.city-page-button
-    margin 1.5em 0
+    a.city-get-started
+        background rgba(247,104,121,1)
+        border-radius 1.25em
+        color #fff
+        font-size 1em
+        line-height 1
+        margin 4em 0
+        padding .5em 1.5em
+        text-decoration none
 
-  a.city-get-started
-    background rgba(247,104,121,1)
-    border-radius 1.25em
-    color #fff
-    font-size 1em
-    line-height 1
-    margin 4em 0
-    padding .5em 1.5em
-    text-decoration none
-
-  .city-container-head
-    background #4EC7DC
-    color #fff
-    padding 60px 0
+.city-container-head
+    background #FFF
+    color #333
 
     .city-head
-      margin 0 auto
-      width 1024px
+        margin 0 auto
+        padding 1em 0
+        width 1024px
 
-      .city-stats
-        background url("../img/city-page-stats.png")
-        height 342px
-        margin 30px auto
-        text-indent -9999px
-        width 886px
+        .link-home
+            color #333
+            text-decoration none
 
-  .city-container-map
+        h1
+            background url("../img/logo-city-page-small.png") no-repeat 0 50%
+            font-size 2em
+            font-weight 300
+            line-height 1.3125em
+            margin 0
+            padding-left 50px
+            float left
+            width 50%
+
+        .city-domino-count
+            background url("../img/counter-header.png") no-repeat 100% 0
+            color #666
+            font-size 1em
+            font-weight 600
+            float right
+            line-height 1.3125em
+            margin 0
+            padding 0 140px 0 0
+            width 50%
+            text-align right
+            text-transform uppercase
+
+    .city-head:after
+        content " "
+        display block
+        height 0
+        visibility hidden
+        clear both
+
+.city-container-map
     background #fff
     color #222
-    padding 60px 0
+    padding 300px 0 50px
+
+    &.electric-car-map
+        background url("../img/evs-map.png") no-repeat 50% 50%
+        background-size cover
+
+    &.solar-map
+        background url("../img/solar-map.png") no-repeat 50% 50%
+        background-size cover
+
+    &.clean-power-map
+        background url("../img/clean-power-option-map.png") no-repeat 50% 50%
+        background-size cover
+
+    &.thermostats-map
+        background url("../img/thermostats-map.png") no-repeat 50% 50%
+        background-size cover
 
     .city-map
-      margin 0 auto
-      width 1024px
-
-      .city-map-panes
-        margin 30px 0
-
-      .city-map-tabs
-        display inline-block
-        width 260px
-        &:hover
-          cursor pointer
-
-      .city-map-tab
-        margin-bottom 2px
-        padding 32px 10px 25px
-        background-color #F8F8F8
-        &:hover
-          background-color #f0f8ff
-        &.active
-          background-color #4ec7dc
-
-      .city-map-tab-image
-        display block
         margin 0 auto
-        width 140px
+        width 1024px
 
-      .city-map-tab-text
-        margin 0
-        text-align center
-        font-size 1.2em
-        color #656B6F
+        .city-map-tabs
+            //display inline-block
+            margin 0 auto
+            width 744px
+            &:hover
+                cursor pointer
 
-      .city-map-image
-        position relative
-        display inline-block
-        vertical-align top
-        height 600px
-        width 764px
+            .city-map-tab
+                color #656B6F
+                float left
+                height 107px
+                margin-bottom 2px
+                padding 15px 10px 25px
+                background-color #F8F8F8
+                width 186px
+                &:hover
+                    background-color rgb(123, 209, 192)
+                    p
+                        color #fff
+                &.active
+                    background-color rgb(123, 209, 192)
+                    p
+                        color #fff
 
-      .city-map-image-mask
-        position absolute
-        bottom 0px
-        width 100%
-        height 161px
-        background-color rgba(0, 0, 0, 0.4)
+                .city-map-tab-image
+                    display block
+                    margin 0 auto
+                    width 111px
 
-      .city-map-image-text
-        padding 0 30px
-        text-align center
-        color white
-        font-size 1.2em
-        font-weight bold
+                .city-map-tab-text
+                    margin 4px 0 0
+                    text-align center
+                    font-size .9em
+                    font-weight 600
+                    line-height 1.2em
+                    text-transform uppercase
 
-      .city-map-image-button
-        display block
+        .city-map-tabs:after
+            content " "
+            display block
+            height 0
+            visibility hidden
+            clear both
+
+        .city-map-image-mask
+            margin 0 auto
+            padding 15px 25px
+            width 744px
+            height 161px
+            background-color rgba(123, 209, 192, .85)
+
+            .city-map-image-text
+                color white
+                font-size 1.2em
+                font-weight bold
+                margin .5em
+                text-align center
+                text-shadow 1px 1px 2px rgba( 0, 0, 0, .6 )
+
+            .city-map-image-button
+                display block
+                margin 0 auto
+                background-color: #F76879
+                border none
+                border-radius 1.25em
+                padding .5em 1.5em
+                font-size 1.3em
+                color #FFFFFF
+
+.city-container-data
+    background rgb( 248, 248, 248 )
+    padding 2.5em 0
+
+    .city-data
         margin 0 auto
-        background-color: #F76879
-        border none
-        border-radius 20px
-        padding 5px 20px
-        font-size 1.3em
-        color #FFFFFF
+        width 1024px
 
-      .electric-car-map
-        background url("../img/evs-map.png")
+        .city-data-metric
+            background url("../img/city-page-metric.png") no-repeat 50% 50%
+            float right
+            min-height 300px
+            text-indent -9999px
+            width 400px
 
-      .solar-map
-        background url("../img/solar-map.png")
+        .city-data-text
+            float left
+            width 624px
 
-      .clean-power-map
-        background url("../img/clean-power-option-map.png")
+    .city-data:after
+        content " "
+        display block
+        height 0
+        visibility hidden
+        clear both
 
-      .thermostats-map
-        background url("../img/thermostats-map.png")
-
-  .city-container-action
-    background #4EC7DC
-    color #fff
-    padding 60px 0
+.city-container-action
+    background rgb(123, 209, 192)
+    padding 2.5em 0
 
     .city-action
-      margin 0 auto
-      width 1024px
+        margin 0 auto
+        width 1024px
 
-  .city-container-partners
+        h2
+            color #fff
+
+        p
+            color #fff
+
+        .city-action-metric
+            background url("../img/city-page-counter.png") no-repeat 50% 50%
+            float right
+            min-height 240px
+            text-indent -9999px
+            width 440px
+
+        .city-action-text
+            float left
+            width 584px
+
+    .city-action:after
+        content " "
+        display block
+        height 0
+        visibility hidden
+        clear both
+
+.city-container-partners
     background #fff
     color #222
-    padding 60px 0
+    padding 2.5em 0
 
     .city-partners
-      margin 0 auto
-      width 1024px
+        margin 0 auto
+        width 1024px
 
-      h2
-        color #4EC7DC
+        .city-partner-logos
+            background url("../img/city-page-partners.png")
+            height 299px
+            margin 30px auto
+            text-indent -9999px
+            width 876px
 
-  .city-partner-logos
-    background url("../img/city-page-partners.png")
-    height 299px
-    margin 30px auto
-    text-indent -9999px
-    width 876px
-
-  .city-container-disclaimer
-    background #4EC7DC
-    color #fff
-    padding 60px 0
+.city-container-disclaimer
+    background #fff
+    color rgb( 153, 153, 153 )
+    padding 2.5em 0
 
     .city-disclaimer
-      margin 0 auto
-      width 1024px
+        margin 0 auto
+        width 1024px
 
-      p
-        font-size 1em
+        p
+            font-size 1em
+            line-height 1.5em
 
-      a
-        color #fff
+        a
+            color #999
