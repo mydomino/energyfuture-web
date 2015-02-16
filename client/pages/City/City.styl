@@ -1,8 +1,9 @@
 .body-city
+    font-family "Open Sans", "Helvetica Neue", Helvetica, sans-serif
     margin 0
 
     .container
-        background #fff
+        background rgb( 248, 248, 248 )
 
 .page-city .container-padding
     margin 0
@@ -12,9 +13,10 @@
 .city-container
 
     h2
-        color rgba(247,104,121,1)
-        font-size 3em
-        font-weight 600
+        color #222
+        font-size 2em
+        font-weight 300
+        line-height 1.3em
         margin .5em 0
         text-align left
 
@@ -24,9 +26,10 @@
         font-weight 600
 
     p
-        font-size 1.7em
+        color #7a7d7d
+        font-size 1.2em
         font-weight 400
-        line-height 1.4em
+        line-height 1.5em
         margin 1em 0
 
     p.city-page-button
@@ -43,19 +46,23 @@
         text-decoration none
 
 .city-container-head
-    background #4EC7DC
-    color #fff
+    background #FFF
+    color #333
 
     .city-head
         margin 0 auto
-        padding .75em 0
+        padding 1em 0
         width 1024px
 
+        .link-home
+            color #333
+            text-decoration none
+
         h1
-            background url("../img/logo-header-small.png") no-repeat 0 50%
-            font-size 3em
+            background url("../img/logo-city-page-small.png") no-repeat 0 50%
+            font-size 2em
             font-weight 300
-            line-height 1em
+            line-height 1.3125em
             margin 0
             padding-left 50px
             float left
@@ -63,12 +70,13 @@
 
         .city-domino-count
             background url("../img/counter-header.png") no-repeat 100% 0
-            font-size 1.2em
+            color #666
+            font-size 1em
             font-weight 600
             float right
-            line-height 1.3em
+            line-height 1.3125em
             margin 0
-            padding .2em 184px .2em 0
+            padding 0 140px 0 0
             width 50%
             text-align right
             text-transform uppercase
@@ -83,7 +91,7 @@
 .city-container-map
     background #fff
     color #222
-    padding 325px 0 50px
+    padding 300px 0 50px
 
     &.electric-car-map
         background url("../img/evs-map.png") no-repeat 50% 50%
@@ -113,6 +121,7 @@
                 cursor pointer
 
             .city-map-tab
+                color #656B6F
                 float left
                 height 107px
                 margin-bottom 2px
@@ -120,9 +129,13 @@
                 background-color #F8F8F8
                 width 186px
                 &:hover
-                    background-color #4ec7dc
+                    background-color rgb(123, 209, 192)
+                    p
+                        color #fff
                 &.active
-                    background-color #8dd8e2
+                    background-color rgb(123, 209, 192)
+                    p
+                        color #fff
 
                 .city-map-tab-image
                     display block
@@ -133,8 +146,9 @@
                     margin 4px 0 0
                     text-align center
                     font-size .9em
+                    font-weight 600
                     line-height 1.2em
-                    color #656B6F
+                    text-transform uppercase
 
         .city-map-tabs:after
             content " "
@@ -148,12 +162,13 @@
             padding 15px 25px
             width 744px
             height 161px
-            background-color rgba(122, 213, 228, .85)
+            background-color rgba(123, 209, 192, .85)
 
             .city-map-image-text
                 color white
                 font-size 1.2em
                 font-weight bold
+                margin .5em
                 text-align center
                 text-shadow 1px 1px 2px rgba( 0, 0, 0, .6 )
 
@@ -162,24 +177,23 @@
                 margin 0 auto
                 background-color: #F76879
                 border none
-                border-radius 20px
-                padding 5px 20px
+                border-radius 1.25em
+                padding .5em 1.5em
                 font-size 1.3em
                 color #FFFFFF
 
 .city-container-data
-    background #4EC7DC
-    color #fff
-    padding 60px 0
+    background rgb( 248, 248, 248 )
+    padding 2.5em 0
 
     .city-data
         margin 0 auto
         width 1024px
 
-        .city-data-figure
-            background url("../img/city-page-stats.png") no-repeat 0 50%
+        .city-data-metric
+            background url("../img/city-page-metric.png") no-repeat 50% 50%
             float right
-            min-height 452px
+            min-height 300px
             text-indent -9999px
             width 400px
 
@@ -195,25 +209,45 @@
         clear both
 
 .city-container-action
-    background #4EC7DC
-    color #fff
-    padding 60px 0
+    background rgb(123, 209, 192)
+    padding 2.5em 0
 
     .city-action
         margin 0 auto
         width 1024px
 
+        h2
+            color #fff
+
+        p
+            color #fff
+
+        .city-action-metric
+            background url("../img/city-page-counter.png") no-repeat 50% 50%
+            float right
+            min-height 240px
+            text-indent -9999px
+            width 440px
+
+        .city-action-text
+            float left
+            width 584px
+
+    .city-action:after
+        content " "
+        display block
+        height 0
+        visibility hidden
+        clear both
+
 .city-container-partners
     background #fff
     color #222
-    padding 60px 0
+    padding 2.5em 0
 
     .city-partners
         margin 0 auto
         width 1024px
-
-        h2
-            color #4EC7DC
 
         .city-partner-logos
             background url("../img/city-page-partners.png")
@@ -224,8 +258,8 @@
 
 .city-container-disclaimer
     background #fff
-    color #666
-    padding 60px 0
+    color rgb( 153, 153, 153 )
+    padding 2.5em 0
 
     .city-disclaimer
         margin 0 auto
@@ -233,6 +267,7 @@
 
         p
             font-size 1em
+            line-height 1.5em
 
         a
             color #999

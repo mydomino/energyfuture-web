@@ -32,7 +32,7 @@ module.exports = React.createClass
             buttonText = "Read the Electric Car guide"
             guideUrl = "/guides/1-0"
         else if @state.activeTab == 'solar'
-            imageText = "There’s a new solar home every 4  minutes in the U.S., and the average Colorado home saves $1,068 a year going solar."
+            imageText = "There’s a new solar home every 4 minutes in the U.S., and the average Colorado home saves $1,068 a year going solar."
             buttonText = "Read the Solar guide"
             guideUrl = "/guides/5-0"
         else if @state.activeTab == 'clean-power'
@@ -49,7 +49,8 @@ module.exports = React.createClass
             div {className: "city-container"},
                 div {className: "city-container-head"},
                     div {className: "city-head"},
-                        h1 {}, "Domino Fort Collins"
+                        a {className: "link-home", onClick: @viewGuides},
+                            h1 {}, "Domino Fort Collins"
                         p {className: "city-domino-count"},
                             "dominos in"
                             br {}
@@ -69,38 +70,42 @@ module.exports = React.createClass
                                 p {className: "city-map-tab-text"}, "Solar powered homes"
                             div {className: "city-map-tab #{cleanEnergyClass}", onClick: => @setState activeTab: 'clean-power'},
                                 img {src: "/img/clean-power-counter.png", className: "city-map-tab-image"}
-                                p {className: "city-map-tab-text"}, "Enrolled in Ft. Collins Clean Energy Program"
+                                p {className: "city-map-tab-text"}, "Clean Energy Program Enrollees"
                             div {className: "city-map-tab #{thermostatsClass}", onClick: => @setState activeTab: 'thermostats'},
                                 img {src: "/img/thermostats-counter.png", className: "city-map-tab-image"}
                                 p {className: "city-map-tab-text"}, "Smart thermostats"
 
                 div {className: "city-container-data"},
                     div {className: "city-data"},
-                        div {className: "city-data-figure"},
+                        div {className: "city-data-metric"},
                             p {className: "city-stats"}, "1% Carbon-free"
                         div {className: "city-data-text"},
                             h2 {}, "Domino is a low-carbon movement"
                             p {},
                                 "From switching lightbulbs to going solar and everything in between, every action has a "
                                 em {}, "domino effect"
-                                "."
+                                ". Domino guides you through actions you can take to enhance your lifestyle, help clean our air and water, achieve energy independence, and vitalize our economy."
                             p {className: "city-page-button"},
                                 a {className: "city-get-started", onClick: @viewGuides}, "Get Started"
 
                 div {className: "city-container-partners"},
                     div {className: "city-partners"},
                         h2 {}, "Domino partners in Fort Collins"
-                        div {className: "city-partner-logos"}, "Logo 1, Logo 2, Logo 3"
+                        p {}, "We collaborated with several amazing partners to develop Domino, all with a similar mission of creating a planet worth preserving for the next generation."
+                        div {className: "city-partner-logos"}, "Namaste Solar, Clean Energy Collective, Rocky Mountain Institute, The Solutions Project, Real Goods Solar"
 
                 div {className: "city-container-action"},
                     div {className: "city-action"},
-                        h2 {}, "It's your turn now"
-                        p {},
-                            "Every one of our recommended actions helps you "
-                            em {}, "save money and crash your carbon footprint"
-                            ". There is no downside (well, unless you’re a coal plant)."
-                        p {className: "city-page-button"},
-                            a {className: "city-get-started", onClick: @viewGuides}, "Get Started"
+                        div {className: "city-action-metric"},
+                            p {className: "city-stats"}, "2,461 dominos in motion"
+                        div {className: "city-action-text"},
+                            h2 {}, "It's your turn now"
+                            p {},
+                                "Every one of our recommended actions helps you "
+                                em {}, "save money and crash your carbon footprint"
+                                ". There is no downside (well, unless you’re a coal plant)."
+                            p {className: "city-page-button"},
+                                a {className: "city-get-started", onClick: @viewGuides}, "Get Started"
 
                 div {className: "city-container-disclaimer"},
                     div {className: "city-disclaimer"},
