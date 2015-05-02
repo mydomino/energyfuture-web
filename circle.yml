@@ -6,11 +6,3 @@ deployment:
     branch: production
     heroku:
       appname: energyfuture-web
-  staging:
-    branch: master
-    heroku:
-      appname: energyfuture-web-staging
-  development:
-    branch: development
-    heroku:
-      appname: energyfuture-web-dev
