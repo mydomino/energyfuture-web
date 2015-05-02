@@ -19,7 +19,7 @@ module.exports = React.createClass
           li {}, "How we use that information and when we disclose it."
           li {}, "How to access and update your information."
           li {}, "The steps we take to protect the information."
-        p {}, "This Policy applies to all information that we have about you, and to all of the services and products provided by Domino, including the Domino website (at www.mydomino.com) and other sites owned by Domino (at www.sunible.com, www.pvsolarreport.com and www.prospectzen.com), downloadable software, and mobile applications (collectively, the “Services”).  Your privacy matters to Domino so please take the time to familiarize yourself with our policies, and if you have any questions please contact us at info@mydomino.com.  This Policy is incorporated into and is subject to the Domino Terms of Use."
+        p {}, "This Policy applies to all information that we have about you, and to all of the services and products provided by Domino, including the Domino website (at action.mydomino.com) and other sites owned by Domino (at www.sunible.com, www.pvsolarreport.com and www.prospectzen.com), downloadable software, and mobile applications (collectively, the “Services”).  Your privacy matters to Domino so please take the time to familiarize yourself with our policies, and if you have any questions please contact us at info@mydomino.com.  This Policy is incorporated into and is subject to the Domino Terms of Use."
         h3 {}, "What information we collect"
         p {}, "We gather the following types of information:"
         h4 {}, "Information You Provide"
