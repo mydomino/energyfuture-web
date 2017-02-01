@@ -35,6 +35,8 @@
     "gulp-livereload": "^2.1.0",
     "gulp-minify-html": "^0.1.0",
     "gulp-mocha-phantomjs": "^0.5.0",
+    "mocha-phantomjs": "^3.6.0",
+    "phantomjs": "1.9.7-15",
     "gulp-plumber": "^0.6.3",
     "gulp-preprocess": "^1.1.1",
     "gulp-react": "^0.3.2",
