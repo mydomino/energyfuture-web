@@ -1,4 +1,4 @@
-{div, h2, span, a, nav} = React.DOM
+{div, h2, span, a, nav, img} = React.DOM
 auth = require '../../auth'
 UserPhoto = require '../UserPhoto/UserPhoto.view'
 
@@ -45,7 +45,8 @@ module.exports = React.createClass
   render: ->
     nav {className: 'nav-bar'},
       div {className: 'nav-bar-logo float-left'},
-        a {className: 'site-logo', onClick: @goHome }, "Domino"
+        a {className: '', onClick: @goHome },
+          img {src: '/img/mydomino_logo_universal.svg'}
       if @props.user
         new NavBarItem {name: 'user', label: @_userLinkText(), onClick: @_logout},
           new UserPhoto user: @props.user

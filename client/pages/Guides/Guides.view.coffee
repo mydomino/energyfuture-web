@@ -106,7 +106,7 @@ module.exports = React.createClass
     sessionStorage.setItem 'ownership', ownership
 
   render: ->
-    ownershipData = [{name: "home owners", value: "own"}, {name: "home renters", value: "rent"}]
+    ownershipData = [{name: "home owners", value: "own"}, {name: "renters", value: "rent"}]
     userGuides = @props.user && @props.user.get('guides')
     guides = @coll.guides(ownership: @state.ownership, sortByImpactScore: true)
     new Layout {name: 'guides', context: @props.context},
@@ -116,13 +116,10 @@ module.exports = React.createClass
         h1 {className: "guides-intro-header"},
           "Your guides to "
           span {className: "intro-annotation-anchor", ref: "anchor"}, "low-carbon living"
-        p {className: "guides-intro-subtext"},
-          "In partnership with Rocky Mountain Institute"
         div {className: "guides-user-context"},
           p {},
-            span {}, "All guides for"
+            span {}, "See guides for"
             new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
-            span {}, " in Fort Collins"
       if guides.length > 0
         div {className: "guides"},
           guides.map (guide, idx) =>
