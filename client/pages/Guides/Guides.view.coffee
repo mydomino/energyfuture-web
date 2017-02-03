@@ -10,6 +10,7 @@ GuidePreview = require '../../components/GuidePreview/GuidePreview.view'
 LoadingIcon = require '../../components/LoadingIcon/LoadingIcon.view'
 ScrollTopMixin = require '../../mixins/ScrollTopMixin'
 
+# CLEANUP: Switching to flexbox, this won't needed in future
 posClass = (num) ->
   return 'guide-preview-row-end' if (num + 1) % 4 == 0
 
@@ -126,7 +127,6 @@ module.exports = React.createClass
             new GuidePreview
               key: "guide#{guide.id}"
               guide: guide
-              customClass: posClass(idx)
               status: guideStatus(userGuides, guide)
       else
         new LoadingIcon
