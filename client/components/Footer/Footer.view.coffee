@@ -1,4 +1,4 @@
-{div, p, a, span, br, footer} = React.DOM
+{div, p, a, span, br, footer, img} = React.DOM
 
 module.exports = React.createClass
   displayName: 'Footer'
@@ -17,19 +17,12 @@ module.exports = React.createClass
       footer {className: 'footer'},
         div {className: 'col col1'},
           p {},
-            "You support our work by buying products and services"
+            "© 2017 MyDomino Inc."
             br {}
-            "recommended on this site. Read our "
-            a {className: "mixpanel-internal-link", href: "/terms"}, "Terms of Service"
-            br {}
-            " and "
-            a {className: "mixpanel-internal-link", href: "/privacy"}, "Privacy Policy"
-            " for more."
-        div {className: 'col col2'},
-          div {className: 'footer-logo'}
+            a {href: 'https://www.mydomino.com/terms'}, 'Terms of Service'
+            "  |  "
+            a {href: 'https://www.mydomino.com/privacy'}, 'Privacy Policy'
+            "  |  CA CSLB 1016806"
+        div {className: 'col col2'}
         div {className: 'col col3'},
-          p {},
-            span {className: 'footer-logo'}
-            a {className: 'mixpanel-internal-link', onClick: @goToAboutPage}, 'Learn about us'
-            ' or '
-            a {className: 'mixpanel-internal-link', onClick: @goToContactPage}, 'get in touch'
+          img {src: '/img/mydomino_logo_footer.svg', width: "250px"}

@@ -36,7 +36,7 @@ FootprintHeader = React.createClass
     "Select one guide or more and see how they add up"
 
   _tagline: ->
-    "Can you get to 100% carbon-free in Fort Collins?"
+    "Can you get to 100% carbon-free?"
 
 ActionButton = React.createClass
   displayName: 'FootprintSidebarActionButton'
@@ -149,7 +149,7 @@ module.exports = React.createClass
         h2 {}, "What is % carbon-free?"
         p {}, "From changing light bulbs to powering your home with solar and everything in between, taking one action eliminates many tons of CO2."
         p {}, "0% = no actions, 100% = the maximum impact you can have in Fort Collins. As a rule of thumb, a higher % carbon-free also means greater savings."
-        h2 {}, "The Domino effect"
+        h2 {}, "The MyDomino effect"
         p {}, "If the average home in Fort Collins got to just 50% carbon-free, that would be as good as eliminating 2,825 gallons of oil (wowza!). More important, each action you take can inspire others to follow."
 
         h2 {}, "Can I trust these numbers?"
