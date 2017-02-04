@@ -50,8 +50,9 @@ module.exports = React.createClass
       if @props.user
         new NavBarItem {name: 'user', label: @_userLinkText(), onClick: @_logout},
           new UserPhoto user: @props.user
-      new NavBarItem name: 'footprint', label: 'My Impact', onClick: '/footprint', active: @_activeClass('/footprint')
-      new NavBarItem name: 'guides', label: 'All Guides', onClick: '/guides', active: @_activeClass('/guides')
+      # TODO(JP): Removing footprint page until we fix the percentage issue
+      # new NavBarItem name: 'footprint', label: 'My Impact', onClick: '/footprint', active: @_activeClass('/footprint')
+      new NavBarItem name: 'guides', label: 'All Actions', onClick: '/guides', active: @_activeClass('/guides')
 
   _userLinkText: ->
     if @props.user then "Logout" else "Login"

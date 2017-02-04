@@ -115,11 +115,11 @@ module.exports = React.createClass
 
       header {className: "guides-intro"},
         h1 {className: "guides-intro-header"},
-          "Your guides to "
-          span {className: "intro-annotation-anchor", ref: "anchor"}, "low-carbon living"
+          "Your actions to "
+          span {className: "intro-annotation-anchor", ref: "anchor"}, 'low-carbon living'
         div {className: "guides-user-context"},
           p {},
-            span {}, "See guides for"
+            span {}, "See actions for"
             new DropdownComponent(data: ownershipData, changeAction: @ownershipChangeAction, selectedOption: @state.ownership)
       if guides.length > 0
         div {className: "guides"},

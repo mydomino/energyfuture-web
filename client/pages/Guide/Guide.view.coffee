@@ -45,7 +45,7 @@ module.exports = React.createClass
       {title, summary, category} = @state.guide.attributes
       modules = @state.guide.sortedModules()
 
-    new Layout {name: 'guide', guideId: @props.params.id, showNewsletterSignup: true},
+    new Layout {name: 'guide', guideId: @props.params.id, showNewsletterSignup: false},
       new NavBar user: @props.user, path: @props.context.pathname
       if !@state.guide
         new LoadingIcon
@@ -74,6 +74,6 @@ module.exports = React.createClass
                         guide: @state.guide
                         content: module.content
                         onError: @hideModule.bind(@, uniqName)
-                      hr {className: "h-divider"}
+                      hr {className: "h-divider"} if idx < modules.length-1
                   else
                     console.warn 'Missing module for', moduleName
