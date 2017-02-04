@@ -52,12 +52,13 @@ module.exports = React.createClass
       else
         div {},
           div {className: "guide"},
-            new ImpactSidebar
-              user: @props.user
-              guide: @state.guide
-              category: category
+
 
             header {className: "guide-header"},
+              new ImpactSidebar
+                user: @props.user
+                guide: @state.guide
+                category: category
               h1 {}, title
               if summary
                 div {className: "guide-header-description", dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}}

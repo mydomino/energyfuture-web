@@ -1,13 +1,13 @@
-{div, span, a, hr, i} = React.DOM
+{div, span, a, hr, i, h3} = React.DOM
 
 auth = require '../../auth'
 UserGuides = require '../../models/UserGuides'
 ImpactScore = require '../ImpactScore/ImpactScore.view'
-FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
+# FloatingSidebarMixin = require '../../mixins/FloatingSidebarMixin'
 
 module.exports = React.createClass
   displayName: 'ImpactSidebar'
-  mixins: [FloatingSidebarMixin]
+  # mixins: [FloatingSidebarMixin]
   componentWillMount: ->
     @initUser()
 
@@ -81,8 +81,11 @@ module.exports = React.createClass
     savedClass = if @state.isSaved then 'active' else if @state.isClaimed then 'disabled' else ''
 
     div {className: "impact-sidebar category-#{@props.category}", ref: 'sidebar'},
+      div {className: "impact-title"}, "Clean impact"
       new ImpactScore score: @props.guide.score()
       div {className: "impact-text"}, "Carbon-Free"
+###
+      TODO(JP): Removing because we have no user accounts yet
       hr {}
       div {className: "action-button #{claimedClass}"},
         if @state.isClaimed
@@ -107,4 +110,4 @@ module.exports = React.createClass
           a {onClick: @saveGuide},
             i {className: "icon fa fa-star"}
             span {}, "Save for later"
-
+###
