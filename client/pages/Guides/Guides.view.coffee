@@ -115,7 +115,7 @@ module.exports = React.createClass
 
       header {className: "guides-intro"},
         h1 {className: "guides-intro-header"},
-          "Your actions to "
+          "Your keys to "
           span {className: "intro-annotation-anchor", ref: "anchor"}, 'low-carbon living'
         div {className: "guides-user-context"},
           p {},

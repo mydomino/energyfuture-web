@@ -22,10 +22,10 @@ module.exports = React.createClass
       div {className: "page page-splash"},
         div {className: 'splash-container'},
           img {className: 'splash-logo', src: 'img/splash-logo.png'}
-          h1 {className: 'splash-header'}, "MyDomino"
-          p {className: 'splash-subheader'}, "Your guides to low-carbon living (and easy savings)"
+          h1 {className: 'splash-header'}, "MyDomino Actions"
+          p {className: 'splash-subheader'}, "Your keys to low-carbon living (and easy savings)"
           div {className: 'splash-cta'},
-            a {className: 'btn splash-button', onClick: @continue}, "Click any guide to get started"
-            p {}, "#{@state.userCount} people already have"
+            a {className: 'btn splash-button', onClick: @continue}, "Click any action tiles to learn more"
+            #p {}, "#{@state.userCount} people already have"
 
       new Guides @props
