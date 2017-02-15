@@ -117,6 +117,8 @@ module.exports = React.createClass
         h1 {className: "guides-intro-header"},
           "Your keys to "
           span {className: "intro-annotation-anchor", ref: "anchor"}, 'low-carbon living'
+          div {className: "guides-intro-annotation", ref: "annotation"}
+
         div {className: "guides-user-context"},
           p {},
             span {}, "See actions for"
@@ -130,4 +132,3 @@ module.exports = React.createClass
               status: guideStatus(userGuides, guide)
       else
         new LoadingIcon
-      div {className: "guides-intro-annotation", ref: "annotation"}

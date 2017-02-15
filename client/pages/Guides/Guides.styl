@@ -6,7 +6,7 @@
 .page-guides
   .guides-intro
     text-align center
-    margin-bottom 32px
+    margin-bottom 24px
 
   h1.guides-intro-header
     font-weight 100
@@ -20,7 +20,7 @@
     border-radius: 5px
     background-color #e0e0e0
     padding 0 5em
-    margin-top 2em
+    margin-top 2.5em
 
 .guides-intro-annotation
   background-image url("../img/easy-savings-tagline.png")
@@ -40,3 +40,14 @@ only screen and (                min-resolution: 2dppx)
 
   .guides-intro-annotation
     background-image url("../img/easy-savings-tagline@2X.png")
+
+@media
+(max-width: 52em)
+  .guides-intro-annotation
+    background-image url("../img/easy-savings-mobile.png")
+    width 186px
+    height 41px
+    background-size 186px 41px
+    top auto !important
+    left auto !important
+    right 15px
