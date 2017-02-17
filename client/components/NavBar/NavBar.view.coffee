@@ -45,7 +45,7 @@ module.exports = React.createClass
   render: ->
     nav {className: 'nav-bar'},
       div {className: 'nav-bar-logo float-left'},
-        a {className: '', href: 'http://www.mydomino.com' },
+        a {className: '', href: 'http://www.mydomino.com/myhome' },
           img {src: '/img/mydomino_logo_universal.svg'}
       if @props.user
         new NavBarItem {name: 'user', label: @_userLinkText(), onClick: @_logout},

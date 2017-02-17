@@ -1,4 +1,4 @@
-{div, h1, p, hr, section, article, header} = React.DOM
+{div, h1, h2, h4, a, p, hr, section, article, header} = React.DOM
 
 _ = require 'lodash'
 Guide = require '../../models/Guide'
@@ -15,7 +15,7 @@ Autolinker = require 'autolinker'
 auth = require '../../auth'
 
 module.exports = React.createClass
-  displayName: 'Guide'
+  displayName: 'Actions'
   mixins: [HideModuleMixin, ScrollTopMixin]
   getInitialState: ->
     guide: null
@@ -52,7 +52,8 @@ module.exports = React.createClass
       else
         div {},
           div {className: "guide"},
-
+            h4 {className: "guide-backlink"},
+              a {href: "/guides"}, "< Back to All Actions"
 
             header {className: "guide-header"},
               new ImpactSidebar
@@ -75,6 +76,8 @@ module.exports = React.createClass
                         guide: @state.guide
                         content: module.content
                         onError: @hideModule.bind(@, uniqName)
-                      hr {className: "h-divider"} if idx < modules.length-1
+                      hr {className: "h-divider"}
                   else
                     console.warn 'Missing module for', moduleName
+            h2 {className: "guide-backlink-bottom"},
+              a {href: "/guides"}, "Back to All Actions"

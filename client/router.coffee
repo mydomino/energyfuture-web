@@ -19,7 +19,7 @@ addPage = (route) ->
   page url, (ctx) =>
     # Set the body class based on the current page
     document.querySelector('body').className = ['body', route[2]].filter(Boolean).join('-')
-    document.title = "MyDomino - Change the world, one step at a time: #{route[2]}"
+    document.title = "MyDomino Actions - See how you can make a difference"
 
     sessionStorage.setItem('lastPageVisited', ctx.pathname) unless url is '/login'
 
