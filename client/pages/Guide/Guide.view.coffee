@@ -56,10 +56,10 @@ module.exports = React.createClass
               a {href: "/guides"}, "< Back to All Actions"
 
             header {className: "guide-header"},
-              new ImpactSidebar
-                user: @props.user
-                guide: @state.guide
-                category: category
+#              new ImpactSidebar
+#                user: @props.user
+#                guide: @state.guide
+#                category: category
               h1 {}, title
               if summary
                 div {className: "guide-header-description", dangerouslySetInnerHTML: {"__html": Autolinker.link(summary)}}
