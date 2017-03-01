@@ -27,7 +27,7 @@ module.exports = React.createClass
         if content
           p {className: "leading-question-content"}, content
         if question
-          p {className: "leading-question-question"}, question
+          p {className: "leading-question-question", dangerouslySetInnerHTML: {"__html": question}}
 
         dl {className: 'leading-question-list'},
           div {className: "results"},
